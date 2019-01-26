@@ -4,18 +4,34 @@
 
 ```R
 library(tidyverse)
-```
-
-
-```R
 library(rvest)
 ```
 
-1. Visit the following web page: [https://web.archive.org/web/20181024132313/http://www.stevetheump.com/Payrolls.htm](https://web.archive.org/web/20181024132313/http://www.stevetheump.com/Payrolls.htm)
+    ── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──
+    ✔ ggplot2 2.2.1     ✔ purrr   0.2.5
+    ✔ tibble  1.4.2     ✔ dplyr   0.7.6
+    ✔ tidyr   0.8.1     ✔ stringr 1.3.1
+    ✔ readr   1.1.1     ✔ forcats 0.3.0
+    ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ✖ dplyr::filter() masks stats::filter()
+    ✖ dplyr::lag()    masks stats::lag()
+    Loading required package: xml2
+    
+    Attaching package: ‘rvest’
+    
+    The following object is masked from ‘package:purrr’:
+    
+        pluck
+    
+    The following object is masked from ‘package:readr’:
+    
+        guess_encoding
+    
 
-    Notice there are several tables. Say we are interested in comparing the payrolls of teams across the years. The next few exercises take us through the steps needed to do this.
 
-    Start by applying what you learned to read in the website into an object called `h`.
+>1. Visit the following web page: [https://web.archive.org/web/20181024132313/http://www.stevetheump.com/Payrolls.htm](https://web.archive.org/web/20181024132313/http://www.stevetheump.com/Payrolls.htm)
+>    Notice there are several tables. Say we are interested in comparing the payrolls of teams across the years. The next few exercises take us through the steps needed to do this.
+>    Start by applying what you learned to read in the website into an object called `h`.
 
 
 ```R
@@ -27,9 +43,9 @@ url <- "https://web.archive.org/web/20181024132313/http://www.stevetheump.com/Pa
 h <- read_html(url)
 ```
 
-2. Note that, although not very useful, we can actually see the content of the page by typing: `html_text(h)`
+>2. Note that, although not very useful, we can actually see the content of the page by typing: `html_text(h)`
 
-    The next step is to extract the tables. For this, we can use the `html_nodes` function. We learned that tables in html are associated with the `table` node.  Use the `html_nodes` function and the `table` node to extract the first table. Store it in an object `nodes`.
+>    The next step is to extract the tables. For this, we can use the `html_nodes` function. We learned that tables in html are associated with the `table` node.  Use the `html_nodes` function and the `table` node to extract the first table. Store it in an object `nodes`.
 
 
 
@@ -38,9 +54,9 @@ h <- read_html(url)
 nodes <- html_nodes(h,'table')
 ```
 
-3. The `html_nodes` function returns a list of objects of class `xml_node`. We can see the content of each one using, for example, the `html_text` function. You can see the content for an arbitrarily picked component like this: `html_text(nodes[[8]])`
+>3. The `html_nodes` function returns a list of objects of class `xml_node`. We can see the content of each one using, for example, the `html_text` function. You can see the content for an arbitrarily picked component like this: `html_text(nodes[[8]])`
 
-    If the content of this object is an html table, we can use the `html_table` function to convert it to a data frame. Use the `html_table` function to convert the 8th entry of `nodes` into a table.
+>    If the content of this object is an html table, we can use the `html_table` function to convert it to a data frame. Use the `html_table` function to convert the 8th entry of `nodes` into a table.
 
 
 
@@ -59,15 +75,15 @@ html_table(nodes[[8]]) %>% head(2)
 
 
 
-4. Repeat the above for the first 4 components of `nodes`. Which of the following are payroll tables:
+>4. Repeat the above for the first 4 components of `nodes`. Which of the following are payroll tables:
 
-    A. All them.
+>    A. All them.
     
-    B. 1
+>    B. 1
     
-    C. 2
+>    C. 2
     
-    __D__. 2-4
+>    __D__. 2-4
 
 
 
@@ -134,15 +150,15 @@ html_table(nodes[[4]]) %>% head(2)
 
 
 
-5. Repeat the above for the first __last__ 3 components of `nodes`. Which of the following is true:
+>5. Repeat the above for the first __last__ 3 components of `nodes`. Which of the following is true:
 
-    __A__. The last entry in `nodes` shows the average across all teams through time, not payroll per team.
-    
-    B. All three are payroll per team tables.
-    
-    C. All three are like the first entry, not a payroll table.
-    
-    D. All of the above.
+>    __A__. The last entry in `nodes` shows the average across all teams through time, not payroll per team.
+
+>    B. All three are payroll per team tables.
+
+>    C. All three are like the first entry, not a payroll table.   
+
+>    D. All of the above.
 
 
 
@@ -193,8 +209,7 @@ html_table(nodes[[length(nodes)-2]]) %>% head(2)
 
 
 
-6. We have learned that the first and last entries of `nodes` are not payroll tables. Redefine `nodes` so that these two are removed.
-
+>6. We have learned that the first and last entries of `nodes` are not payroll tables. Redefine `nodes` so that these two are removed.
 
 
 ```R
@@ -206,9 +221,9 @@ del <- c(1,length(nodes))
 nodes <- nodes[-del]
 ```
 
-7. We saw in the previous analysis that the first table node is not actually a table. This happens sometimes in html because tables are used to make text look a certain way, as opposed to storing numeric values. 
+>7. We saw in the previous analysis that the first table node is not actually a table. This happens sometimes in html because tables are used to make text look a certain way, as opposed to storing numeric values. 
 
-    Remove the first component and then use `sapply` and `html_table` to covert each node in `nodes` into a table. Note that in this case, `sapply` will return a list of tables. You can also use `lapply` to assure that a list is applied.
+>    Remove the first component and then use `sapply` and `html_table` to covert each node in `nodes` into a table. Note that in this case, `sapply` will return a list of tables. You can also use `lapply` to assure that a list is applied.
 
 
 ```R
@@ -263,10 +278,9 @@ nodes_tables[14]
 
 
 
-8. Look through the resulting tables. Are they all the same? Could we just join them with `bind_rows`? 
+>8. Look through the resulting tables. Are they all the same? Could we just join them with `bind_rows`? 
 
-    No, because table header names for the teams are different.
-    The table headers for the tables 10-13 and 15-20 match and are called 'X1'.
+No, because table header names for the teams are different. The table headers for the tables 10-13 and 15-20 match and are called 'X1'.
 
 
 ```R
@@ -304,7 +318,7 @@ bind_rows(nodes_tables[13:14]) %>% tail
 
 
 
-9. Create two tables, call them `tab_1` and `tab_2` using entries 10 and 19.
+>9. Create two tables, call them `tab_1` and `tab_2` using entries 10 and 19.
 
 
 ```R
@@ -342,8 +356,7 @@ tab_2 <- nodes_tables[[19]]; tab_2 %>% head
 
 
 
-10. Use a `full_join` function to combine these two tables. Before you do this you will have to fix the missing header problem. You will also need to make the names match.
- 
+>10. Use a `full_join` function to combine these two tables. Before you do this you will have to fix the missing header problem. You will also need to make the names match.
 
 
 ```R
@@ -406,7 +419,7 @@ full_join(tab_1,tab_2,by = "Team") %>% arrange(Team)
 
 
 
-11. After joining the tables, you see several NAs. This is because some teams are in one table and not the other. Use the `anti_join` function to get a better idea of why this is happening.
+>11. After joining the tables, you see several NAs. This is because some teams are in one table and not the other. Use the `anti_join` function to get a better idea of why this is happening.
 
 
 ```R
@@ -434,11 +447,11 @@ bind_rows(tab_12,tab_21) %>% arrange(Team)
 
 
 
-12. We see see that one of the problem is that Yankees are listed as both _N.Y. Yankees_ and _NY Yankees_. In the next section, we will learn efficient approaches to fixing problems like this. Here we can do it "by hand" as follows:
+>12. We see see that one of the problem is that Yankees are listed as both _N.Y. Yankees_ and _NY Yankees_. In the next section, we will learn efficient approaches to fixing problems like this. Here we can do it "by hand" as follows:
 
-    `tab_1 <- mutate(tab_1, Team = ifelse(Team == "N.Y. Yankees", "NY Yankees", Team))`
+>    `tab_1 <- mutate(tab_1, Team = ifelse(Team == "N.Y. Yankees", "NY Yankees", Team))`
 
-    Now join the tables and show only Oakland and the Yankees and the payroll columns.
+>    Now join the tables and show only Oakland and the Yankees and the payroll columns.
 
 
 ```R
@@ -461,7 +474,7 @@ full_join(tab_1,tab_2,by = "Team") %>% filter(Team %in% c('Oakland','NY Yankees'
 
 
 
-13. Advanced: extract the titles of the movies that won Best Picture from this website: [https://m.imdb.com/chart/bestpicture/](https://m.imdb.com/chart/bestpicture/)
+>13. Advanced: extract the titles of the movies that won Best Picture from this website: [https://m.imdb.com/chart/bestpicture/](https://m.imdb.com/chart/bestpicture/)
 
 
 ```R
