@@ -8,47 +8,44 @@ library(dslabs)
 library(pdftools)
 ```
 
-1. Complete all lessons and exercises in the [https://regexone.com/](https://regexone.com/) online interactive tutorial.
+>1. Complete all lessons and exercises in the [https://regexone.com/](https://regexone.com/) online interactive tutorial.
     Done.
-2. In the `extdata` directory of the __dslabs__ package, you will find a PDF file containing daily mortality data for Puerto Rico from Jan 1, 2015 to May 31, 2018. You can find the file like this:
+>2. In the `extdata` directory of the __dslabs__ package, you will find a PDF file containing daily mortality data for Puerto Rico from Jan 1, 2015 to May 31, 2018. You can find the file like this:
 
-    `fn <- system.file("extdata", "RD-Mortality-Report_2015-18-180531.pdf",package="dslabs")`
+>    `fn <- system.file("extdata", "RD-Mortality-Report_2015-18-180531.pdf",package="dslabs")`
 
-    Find and open the file or open it directly from RStudio. On a Mac, you can type:
+>    Find and open the file or open it directly from RStudio. On a Mac, you can type:
 
-    `system2("open", args = fn)`
+>    `system2("open", args = fn)`
 
-    and on Windows, you can type:
+>    and on Windows, you can type:
     
-    `system("cmd.exe", input = paste("start", fn))`
+>    `system("cmd.exe", input = paste("start", fn))`
 
-    Which of the following best describes this file:
+>    Which of the following best describes this file:
 
-    A. It is a table. Extracting the data will be easy.
+>    A. It is a table. Extracting the data will be easy.
     
-    B. It is a report written in prose.  Extracting the data will be impossible.
+>    B. It is a report written in prose.  Extracting the data will be impossible.
     
-    __C__. It is a report combining graphs and tables. Extracting the data seems possible.
+>    __C__. It is a report combining graphs and tables. Extracting the data seems possible.
     
-    D. It shows graphs of the data. Extracting the data will be difficult.
+>    D. It shows graphs of the data. Extracting the data will be difficult.
     Done.
+>3. We are going to create a tidy dataset with each row representing one observation. The variables in this dataset will be year, month, day and deaths. Start by installing and loading the __pdftools__ package:
     
-3. We are going to create a tidy dataset with each row representing one observation. The variables in this dataset will be year, month, day and deaths. Start by installing and loading the __pdftools__ package:
+>    `install.packages("pdftools")`
+>    `library(pdftools)`
     
-    `install.packages("pdftools")`
-    `library(pdftools)`
-    
-    Now read-in `fn` using the `pdf_text` function, store the results in an object called `txt`. Describe what you see in `txt`.
+>    Now read-in `fn` using the `pdf_text` function, store the results in an object called `txt`. Describe what you see in `txt`.
 
-    A. A table with the mortality data.
+>    A. A table with the mortality data.
     
-    __B__. A character string of length 12. Each entry represents the text in each page. The mortality data is in there somewhere.
+>    __B__. A character string of length 12. Each entry represents the text in each page. The mortality data is in there somewhere.
     
-    C. A character string with one entry containing all the information in the PDF file.
+>    C. A character string with one entry containing all the information in the PDF file.
     
-    D. An html document.
-
-    
+>    D. An html document.   
 
 
 ```R
@@ -69,17 +66,15 @@ length(txt)
 12
 
 
-4. Extract the ninth page of the PDF file from the object `txt`, then use the `str_split` from the __stringr__ package so that you have each line in a different entry. Call this string vector `s`. Then look at the result and choose the one that best describes what you see.
+>4. Extract the ninth page of the PDF file from the object `txt`, then use the `str_split` from the __stringr__ package so that you have each line in a different entry. Call this string vector `s`. Then look at the result and choose the one that best describes what you see.
 
-    A. It is an empty string.
+>    A. It is an empty string.
    
-    B. I can see the figure shown in page 1.
+>    B. I can see the figure shown in page 1.
    
-    C. It is a tidy table.
+>    C. It is a tidy table.
    
-    __D__. I can see the table! But there is a bunch of other stuff we need to get rid of.
-
-    
+>    __D__. I can see the table! But there is a bunch of other stuff we need to get rid of.   
 
 
 ```R
@@ -136,7 +131,7 @@ s
 
 
 
-5. What kind of object is `s` and how many entries does it have?
+>5. What kind of object is `s` and how many entries does it have?
 
 
 ```R
@@ -156,7 +151,7 @@ length(s)
 1
 
 
-6. We see that the output is a list with one component. Redefine `s` to be the first entry of the list. What kind of object is `s` and how many entries does it have?
+>6. We see that the output is a list with one component. Redefine `s` to be the first entry of the list. What kind of object is `s` and how many entries does it have?
 
 
 ```R
@@ -181,16 +176,14 @@ length(s)
 40
 
 
-    
-7. When inspecting the string we obtained above, we see a common problem: white space before and after the other characters. Trimming is a common first step in string processing. These extra spaces will eventually make splitting the strings hard so we start by removing them. We learned about the command `str_trim` that removes spaces at the start or end of the strings. Use this function to trim `s`.
+>7. When inspecting the string we obtained above, we see a common problem: white space before and after the other characters. Trimming is a common first step in string processing. These extra spaces will eventually make splitting the strings hard so we start by removing them. We learned about the command `str_trim` that removes spaces at the start or end of the strings. Use this function to trim `s`.
 
 
 ```R
 s <- s %>% str_trim()
 ```
 
-    
-8. We want to extract the numbers from the strings stored in `s`. However, there a lot of non-numeric characters that will get in the way. We can remove these, but before doing this we want to preserve the string with the column header, which includes the month abbreviation. 
+>8. We want to extract the numbers from the strings stored in `s`. However, there a lot of non-numeric characters that will get in the way. We can remove these, but before doing this we want to preserve the string with the column header, which includes the month abbreviation. 
 Use the `str_which` function to find the rows with a header. Save these results to `header_index`. Hint: find the first string that matches the pattern `2015` using the `str_which` function.
 
 
@@ -203,8 +196,7 @@ header_index
 2
 
 
-    
-9. Now we are going to define two objects: `month` will store the month and `header` will store the column names. Identify which row contains the header of the table. Save the content of the row into an object called `header`, then use `str_split` to help define the two objects we need. Hints: the separator here is one or more spaces. Also, consider using the `simplify` argument.
+>9. Now we are going to define two objects: `month` will store the month and `header` will store the column names. Identify which row contains the header of the table. Save the content of the row into an object called `header`, then use `str_split` to help define the two objects we need. Hints: the separator here is one or more spaces. Also, consider using the `simplify` argument.
 
 
 ```R
@@ -232,9 +224,7 @@ header
 
 
 
-    
-    
-10. Notice that towards the end of the page you see a _totals_ row followed by rows with other summary statistics. Create an object called `tail_index` with the index of the _totals_ entry.
+>10. Notice that towards the end of the page you see a _totals_ row followed by rows with other summary statistics. Create an object called `tail_index` with the index of the _totals_ entry.
 
 
 ```R
@@ -246,8 +236,7 @@ tail_index
 35
 
 
-    
-11. Because our PDF page includes graphs with numbers, some of our rows have just one number (from the y-axis of the plot). Use the `str_count` function to create an object `n` with the number of numbers in each each row. Hint: you can write a regex for number like this `\\d+`.
+>11. Because our PDF page includes graphs with numbers, some of our rows have just one number (from the y-axis of the plot). Use the `str_count` function to create an object `n` with the number of numbers in each each row. Hint: you can write a regex for number like this `\\d+`.
 
 
 ```R
@@ -301,8 +290,7 @@ n
 
 
 
-    
-12. We are now ready to remove entries from rows that we know we don't need. The entry `header_index` and everything before it should be removed. Entries for which `n` is 1 should also be removed, and the entry `tail_index` and everything that comes after it should be removed as well.
+>12. We are now ready to remove entries from rows that we know we don't need. The entry `header_index` and everything before it should be removed. Entries for which `n` is 1 should also be removed, and the entry `tail_index` and everything that comes after it should be removed as well.
 
 
 ```R
@@ -434,8 +422,7 @@ s
 
 
 
-    
-13. Now we are ready to remove all the non-numeric entries. Do this using regex and the `str_remove_all` function. Hint: in regex, using the `^` inside the `[]` means _not_, like the `!` means not in `!=`. To define the regex pattern to catch all non-numbers, you can type `[^\\d]`. But remember you also want to keep spaces.
+>13. Now we are ready to remove all the non-numeric entries. Do this using regex and the `str_remove_all` function. Hint: in regex, using the `^` inside the `[]` means _not_, like the `!` means not in `!=`. To define the regex pattern to catch all non-numbers, you can type `[^\\d]`. But remember you also want to keep spaces.
 
 
 ```R
@@ -479,9 +466,7 @@ s
 
 
 
-    
-
-14. To convert the strings into a table, use the `str_split_fixed` function. Convert `s` into a data matrix with just the day and death count data. Hints: note that the separator is one or more spaces. Make the argument `n` a value that limits the number of columns to the values in the 4 columns and the last column captures all the extra stuff. Then keep only the first four columns.
+>14. To convert the strings into a table, use the `str_split_fixed` function. Convert `s` into a data matrix with just the day and death count data. Hints: note that the separator is one or more spaces. Make the argument `n` a value that limits the number of columns to the values in the 4 columns and the last column captures all the extra stuff. Then keep only the first four columns.
 
 
 ```R
@@ -532,9 +517,7 @@ st
 
 
 
-    
-
-15. Now you are almost ready to finish. Add column names to the matrix, including one called `day`. Also, add a column with the month. Call the resulting object `dat`. Finally, make sure the day is an integer not a character. Hint: use only the first five columns.
+>15. Now you are almost ready to finish. Add column names to the matrix, including one called `day`. Also, add a column with the month. Call the resulting object `dat`. Finally, make sure the day is an integer not a character. Hint: use only the first five columns.
 
 
 ```R
@@ -581,9 +564,7 @@ dat
 
 
 
-    
-
-16. Now finish it up by tidying `tab` with the gather function.
+>16. Now finish it up by tidying `tab` with the gather function.
 
 
 ```R
@@ -672,9 +653,7 @@ tab <- tab %>% rename(month = month_int)
 tab <- tab[c(1,4,2,3)]
 ```
 
-    
-
-17. Make a plot of deaths versus day with color to denote year. Exclude 2018 since we have no data.
+>17. Make a plot of deaths versus day with color to denote year. Exclude 2018 since we have no data.
 
 
 ```R
@@ -685,8 +664,7 @@ dat %>% ggplot(aes(day, value)) + geom_point(aes(col = year)) + geom_line(aes(co
 ![png](output_45_0.png)
 
 
-    
-18. Now that we have wrangled this data step-by-step, put it all together in one R chunk, using the pipe as much as possible. Hint: first define the indexes, then write one line of code that does all the string processing.
+>18. Now that we have wrangled this data step-by-step, put it all together in one R chunk, using the pipe as much as possible. Hint: first define the indexes, then write one line of code that does all the string processing.
 
 
 ```R
@@ -781,8 +759,7 @@ dat %>% ggplot(aes(day, value)) + geom_point(aes(col = year)) + geom_line(aes(co
 ![png](output_48_0.png)
 
 
-    
-19. Advanced: let's return to the MLB Payroll example from the web scraping section. Use what you have learned in the web scraping and string processing chapters to extract the payroll for the New York Yankees, Boston Red Sox, and Oakland A's and plot them as a function of time.
+>19. Advanced: let's return to the MLB Payroll example from the web scraping section. Use what you have learned in the web scraping and string processing chapters to extract the payroll for the New York Yankees, Boston Red Sox, and Oakland A's and plot them as a function of time.
 
 ## Chapter 40 Summary
 
