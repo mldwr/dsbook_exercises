@@ -331,6 +331,8 @@ round_date(ymd("2016-01-17"),unit="month")
 <time datetime="2016-02-01">2016-02-01</time>
 
 
+Apparently, the function `round_date` splits each month into two months. Maybe, it makes more sence to use `floor_date`.
+
 
 ```R
 
