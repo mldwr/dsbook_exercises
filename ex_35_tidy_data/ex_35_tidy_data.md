@@ -281,13 +281,15 @@ BOD %>% ggplot(aes(Time,demand)) + geom_line() + geom_point()
 
 >    B. `EuStockMarkets`
 
->    C. `DNase`
+>    __C__. `DNase`
 
->    D. `Formaldehyde`
+>    __D__. `Formaldehyde`
 
->    E. `Orange`
+>    __E__. `Orange`
 
 >    F. `UCBAdmissions`
+
+The datasets, which were plotted below are tidy datasets. These are `DNase`, `Formaldehyde` and `Orange`, because each observation is in a row and each column is a variable that describes the observation. The first two datasets `BJsales` and `EuStockMarkets` are time-series and need further transformation to be tidy. The dataset `UCBAdmissions` contains tabulated data within a table and is not tidy.
 
 
 ```R
@@ -418,6 +420,15 @@ DNase
 
 
 ```R
+DNase %>% ggplot(aes(density,conc,col=Run)) + geom_point() + geom_line()
+```
+
+
+![png](output_34_0.png)
+
+
+
+```R
 data(Formaldehyde)
 ```
 
@@ -449,6 +460,15 @@ Formaldehyde
 </tbody>
 </table>
 
+
+
+
+```R
+Formaldehyde %>% ggplot(aes(carb,optden)) + geom_line() + geom_point()
+```
+
+
+![png](output_38_0.png)
 
 
 
@@ -522,6 +542,15 @@ Orange
 </tbody>
 </table>
 
+
+
+
+```R
+Orange %>% ggplot(aes(age,circumference,col=Tree)) + geom_point() + geom_line()
+```
+
+
+![png](output_42_0.png)
 
 
 
