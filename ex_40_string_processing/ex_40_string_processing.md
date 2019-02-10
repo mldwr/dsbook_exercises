@@ -761,109 +761,97 @@ dat %>% ggplot(aes(day, value)) + geom_point(aes(col = year)) + geom_line(aes(co
 
 >19. Advanced: let's return to the MLB Payroll example from the web scraping section. Use what you have learned in the web scraping and string processing chapters to extract the payroll for the New York Yankees, Boston Red Sox, and Oakland A's and plot them as a function of time.
 
-## Chapter 40 Summary
+## Exercise from edX class
 
 
 ```R
-convert_format <- function(s){
-  s %>%
-    str_replace("feet|foot|ft", "'") %>% #convert feet symbols to '
-    str_replace_all("inches|in|''|\"|cm|and", "") %>%  #remove inches and other symbols
-    str_replace("^([4-7])\\s*[,\\.\\s+]\\s*(\\d*)$", "\\1'\\2") %>% #change x.y, x,y x y
-    str_replace("^([56])'?$", "\\1'0") %>% #add 0 when to 5 or 6
-    str_replace("^([12])\\s*,\\s*(\\d*)$", "\\1\\.\\2") %>% #change european decimal
-    str_trim() #remove extra space
-}
+schedule <- tibble(day = c('Monday','Tuesday'), staff = c('Mandy, Chris and Laura','Steve, Ruth and Frank'))
 ```
 
 
 ```R
-words_to_numbers <- function(s){
-  str_to_lower(s) %>%  
-    str_replace_all("zero", "0") %>%
-    str_replace_all("one", "1") %>%
-    str_replace_all("two", "2") %>%
-    str_replace_all("three", "3") %>%
-    str_replace_all("four", "4") %>%
-    str_replace_all("five", "5") %>%
-    str_replace_all("six", "6") %>%
-    str_replace_all("seven", "7") %>%
-    str_replace_all("eight", "8") %>%
-    str_replace_all("nine", "9") %>%
-    str_replace_all("ten", "10") %>%
-    str_replace_all("eleven", "11")
-}
-```
-
-
-```R
-not_inches <- function(x, smallest = 50, tallest = 84){
-  inches <- suppressWarnings(as.numeric(x))
-  ind <- is.na(inches) | inches < smallest | inches > tallest
-  ind
-}
-```
-
-
-```R
-not_inches_or_cm <- function(x, smallest = 50, tallest = 84){
-  inches <- suppressWarnings(as.numeric(x))
-  ind <- !is.na(inches) & 
-    ((inches >= smallest & inches <= tallest) |
-       (inches/2.54 >= smallest & inches/2.54 <= tallest))
-  !ind
-}
-```
-
-
-```R
-pattern <- "^([4-7])\\s*'\\s*(\\d+\\.?\\d*)$"
-
-smallest <- 50
-tallest <- 84
-new_heights <- reported_heights %>% 
-  mutate(original = height, 
-  height = words_to_numbers(height) %>% convert_format()) %>%
-  extract(height, c("feet", "inches"), regex = pattern, remove = FALSE) %>% 
-  mutate_at(c("height", "feet", "inches"), as.numeric) %>%
-  mutate(guess = 12*feet + inches) %>%
-  mutate(height = case_when(
-    !is.na(height) & between(height, smallest, tallest) ~ height, #inches 
-    !is.na(height) & between(height/2.54, smallest, tallest) ~ height/2.54, #centimeters
-    !is.na(height) & between(height*100/2.54, smallest, tallest) ~ height*100/2.54, #meters
-    !is.na(guess) & inches < 12 & between(guess, smallest, tallest) ~ guess, #feet'inches
-    TRUE ~ as.numeric(NA))) %>%
-  select(-guess)
-```
-
-    Warning message in evalq(as.numeric(height), <environment>):
-    “NAs introduced by coercion”
-
-
-```R
-#new_heights %>%
-#  filter(not_inches(original)) %>%
-#  select(original, height) %>% 
-#  arrange(height) %>%
-#  View()
-```
-
-
-```R
-new_heights %>% arrange(height) %>% head(n=7)
+schedule
 ```
 
 
 <table>
-<thead><tr><th scope=col>time_stamp</th><th scope=col>sex</th><th scope=col>height</th><th scope=col>feet</th><th scope=col>inches</th><th scope=col>original</th></tr></thead>
+<thead><tr><th scope=col>day</th><th scope=col>staff</th></tr></thead>
 <tbody>
-	<tr><td>2017-07-04 01:30:25</td><td>Male               </td><td>50.00              </td><td>NA                 </td><td>NA                 </td><td>50                 </td></tr>
-	<tr><td>2017-09-07 10:40:35</td><td>Male               </td><td>50.00              </td><td>NA                 </td><td>NA                 </td><td>50                 </td></tr>
-	<tr><td>2014-09-02 15:18:30</td><td>Female             </td><td>51.00              </td><td>NA                 </td><td>NA                 </td><td>51                 </td></tr>
-	<tr><td>2016-06-05 14:07:20</td><td>Female             </td><td>52.00              </td><td>NA                 </td><td>NA                 </td><td>52                 </td></tr>
-	<tr><td>2016-06-05 14:07:38</td><td>Female             </td><td>52.00              </td><td>NA                 </td><td>NA                 </td><td>52                 </td></tr>
-	<tr><td>2014-09-23 03:39:56</td><td>Female             </td><td>53.00              </td><td>NA                 </td><td>NA                 </td><td>53                 </td></tr>
-	<tr><td>2015-01-07 08:57:29</td><td>Male               </td><td>53.77              </td><td>NA                 </td><td>NA                 </td><td>53.77              </td></tr>
+	<tr><td>Monday                </td><td>Mandy, Chris and Laura</td></tr>
+	<tr><td>Tuesday               </td><td>Steve, Ruth and Frank </td></tr>
+</tbody>
+</table>
+
+
+
+
+```R
+schedule %>% mutate(staff=str_split(staff,", | and ")) %>% unnest()
+```
+
+
+<table>
+<thead><tr><th scope=col>day</th><th scope=col>staff</th></tr></thead>
+<tbody>
+	<tr><td>Monday </td><td>Mandy  </td></tr>
+	<tr><td>Monday </td><td>Chris  </td></tr>
+	<tr><td>Monday </td><td>Laura  </td></tr>
+	<tr><td>Tuesday</td><td>Steve  </td></tr>
+	<tr><td>Tuesday</td><td>Ruth   </td></tr>
+	<tr><td>Tuesday</td><td>Frank  </td></tr>
+</tbody>
+</table>
+
+
+
+
+```R
+schedule %>% mutate(staff=str_split(staff,", | and ", simplify=TRUE)) #%>% unnest()
+```
+
+
+    Error in mutate_impl(.data, dots): Column `staff` must be length 2 (the number of rows) or one, not 6
+    Traceback:
+
+
+    1. schedule %>% mutate(staff = str_split(staff, ", | and ", simplify = TRUE))
+
+    2. withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
+
+    3. eval(quote(`_fseq`(`_lhs`)), env, env)
+
+    4. eval(quote(`_fseq`(`_lhs`)), env, env)
+
+    5. `_fseq`(`_lhs`)
+
+    6. freduce(value, `_function_list`)
+
+    7. withVisible(function_list[[k]](value))
+
+    8. function_list[[k]](value)
+
+    9. mutate(., staff = str_split(staff, ", | and ", simplify = TRUE))
+
+    10. mutate.tbl_df(., staff = str_split(staff, ", | and ", simplify = TRUE))
+
+    11. mutate_impl(.data, dots)
+
+
+
+```R
+schedule %>% separate(staff,into=c("s1","s2","s3"), sep=", | and ") %>% gather(key = s, value=staff,s1:s3)
+```
+
+
+<table>
+<thead><tr><th scope=col>day</th><th scope=col>s</th><th scope=col>staff</th></tr></thead>
+<tbody>
+	<tr><td>Monday </td><td>s1     </td><td>Mandy  </td></tr>
+	<tr><td>Tuesday</td><td>s1     </td><td>Steve  </td></tr>
+	<tr><td>Monday </td><td>s2     </td><td>Chris  </td></tr>
+	<tr><td>Tuesday</td><td>s2     </td><td>Ruth   </td></tr>
+	<tr><td>Monday </td><td>s3     </td><td>Laura  </td></tr>
+	<tr><td>Tuesday</td><td>s3     </td><td>Frank  </td></tr>
 </tbody>
 </table>
 
