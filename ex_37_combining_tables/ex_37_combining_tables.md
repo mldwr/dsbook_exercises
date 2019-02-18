@@ -41,13 +41,8 @@ library(tidyverse)
 
 
 ```R
-install.packages("Lahman")
+#install.packages("Lahman")
 ```
-
-    
-    The downloaded binary packages are in
-    	/var/folders/h7/tj19_bj13qz_k451c_tqqfd00000gn/T//Rtmp9L6YXJ/downloaded_packages
-
 
 
 ```R
@@ -299,106 +294,35 @@ top_hr_sal[c(1,4,5,6,2,7)]
 co2_wide <- as_tibble(matrix(co2,ncol=12,byrow=TRUE)) %>% setNames(1:12) %>% mutate(year=1959:1997) %>% gather(month,co2,-year, convert=TRUE)
 ```
 
+
+```R
+yearly_avg <- co2_wide %>% group_by(year) %>% summarize(mean(co2))
+```
+
 >4. Now use the `left_join` function to add the yearly average to the `co2_wide` dataset. Then compute the residuals: observed co2 measure - yearly average.
 
 
 ```R
-co2_wide %>% group_by(year) %>% summarize(mean(co2)) %>% right_join(co2_wide,by="year") %>% arrange(year)
+co2_avg <- yearly_avg %>% left_join(co2_wide,by="year") %>% arrange(year) %>% setNames(c("year","mean","month","value"))
 ```
 
 
-<table>
-<thead><tr><th scope=col>year</th><th scope=col>mean(co2)</th><th scope=col>month</th><th scope=col>co2</th></tr></thead>
-<tbody>
-	<tr><td>1959    </td><td>315.8258</td><td> 1      </td><td>315.42  </td></tr>
-	<tr><td>1959    </td><td>315.8258</td><td> 2      </td><td>316.31  </td></tr>
-	<tr><td>1959    </td><td>315.8258</td><td> 3      </td><td>316.50  </td></tr>
-	<tr><td>1959    </td><td>315.8258</td><td> 4      </td><td>317.56  </td></tr>
-	<tr><td>1959    </td><td>315.8258</td><td> 5      </td><td>318.13  </td></tr>
-	<tr><td>1959    </td><td>315.8258</td><td> 6      </td><td>318.00  </td></tr>
-	<tr><td>1959    </td><td>315.8258</td><td> 7      </td><td>316.39  </td></tr>
-	<tr><td>1959    </td><td>315.8258</td><td> 8      </td><td>314.65  </td></tr>
-	<tr><td>1959    </td><td>315.8258</td><td> 9      </td><td>313.68  </td></tr>
-	<tr><td>1959    </td><td>315.8258</td><td>10      </td><td>313.18  </td></tr>
-	<tr><td>1959    </td><td>315.8258</td><td>11      </td><td>314.66  </td></tr>
-	<tr><td>1959    </td><td>315.8258</td><td>12      </td><td>315.43  </td></tr>
-	<tr><td>1960    </td><td>316.7475</td><td> 1      </td><td>316.27  </td></tr>
-	<tr><td>1960    </td><td>316.7475</td><td> 2      </td><td>316.81  </td></tr>
-	<tr><td>1960    </td><td>316.7475</td><td> 3      </td><td>317.42  </td></tr>
-	<tr><td>1960    </td><td>316.7475</td><td> 4      </td><td>318.87  </td></tr>
-	<tr><td>1960    </td><td>316.7475</td><td> 5      </td><td>319.87  </td></tr>
-	<tr><td>1960    </td><td>316.7475</td><td> 6      </td><td>319.43  </td></tr>
-	<tr><td>1960    </td><td>316.7475</td><td> 7      </td><td>318.01  </td></tr>
-	<tr><td>1960    </td><td>316.7475</td><td> 8      </td><td>315.74  </td></tr>
-	<tr><td>1960    </td><td>316.7475</td><td> 9      </td><td>314.00  </td></tr>
-	<tr><td>1960    </td><td>316.7475</td><td>10      </td><td>313.68  </td></tr>
-	<tr><td>1960    </td><td>316.7475</td><td>11      </td><td>314.84  </td></tr>
-	<tr><td>1960    </td><td>316.7475</td><td>12      </td><td>316.03  </td></tr>
-	<tr><td>1961    </td><td>317.4850</td><td> 1      </td><td>316.73  </td></tr>
-	<tr><td>1961    </td><td>317.4850</td><td> 2      </td><td>317.54  </td></tr>
-	<tr><td>1961    </td><td>317.4850</td><td> 3      </td><td>318.38  </td></tr>
-	<tr><td>1961    </td><td>317.4850</td><td> 4      </td><td>319.31  </td></tr>
-	<tr><td>1961    </td><td>317.4850</td><td> 5      </td><td>320.42  </td></tr>
-	<tr><td>1961    </td><td>317.4850</td><td> 6      </td><td>319.61  </td></tr>
-	<tr><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td></tr>
-	<tr><td>1995    </td><td>360.9142</td><td> 7      </td><td>361.94  </td></tr>
-	<tr><td>1995    </td><td>360.9142</td><td> 8      </td><td>359.50  </td></tr>
-	<tr><td>1995    </td><td>360.9142</td><td> 9      </td><td>358.11  </td></tr>
-	<tr><td>1995    </td><td>360.9142</td><td>10      </td><td>357.80  </td></tr>
-	<tr><td>1995    </td><td>360.9142</td><td>11      </td><td>359.61  </td></tr>
-	<tr><td>1995    </td><td>360.9142</td><td>12      </td><td>360.74  </td></tr>
-	<tr><td>1996    </td><td>362.6867</td><td> 1      </td><td>362.09  </td></tr>
-	<tr><td>1996    </td><td>362.6867</td><td> 2      </td><td>363.29  </td></tr>
-	<tr><td>1996    </td><td>362.6867</td><td> 3      </td><td>364.06  </td></tr>
-	<tr><td>1996    </td><td>362.6867</td><td> 4      </td><td>364.76  </td></tr>
-	<tr><td>1996    </td><td>362.6867</td><td> 5      </td><td>365.45  </td></tr>
-	<tr><td>1996    </td><td>362.6867</td><td> 6      </td><td>365.01  </td></tr>
-	<tr><td>1996    </td><td>362.6867</td><td> 7      </td><td>363.70  </td></tr>
-	<tr><td>1996    </td><td>362.6867</td><td> 8      </td><td>361.54  </td></tr>
-	<tr><td>1996    </td><td>362.6867</td><td> 9      </td><td>359.51  </td></tr>
-	<tr><td>1996    </td><td>362.6867</td><td>10      </td><td>359.65  </td></tr>
-	<tr><td>1996    </td><td>362.6867</td><td>11      </td><td>360.80  </td></tr>
-	<tr><td>1996    </td><td>362.6867</td><td>12      </td><td>362.38  </td></tr>
-	<tr><td>1997    </td><td>363.8175</td><td> 1      </td><td>363.23  </td></tr>
-	<tr><td>1997    </td><td>363.8175</td><td> 2      </td><td>364.06  </td></tr>
-	<tr><td>1997    </td><td>363.8175</td><td> 3      </td><td>364.61  </td></tr>
-	<tr><td>1997    </td><td>363.8175</td><td> 4      </td><td>366.40  </td></tr>
-	<tr><td>1997    </td><td>363.8175</td><td> 5      </td><td>366.84  </td></tr>
-	<tr><td>1997    </td><td>363.8175</td><td> 6      </td><td>365.68  </td></tr>
-	<tr><td>1997    </td><td>363.8175</td><td> 7      </td><td>364.52  </td></tr>
-	<tr><td>1997    </td><td>363.8175</td><td> 8      </td><td>362.57  </td></tr>
-	<tr><td>1997    </td><td>363.8175</td><td> 9      </td><td>360.24  </td></tr>
-	<tr><td>1997    </td><td>363.8175</td><td>10      </td><td>360.83  </td></tr>
-	<tr><td>1997    </td><td>363.8175</td><td>11      </td><td>362.49  </td></tr>
-	<tr><td>1997    </td><td>363.8175</td><td>12      </td><td>364.34  </td></tr>
-</tbody>
-</table>
-
-
+```R
+co2_avg <- co2_avg  %>% mutate(diff = mean-value)
+```
 
 >5. Make a plot of the seasonal trends by year but only after removing the year effect.
 
 
 ```R
-str(co2_wide)
-```
-
-    Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	468 obs. of  3 variables:
-     $ year : int  1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 ...
-     $ month: int  1 1 1 1 1 1 1 1 1 1 ...
-     $ co2  : num  315 316 317 318 319 ...
-
-
-
-```R
-co2_wide <- co2_wide %>% mutate(year = as.factor(year))
+co2_plot <- co2_avg %>% mutate(year = as.factor(year))
 ```
 
 
 ```R
-co2_wide %>% ggplot(aes(month,co2,color=year)) + geom_point() + geom_line() + scale_x_continuous(breaks=1:12)
+co2_plot %>% ggplot(aes(month,diff,color=year)) + geom_point() + geom_line() + scale_x_continuous(breaks=1:12)
 ```
 
 
-![png](output_22_0.png)
+![png](output_23_0.png)
 
