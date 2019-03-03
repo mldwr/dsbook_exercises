@@ -1,10 +1,12 @@
 ---
 title: "ch 22 text mining"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 
-## Exercises {-}
+## Exercises
 
 
 Project Gutenberg is a digital archive of public domain books. The R package __gutenbergr__ facilitates the importation of these texts into R.
@@ -21,9 +23,27 @@ You can see the books that are available like this:
 gutenberg_metadata
 ```
 
-1. Use `str_detect` to find the ID of the novel _Pride and Prejudice_. 
+```{r}
+#install.packages("gutenbergr")
+library(gutenbergr)
+library(tidyverse)
+```
 
-      
+>1. Use `str_detect` to find the ID of the novel _Pride and Prejudice_. 
+
+```{r}
+idx <- gutenberg_metadata %>% .$title %>% str_detect("Pride and Prejudice")
+```
+
+```{r}
+ttl <- gutenberg_metadata %>% .$title
+```
+
+```{r}
+which(idx)
+```
+
+
 2. We notice that there are several versions. The `gutenberg_works()` function filters this table to remove replicates and include only English language works. Read the help file and use this function to find the ID for _Pride and Prejudice_
 
     
