@@ -9,19 +9,14 @@ output:
 ## Exercises
 
 
-Project Gutenberg is a digital archive of public domain books. The R package __gutenbergr__ facilitates the importation of these texts into R.
+>Project Gutenberg is a digital archive of public domain books. The R package __gutenbergr__ facilitates the importation of these texts into R.
+>
+>You can install and load it like this:
+>```{r, eval=FALSE}
+>install.packages("gutenbergr")
+>library(gutenbergr)
+>```
 
-You can install and load it like this:
-```{r, eval=FALSE}
-install.packages("gutenbergr")
-library(gutenbergr)
-```
-
-You can see the books that are available like this:
-
-```{r, eval=FALSE}
-gutenberg_metadata
-```
 
 ```{r}
 #install.packages("gutenbergr")
@@ -29,21 +24,33 @@ library(gutenbergr)
 library(tidyverse)
 ```
 
+>You can see the books that are available like this:
+>
+>```{r, eval=FALSE}
+>gutenberg_metadata
+>```
+
 >1. Use `str_detect` to find the ID of the novel _Pride and Prejudice_. 
 
+Since the numeration in the gutenberg data starts with zero, we need to decrease the indexes by one.
+Here, I use the function `str_which` that combines the commands `str_detect` and `which`.
 ```{r}
-idx <- gutenberg_metadata %>% .$title %>% str_detect("Pride and Prejudice")
-idx[20688]
+idx <- gutenberg_metadata %>% .$title %>% str_which("Pride and Prejudice") %>% .[]-1
 ```
 
+In total we get 6 hits for the book "Pride and Prejudice".
 ```{r}
-gutenberg_metadata %>% filter(gutenberg_id %in% c(20687,20688,20689)) %>% .$title %>% str_detect("Pride")
+gutenberg_metadata %>% filter(gutenberg_id %in% idx)
 ```
 
 
 >2. We notice that there are several versions. The `gutenberg_works()` function filters this table to remove replicates and include only English language works. Read the help file and use this function to find the ID for _Pride and Prejudice_
 
-    
+After removing the duplicates we end up with just two titles.
+```{r}
+gutenberg_works() %>% filter(gutenberg_id %in% idx)
+```
+
 
 >3. Use the `gutenberg_download` function to download the text for Pride and Prejudice. Save it to an object called `book`.
 
