@@ -1,5 +1,5 @@
 ---
-title: "ch 22 text mining"
+title: "Ch 22 Text Mining"
 output:
   html_document:
     df_print: paged
@@ -16,7 +16,12 @@ output:
 >install.packages("gutenbergr")
 >library(gutenbergr)
 >```
-
+>
+>You can see the books that are available like this:
+>
+>```{r, eval=FALSE}
+>gutenberg_metadata
+>```
 
 ```{r}
 #install.packages("gutenbergr")
@@ -24,11 +29,6 @@ library(gutenbergr)
 library(tidyverse)
 ```
 
->You can see the books that are available like this:
->
->```{r, eval=FALSE}
->gutenberg_metadata
->```
 
 >1. Use `str_detect` to find the ID of the novel _Pride and Prejudice_. 
 
@@ -54,8 +54,17 @@ gutenberg_works() %>% filter(gutenberg_id %in% idx)
 
 >3. Use the `gutenberg_download` function to download the text for Pride and Prejudice. Save it to an object called `book`.
 
+```{r}
+book <- gutenberg_download(gutenberg_id = 1342)
+str(book)
+```
+
     
 >4. Use the __tidytext__ package to create a tidy table with all the words in the text.
+
+```{r}
+library(tidytext)
+```
 
    
 >5. We will later make a plot of sentiment versus location in the book. For this, it will be useful to add a column with the word number to the table. 
