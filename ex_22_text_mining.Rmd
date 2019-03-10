@@ -96,6 +96,10 @@ book_score <- inner_join(book_words,afinn,by="word")
 >8. Make a plot of sentiment score versus location in the book and add a smoother.
 
 ```{r}
+book_score %>% ggplot(aes(word_number,score)) + geom_point()
+```
+
+```{r}
 book_score %>% ggplot(aes(word_number,score)) + geom_smooth()
 ```
 
