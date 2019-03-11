@@ -5,10 +5,12 @@ output:
     df_print: paged
     number_sections: true
     toc: true
+    pandoc_args: [
+      "--number-sections",
+      "--number-offset=3"
+    ]
 ---
-# -
-# -
-# -
+
 # R Basics
 
 ## -
