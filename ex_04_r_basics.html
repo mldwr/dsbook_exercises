@@ -242,7 +242,7 @@ data(murders)</code></pre>
 <li><p>Now use the square brackets to extract the state abbreviations and assign them to the object <code>b</code>. Use the <code>identical</code> function to determine if <code>a</code> and <code>b</code> are the same.</p></li>
 <li><p>We saw that the <code>region</code> column stores a factor. You can corroborate this by typing:</p></li>
 </ol>
-<p><code>r    class(murders$region)</code></p>
+<pre class="r"><code>class(murders$region)</code></pre>
 <p>With one line of code, use the function <code>levels</code> and <code>length</code> to determine the number of regions defined by this dataset.</p>
 <ol start="6" style="list-style-type: decimal">
 <li>The function <code>table</code> takes a vector and returns the frequency of each element. You can quickly see how many states are in each region by applying this function. Use this function in one line of code to create a table of states per region.</li>

@@ -3,17 +3,92 @@ title: "Ch 22 Text Mining"
 output:
   html_document:
     df_print: paged
+    number_sections: true
+    toc: true
+    pandoc_args: [
+      "--number-sections",
+      "--number-offset=21"
+    ]
 ---
 
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+<!-- run: *Cmd+Shift+Enter* -->
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+<!-- insert: *Cmd+Option+I* -->
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+<!-- knit: *Cmd+Shift+K* -->
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+## Trum tweets analysis
 
+```{r}
+library(tidyverse)
+library(lubridate)
+library(scales)
+```
+
+Get data from the website trumptwitterarchive.com.
+However, this data is already included in the `dslabs` package
+
+```{r, eval=FALSE}
+url <- 'http://www.trumptwitterarchive.com/data/realdonaldtrump/%s.json'
+trump_tweets <- map(2009:2017, ~sprintf(url, .x)) %>%
+  map_df(jsonlite::fromJSON, simplifyDataFrame = TRUE) %>%
+  filter(!is_retweet & !str_detect(text, '^"')) %>%
+  mutate(created_at = parse_date_time(created_at, orders = "a b! d! H!:M!:S! z!* Y!",tz="EST")) 
+trump_tweets
+```
+
+```{r}
+library(dslabs)
+data("trump_tweets")
+head(trump_tweets)
+names(trump_tweets)
+```
+
+Tweet example.
+
+```{r}
+trump_tweets$text[16413] %>% str_wrap() %>% cat
+```
+
+Which device was used for the twitter account?
+```{r}
+trump_tweets %>% count(source) %>% arrange(desc(n)) #%>% head(5)
+```
+
+Focus on time of the campaign.
+```{r}
+campaign_tweets <- trump_tweets %>% 
+  extract(source, "source", "Twitter for (.*)") %>%
+  filter(source %in% c("Android", "iPhone") &
+           created_at >= ymd("2015-06-17") & 
+           created_at < ymd("2016-11-08")) %>%
+  filter(!is_retweet) %>%
+  arrange(created_at)
+count(campaign_tweets)
+```
+
+Plot the divices Android and iPhone versus time.
+
+```{r}
+ds_theme_set()
+campaign_tweets %>%
+  mutate(hour = hour(with_tz(created_at, "EST"))) %>%
+  count(source, hour) %>%
+  group_by(source) %>%
+  mutate(percent = n / sum(n)) %>%
+  ungroup %>%
+  ggplot(aes(hour, percent, color = source)) +
+  geom_line() +
+  geom_point() +
+  scale_y_continuous(labels = percent_format()) +
+  labs(x = "Hour of day (EST)", y = "% of tweets", color = "")
+```
+
+## Text as data
+
+
+Example for the `tidytext` package.
 ```{r}
 library(tidyverse)
 library(tidytext)

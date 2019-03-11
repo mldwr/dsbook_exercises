@@ -108,9 +108,9 @@ exp(log(2, base = 2))
 >
 >5. We saw that the `region` column stores a factor. You can corroborate this by typing: 
 >
->    ```{r, eval=FALSE}
->    class(murders$region)
->    ```
+>```{r, eval=FALSE}
+>class(murders$region)
+>```
 >
 >    With one line of code, use the function `levels` and `length` to determine the number of regions defined by this dataset.
 >
