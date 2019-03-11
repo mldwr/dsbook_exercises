@@ -126,9 +126,42 @@ $(document).ready(function () {
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#section"><span class="toc-section-number">1</span> -</a></li>
+<li><a href="#section-1"><span class="toc-section-number">2</span> -</a></li>
+<li><a href="#section-2"><span class="toc-section-number">3</span> -</a></li>
+<li><a href="#r-basics"><span class="toc-section-number">4</span> R Basics</a><ul>
+<li><a href="#section-3"><span class="toc-section-number">4.1</span> -</a></li>
+<li><a href="#exercises-the-very-basics"><span class="toc-section-number">4.2</span> Exercises: The very basics</a></li>
+<li><a href="#section-4"><span class="toc-section-number">4.3</span> -</a></li>
+<li><a href="#exercises-data-frames"><span class="toc-section-number">4.4</span> Exercises: Data frames</a></li>
+<li><a href="#section-5"><span class="toc-section-number">4.5</span> -</a></li>
+<li><a href="#exercises-coersion"><span class="toc-section-number">4.6</span> Exercises: Coersion</a></li>
+<li><a href="#exercises-sorting"><span class="toc-section-number">4.7</span> Exercises: Sorting</a></li>
+<li><a href="#exercises-vector-arithmetics"><span class="toc-section-number">4.8</span> Exercises: Vector arithmetics</a></li>
+<li><a href="#exercises-indexing"><span class="toc-section-number">4.9</span> Exercises: Indexing</a></li>
+<li><a href="#exercises-basic-plots"><span class="toc-section-number">4.10</span> Exercises: Basic plots</a></li>
+</ul></li>
+</ul>
+</div>
 
+<div id="section" class="section level1">
+<h1><span class="header-section-number">1</span> -</h1>
+</div>
+<div id="section-1" class="section level1">
+<h1><span class="header-section-number">2</span> -</h1>
+</div>
+<div id="section-2" class="section level1">
+<h1><span class="header-section-number">3</span> -</h1>
+</div>
+<div id="r-basics" class="section level1">
+<h1><span class="header-section-number">4</span> R Basics</h1>
+<div id="section-3" class="section level2">
+<h2><span class="header-section-number">4.1</span> -</h2>
+</div>
 <div id="exercises-the-very-basics" class="section level2">
-<h2>Exercises: The very basics</h2>
+<h2><span class="header-section-number">4.2</span> Exercises: The very basics</h2>
 <blockquote>
 <ol style="list-style-type: decimal">
 <li>What is the sum of the first 100 positive integers? The formula for the sum of integers <span class="math inline">\(1\)</span> through <span class="math inline">\(n\)</span> is <span class="math inline">\(n(n+1)/2\)</span>. Define <span class="math inline">\(n=100\)</span> and then use R to compute the sum of <span class="math inline">\(1\)</span> through <span class="math inline">\(100\)</span> using the formula. What is the sum?</li>
@@ -187,8 +220,11 @@ sum(x)</code></pre>
 <pre class="r"><code>exp(log(2, base = 2))</code></pre>
 <pre><code>## [1] 2.718282</code></pre>
 </div>
+<div id="section-4" class="section level2">
+<h2><span class="header-section-number">4.3</span> -</h2>
+</div>
 <div id="exercises-data-frames" class="section level2">
-<h2>Exercises: Data frames</h2>
+<h2><span class="header-section-number">4.4</span> Exercises: Data frames</h2>
 <blockquote>
 <ol style="list-style-type: decimal">
 <li>Load the US murders dataset.</li>
@@ -213,8 +249,11 @@ data(murders)</code></pre>
 </ol>
 </blockquote>
 </div>
+<div id="section-5" class="section level2">
+<h2><span class="header-section-number">4.5</span> -</h2>
+</div>
 <div id="exercises-coersion" class="section level2">
-<h2>Exercises: Coersion</h2>
+<h2><span class="header-section-number">4.6</span> Exercises: Coersion</h2>
 <blockquote>
 <ol style="list-style-type: decimal">
 <li><p>Use the function <code>c</code> to create a vector with the average high temperatures in January for Beijing, Lagos, Paris, Rio de Janeiro, San Juan and Toronto, which are 35, 88, 42, 84, 81, and 30 degrees Fahrenheit. Call the object <code>temp</code>.</p></li>
@@ -235,7 +274,7 @@ data(murders)</code></pre>
 </blockquote>
 </div>
 <div id="exercises-sorting" class="section level2">
-<h2>Exercises: Sorting</h2>
+<h2><span class="header-section-number">4.7</span> Exercises: Sorting</h2>
 <blockquote>
 <p>For these exercises we will use the US murders dataset. Make sure you load it prior to starting.</p>
 <pre class="r"><code>library(dslabs)
@@ -268,7 +307,7 @@ str(na_example)</code></pre>
 </blockquote>
 </div>
 <div id="exercises-vector-arithmetics" class="section level2">
-<h2>Exercises: Vector arithmetics</h2>
+<h2><span class="header-section-number">4.8</span> Exercises: Vector arithmetics</h2>
 <blockquote>
 <ol style="list-style-type: decimal">
 <li>Previously we created this data frame:</li>
@@ -284,7 +323,7 @@ city_temps &lt;- data.frame(name = city, temperature = temp)</code></pre>
 </blockquote>
 </div>
 <div id="exercises-indexing" class="section level2">
-<h2>Exercises: Indexing</h2>
+<h2><span class="header-section-number">4.9</span> Exercises: Indexing</h2>
 <blockquote>
 <p>Start by loading the library and data.</p>
 <pre class="r"><code>library(dslabs)
@@ -302,7 +341,7 @@ data(murders)</code></pre>
 </blockquote>
 </div>
 <div id="exercises-basic-plots" class="section level2">
-<h2>Exercises: Basic plots</h2>
+<h2><span class="header-section-number">4.10</span> Exercises: Basic plots</h2>
 <blockquote>
 <ol style="list-style-type: decimal">
 <li>We made a plot of total murders versus population and noted a strong relationship. Not surprisingly, states with larger populations had more murders.</li>
@@ -318,6 +357,7 @@ plot(population_in_millions, total_gun_murders)</code></pre>
 <li><p>Generate boxplots of the state populations by region.</p></li>
 </ol>
 </blockquote>
+</div>
 </div>
 
 

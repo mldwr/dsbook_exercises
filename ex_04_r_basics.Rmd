@@ -3,8 +3,15 @@ title: "Ch 04 R Basics"
 output:
   html_document:
     df_print: paged
+    number_sections: true
+    toc: true
 ---
+# -
+# -
+# -
+# R Basics
 
+## -
 
 ## Exercises: The very basics
 
@@ -72,6 +79,7 @@ log(exp(2))
 exp(log(2, base = 2))
 ```
 
+## -
 
 ## Exercises: Data frames
 
@@ -108,6 +116,7 @@ exp(log(2, base = 2))
 >
 >6. The function `table` takes a vector and returns the frequency of each element. You can quickly see how many states are in each region by applying this function. Use this function in one line of code to create a table of states per region.
 
+## -
 
 ## Exercises: Coersion
 
