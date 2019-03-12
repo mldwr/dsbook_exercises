@@ -40,15 +40,15 @@ sum(n*(n+1)/2)
 >sum(x)
 >```
 >
->    Based on the result, what do you think the functions `seq` and `sum` do?  You can use the `help` system:
+>   Based on the result, what do you think the functions `seq` and `sum` do?  You can use the `help` system:
 >
->    A. `sum` creates a list of numbers and `seq` adds them up.
+>    a. `sum` creates a list of numbers and `seq` adds them up.
 >
->    __B__. `seq` creates a list of numbers and `sum` adds them up.
+> -->b. `seq` creates a list of numbers and `sum` adds them up.
 >
->    C. `seq` computes the difference between two arguments and `sum` computes the sum of 1 through 1000.
+>    c. `seq` computes the difference between two arguments and `sum` computes the sum of 1 through 1000.
 >
->    D. `sum` always returns the same number.
+>    d. `sum` always returns the same number.
 
 ```{r}
 n<-1000
@@ -66,13 +66,13 @@ log10(sqrt(100))
 
 >5. Which of the following will always return the numeric value stored in `x`? You can try out examples and use the help system if you want.
 >
->    A. $log(10^x)$
+>    a. $log(10^x)$
 >
->    B. $log10(x^10)$
+>    b. $log10(x^10)$
 >
->    __C__. $log(exp(x))$
+>-->c. $log(exp(x))$
 >
->    D. $exp(log(x, base = 2))$
+>    d. $exp(log(x, base = 2))$
 
 ```{r}
 log(10^2)
@@ -94,13 +94,13 @@ exp(log(2, base = 2))
 >    
 >    Use the function `str` to examine the structure of the `murders` object. We can see that this object is a data frame with 51 rows and five columns. Which of the following best describes the variables represented in this data frame?
 >    
->    A. The 51 states.
+>    a. The 51 states.
 >    
->    B. The murder rates for all 50 states and DC.
+>    b. The murder rates for all 50 states and DC.
 >    
->    C. The state name, the abbreviation of the state name, the state's region, and the state's population and total number of murders for 2010. 
+>    c. The state name, the abbreviation of the state name, the state's region, and the state's population and total number of murders for 2010. 
 >    
->    D. `str` shows no relevant information.
+>    d. `str` shows no relevant information.
 >
 >2. What are the column names used by the data frame for these five variables?
 >    

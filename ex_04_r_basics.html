@@ -174,10 +174,14 @@ sum(n*(n+1)/2)</code></pre>
 x &lt;- seq(1, n)
 sum(x)</code></pre>
 <p>Based on the result, what do you think the functions <code>seq</code> and <code>sum</code> do? You can use the <code>help</code> system:</p>
-<p>A. <code>sum</code> creates a list of numbers and <code>seq</code> adds them up.</p>
-<p><strong>B</strong>. <code>seq</code> creates a list of numbers and <code>sum</code> adds them up.</p>
-<p>C. <code>seq</code> computes the difference between two arguments and <code>sum</code> computes the sum of 1 through 1000.</p>
-<p>D. <code>sum</code> always returns the same number.</p>
+<ol style="list-style-type: lower-alpha">
+<li><code>sum</code> creates a list of numbers and <code>seq</code> adds them up.</li>
+</ol>
+<p>–&gt;b. <code>seq</code> creates a list of numbers and <code>sum</code> adds them up.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li><p><code>seq</code> computes the difference between two arguments and <code>sum</code> computes the sum of 1 through 1000.</p></li>
+<li><p><code>sum</code> always returns the same number.</p></li>
+</ol>
 </blockquote>
 <pre class="r"><code>n&lt;-1000
 x&lt;-seq(1,n)
@@ -194,10 +198,14 @@ sum(x)</code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>Which of the following will always return the numeric value stored in <code>x</code>? You can try out examples and use the help system if you want.</li>
 </ol>
-<p>A. <span class="math inline">\(log(10^x)\)</span></p>
-<p>B. <span class="math inline">\(log10(x^10)\)</span></p>
-<p><strong>C</strong>. <span class="math inline">\(log(exp(x))\)</span></p>
-<p>D. <span class="math inline">\(exp(log(x, base = 2))\)</span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p><span class="math inline">\(log(10^x)\)</span></p></li>
+<li><p><span class="math inline">\(log10(x^10)\)</span></p></li>
+</ol>
+<p>–&gt;c. <span class="math inline">\(log(exp(x))\)</span></p>
+<ol start="4" style="list-style-type: lower-alpha">
+<li><span class="math inline">\(exp(log(x, base = 2))\)</span></li>
+</ol>
 </blockquote>
 <pre class="r"><code>log(10^2)</code></pre>
 <pre><code>## [1] 4.60517</code></pre>
@@ -220,10 +228,14 @@ sum(x)</code></pre>
 <pre class="r"><code>library(dslabs)
 data(murders)</code></pre>
 <p>Use the function <code>str</code> to examine the structure of the <code>murders</code> object. We can see that this object is a data frame with 51 rows and five columns. Which of the following best describes the variables represented in this data frame?</p>
-<p>A. The 51 states.</p>
-<p>B. The murder rates for all 50 states and DC.</p>
-<p>C. The state name, the abbreviation of the state name, the state’s region, and the state’s population and total number of murders for 2010.</p>
-<p>D. <code>str</code> shows no relevant information.</p>
+</blockquote>
+<pre><code>&gt;    a. The 51 states.</code></pre>
+<blockquote>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>The murder rates for all 50 states and DC.</p></li>
+<li><p>The state name, the abbreviation of the state name, the state’s region, and the state’s population and total number of murders for 2010.</p></li>
+<li><p><code>str</code> shows no relevant information.</p></li>
+</ol>
 <ol start="2" style="list-style-type: decimal">
 <li><p>What are the column names used by the data frame for these five variables?</p></li>
 <li><p>Use the accessor <code>$</code> to extract the state abbreviations and assign them to the object <code>a</code>. What is the class of this object?</p></li>
