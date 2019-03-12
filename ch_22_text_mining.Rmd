@@ -97,3 +97,13 @@ example <- data_frame(line = c(1, 2, 3, 4), text = poem)
 example
 example %>% unnest_tokens(word, text)
 ```
+
+```{r}
+i <- 3008
+campaign_tweets$text[i]  %>% str_wrap() %>% cat()
+```
+```{r}
+pattern <- "([^A-Za-z\\d#@']|'(?![A-Za-z\\d#@]))"
+campaign_tweets[i,] %>% unnest_tokens(word, text, token = "regex", pattern = pattern) %>% pull(word)
+```
+

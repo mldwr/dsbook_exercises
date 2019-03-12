@@ -241,6 +241,19 @@ example</code></pre>
 {"columns":[{"label":["line"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["word"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"roses"},{"1":"1","2":"are"},{"1":"1","2":"red"},{"1":"2","2":"violets"},{"1":"2","2":"are"},{"1":"2","2":"blue"},{"1":"3","2":"sugar"},{"1":"3","2":"is"},{"1":"3","2":"sweet"},{"1":"4","2":"and"},{"1":"4","2":"so"},{"1":"4","2":"are"},{"1":"4","2":"you"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
+<pre class="r"><code>i &lt;- 3008
+campaign_tweets$text[i]  %&gt;% str_wrap() %&gt;% cat()</code></pre>
+<pre><code>## Great to be back in Iowa! #TBT with @JerryJrFalwell joining me in Davenport-
+## this past winter. #MAGA https://t.co/A5IF0QHnic</code></pre>
+<pre class="r"><code>pattern &lt;- &quot;([^A-Za-z\\d#@']|'(?![A-Za-z\\d#@]))&quot;
+campaign_tweets[i,] %&gt;% unnest_tokens(word, text, token = &quot;regex&quot;, pattern = pattern) %&gt;% pull(word)</code></pre>
+<pre><code>##  [1] &quot;great&quot;           &quot;to&quot;              &quot;be&quot;             
+##  [4] &quot;back&quot;            &quot;in&quot;              &quot;iowa&quot;           
+##  [7] &quot;#tbt&quot;            &quot;with&quot;            &quot;@jerryjrfalwell&quot;
+## [10] &quot;joining&quot;         &quot;me&quot;              &quot;in&quot;             
+## [13] &quot;davenport&quot;       &quot;this&quot;            &quot;past&quot;           
+## [16] &quot;winter&quot;          &quot;#maga&quot;           &quot;https&quot;          
+## [19] &quot;t&quot;               &quot;co&quot;              &quot;a5if0qhnic&quot;</code></pre>
 </div>
 
 
