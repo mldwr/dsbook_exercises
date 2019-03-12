@@ -5,6 +5,6 @@ I have worked through the dsbook and finished also the exercises. Here, I provid
 
  Exercises  |    Summaries  |
 |----------|:-------------:|
-| [Exercises Chapter 04](ex_04_r_basics.html) |  left-aligned |
-| [Exercises Chapter 21](ex_21_parsing_dates_and_times.html) |    centered   |
-| [Exercises Chapter 22](ex_22_text_mining.html) | [Summary Chapter 22](ch_22_text_mining.html) |
+| [Chapter 04](ex_04_r_basics.html) |  [Chapter 04](ch_04_text_mining.html) |
+| [Chapter 21](ex_21_parsing_dates_and_times.html) | [Chapter 21](ch_21_text_mining.html)   centered   |
+| [Chapter 22](ex_22_text_mining.html) | [Chapter 22](ch_22_text_mining.html) |
