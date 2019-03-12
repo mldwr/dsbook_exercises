@@ -13,8 +13,8 @@ I have worked through the dsbook and finished also the exercises. Here, I provid
 <br>
 <br>
 
- Tables   |      Are      |  Cool |
-|----------|:-------------:|------:|
-| col 1 is |  left-aligned | $1600 |
-| col 2 is |    centered   |   $12 |
-| col 3 is | right-aligned |    $1 |
+ Exerices  |    Summaries  |
+|----------|:-------------:|
+| col 1 is |  left-aligned |
+| col 2 is |    centered   |
+| col 3 is | right-aligned |
