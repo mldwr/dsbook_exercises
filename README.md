@@ -15,6 +15,6 @@ I have worked through the dsbook and finished also the exercises. Here, I provid
 
  Exerices  |    Summaries  |
 |----------|:-------------:|
-| col 1 is |  left-aligned |
+| ex 04 |  left-aligned |
 | col 2 is |    centered   |
 | col 3 is | right-aligned |
