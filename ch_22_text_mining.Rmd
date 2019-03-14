@@ -103,7 +103,7 @@ i <- 3008
 campaign_tweets$text[i]  %>% str_wrap() %>% cat()
 ```
 
-Using an example tweet
+Using an example tweet we can prepare the general extraction process.
 
 ```{r}
 pattern <- "([^A-Za-z\\d#@']|'(?![A-Za-z\\d#@]))"
@@ -112,17 +112,22 @@ mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|&amp;", ""))  %>%
 unnest_tokens(word, text, token = "regex", pattern = pattern) %>% pull(word)
 ```
 
+Furthermore, we will use the object `stop_words` in order to remove all stop word like "a" or "the".
+Also, numbers like years should be removed as well `str_detect(word, "^\\d+$")`.
+
 ```{r}
 tweet_words <- campaign_tweets %>% 
   mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|&amp;", ""))  %>%
   unnest_tokens(word, text, token = "regex", pattern = pattern) %>%
-  filter(!word %in% stop_words$word )
+  filter(!word %in% stop_words$word &  !str_detect(word, "^\\d+$")) %>%
+  mutate(word = str_replace(word, "^'", ""))
 tweet_words %>% head()
 ```
 
 ```{r}
 tweet_words %>% 
   count(word) %>%
-  arrange(desc(n))
+  arrange(desc(n)) %>% 
+  head()
 ```
 
