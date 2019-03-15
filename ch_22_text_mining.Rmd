@@ -131,3 +131,35 @@ tweet_words %>%
   head()
 ```
 
+Which words are more likely to be tweeted from an iPhone device or an Android.
+The __odds ratio__ summary statistics is used for that purpuse. 
+I.e. for each device we compute the ratio that a word comes from an Android device and not from an iPhone.
+
+```{r}
+tweet_words %>% count(word,source) %>% spread(source, n, fill=0) %>% 
+  mutate(sumA = sum(Android) - Android + 0.5) %>% 
+  mutate(sumP = sum(iPhone) - iPhone + 0.5) %>% 
+  mutate(devA = Android + 0.5 / sumA) %>% 
+  mutate(devP = iPhone + 0.5 / sumP) %>% 
+  mutate(or = devA/devP)
+```
+
+
+```{r}
+android_iphone_or <- tweet_words %>%
+  count(word, source) %>%
+  spread(source, n, fill = 0) %>%
+  mutate(or = ((Android + 0.5) / (sum(Android) - Android + 0.5)) / 
+           ( (iPhone + 0.5) / (sum(iPhone) - iPhone + 0.5))) 
+```
+
+Evaluate the results.
+
+```{r}
+android_iphone_or #%>% arrange(desc(or))
+android_iphone_or %>% arrange(or)
+android_iphone_or %>% filter(Android+iPhone > 100) %>% arrange(desc(or))
+android_iphone_or %>% filter(Android+iPhone > 100) %>% arrange(or)
+
+```
+
