@@ -229,7 +229,7 @@ device_sentiment
 ```
 
 And with a grafical representation.
-
+Negative values mean that the device used was an iPhone and positive values an Android device.
 
 ```{r}
 device_sentiment %>% 

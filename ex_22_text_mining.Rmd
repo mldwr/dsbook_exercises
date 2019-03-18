@@ -75,13 +75,11 @@ book_tok
 book_tok <- book_tok %>% mutate(word_number = row_number())
 ```
 
->6. Remove the stop words and numbers from the `words` object. Hint: use the `anti_join`. 
+>6. Remove the stop words and numbers from the `stop_words` object. Hint: use the `anti_join`. 
 
 ```{r}
-words_df <- tbl_df(words)
-names(words_df) <- "word"
-book_words <- anti_join(book_tok,words_df, by="word")
-book_words
+book_words <- anti_join(book_tok,stop_words, by="word")%>% filter(!word %in% c(1:100)) %>% arrange(word)
+book_words 
 ```
 
    
