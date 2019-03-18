@@ -5,7 +5,6 @@ I have worked through the dsbook and finished also the exercises. Here, I provid
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 04](ex_04_r_basics.html) |  [Chapter 04](ch_04_text_mining.html) |
- [Chapter 20](ex_20_x.html) | [Chapter 20](ch_20_.html)  |
- [Chapter 21](ex_21_parsing_dates_and_times.html) | [Chapter 21](ch_21_text_mining.html)  |
- [Chapter 22](ex_22_text_mining.html) | [Chapter 22](ch_22_text_mining.html) |
+ [Chapter 03](ex_03_r_basics.html) |  [Chapter 03](ch_03_text_mining.html) |
+ [Chapter 26](ex_26_parsing_dates_and_times.html) | [Chapter 26](ch_26_text_mining.html)  |
+ [Chapter 27](ex_27_text_mining.html) | [Chapter 27](ch_27_text_mining.html) |

@@ -1,5 +1,5 @@
 ---
-title: "Ch 22 Text Mining"
+title: "Ch 27 Text Mining"
 output:
   html_document:
     df_print: paged
@@ -7,7 +7,7 @@ output:
     toc: true
     pandoc_args: [
       "--number-sections",
-      "--number-offset=21"
+      "--number-offset=27"
     ]
 ---
 
