@@ -7,7 +7,7 @@ output:
     toc: true
     pandoc_args: [
       "--number-sections",
-      "--number-offset=3"
+      "--number-offset=2"
     ]
 ---
 
