@@ -204,8 +204,12 @@ Here, we see that the four sentiments disgust, anger, negative and fear are asso
 No sentiment assoction is found to come from the iPhone device.
 
 ```{r}
-log_or %>%
-  mutate(sentiment = reorder(sentiment, log_or)) %>%
+log_or_reorder <- log_or %>%  mutate(sentiment = reorder(sentiment, log_or))
+log_or_reorder
+```
+
+```{r}
+log_or_reorder %>% 
   ggplot(aes(x = sentiment, ymin = conf.low, ymax = conf.high)) +
   geom_errorbar() +
   geom_point(aes(sentiment, log_or)) +
@@ -213,25 +217,25 @@ log_or %>%
   coord_flip() 
 ```
 
-By looking back at the words to sentiment join, we can derive which word specificaly drive the sentiments.
+By looking back at the words to sentiment join, we can derive which word specificaly drives the sentiments.
 
 ```{r}
-android_iphone_or %>% inner_join(nrc) %>%
-  filter(sentiment == "disgust" & Android + iPhone > 10) %>%
-  arrange(desc(or))
+device_sentiment <- android_iphone_or %>% inner_join(nrc, by = "word") %>%
+  mutate(sentiment = factor(sentiment, levels = log_or$sentiment)) %>%
+  mutate(log_or = log(or)) %>%
+  filter(Android + iPhone > 10 & abs(log_or)>1) %>%
+  mutate(word = reorder(word, log_or)) 
+device_sentiment
 ```
 
 And with a grafical representation.
 
+
 ```{r}
-android_iphone_or %>% inner_join(nrc, by = "word") %>%
-  mutate(sentiment = factor(sentiment, levels = log_or$sentiment)) %>%
-  mutate(log_or = log(or)) %>%
-  filter(Android + iPhone > 10 & abs(log_or)>1) %>%
-  mutate(word = reorder(word, log_or)) %>%
+device_sentiment %>% 
   ggplot(aes(word, log_or, fill = log_or < 0)) +
   facet_wrap(~sentiment, scales = "free_x", nrow = 2) + 
-  geom_bar(stat="identity", show.legend = FALSE) +
+  geom_bar(stat="identity") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
 ```
 
