@@ -5,6 +5,7 @@ I have worked through the dsbook and finished also the exercises. Here, I provid
 
 I Basics
 ------
+
  Exercises  |    Summaries  |
 ----------|:-------------:|
  [Chapter 03](ex_03_r_basics.html) |  [Chapter 03](ch_03_text_mining.html) |
