@@ -3,7 +3,8 @@ my exercise solutions from the **dsbook** by *Rafael Irizarry*
 
 I have worked through the dsbook and finished also the exercises. Here, I provide my solutions.
 
- ## Data Wrangling
+ Alt-H2
+------
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
