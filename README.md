@@ -35,7 +35,10 @@ IV Data Wrangling
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 25](ex_03_r_basics.html) |  [Chapter 25] |
+ [Chapter 22](ex_22_reshaping_data.html) |  [Chapter 25] |
+ [Chapter 23](ex_23_joining_tables.html) |  [Chapter 25] |
+ [Chapter 24](ex_24_web_scraping.html) |  [Chapter 25] |
+ [Chapter 25](ex_25_string_processing.html) |  [Chapter 25] |
  [Chapter 26](ex_26_parsing_dates_and_times.html) | [Chapter 26]  |
  [Chapter 27](ex_27_text_mining.html) | [Chapter 27](ch_27_text_mining.html) |
 
