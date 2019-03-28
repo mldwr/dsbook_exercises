@@ -1,0 +1,160 @@
+---
+title: "Ch 24 Web Scraping"
+output:
+  html_document:
+    df_print: paged
+    number_sections: true
+    toc: true
+    pandoc_args: [
+      "--number-sections",
+      "--number-offset=24"
+    ]
+---
+
+## Exercises
+
+
+>1. Visit the following web page: [https://web.archive.org/web/20181024132313/http://www.stevetheump.com/Payrolls.htm](https://web.archive.org/web/20181024132313/http://www.stevetheump.com/Payrolls.htm)
+>
+>    Notice there are several tables. Say we are interested in comparing the payrolls of teams across the years. The next few exercises take us through the steps needed to do this.
+>
+>    Start by applying what you learned to read in the website into an object called `h`.
+
+```{r}
+library(tidyverse)
+library(rvest)
+url <- "https://web.archive.org/web/20181024132313/http://www.stevetheump.com/Payrolls.htm"
+h <- read_html(url)
+```
+
+>2. Note that, although not very useful, we can actually see the content of the page by typing:
+>
+>```{r, eval = FALSE}
+>html_text(h)
+>```
+>
+>    The next step is to extract the tables. For this, we can use the `html_nodes` function. We learned that tables in html are associated with the `table` node.  Use the `html_nodes` function and the `table` node to extract the first table. Store it in an object `nodes`.
+
+```{r}
+nodes <- html_nodes(h,'table')
+```
+
+>3. The `html_nodes` function returns a list of objects of class `xml_node`. We can see the content of each one using, for example, the `html_text` function. You can see the content for an arbitrarily picked component like this:
+>
+>```{r, eval = FALSE}
+>html_text(nodes[[8]])
+>```
+>
+>    If the content of this object is an html table, we can use the `html_table` function to convert it to a data frame. Use the `html_table` function to convert the 8th entry of `nodes` into a table.
+
+```{r}
+html_table(nodes[[8]]) %>% head(2)
+```
+
+>4. Repeat the above for the first 4 components of `nodes`. Which of the following are payroll tables:
+>
+>    A. All them.
+>
+>    B. 1
+>
+>    C. 2
+>
+>    D. 2-4
+
+Answer D.
+```{r}
+html_table(nodes[[1]]) %>% head(2)
+html_table(nodes[[2]]) %>% head(2)
+html_table(nodes[[3]]) %>% head(2)
+html_table(nodes[[4]]) %>% head(2)
+```
+
+>5. Repeat the above for the first __last__ 3 components of `nodes`. Which of the following is true:
+>
+>    A. The last entry in `nodes` shows the average across all teams through time, not payroll per team.
+>
+>    B. All three are payroll per team tables.
+>
+>    C. All three are like the first entry, not a payroll table.
+>
+>    D. All of the above.
+
+Answer A.
+```{r}
+html_table(nodes[[length(nodes)]])  %>% head(2)
+html_table(nodes[[length(nodes)-1]]) %>% head(2)
+html_table(nodes[[length(nodes)-2]]) %>% head(2)
+```
+
+>6. We have learned that the first and last entries of `nodes` are not payroll tables. Redefine `nodes` so that these two are removed.
+
+```{r}
+del <- c(1,length(nodes))
+nodes <- nodes[-del]
+```
+
+>7. We saw in the previous analysis that the first table node is not actually a table. This happens sometimes in html because tables are used to make text look a certain way, as opposed to storing numeric values.
+>Remove the first component and then use `sapply` and `html_table` to covert each node in `nodes` into a table. Note that in this case, `sapply` will return a list of tables. You can also use `lapply` to assure that a list is applied.
+
+```{r}
+nodes_tables <- nodes %>% lapply(html_table)
+nodes_tables[14]
+```
+
+>8. Look through the resulting tables. Are they all the same? Could we just join them with `bind_rows`?
+
+No, because table header names for the teams are different. The table headers for the tables 10-13 and 15-20 match and are called 'X1'.
+```{r}
+bind_rows(nodes_tables[13:14]) %>% head
+bind_rows(nodes_tables[13:14]) %>% tail
+```
+
+>9. Create two tables, call them `tab_1` and `tab_2` using entries 10 and 19.
+
+```{r}
+tab_1 <- nodes_tables[[10]]; tab_1 %>% head
+tab_2 <- nodes_tables[[19]]; tab_2 %>% head
+```
+
+>10. Use a `full_join` function to combine these two tables. Before you do this you will have to fix the missing header problem. You will also need to make the names match.
+
+```{r}
+header_names <- tab_1 %>% filter(X1=="Team")
+names(tab_1) <- header_names
+names(tab_2) <- header_names
+full_join(tab_1,tab_2,by = "Team") %>% arrange(Team)
+```
+
+>11. After joining the tables, you see several NAs. This is because some teams are in one table and not the other. Use the `anti_join` function to get a better idea of why this is happening.
+
+```{r}
+tab_12 <- anti_join(tab_1,tab_2,by = "Team")
+tab_21 <- anti_join(tab_2,tab_1,by = "Team")
+bind_rows(tab_12,tab_21) %>% arrange(Team)
+```
+
+
+>12. We see see that one of the problem is that Yankees are listed as both _N.Y. Yankees_ and _NY Yankees_. In the next section, we will learn efficient approaches to fixing problems like this. Here we can do it "by hand" as follows:
+>
+>
+>```{r, eval=FALSE}
+>tab_1 <- mutate(tab_1, Team = ifelse(Team == "N.Y. Yankees", "NY Yankees", Team))
+>```
+>
+>    Now join the tables and show only Oakland and the Yankees and the payroll columns.
+
+```{r}
+tab_1 <- mutate(tab_1, Team = ifelse(Team=="N.Y. Yankees", "NY Yankees", Team))
+full_join(tab_1,tab_2,by = "Team") %>% filter(Team %in% c('Oakland','NY Yankees')) %>% select(Team,Payroll.x,Payroll.y)
+```
+
+>13. Advanced: extract the titles of the movies that won Best Picture from this website: [https://m.imdb.com/chart/bestpicture/](https://m.imdb.com/chart/bestpicture/)
+
+```{r}
+url <- "https://m.imdb.com/chart/bestpicture/"
+h <- read_html(url)
+nodes <- html_nodes(h,'h4.best-picture-item-title')
+html_text(nodes[[1]]) %>% str_split('\n') %>% .[[1]] %>% .[1]
+nodes %>% lapply(html_text) %>% str_replace('\n.*\n','')
+```
+

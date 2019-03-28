@@ -1,0 +1,90 @@
+---
+title: "Ch 23 Joining Tables"
+output:
+  html_document:
+    df_print: paged
+    number_sections: true
+    toc: true
+    pandoc_args: [
+      "--number-sections",
+      "--number-offset=23"
+    ]
+---
+
+
+## Exercises
+
+
+>1. Install and load the __Lahman__ library. This database includes data related to baseball teams. It includes summary statistics about how the players performed on offense and defense for several years. It also includes personal information about the players.
+>
+>    The `Batting` data frame contains the offensive statistics for all players for many years. You can see, for example, the top 10 hitters by running this code:
+>
+>```{r, eval=FALSE}
+>library(Lahman)
+>top <- Batting %>%
+>filter(yearID == 2016) %>%
+>arrange(desc(HR)) %>%
+>slice(1:10)
+>top %>% as_tibble()
+>```
+>
+>    But who are these players? We see an ID, but not the names. The player names are in this table
+>
+>```{r, eval=FALSE}
+>Master %>% as_tibble()
+>```
+>
+>    We can see column names `nameFirst` and `nameLast`. Use the `left_join` function to create a table of the top home run hitters. The table should have `playerID`, first name, last name, and number of home runs (HR).  Rewrite the object `top` with this new table.
+
+```{r}
+library(tidyverse)
+#install.packages("Lahman")
+library(Lahman)
+str(Batting)
+top <- Batting %>% filter(yearID == 2016) %>% arrange(desc(HR)) %>% slice(1:10)
+top %>% as_tibble()
+str(Master)
+Master %>% as.tibble()
+top_hr <- top %>% left_join(Master, by = "playerID") %>% select(playerID,yearID,nameFirst,nameLast,teamID,HR)
+top_hr
+```
+
+>2. Now use the `Salaries` data frame to add each player's salary to the table you created in exercise 1. Note that salaries are different every year so make sure to filter for the year 2016, then use `right_join`. This time show first name, last name, team, HR and salary.
+
+```{r}
+top_hr_sal <- Salaries %>% filter(yearID==2016) %>% select(-lgID,-teamID,-yearID) %>% right_join(top_hr, by = "playerID")
+top_hr_sal[c(1,4,5,6,2,7)]
+```
+
+>3. In a previous exercise, we created a tidy version of the `co2` dataset:
+>
+>
+>```{r, eval=FALSE}
+>co2_wide <- data.frame(matrix(co2, ncol = 12, byrow = TRUE)) %>%
+>setNames(1:12) %>%
+>mutate(year = 1959:1997) %>%
+>gather(month, co2, -year, convert = TRUE)
+>```
+>
+>    We want to see if the monthly trend is changing so we are going to remove the year effects and the plot the data. We will first compute the year averages. Use the `group_by` and `summarize` to compute the average co2 for each year. Save in an object called `yearly_avg`.
+
+```{r}
+co2_wide <- as_tibble(matrix(co2,ncol=12,byrow=TRUE)) %>% setNames(1:12) %>% mutate(year=1959:1997) %>% gather(month,co2,-year, convert=TRUE)
+yearly_avg <- co2_wide %>% group_by(year) %>% summarize(mean(co2))
+```
+
+>4. Now use the `left_join` function to add the yearly average to the `co2_wide` dataset. Then compute the residuals: observed co2 measure - yearly average.
+
+```{r}
+co2_avg <- yearly_avg %>% left_join(co2_wide,by="year") %>% arrange(year) %>% setNames(c("year","mean","month","value"))
+co2_avg <- co2_avg  %>% mutate(diff = mean-value)
+```
+
+>5. Make a plot of the seasonal trends by year but only after removing the year effect.
+
+```{r}
+co2_plot <- co2_avg %>% mutate(year = as.factor(year))
+co2_plot %>% ggplot(aes(month,diff,color=year)) + geom_point() + geom_line() + scale_x_continuous(breaks=1:12)
+```
+
+
