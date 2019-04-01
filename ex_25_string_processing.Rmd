@@ -119,7 +119,7 @@ length(s)
 >7. When inspecting the string we obtained above, we see a common problem: white space before and after the other characters. Trimming is a common first step in string processing. These extra spaces will eventually make splitting the strings hard so we start by removing them. We learned about the command `str_trim` that removes spaces at the start or end of the strings. Use this function to trim `s`.
 
 ```{r}
-
+s <- s %>% str_trim()
 ```
 
 
@@ -127,72 +127,114 @@ length(s)
 >Use the `str_which` function to find the rows with a header. Save these results to `header_index`. Hint: find the first string that matches the pattern `2015` using the `str_which` function.
 
 ```{r}
-
+header_index <- s %>% str_which("[A-Z]\\s{2,}\\d{4}")
+header_index
 ```
 
 >9. Now we are going to define two objects: `month` will store the month and `header` will store the column names. Identify which row contains the header of the table. Save the content of the row into an object called `header`, then use `str_split` to help define the two objects we need. Hints: the separator here is one or more spaces. Also, consider using the `simplify` argument.
 
 ```{r}
-
+month <- s[header_index] %>% str_split("\\s{2,}",simplify=TRUE) %>% .[1]
+month
+header <- s[header_index] %>% str_split("\\s{2,}",simplify=TRUE) %>% .[-1]
+header
 ```
 
 >10. Notice that towards the end of the page you see a _totals_ row followed by rows with other summary statistics. Create an object called `tail_index` with the index of the _totals_ entry.
 
 ```{r}
-
+tail_index <- s %>% str_which("Total")
+tail_index
 ```
 
 >11. Because our PDF page includes graphs with numbers, some of our rows have just one number (from the y-axis of the plot). Use the `str_count` function to create an object `n` with the number of numbers in each each row. Hint: you can write a regex for number like this `\\d+`.
 
 ```{r}
-
+n <- s %>% str_count("\\d+")
+n
 ```
 
 >12. We are now ready to remove entries from rows that we know we don't need. The entry `header_index` and everything before it should be removed. Entries for which `n` is 1 should also be removed, and the entry `tail_index` and everything that comes after it should be removed as well.
 
 ```{r}
-
+s <- s[(header_index+1):(tail_index-1)]
+s
+n <- s %>% str_count("\\d+")
+n
+s <- s[-which(n==1)]
+s
 ```
 
 >13. Now we are ready to remove all the non-numeric entries. Do this using regex and the `str_remove_all` function. Hint: remember that in regex, using the upper case version of a special character usually means the opposite. So `\\D` means "not a digit". Remember you also want to keep spaces.
 
 ```{r}
-
+s <-s %>% str_remove_all("[^\\d\\s]")
+s
 ```
 
 >14. To convert the strings into a table, use the `str_split_fixed` function. Convert `s` into a data matrix with just the day and death count data. Hints: note that the separator is one or more spaces. Make the argument `n` a value that limits the number of columns to the values in the 4 columns and the last column captures all the extra stuff. Then keep only the first four columns.
 
 ```{r}
-
+st <- s %>% str_split_fixed("\\s+",6) %>% .[,1:4] %>% as_tibble
+st
 ```
 
 >15. Now you are almost ready to finish. Add column names to the matrix, including one called `day`. Also, add a column with the month. Call the resulting object `dat`. Finally, make sure the day is an integer not a character. Hint: use only the first five columns.
 
 ```{r}
-
+dat <- st  %>% setNames(c("day",header[-4])) %>% mutate_all(as.numeric)
+dat
 ```
 
 >16. Now finish it up by tidying `tab` with the gather function.
 
 ```{r}
-
+dat <- dat %>% gather(year,value,-day)
+dat
+# add another column name with the month in it
+month_int <- 9
+tab <- dat %>% mutate(month_int)
+#  rename last column name from "month_ind" to "month"
+tab <- tab %>% rename(month = month_int)
+# reorder the column names from "day year value month" to "day month year value"
+tab <- tab[c(1,4,2,3)]
 ```
 
 >17. Make a plot of deaths versus day with color to denote year. Exclude 2018 since we do not have data for the entire year.
 
 ```{r}
-
+dat %>% ggplot(aes(day, value)) + geom_point(aes(col = year)) + geom_line(aes(col = year)) + scale_y_continuous(trans = "log10", breaks = seq(0,150,10    ))
 ```
 
 >18. Now that we have wrangled this data step-by-step, put it all together in one R chunk, using the pipe as much as possible. Hint: first define the indexes, then write one line of code that does all the string processing.
 
 ```{r}
-
+s <- txt[9] %>% str_split("\\n") %>% .[[1]] %>% str_trim()
+header_index <- s %>% str_which("[A-Z]\\s{2,}\\d{4}")
+tail_index <- s %>% str_which("Total")
+month <- s[header_index] %>% str_split("\\s{2,}",simplify=TRUE) %>% .[1]
+header <- s[header_index] %>% str_split("\\s{2,}",simplify=TRUE) %>% .[-1]
+s <- s[(header_index+1):(tail_index-1)]
+n <- s %>% str_count("\\d+")
+s <- s[-which(n==1)]
+s <- s %>% str_remove_all("[^\\d|\\s]") %>% str_split_fixed("\\s+",6) %>% .[,1:4] %>% as_tibble %>% setNames(c("day",header[-4])) %>% mutate_all(as.numeric) %>% gather(year,value,-day) %>% mutate(month_int)
+s
+dat %>% ggplot(aes(day, value)) + geom_point(aes(col = year)) + geom_line(aes(col = year)) + scale_y_continuous(trans = "log10", breaks = seq(0,150,10    ))
 ```
 
 >19. Advanced: let's return to the MLB Payroll example from the web scraping section. Use what you have learned in the web scraping and string processing chapters to extract the payroll for the New York Yankees, Boston Red Sox, and Oakland A's and plot them as a function of time.
 
 ```{r}
 
+```
+
+## Exercise from edX class
+
+```{r}
+schedule <- tibble(day = c('Monday','Tuesday'), staff = c('Mandy, Chris and Laura','Steve, Ruth and Frank'))
+schedule
+schedule %>% mutate(staff=str_split(staff,", | and ")) %>% unnest()
+schedule %>% mutate(staff=str_split(staff,", | and ", simplify=TRUE)) #%>% unnest()
+schedule %>% separate(staff,into=c("s1","s2","s3"), sep=", | and ") %>% gather(key = s, value=staff,s1:s3)
 ```
 
