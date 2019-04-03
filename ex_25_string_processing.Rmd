@@ -234,7 +234,7 @@ dat %>% ggplot(aes(day, value)) + geom_point(aes(col = year)) + geom_line(aes(co
 schedule <- tibble(day = c('Monday','Tuesday'), staff = c('Mandy, Chris and Laura','Steve, Ruth and Frank'))
 schedule
 schedule %>% mutate(staff=str_split(staff,", | and ")) %>% unnest()
-schedule %>% mutate(staff=str_split(staff,", | and ", simplify=TRUE)) #%>% unnest()
+#schedule %>% mutate(staff=str_split(staff,", | and ", simplify=TRUE)) %>% unnest()
 schedule %>% separate(staff,into=c("s1","s2","s3"), sep=", | and ") %>% gather(key = s, value=staff,s1:s3)
 ```
 
