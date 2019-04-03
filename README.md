@@ -9,26 +9,26 @@ I R
  Exercises  |    Summaries  |
 ----------|:-------------:|
  [Chapter 03](ex_03_r_basics.html) |  [Chapter 03]() |
- [Chapter 04](ex_03_r_basics.html) |  [Chapter 05]() |
- [Chapter 05](ex_03_r_basics.html) |  [Chapter 04]() |
- [Chapter 06](ex_03_r_basics.html) |  [Chapter 06]() |
+ [Chapter 04]() |  [Chapter 05]() |
+ [Chapter 05]() |  [Chapter 04]() |
+ [Chapter 06](ex_06_importing_data.html) |  [Chapter 06]() |
 
 II Data Visualization
 ------
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 08](ex_03_r_basics.html) |  [Chapter 03](ch_03_text_mining.html) |
+ [Chapter 08]() |  [Chapter 03]() |
 
 III Statistics with R
 ------
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 13](ex_03_r_basics.html) |  [Chapter 03]() |
- [Chapter 14](ex_03_r_basics.html) |  [Chapter 05]() |
- [Chapter 15](ex_03_r_basics.html) |  [Chapter 04]() |
- [Chapter 16](ex_03_r_basics.html) |  [Chapter 06]() |
+ [Chapter 13]() |  [Chapter 03]() |
+ [Chapter 14]() |  [Chapter 05]() |
+ [Chapter 15]() |  [Chapter 04]() |
+ [Chapter 16]() |  [Chapter 06]() |
 
 IV Data Wrangling
 ------
@@ -47,8 +47,8 @@ V Machine Learning
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 29](ex_03_r_basics.html) |  [Chapter 25] |
- [Chapter 30](ex_26_parsing_dates_and_times.html) | [Chapter 26]  |
- [Chapter 31](ex_27_text_mining.html) | [Chapter 27](ch_27_text_mining.html) |
+ [Chapter 29]() |  [Chapter 25] |
+ [Chapter 30]() | [Chapter 26]  |
+ [Chapter 31]() | [Chapter 27]() |
 
 

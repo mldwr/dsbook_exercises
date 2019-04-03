@@ -1,0 +1,15 @@
+---
+title: "Ch 06 Importing Data"
+output:
+  html_document:
+    df_print: paged
+    number_sections: true
+    toc: true
+    pandoc_args: [
+      "--number-sections",
+      "--number-offset=5"
+    ]
+---
+
+## Exercises
+
