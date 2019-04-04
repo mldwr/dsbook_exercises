@@ -1,5 +1,5 @@
 ---
-title: "Ch 06 Importing Data"
+title: "Summary 06 Importing Data"
 output:
   html_document:
     df_print: paged
@@ -12,4 +12,66 @@ output:
 ---
 
 ## Exercises
+
+```{r}
+library(tidyverse)
+```
+
+>1. Use the `read_csv` function to read each of the files that the following code saves in the `files` object: 
+>
+>```{r, eval=FALSE}
+>path <- system.file("extdata", package = "dslabs")
+>files <- list.files(path)
+>files
+>```
+
+```{r}
+path <- system.file("extdata", package="dslabs")
+files <- list.files(path)
+files
+```
+
+Read all the files in.
+```{r}
+mortality <- paste(path,'/',files[1]) %>% str_replace_all(" ","")
+fertility <- paste(path,'/',files[2]) %>% str_replace_all(" ","")
+life <- paste(path,'/',files[3]) %>% str_replace_all(" ","")
+murders <- paste(path,'/',files[4]) %>% str_replace_all(" ","")
+olive <- paste(path,'/',files[5]) %>% str_replace_all(" ","")
+read_csv(mortality)
+read_csv(fertility)
+read_csv(life)
+read_csv(murders)
+read_csv(olive)
+```
+
+>2. Note that the last one, the `olive` file, gives us a warning. This is because the first line of the file is missing the header for the first column. 
+>
+>    Read the help file for `read_csv` to figure out how to read in the file without reading this header. If you skip the header, you should not get this warning. Save the result to an object called `dat`.
+
+```{r}
+olive_dat <- read.csv(olive,header=FALSE)
+olive_dat %>% head
+```
+
+>3. A problem with the previous approach is that we don't know what the columns represent. Type:
+>
+>```{r, eval=FALSE}
+>names(dat)
+>```
+>
+>    to see that the names are not informative.
+>
+>    Use the `readLines` function to read in just the first line (we later learn how to extract values from the output). 
+
+```{r}
+names(olive_dat)
+olive_header <- readLines(olive,1) %>% str_split(',') %>% .[[1]]
+olive_header[1] = 'Num'
+olive_header[length(olive_header)+1] = 'sambalolic'
+olive_header
+olive_dat <- setNames(olive_dat,olive_header)
+olive_dat %>% filter(Num!='NA')
+```
+
 
