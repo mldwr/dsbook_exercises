@@ -8,10 +8,10 @@ I R
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 03](ex_03_r_basics.html) |  [Chapter 03]() |
- [Chapter 04]() |  [Chapter 05]() |
- [Chapter 05]() |  [Chapter 04]() |
- [Chapter 06](ex_06_importing_data.html) |  [Chapter 06]() |
+ [Chapter 03](ex_03_r_basics.html) |  [Chapter 03] |
+ [Chapter 04] |  [Chapter 05] |
+ [Chapter 05] |  [Chapter 04] |
+ [Chapter 06](ex_06_importing_data.html) |  [Chapter 06] |
 
 II Data Visualization
 ------
