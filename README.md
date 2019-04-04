@@ -18,17 +18,17 @@ II Data Visualization
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 08]() |  [Chapter 03]() |
+ [Chapter 08] |  [Chapter 03] |
 
 III Statistics with R
 ------
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 13]() |  [Chapter 03]() |
- [Chapter 14]() |  [Chapter 05]() |
- [Chapter 15]() |  [Chapter 04]() |
- [Chapter 16]() |  [Chapter 06]() |
+ [Chapter 13] |  [Chapter 03] |
+ [Chapter 14] |  [Chapter 05] |
+ [Chapter 15] |  [Chapter 04] |
+ [Chapter 16] |  [Chapter 06] |
 
 IV Data Wrangling
 ------
@@ -47,8 +47,8 @@ V Machine Learning
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 29]() |  [Chapter 25] |
- [Chapter 30]() | [Chapter 26]  |
- [Chapter 31]() | [Chapter 27]() |
+ [Chapter 29] | [Chapter 25] |
+ [Chapter 30] | [Chapter 26] |
+ [Chapter 31] | [Chapter 27] |
 
 
