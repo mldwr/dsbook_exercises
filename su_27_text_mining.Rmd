@@ -1,0 +1,241 @@
+---
+title: "Ch 27 Text Mining"
+output:
+  html_document:
+    df_print: paged
+    number_sections: true
+    toc: true
+    pandoc_args: [
+      "--number-sections",
+      "--number-offset=27"
+    ]
+---
+
+
+<!-- run: *Cmd+Shift+Enter* -->
+
+<!-- insert: *Cmd+Option+I* -->
+
+<!-- knit: *Cmd+Shift+K* -->
+
+## Trum tweets analysis
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(scales)
+```
+
+Get data from the website trumptwitterarchive.com.
+However, this data is already included in the `dslabs` package
+
+```{r, eval=FALSE}
+url <- 'http://www.trumptwitterarchive.com/data/realdonaldtrump/%s.json'
+trump_tweets <- map(2009:2017, ~sprintf(url, .x)) %>%
+  map_df(jsonlite::fromJSON, simplifyDataFrame = TRUE) %>%
+  filter(!is_retweet & !str_detect(text, '^"')) %>%
+  mutate(created_at = parse_date_time(created_at, orders = "a b! d! H!:M!:S! z!* Y!",tz="EST")) 
+trump_tweets
+```
+
+```{r}
+library(dslabs)
+data("trump_tweets")
+head(trump_tweets)
+names(trump_tweets)
+```
+
+Tweet example.
+
+```{r}
+trump_tweets$text[16413] %>% str_wrap() %>% cat
+```
+
+Which device was used for the twitter account?
+```{r}
+trump_tweets %>% count(source) %>% arrange(desc(n)) #%>% head(5)
+```
+
+Focus on time of the campaign.
+```{r}
+campaign_tweets <- trump_tweets %>% 
+  extract(source, "source", "Twitter for (.*)") %>%
+  filter(source %in% c("Android", "iPhone") &
+           created_at >= ymd("2015-06-17") & 
+           created_at < ymd("2016-11-08")) %>%
+  filter(!is_retweet) %>%
+  arrange(created_at)
+count(campaign_tweets)
+```
+
+Plot the divices Android and iPhone versus time.
+
+```{r}
+ds_theme_set()
+campaign_tweets %>%
+  mutate(hour = hour(with_tz(created_at, "EST"))) %>%
+  count(source, hour) %>%
+  group_by(source) %>%
+  mutate(percent = n / sum(n)) %>%
+  ungroup %>%
+  ggplot(aes(hour, percent, color = source)) +
+  geom_line() +
+  geom_point() +
+  scale_y_continuous(labels = percent_format()) +
+  labs(x = "Hour of day (EST)", y = "% of tweets", color = "")
+```
+
+## Text as data
+
+
+Example for the `tidytext` package.
+```{r}
+library(tidyverse)
+library(tidytext)
+poem <- c("Roses are red,", "Violets are blue,", "Sugar is sweet,", "And so are you.")
+example <- data_frame(line = c(1, 2, 3, 4), text = poem)
+example
+example %>% unnest_tokens(word, text)
+```
+
+```{r}
+i <- 3008
+campaign_tweets$text[i]  %>% str_wrap() %>% cat()
+```
+
+Using an example tweet we can prepare the general extraction process.
+
+```{r}
+pattern <- "([^A-Za-z\\d#@']|'(?![A-Za-z\\d#@]))"
+campaign_tweets[i,] %>% 
+mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|&amp;", ""))  %>% 
+unnest_tokens(word, text, token = "regex", pattern = pattern) %>% pull(word)
+```
+
+Furthermore, we will use the object `stop_words` in order to remove all stop word like "a" or "the".
+Also, numbers like years should be removed as well `str_detect(word, "^\\d+$")`.
+
+```{r}
+tweet_words <- campaign_tweets %>% 
+  mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|&amp;", ""))  %>%
+  unnest_tokens(word, text, token = "regex", pattern = pattern) %>%
+  filter(!word %in% stop_words$word &  !str_detect(word, "^\\d+$")) %>%
+  mutate(word = str_replace(word, "^'", ""))
+tweet_words %>% head()
+```
+
+```{r}
+tweet_words %>% 
+  count(word) %>%
+  arrange(desc(n)) %>% 
+  head()
+```
+
+Which words are more likely to be tweeted from an iPhone device or an Android.
+The __odds ratio__ summary statistics is used for that purpuse. 
+I.e. for each device we compute the ratio that a word comes from an Android device and not from an iPhone.
+The shift factor __0.5__ is used because most of the values evalute to zero.
+
+```{r}
+android_iphone_or <- tweet_words %>% count(word,source) %>% spread(source, n, fill=0) %>% 
+  mutate(sumA = sum(Android) - Android + 0.5) %>% 
+  mutate(sumP = sum(iPhone) - iPhone + 0.5) %>% 
+  mutate(devA = (Android + 0.5) / sumA) %>% 
+  mutate(devP = (iPhone + 0.5) / sumP) %>% 
+  mutate(or = devA/devP) 
+```
+
+Evaluate the results.
+Filter the number of counted words to be larger then 100 in order to remove all low frequency words.
+
+```{r}
+android_iphone_or %>% filter(Android+iPhone > 100) %>% arrange(desc(or))
+android_iphone_or %>% filter(Android+iPhone > 100) %>% arrange(or)
+
+```
+
+Next, seniments are used to correlate the words to a tone of the message.
+The package `tidytext` contains the `sentiment` object. 
+
+```{r}
+nrc <- sentiments %>% filter(lexicon == "nrc") %>%select(word, sentiment)
+tweet_words %>% inner_join(nrc, by = "word") %>%  select(source, word, sentiment) %>% sample_n(5)
+```
+
+In the following analysis for each sentiment the number of words per device is aggregated.
+
+```{r}
+sentiment_counts <- tweet_words %>%
+  left_join(nrc, by = "word") %>%
+  count(source, sentiment) %>%
+  spread(source, n) %>%
+  mutate(sentiment = replace_na(sentiment, replace = "none"))
+sentiment_counts
+```
+
+Next, we can compute the proportion (probability) of being in one device and not in the other.
+
+```{r}
+sentiment_counts %>%
+  mutate(Android = Android / (sum(Android) - Android) , 
+         iPhone = iPhone / (sum(iPhone) - iPhone), 
+         or = Android/iPhone) %>%
+  arrange(desc(or))
+```
+
+Validating the results by asking if the differences in the device assinings are just by chance.
+For this a confidence interval is computed which is further explained in the chapter "Statistical Inference".
+
+```{r}
+library(broom)
+log_or <- sentiment_counts %>%
+  mutate(log_or = log((Android / (sum(Android) - Android)) / 
+      (iPhone / (sum(iPhone) - iPhone))),
+          se = sqrt(1/Android + 1/(sum(Android) - Android) + 
+                      1/iPhone + 1/(sum(iPhone) - iPhone)),
+          conf.low = log_or - qnorm(0.975)*se,
+          conf.high = log_or + qnorm(0.975)*se) %>%
+  arrange(desc(log_or))
+log_or
+```
+
+Grafical representation of the findings in the tabular representation.
+Here, we see that the four sentiments disgust, anger, negative and fear are associated with the Android device.
+No sentiment assoction is found to come from the iPhone device.
+
+```{r}
+log_or_reorder <- log_or %>%  mutate(sentiment = reorder(sentiment, log_or))
+log_or_reorder
+```
+
+```{r}
+log_or_reorder %>% 
+  ggplot(aes(x = sentiment, ymin = conf.low, ymax = conf.high)) +
+  geom_errorbar() +
+  geom_point(aes(sentiment, log_or)) +
+  ylab("Log odds ratio for association between Android and sentiment") +
+  coord_flip() 
+```
+
+By looking back at the words to sentiment join, we can derive which word specificaly drives the sentiments.
+
+```{r}
+device_sentiment <- android_iphone_or %>% inner_join(nrc, by = "word") %>%
+  mutate(sentiment = factor(sentiment, levels = log_or$sentiment)) %>%
+  mutate(log_or = log(or)) %>%
+  filter(Android + iPhone > 10 & abs(log_or)>1) %>%
+  mutate(word = reorder(word, log_or)) 
+device_sentiment
+```
+
+And with a grafical representation.
+Negative values mean that the device used was an iPhone and positive values an Android device.
+
+```{r}
+device_sentiment %>% 
+  ggplot(aes(word, log_or, fill = log_or < 0)) +
+  facet_wrap(~sentiment, scales = "free_x", nrow = 2) + 
+  geom_bar(stat="identity") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+```
+
