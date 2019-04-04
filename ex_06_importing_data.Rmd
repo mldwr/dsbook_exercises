@@ -1,5 +1,5 @@
 ---
-title: "Summary 06 Importing Data"
+title: "Ch 06 Importing Data"
 output:
   html_document:
     df_print: paged
