@@ -1,5 +1,5 @@
 ---
-title: "Ch 22 Reshaping Data"
+title: "Ex 22 Reshaping Data"
 output:
   html_document:
     df_print: paged
@@ -68,6 +68,7 @@ co2_tidy %>% ggplot(aes(month, co2, color = year)) + geom_line() + scale_x_conti
 >    D. CO2 measures do not have a seasonal trend.
 
 Answer A and B.
+
 In order to see the monotonical increase of the co2 value (anwer A) and the seasonal trend over the course of each year (answer B), I've changed the class of the column year from numeric to factor, so that ggplot knows I want the lines to be connected for each year for the months.
 
 ```{r}
@@ -116,5 +117,117 @@ tmp_unite %>% spread(column_name, value)
 
 ```{r}
 admissions %>% gather(key, value, -major,-gender) %>% unite(column_name, key, gender, -major, -value) %>% spread(column_name,value)
+```
+
+## Additional Exercises
+
+>1. Examine the dataset `co2`. Which of the following is true:
+>
+>    A. `co2` is tidy data: it has one year for each row.
+>
+>    B. `co2` is not tidy: we need at least one column with a character vector.
+>
+>    C. `co2` is not tidy:  it is a matrix not a data frame.
+>
+>    D. `co2` is not tidy: to be tidy we would have to wrangle it to have three columns: year, month and value; then each co2 observation has a row.
+
+Answer D.
+
+Definition of **tidy data** from this chapter is as follows: *each row represents one observation and the columns represent the different variables available for each of these observations*
+
+According to this defintion the time-series object does not define a tidy data set, because it is not defined wich observation belongs to which point in time. Therefore, answer D is the most likely one. The calculations below show that the object Time-Series contains 468 data points for each month for 39 years between 1959 and 1998, which are 468 points total.
+
+In the following I will reshape the data into a tidy form. However, after reading the exercise of this chapter I found that there is a more elegant solution by using the tidyverse functions. Anyway, here is the hard way by foot to get to the tidy dataset.
+
+```{r}
+library(tidyverse)
+library(dslabs)
+data("co2")
+str(co2)
+length(co2)
+(1998-1959)*12
+months <- rep(1:12,39)
+years <- rep(1959:1997,12)
+years <- sort(years)
+tab_co2 <- as.tibble(cbind(years,months,co2)) %>% arrange(years,months)
+tab_co2
+tab_co2 %>% ggplot(aes(years,co2,col=months)) + geom_point()
+```
+
+>2. Examine the dataset  `ChickWeight`. Which of the following is true:
+>
+>    A.  `ChickWeight` is not tidy: each chick has more than one row. 
+>
+>    B.  `ChickWeight` is tidy: each observation, here a weight, is represented by one row. The chick from which this measurement came from is one the variables.
+>
+>    C.  `ChickWeight` is not a tidy: we are missing the year column.
+>
+>    D.  `ChickWeight` is tidy: it is stored in a data frame.
+
+Answer B.
+
+```{r}
+data(ChickWeight)
+ChickWeight
+str(ChickWeight)
+class(ChickWeight)
+ChickWeight %>% ggplot(aes(Time,weight,col=Diet)) + geom_point()
+```
+
+>3. Examine the dataset `BOD`. Which of the following is true:
+>
+>    A. `BOD` is not tidy: it only has six rows.
+>
+>    B. `BOD` is not tidy: the first column is just an index.
+>
+>    C. `BOD` is tidy: each row is an observation with two values, time and demand.
+>
+>    D. `BOD` is tidy: all small datasets are tidy by definition.
+
+Anser C.
+
+```{r}
+data(BOD)
+BOD
+BOD %>% ggplot(aes(Time,demand)) + geom_line() + geom_point()
+```
+
+>4. Which of the following datasets is tidy (you can pick more than one):
+>
+>    A. `BJsales`
+>
+>    B. `EuStockMarkets`
+>
+>    C. `DNase`
+>
+>    D. `Formaldehyde`
+>
+>    E. `Orange`
+>
+>    F. `UCBAdmissions`
+
+Answers C,D and E.
+
+The datasets, which were plotted below are tidy datasets. These are DNase, Formaldehyde and Orange, because each observation is in a row and each column is a variable that describes the observation. The first two datasets BJsales and EuStockMarkets are time-series and need further transformation to be tidy. The dataset UCBAdmissions contains tabulated data within a table and is not tidy.
+```{r}
+data(BJsales)
+str(BJsales)
+data(EuStockMarkets)
+str(EuStockMarkets)
+data(DNase)
+str(DNase)
+DNase
+DNase %>% ggplot(aes(density,conc,col=Run)) + geom_point() + geom_line()
+data(Formaldehyde)
+str(Formaldehyde)
+Formaldehyde
+Formaldehyde %>% ggplot(aes(carb,optden)) + geom_line() + geom_point()
+data(Orange)
+str(Orange)
+Orange
+Orange %>% ggplot(aes(age,circumference,col=Tree)) + geom_point() + geom_line()
+data(UCBAdmissions)
+str(UCBAdmissions)
+UCBAdmissions
 ```
 
