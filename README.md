@@ -18,7 +18,10 @@ II Data Visualization
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 08] |  [Chapter 03] |
+ [Chapter 08] |  [Chapter 08] |
+ [Chapter 09] |  [Chapter 09] |
+ [Chapter 11] |  [Chapter 11] |
+ [Chapter 12] |  [Chapter 12] |
 
 III Statistics with R
 ------
