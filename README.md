@@ -20,7 +20,7 @@ II Data Visualization
 ----------|:-------------:|
  [Chapter 08] |  [Chapter 08] |
  [Chapter 09] |  [Chapter 09] |
- - |  - |
+ [-] |  [-] |
  [Chapter 11] |  [Chapter 11] |
  [Chapter 12] |  [Chapter 12] |
 
@@ -54,7 +54,7 @@ V Machine Learning
  [Chapter 28] | [Chapter 28] |
  [Chapter 29] | [Chapter 29] |
  [Chapter 30] | [Chapter 30] |
- [] | [] |
+ [-] | [-] |
  [Chapter 32] | [Chapter 32] |
  [Chapter 33] | [Chapter 33] |
  [Chapter 34] | [Chapter 34] |
