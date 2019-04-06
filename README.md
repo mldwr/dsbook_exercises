@@ -20,7 +20,7 @@ II Data Visualization
 ----------|:-------------:|
  [Chapter 08] |  [Chapter 08] |
  [Chapter 09] |  [Chapter 09] |
- [-] |  [-] |
+ [-] |[-] |
  [Chapter 11] |  [Chapter 11] |
  [Chapter 12] |  [Chapter 12] |
 
