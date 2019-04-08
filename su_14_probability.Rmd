@@ -17,3 +17,29 @@ output:
 
 >A more tangible way to think about the probability of an event is as the **proportion** of times the event occurs when we repeat the experiment an infinite number of times, independently, and under the same conditions.
 
+Generate an urn with beads and pick a random one.
+```{r}
+beads <- rep(c("red", "blue"), times = c(2,3))
+beads
+sample(beads, 1)
+```
+
+>This line of code produces one random outcome. We want to repeat this experiment an infinite number of times, but it is impossible to repeat forever. Instead, we *repeat the experiment a large enough number of times to make the results practically equivalent to repeating forever*. This is an example of a **Monte Carlo simulation**.
+
+```{r}
+B <- 10000
+events <- replicate(B, sample(beads, 1))
+tab <- table(events)
+tab
+prop.table(tab)
+```
+
+If B gets larger the proportions get closer to 3/5=.6 and 2/5=.4.
+Setting seeds to get exactly reproducable results as listed in the book.
+
+```{r}
+set.seed(1986)
+events <- sample(beads, B, replace = TRUE)
+prop.table(table(events))
+```
+

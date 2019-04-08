@@ -137,6 +137,22 @@ $(document).ready(function () {
 <blockquote>
 <p>A more tangible way to think about the probability of an event is as the <strong>proportion</strong> of times the event occurs when we repeat the experiment an infinite number of times, independently, and under the same conditions.</p>
 </blockquote>
+<p>Generate an urn with beads and pick a random one.</p>
+<pre class="r"><code>beads &lt;- rep(c(&quot;red&quot;, &quot;blue&quot;), times = c(2,3))
+beads</code></pre>
+<pre><code>## [1] &quot;red&quot;  &quot;red&quot;  &quot;blue&quot; &quot;blue&quot; &quot;blue&quot;</code></pre>
+<pre class="r"><code>sample(beads, 1)</code></pre>
+<pre><code>## [1] &quot;blue&quot;</code></pre>
+<blockquote>
+<p>This line of code produces one random outcome. We want to repeat this experiment an infinite number of times, but it is impossible to repeat forever. Instead, we <em>repeat the experiment a large enough number of times to make the results practically equivalent to repeating forever</em>. This is an example of a <strong>Monte Carlo simulation</strong>.</p>
+</blockquote>
+<pre class="r"><code>B &lt;- 10000
+events &lt;- replicate(B, sample(beads, 1))
+tab &lt;- table(events)
+tab</code></pre>
+<pre><code>## events
+## blue  red 
+## 6005 3995</code></pre>
 </div>
 
 
