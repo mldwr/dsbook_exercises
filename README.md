@@ -20,7 +20,7 @@ II Data Visualization
 ----------|:-------------:|
  [Chapter 08] |  [Chapter 08] |
  [Chapter 09] |  [Chapter 09] |
- [-] |[-] |
+ [Chapter 10] |  [Chapter 10] |
  [Chapter 11] |  [Chapter 11] |
  [Chapter 12] |  [Chapter 12] |
 
@@ -29,16 +29,21 @@ III Statistics with R
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 13] |  [Chapter 03] |
- [Chapter 14] |  [Chapter 05] |
- [Chapter 15] |  [Chapter 04] |
- [Chapter 16] |  [Chapter 06] |
+ [Chapter 13] |  [Chapter 13] |
+ [Chapter 14] |  [Chapter 14] |
+ [Chapter 15] |  [Chapter 15] |
+ [Chapter 16] |  [Chapter 16] |
+ [Chapter 17] |  [Chapter 17] |
+ [Chapter 18] |  [Chapter 18] |
+ [Chapter 19] |  [Chapter 19] |
+ [Chapter 20] |  [Chapter 20] |
 
 IV Data Wrangling
 ------
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
+ [Chapter 21] |  [Chapter 21] |
  [Chapter 22](ex_22_reshaping_data.html) |  [Chapter 25] |
  [Chapter 23](ex_23_joining_tables.html) |  [Chapter 25] |
  [Chapter 24](ex_24_web_scraping.html) |  [Chapter 25] |
@@ -54,7 +59,7 @@ V Machine Learning
  [Chapter 28] | [Chapter 28] |
  [Chapter 29] | [Chapter 29] |
  [Chapter 30] | [Chapter 30] |
- [-] |[-] |
+ [Chapter 31] | [Chapter 31] |
  [Chapter 32] | [Chapter 32] |
  [Chapter 33] | [Chapter 33] |
  [Chapter 34] | [Chapter 34] |
