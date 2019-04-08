@@ -1,0 +1,19 @@
+---
+title: "Summary 14 Probability"
+output:
+  html_document:
+    df_print: paged
+    number_sections: true
+    toc: true
+    pandoc_args: [
+      "--number-sections",
+      "--number-offset=14"
+    ]
+---
+
+
+
+## Descrete Probability
+
+>A more tangible way to think about the probability of an event is as the **proportion** of times the event occurs when we repeat the experiment an infinite number of times, independently, and under the same conditions.
+
