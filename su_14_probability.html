@@ -152,7 +152,18 @@ tab &lt;- table(events)
 tab</code></pre>
 <pre><code>## events
 ## blue  red 
-## 6005 3995</code></pre>
+## 6097 3903</code></pre>
+<pre class="r"><code>prop.table(tab)</code></pre>
+<pre><code>## events
+##   blue    red 
+## 0.6097 0.3903</code></pre>
+<p>If B gets larger the proportions get closer to 3/5=.6 and 2/5=.4. Setting seeds to get exactly reproducable results as listed in the book.</p>
+<pre class="r"><code>set.seed(1986)
+events &lt;- sample(beads, B, replace = TRUE)
+prop.table(table(events))</code></pre>
+<pre><code>## events
+##   blue    red 
+## 0.5995 0.4005</code></pre>
 </div>
 
 
