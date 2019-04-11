@@ -43,3 +43,15 @@ events <- sample(beads, B, replace = TRUE)
 prop.table(table(events))
 ```
 
+Generate a deck of cards using `paste` (concatenation of strings) and `expand.grid` (generates all combinations of the elements of two vectors).
+
+```{r}
+suits <- c("Diamonds", "Clubs", "Hearts", "Spades")
+numbers <- c("Ace", "Deuce", "Three", "Four", "Five", 
+             "Six", "Seven", "Eight", "Nine", "Ten", 
+             "Jack", "Queen", "King")
+deck <- expand.grid(number=numbers, suit=suits)
+deck <- paste(deck$number, deck$suit)
+deck
+```
+

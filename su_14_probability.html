@@ -152,11 +152,11 @@ tab &lt;- table(events)
 tab</code></pre>
 <pre><code>## events
 ## blue  red 
-## 6097 3903</code></pre>
+## 6001 3999</code></pre>
 <pre class="r"><code>prop.table(tab)</code></pre>
 <pre><code>## events
 ##   blue    red 
-## 0.6097 0.3903</code></pre>
+## 0.6001 0.3999</code></pre>
 <p>If B gets larger the proportions get closer to 3/5=.6 and 2/5=.4. Setting seeds to get exactly reproducable results as listed in the book.</p>
 <pre class="r"><code>set.seed(1986)
 events &lt;- sample(beads, B, replace = TRUE)
@@ -164,6 +164,27 @@ prop.table(table(events))</code></pre>
 <pre><code>## events
 ##   blue    red 
 ## 0.5995 0.4005</code></pre>
+<p>Generate a deck of cards using <code>paste</code> (concatenation of strings) and <code>expand.grid</code> (generates all combinations of the elements of two vectors).</p>
+<pre class="r"><code>suits &lt;- c(&quot;Diamonds&quot;, &quot;Clubs&quot;, &quot;Hearts&quot;, &quot;Spades&quot;)
+numbers &lt;- c(&quot;Ace&quot;, &quot;Deuce&quot;, &quot;Three&quot;, &quot;Four&quot;, &quot;Five&quot;, 
+             &quot;Six&quot;, &quot;Seven&quot;, &quot;Eight&quot;, &quot;Nine&quot;, &quot;Ten&quot;, 
+             &quot;Jack&quot;, &quot;Queen&quot;, &quot;King&quot;)
+deck &lt;- expand.grid(number=numbers, suit=suits)
+deck &lt;- paste(deck$number, deck$suit)
+deck</code></pre>
+<pre><code>##  [1] &quot;Ace Diamonds&quot;   &quot;Deuce Diamonds&quot; &quot;Three Diamonds&quot; &quot;Four Diamonds&quot; 
+##  [5] &quot;Five Diamonds&quot;  &quot;Six Diamonds&quot;   &quot;Seven Diamonds&quot; &quot;Eight Diamonds&quot;
+##  [9] &quot;Nine Diamonds&quot;  &quot;Ten Diamonds&quot;   &quot;Jack Diamonds&quot;  &quot;Queen Diamonds&quot;
+## [13] &quot;King Diamonds&quot;  &quot;Ace Clubs&quot;      &quot;Deuce Clubs&quot;    &quot;Three Clubs&quot;   
+## [17] &quot;Four Clubs&quot;     &quot;Five Clubs&quot;     &quot;Six Clubs&quot;      &quot;Seven Clubs&quot;   
+## [21] &quot;Eight Clubs&quot;    &quot;Nine Clubs&quot;     &quot;Ten Clubs&quot;      &quot;Jack Clubs&quot;    
+## [25] &quot;Queen Clubs&quot;    &quot;King Clubs&quot;     &quot;Ace Hearts&quot;     &quot;Deuce Hearts&quot;  
+## [29] &quot;Three Hearts&quot;   &quot;Four Hearts&quot;    &quot;Five Hearts&quot;    &quot;Six Hearts&quot;    
+## [33] &quot;Seven Hearts&quot;   &quot;Eight Hearts&quot;   &quot;Nine Hearts&quot;    &quot;Ten Hearts&quot;    
+## [37] &quot;Jack Hearts&quot;    &quot;Queen Hearts&quot;   &quot;King Hearts&quot;    &quot;Ace Spades&quot;    
+## [41] &quot;Deuce Spades&quot;   &quot;Three Spades&quot;   &quot;Four Spades&quot;    &quot;Five Spades&quot;   
+## [45] &quot;Six Spades&quot;     &quot;Seven Spades&quot;   &quot;Eight Spades&quot;   &quot;Nine Spades&quot;   
+## [49] &quot;Ten Spades&quot;     &quot;Jack Spades&quot;    &quot;Queen Spades&quot;   &quot;King Spades&quot;</code></pre>
 </div>
 
 
