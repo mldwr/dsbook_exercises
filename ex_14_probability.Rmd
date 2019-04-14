@@ -19,15 +19,21 @@ output:
 >1. One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will be cyan?
 
 The cyan ball proportion is 20% or 3/15=1/5.
-The experiment is showing the theoretical prediction
+The experiment is showing the theoretical prediction.
+First create the ball structure.
 ```{r}
 balls <- rep(c("cyan", "magenta", "yellow"), times = c(3,5,7))
+```
+
+Then we make random draw with `sample` and repeate the random draw with `replicate` for a large number of times (B), then we evalute the result with `prop.table`.
+```{r}
 B <- 10000
 events <- replicate(B, sample(balls, 1))
 tab <- table(events)
 prop.table(tab)
 ```
 
+Alternativley, we can untilise the parameters of the function `sample` to create a large number of draws directly. The result is the same. 
 ```{r}
 set.seed(1986)
 events <- sample(balls, B, replace = TRUE)

@@ -140,15 +140,17 @@ $(document).ready(function () {
 <li>One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will be cyan?</li>
 </ol>
 </blockquote>
-<p>The cyan ball proportion is 20% or 3/15=1/5. The experiment is showing the theoretical prediction</p>
-<pre class="r"><code>balls &lt;- rep(c(&quot;cyan&quot;, &quot;magenta&quot;, &quot;yellow&quot;), times = c(3,5,7))
-B &lt;- 10000
+<p>The cyan ball proportion is 20% or 3/15=1/5. The experiment is showing the theoretical prediction. First create the ball structure.</p>
+<pre class="r"><code>balls &lt;- rep(c(&quot;cyan&quot;, &quot;magenta&quot;, &quot;yellow&quot;), times = c(3,5,7))</code></pre>
+<p>Then we make random draw with <code>sample</code> and repeate the random draw with <code>replicate</code> for a large number of times (B), then we evalute the result with <code>prop.table</code>.</p>
+<pre class="r"><code>B &lt;- 10000
 events &lt;- replicate(B, sample(balls, 1))
 tab &lt;- table(events)
 prop.table(tab)</code></pre>
 <pre><code>## events
 ##    cyan magenta  yellow 
-##  0.1964  0.3330  0.4706</code></pre>
+##  0.2072  0.3315  0.4613</code></pre>
+<p>Alternativley, we can untilise the parameters of the function <code>sample</code> to create a large number of draws directly. The result is the same.</p>
 <pre class="r"><code>set.seed(1986)
 events &lt;- sample(balls, B, replace = TRUE)
 prop.table(table(events))</code></pre>

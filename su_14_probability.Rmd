@@ -55,3 +55,32 @@ deck <- paste(deck$number, deck$suit)
 deck
 ```
 
+Illustrative example.
+```{r}
+library(gtools)
+all_phone_numbers <- permutations(10, 7, v = 0:9)
+n <- nrow(all_phone_numbers)
+index <- sample(n, 5)
+all_phone_numbers[index,]
+```
+
+Generate all possible combinations with the `permutations` function from the `gtools` package.
+In how many cases is the first hand a king?
+```{r}
+library(gtools)
+hands <- permutations(52, 2, v = deck)
+first_card <- hands[,1]
+second_card <- hands[,2]
+kings <- paste("King", suits)
+sum(first_card %in% kings)
+```
+
+What is the conditional probability that the second card is a king, when the first card is a king (3/51)?
+$$
+\frac{\mbox{Pr}(A \mbox{ and } B)} { \mbox{Pr}(A)}
+$$
+```{r}
+sum(first_card %in% kings & second_card %in% kings) / sum(first_card %in% kings)
+mean(first_card %in% kings & second_card %in% kings) / mean(first_card %in% kings)
+```
+
