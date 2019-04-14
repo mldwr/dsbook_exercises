@@ -142,17 +142,17 @@ $(document).ready(function () {
 </blockquote>
 <p>The cyan ball proportion is 20% or 3/15=1/5. The experiment is showing the theoretical prediction. First create the ball structure.</p>
 <pre class="r"><code>balls &lt;- rep(c(&quot;cyan&quot;, &quot;magenta&quot;, &quot;yellow&quot;), times = c(3,5,7))</code></pre>
-<p>Then we make random draw with <code>sample</code> and repeate the random draw with <code>replicate</code> for a large number of times (B), then we evalute the result with <code>prop.table</code>.</p>
-<pre class="r"><code>B &lt;- 10000
-events &lt;- replicate(B, sample(balls, 1))
+<p>Then we make random draw with <code>sample</code> and repeate the random draw with <code>replicate</code> for a large number of times (nr_perms), then we evalute the result with <code>prop.table</code>.</p>
+<pre class="r"><code>nr_perms &lt;- 10000
+events &lt;- replicate(nr_perms, sample(balls, 2))
 tab &lt;- table(events)
 prop.table(tab)</code></pre>
 <pre><code>## events
 ##    cyan magenta  yellow 
-##  0.2072  0.3315  0.4613</code></pre>
+## 0.20560 0.33005 0.46435</code></pre>
 <p>Alternativley, we can untilise the parameters of the function <code>sample</code> to create a large number of draws directly. The result is the same.</p>
 <pre class="r"><code>set.seed(1986)
-events &lt;- sample(balls, B, replace = TRUE)
+events &lt;- sample(balls, nr_perms, replace = TRUE)
 prop.table(table(events))</code></pre>
 <pre><code>## events
 ##    cyan magenta  yellow 
@@ -163,12 +163,26 @@ prop.table(table(events))</code></pre>
 </ol>
 </blockquote>
 <p>The proportion is 1-1/5=4/5, which is 80%. See experiment in question 1).</p>
+<p>Here, by summing up the proportions of the balls “magenta” and “yellow” we see that the probability sums up to 0.8039 (=0.339+0.4649) that is 80,4%.</p>
 <blockquote>
 <ol start="3" style="list-style-type: decimal">
 <li>Instead of taking just one draw, consider taking two draws. You take the second draw without returning the first draw to the box. We call this sampling <strong>without</strong> replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?</li>
 </ol>
 </blockquote>
-<p>The proportion of the first draw being cyan is 1/5 or 20%. Then the proportion of the second draw will be with just 14 balls of which 2 are cyan and 12 being not cyan. Therefore the proportion that the second draw will be not cyan is 12/14=6/7 or about 86%.</p>
+<p>The proportion of the first draw being cyan is 1/5 or 20%. Then the proportion of the second draw will be with a collection of just 14 balls of which 2 are cyan and 12 being not cyan. Therefore the proportion that the second draw will be not cyan is 12/14=6/7 or about 86%.</p>
+<p>We can validate these conseptual thoughts by conducting an experiment utilizing the following equation.</p>
+<p>Where the condition <span class="math inline">\(A=\)</span> “the first draw is cyan” and <span class="math inline">\(B=\)</span> “the second draw is not cyan”. <span class="math display">\[
+\mbox{Pr}(B|A) = \frac{\mbox{Pr}(A \mbox{ and } B)} { \mbox{Pr}(A)}
+\]</span></p>
+<p>The replicate function creates a matrix with the first row carrying all first draws and the second row all second draws.</p>
+<pre class="r"><code>set.seed(1986)
+nr_perms &lt;- 10000
+cyan &lt;- &quot;cyan&quot;
+perms &lt;- replicate(nr_perms,sample(balls,2))
+first_draw &lt;- perms[1,]
+second_draw &lt;- perms[2,]
+sum(first_draw %in% cyan &amp; !second_draw %in% cyan)/sum(first_draw %in% cyan)</code></pre>
+<pre><code>## [1] 0.8672431</code></pre>
 <blockquote>
 <ol start="4" style="list-style-type: decimal">
 <li>Now repeat the experiment, but this time, after taking the first draw and recording the color, return it to the box and shake the box. We call this sampling <strong>with</strong> replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?</li>

@@ -25,10 +25,10 @@ First create the ball structure.
 balls <- rep(c("cyan", "magenta", "yellow"), times = c(3,5,7))
 ```
 
-Then we make random draw with `sample` and repeate the random draw with `replicate` for a large number of times (B), then we evalute the result with `prop.table`.
+Then we make random draw with `sample` and repeate the random draw with `replicate` for a large number of times (nr_perms), then we evalute the result with `prop.table`.
 ```{r}
-B <- 10000
-events <- replicate(B, sample(balls, 1))
+nr_perms <- 10000
+events <- replicate(nr_perms, sample(balls, 2))
 tab <- table(events)
 prop.table(tab)
 ```
@@ -36,7 +36,7 @@ prop.table(tab)
 Alternativley, we can untilise the parameters of the function `sample` to create a large number of draws directly. The result is the same. 
 ```{r}
 set.seed(1986)
-events <- sample(balls, B, replace = TRUE)
+events <- sample(balls, nr_perms, replace = TRUE)
 prop.table(table(events))
 ```
 
@@ -45,11 +45,35 @@ prop.table(table(events))
 The proportion is 1-1/5=4/5, which is 80%.
 See experiment in question 1).
 
+Here, by summing up the proportions of the balls "magenta" and "yellow" we see that the probability sums up to 0.8039 (=0.339+0.4649) that is 80,4%.
+
 >3. Instead of taking just one draw, consider taking two draws. You take the second draw without returning the first draw to the box. We call this sampling **without** replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
 
 The proportion of the first draw being cyan is 1/5 or 20%.
-Then the proportion of the second draw will be with just 14 balls of which 2 are cyan and 12 being not cyan.
+Then the proportion of the second draw will be with a collection of just 14 balls of which 2 are cyan and 12 being not cyan.
 Therefore the proportion that the second draw will be not cyan is 12/14=6/7 or about 86%.
+
+We can validate these conseptual thoughts by conducting an experiment utilizing the following equation.
+
+Where the condition $A=$ "the first draw is cyan" and $B=$ "the second draw is not cyan".
+$$
+\mbox{Pr}(B|A) = \frac{\mbox{Pr}(A \mbox{ and } B)} { \mbox{Pr}(A)}
+$$
+
+
+The replicate function creates a matrix with the first row carrying all first draws and the second row all second draws.
+```{r}
+set.seed(1986)
+nr_perms <- 10000
+cyan <- "cyan"
+perms <- replicate(nr_perms,sample(balls,2))
+first_draw <- perms[1,]
+second_draw <- perms[2,]
+sum(first_draw %in% cyan & !second_draw %in% cyan)/sum(first_draw %in% cyan)
+```
+
+Here, the experimental result of 86,72% is slightly off of the predicted result, because the number of repititions of the random draw was not infinite but limited to a small number.
+If we would increase the number of draws the value would convere to the predicted value.
 
 >4. Now repeat the experiment, but this time, after taking the first draw and recording the color, return it to the box and shake the box. We call this sampling **with** replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
 
