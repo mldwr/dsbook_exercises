@@ -27,6 +27,7 @@ balls <- rep(c("cyan", "magenta", "yellow"), times = c(3,5,7))
 
 Then we make random draw with `sample` and repeate the random draw with `replicate` for a large number of times (nr_perms), then we evalute the result with `prop.table`.
 ```{r}
+set.seed(1986)
 nr_perms <- 10000
 events <- replicate(nr_perms, sample(balls, 2))
 tab <- table(events)
@@ -36,6 +37,7 @@ prop.table(tab)
 Alternativley, we can untilise the parameters of the function `sample` to create a large number of draws directly. The result is the same. 
 ```{r}
 set.seed(1986)
+nr_perms <- 10000
 events <- sample(balls, nr_perms, replace = TRUE)
 prop.table(table(events))
 ```
@@ -64,7 +66,7 @@ $$
 The replicate function creates a matrix with the first row carrying all first draws and the second row all second draws.
 ```{r}
 set.seed(1986)
-nr_perms <- 10000
+nr_perms <- 100000
 cyan <- "cyan"
 perms <- replicate(nr_perms,sample(balls,2))
 first_draw <- perms[1,]
@@ -72,13 +74,32 @@ second_draw <- perms[2,]
 sum(first_draw %in% cyan & !second_draw %in% cyan)/sum(first_draw %in% cyan)
 ```
 
-Here, the experimental result of 86,72% is slightly off of the predicted result, because the number of repititions of the random draw was not infinite but limited to a small number.
+Here, the experimental result of 85,50% is slightly off of the predicted result, because the number of repititions of the random draw was not infinite but limited to a small number.
 If we would increase the number of draws the value would convere to the predicted value.
 
 >4. Now repeat the experiment, but this time, after taking the first draw and recording the color, return it to the box and shake the box. We call this sampling **with** replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
 
+First let's think what result can be expected. 
+Again, the proportion of a draw being "cyan" is A=0.2 or 20% and the proportion of not being "cyan" is B=0.8 or 80%.
+Since we are putting the ball from the first draw back in the bag and performing another draw, both draws are independent of yeach other.
+Therefore, the following equation can be applied and showing that only the proportion of the last draw counts. 
+$$
+\mbox{Pr}(B|A) = \frac{\mbox{Pr}(A \mbox{ and } B)} { \mbox{Pr}(A)} = \frac{\mbox{Pr}(A) \mbox{Pr}(B)} { \mbox{Pr}(A)} = \mbox{Pr}(B)
+$$
 
->5. Two events $A$ and $B$ are independent if $\mbox{Pr}(A \mbox{ and } B) = \mbox{Pr}(A) P(B)$. Under which situation are the draws independent?
+To answer this question we use the same functions but this time we utelize the parameter `replace=TRUE` from the `sample` function.
+```{r}
+set.seed(1986)
+nr_perms <- 100000
+cyan <- "cyan"
+perms <- replicate(nr_perms,sample(balls,2,replace = TRUE))
+first_draw <- perms[1,]
+second_draw <- perms[2,]
+sum(first_draw %in% cyan & !second_draw %in% cyan)/sum(first_draw %in% cyan)
+```
+Again, by increasing the number of possible permutations in the Monte Carlo experiment, the value will converge towards the predicted value. 
+
+>5. Two events $A$ and $B$ are independent if $\mbox{Pr}(A \mbox{ and } B) = \mbox{Pr}(A) Pr(B)$. Under which situation are the draws independent?
 >
 >    A. You don't replace the draw.
 >
@@ -92,10 +113,16 @@ Answer B.
 
 >6. Say you've drawn 5 balls from the box, with replacement, and all have been yellow. What is the probability that the next one is yellow? 
 
+Since we draw our balls with replacement the proportion of drawing any yellow colored ball is 7/15=0.47 or 47% no matter how often a yellow ball was drawn before, because the draw events are independent of yeach other.
+The conditions of each draw are the same.
+
 >7. If you roll a 6-sided die six times, what is the probability of not seeing a 6?
->
+
+The probability of seeing a 6 is 1/6 and of not seeing a 6 1-1/6=0.83 or 83%.
+
 >8. Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win **at least** one game?
->
+
+
 >9. Create a Monte Carlo simulation to confirm your answer to the previous problem. Use `B <- 10000` simulations. Hint: Use the following code to generate the results of the first four games:
 >
 >```{r, eval=FALSE}
