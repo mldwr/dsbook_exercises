@@ -30,7 +30,7 @@ III Statistics with R
  Exercises  |    Summaries  |
 ----------|:-------------:|
  [Chapter 13] |  [Chapter 13] |
- [Chapter 14] |  [Chapter 14] |
+ [Chapter 14](ex_14_probability.html) |  [Chapter 14](su_14_probability.html) |
  [Chapter 15] |  [Chapter 15] |
  [Chapter 16] |  [Chapter 16] |
  [Chapter 17] |  [Chapter 17] |
