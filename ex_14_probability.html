@@ -144,8 +144,8 @@ $(document).ready(function () {
 <pre class="r"><code>balls &lt;- rep(c(&quot;cyan&quot;, &quot;magenta&quot;, &quot;yellow&quot;), times = c(3,5,7))</code></pre>
 <p>Then we make random draw with <code>sample</code> and repeate the random draw with <code>replicate</code> for a large number of times (nr_perms), then we evalute the result with <code>prop.table</code>.</p>
 <pre class="r"><code>set.seed(1986)
-nr_perms &lt;- 10000
-events &lt;- replicate(nr_perms, sample(balls, 2))
+B &lt;- 10000
+events &lt;- replicate(B, sample(balls, 2))
 tab &lt;- table(events)
 prop.table(tab)</code></pre>
 <pre><code>## events
@@ -153,8 +153,8 @@ prop.table(tab)</code></pre>
 ## 0.19960 0.33025 0.47015</code></pre>
 <p>Alternativley, we can untilise the parameters of the function <code>sample</code> to create a large number of draws directly. The result is the same.</p>
 <pre class="r"><code>set.seed(1986)
-nr_perms &lt;- 10000
-events &lt;- sample(balls, nr_perms, replace = TRUE)
+B &lt;- 10000
+events &lt;- sample(balls, B, replace = TRUE)
 prop.table(table(events))</code></pre>
 <pre><code>## events
 ##    cyan magenta  yellow 
@@ -178,9 +178,9 @@ prop.table(table(events))</code></pre>
 \]</span></p>
 <p>The replicate function creates a matrix with the first row carrying all first draws and the second row all second draws.</p>
 <pre class="r"><code>set.seed(1986)
-nr_perms &lt;- 100000
+B &lt;- 100000
 cyan &lt;- &quot;cyan&quot;
-perms &lt;- replicate(nr_perms,sample(balls,2))
+perms &lt;- replicate(B,sample(balls,2))
 first_draw &lt;- perms[1,]
 second_draw &lt;- perms[2,]
 sum(first_draw %in% cyan &amp; !second_draw %in% cyan)/sum(first_draw %in% cyan)</code></pre>
@@ -196,9 +196,9 @@ sum(first_draw %in% cyan &amp; !second_draw %in% cyan)/sum(first_draw %in% cyan)
 \]</span></p>
 <p>To answer this question we use the same functions but this time we utelize the parameter <code>replace=TRUE</code> from the <code>sample</code> function.</p>
 <pre class="r"><code>set.seed(1986)
-nr_perms &lt;- 100000
+B &lt;- 100000
 cyan &lt;- &quot;cyan&quot;
-perms &lt;- replicate(nr_perms,sample(balls,2,replace = TRUE))
+perms &lt;- replicate(B,sample(balls,2,replace = TRUE))
 first_draw &lt;- perms[1,]
 second_draw &lt;- perms[2,]
 sum(first_draw %in% cyan &amp; !second_draw %in% cyan)/sum(first_draw %in% cyan)</code></pre>
@@ -206,7 +206,7 @@ sum(first_draw %in% cyan &amp; !second_draw %in% cyan)/sum(first_draw %in% cyan)
 <p>Again, by increasing the number of possible permutations in the Monte Carlo experiment, the value will converge towards the predicted value.</p>
 <blockquote>
 <ol start="5" style="list-style-type: decimal">
-<li>Two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent if <span class="math inline">\(\mbox{Pr}(A \mbox{ and } B) = \mbox{Pr}(A) P(B)\)</span>. Under which situation are the draws independent?</li>
+<li>Two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent if <span class="math inline">\(\mbox{Pr}(A \mbox{ and } B) = \mbox{Pr}(A) Pr(B)\)</span>. Under which situation are the draws independent?</li>
 </ol>
 <p>A. You don’t replace the draw.</p>
 <p>B. You replace the draw.</p>
@@ -225,14 +225,56 @@ sum(first_draw %in% cyan &amp; !second_draw %in% cyan)/sum(first_draw %in% cyan)
 <li>If you roll a 6-sided die six times, what is the probability of not seeing a 6?</li>
 </ol>
 </blockquote>
-<p>The probability of seeing a 6 is 1/6 and of not seeing a 6 1-1/6=0.83 or 83%.</p>
+<p>The proportion/probability of seeing a 6 is 1/6 and of not seeing a 6 1-1/6=0.83 or 83%.</p>
+<p>The following Monte Carlo experiemnt verifies the answer.</p>
+<pre class="r"><code>B &lt;- 10000
+die &lt;- sample(6, replace=TRUE)
+die</code></pre>
+<pre><code>## [1] 2 5 2 1 4 3</code></pre>
 <blockquote>
 <ol start="8" style="list-style-type: decimal">
-<li><p>Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win <strong>at least</strong> one game?</p></li>
-<li><p>Create a Monte Carlo simulation to confirm your answer to the previous problem. Use <code>B &lt;- 10000</code> simulations. Hint: Use the following code to generate the results of the first four games:</p></li>
+<li>Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win <strong>at least</strong> one game?</li>
+</ol>
+</blockquote>
+<pre class="r"><code># loose all games
+0.6^0*0.4^7</code></pre>
+<pre><code>## [1] 0.0016384</code></pre>
+<pre class="r"><code># win 1 game
+0.6^1*0.4^6*7</code></pre>
+<pre><code>## [1] 0.0172032</code></pre>
+<pre class="r"><code># win 2 games
+0.6^2*0.4^5*7</code></pre>
+<pre><code>## [1] 0.0258048</code></pre>
+<pre class="r"><code># win 3 games
+0.6^3*0.4^4*7</code></pre>
+<pre><code>## [1] 0.0387072</code></pre>
+<pre class="r"><code># win 4 games
+0.6^4*0.4^3*7</code></pre>
+<pre><code>## [1] 0.0580608</code></pre>
+<pre class="r"><code># win 5 games
+0.6^5*0.4^2*7</code></pre>
+<pre><code>## [1] 0.0870912</code></pre>
+<pre class="r"><code># win 6 games
+0.6^6*0.4^1*7</code></pre>
+<pre><code>## [1] 0.1306368</code></pre>
+<pre class="r"><code># win all 7 games
+0.6^7*0.4^0</code></pre>
+<pre><code>## [1] 0.0279936</code></pre>
+<blockquote>
+<ol start="9" style="list-style-type: decimal">
+<li>Create a Monte Carlo simulation to confirm your answer to the previous problem. Use <code>B &lt;- 10000</code> simulations. Hint: Use the following code to generate the results of the first four games:</li>
 </ol>
 <pre class="r"><code>celtic_wins &lt;- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))</code></pre>
 <p>The Celtics must win one of these 4 games.</p>
+</blockquote>
+<pre class="r"><code>B&lt;-10000
+# result &quot;1&quot; has the proportion of 0.6 (different from the question example)
+celtic_win &lt;- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.6, 0.4))))
+prop.table(table(celtic_win)) #%&gt;% max(.[2:7])</code></pre>
+<pre><code>## celtic_win
+##      0      1      2      3      4      5      6      7 
+## 0.0016 0.0151 0.0776 0.1933 0.2873 0.2651 0.1326 0.0274</code></pre>
+<blockquote>
 <ol start="10" style="list-style-type: decimal">
 <li><p>Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?</p></li>
 <li><p>Confirm the results of the previous question with a Monte Carlo simulation.</p></li>

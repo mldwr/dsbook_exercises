@@ -28,8 +28,8 @@ balls <- rep(c("cyan", "magenta", "yellow"), times = c(3,5,7))
 Then we make random draw with `sample` and repeate the random draw with `replicate` for a large number of times (nr_perms), then we evalute the result with `prop.table`.
 ```{r}
 set.seed(1986)
-nr_perms <- 10000
-events <- replicate(nr_perms, sample(balls, 2))
+B <- 10000
+events <- replicate(B, sample(balls, 2))
 tab <- table(events)
 prop.table(tab)
 ```
@@ -37,8 +37,8 @@ prop.table(tab)
 Alternativley, we can untilise the parameters of the function `sample` to create a large number of draws directly. The result is the same. 
 ```{r}
 set.seed(1986)
-nr_perms <- 10000
-events <- sample(balls, nr_perms, replace = TRUE)
+B <- 10000
+events <- sample(balls, B, replace = TRUE)
 prop.table(table(events))
 ```
 
@@ -66,9 +66,9 @@ $$
 The replicate function creates a matrix with the first row carrying all first draws and the second row all second draws.
 ```{r}
 set.seed(1986)
-nr_perms <- 100000
+B <- 100000
 cyan <- "cyan"
-perms <- replicate(nr_perms,sample(balls,2))
+perms <- replicate(B,sample(balls,2))
 first_draw <- perms[1,]
 second_draw <- perms[2,]
 sum(first_draw %in% cyan & !second_draw %in% cyan)/sum(first_draw %in% cyan)
@@ -90,9 +90,9 @@ $$
 To answer this question we use the same functions but this time we utelize the parameter `replace=TRUE` from the `sample` function.
 ```{r}
 set.seed(1986)
-nr_perms <- 100000
+B <- 100000
 cyan <- "cyan"
-perms <- replicate(nr_perms,sample(balls,2,replace = TRUE))
+perms <- replicate(B,sample(balls,2,replace = TRUE))
 first_draw <- perms[1,]
 second_draw <- perms[2,]
 sum(first_draw %in% cyan & !second_draw %in% cyan)/sum(first_draw %in% cyan)
@@ -118,9 +118,37 @@ The conditions of each draw are the same.
 
 >7. If you roll a 6-sided die six times, what is the probability of not seeing a 6?
 
-The probability of seeing a 6 is 1/6 and of not seeing a 6 1-1/6=0.83 or 83%.
+The proportion/probability of seeing a 6 is 1/6 and of not seeing a 6 1-1/6=0.83 or 83%.
+
+The following Monte Carlo experiemnt verifies the answer.
+```{r}
+B <- 10000
+die <- sample(6, replace=TRUE)
+die
+```
+
 
 >8. Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win **at least** one game?
+
+
+```{r}
+# loose all games
+0.6^0*0.4^7
+# win 1 game
+0.6^1*0.4^6*7
+# win 2 games
+0.6^2*0.4^5*7
+# win 3 games
+0.6^3*0.4^4*7
+# win 4 games
+0.6^4*0.4^3*7
+# win 5 games
+0.6^5*0.4^2*7
+# win 6 games
+0.6^6*0.4^1*7
+# win all 7 games
+0.6^7*0.4^0
+```
 
 
 >9. Create a Monte Carlo simulation to confirm your answer to the previous problem. Use `B <- 10000` simulations. Hint: Use the following code to generate the results of the first four games:
@@ -129,7 +157,14 @@ The probability of seeing a 6 is 1/6 and of not seeing a 6 1-1/6=0.83 or 83%.
 >celtic_wins <- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))
 >```
 >    The Celtics must win one of these 4 games.
->
+
+```{r}
+B<-10000
+# result "1" has the proportion of 0.6 (different from the question example)
+celtic_win <- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.6, 0.4))))
+prop.table(table(celtic_win)) #%>% max(.[2:7])
+```
+
 >10. Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?
 >
 >11. Confirm the results of the previous question with a Monte Carlo simulation.
