@@ -239,27 +239,43 @@ die</code></pre>
 <pre class="r"><code># loose all games
 0.6^0*0.4^7</code></pre>
 <pre><code>## [1] 0.0016384</code></pre>
+<pre class="r"><code>0.001575/0.0016384</code></pre>
+<pre><code>## [1] 0.9613037</code></pre>
 <pre class="r"><code># win 1 game
-0.6^1*0.4^6*7</code></pre>
-<pre><code>## [1] 0.0172032</code></pre>
+0.6^1*0.4^6</code></pre>
+<pre><code>## [1] 0.0024576</code></pre>
+<pre class="r"><code>0.017375/0.0024576</code></pre>
+<pre><code>## [1] 7.069906</code></pre>
 <pre class="r"><code># win 2 games
-0.6^2*0.4^5*7</code></pre>
-<pre><code>## [1] 0.0258048</code></pre>
+0.6^2*0.4^5</code></pre>
+<pre><code>## [1] 0.0036864</code></pre>
+<pre class="r"><code>0.076896/0.0036864</code></pre>
+<pre><code>## [1] 20.85938</code></pre>
 <pre class="r"><code># win 3 games
-0.6^3*0.4^4*7</code></pre>
-<pre><code>## [1] 0.0387072</code></pre>
+0.6^3*0.4^4</code></pre>
+<pre><code>## [1] 0.0055296</code></pre>
+<pre class="r"><code>0.194004/0.0055296</code></pre>
+<pre><code>## [1] 35.08464</code></pre>
 <pre class="r"><code># win 4 games
-0.6^4*0.4^3*7</code></pre>
-<pre><code>## [1] 0.0580608</code></pre>
+0.6^4*0.4^3</code></pre>
+<pre><code>## [1] 0.0082944</code></pre>
+<pre class="r"><code>0.290683/0.0082944</code></pre>
+<pre><code>## [1] 35.04569</code></pre>
 <pre class="r"><code># win 5 games
-0.6^5*0.4^2*7</code></pre>
-<pre><code>## [1] 0.0870912</code></pre>
+0.6^5*0.4^2*21</code></pre>
+<pre><code>## [1] 0.2612736</code></pre>
+<pre class="r"><code>0.260930/0.0124416</code></pre>
+<pre><code>## [1] 20.97238</code></pre>
 <pre class="r"><code># win 6 games
-0.6^6*0.4^1*7</code></pre>
-<pre><code>## [1] 0.1306368</code></pre>
+0.6^6*0.4^1</code></pre>
+<pre><code>## [1] 0.0186624</code></pre>
+<pre class="r"><code>0.130634/0.0186624</code></pre>
+<pre><code>## [1] 6.99985</code></pre>
 <pre class="r"><code># win all 7 games
 0.6^7*0.4^0</code></pre>
 <pre><code>## [1] 0.0279936</code></pre>
+<pre class="r"><code>0.027903/0.0279936</code></pre>
+<pre><code>## [1] 0.9967635</code></pre>
 <blockquote>
 <ol start="9" style="list-style-type: decimal">
 <li>Create a Monte Carlo simulation to confirm your answer to the previous problem. Use <code>B &lt;- 10000</code> simulations. Hint: Use the following code to generate the results of the first four games:</li>
@@ -267,13 +283,13 @@ die</code></pre>
 <pre class="r"><code>celtic_wins &lt;- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))</code></pre>
 <p>The Celtics must win one of these 4 games.</p>
 </blockquote>
-<pre class="r"><code>B&lt;-10000
+<pre class="r"><code>B&lt;-1000000
 # result &quot;1&quot; has the proportion of 0.6 (different from the question example)
 celtic_win &lt;- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.6, 0.4))))
 prop.table(table(celtic_win)) #%&gt;% max(.[2:7])</code></pre>
 <pre><code>## celtic_win
-##      0      1      2      3      4      5      6      7 
-## 0.0016 0.0151 0.0776 0.1933 0.2873 0.2651 0.1326 0.0274</code></pre>
+##        0        1        2        3        4        5        6        7 
+## 0.001575 0.017375 0.076896 0.194004 0.290683 0.260930 0.130634 0.027903</code></pre>
 <blockquote>
 <ol start="10" style="list-style-type: decimal">
 <li><p>Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?</p></li>
