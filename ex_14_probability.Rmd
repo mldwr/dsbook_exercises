@@ -130,32 +130,39 @@ die
 
 >8. Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win **at least** one game?
 
+Winning at least one game means, that we have to find all probabilities to win exactly one game, exactly two games and so on. Then summing up all these probabilities plus the probability of winning zero games must sum up to 1, because these are all the probabilities there are.
 
+In formulas this means 
+$$
+1 = \mbox{Pr(1)} + \mbox{Pr(1)}
+$$
 ```{r}
 # loose all games
 0.6^0*0.4^7
-0.001575/0.0016384
+(3/5)^0*(2/5)^7
+#0.001575/0.0016384
 # win 1 game
-0.6^1*0.4^6
-0.017375/0.0024576
+0.6^1*0.4^6*7
+#0.017375/0.0024576
 # win 2 games
-0.6^2*0.4^5
-0.076896/0.0036864
+0.6^2*0.4^5*7*3
+#0.076896/0.0036864
 # win 3 games
-0.6^3*0.4^4
-0.194004/0.0055296
+0.6^3*0.4^4*7*5
+#0.194004/0.0055296
 # win 4 games
-0.6^4*0.4^3
-0.290683/0.0082944
+0.6^4*0.4^3*7*5
+#0.290683/0.0082944
 # win 5 games
-0.6^5*0.4^2*21
-0.260930/0.0124416
+0.6^5*0.4^2*7*3
+#0.260930/0.0124416
 # win 6 games
-0.6^6*0.4^1
-0.130634/0.0186624
+0.6^6*0.4^1*7
+#0.130634/0.0186624
+#0.046656/0.130634
 # win all 7 games
 0.6^7*0.4^0
-0.027903/0.0279936
+#0.027903/0.0279936
 ```
 
 
@@ -167,10 +174,11 @@ die
 >    The Celtics must win one of these 4 games.
 
 ```{r}
-B<-1000000
+B<-10000
 # result "1" has the proportion of 0.6 (different from the question example)
 celtic_win <- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.6, 0.4))))
-prop.table(table(celtic_win)) #%>% max(.[2:7])
+#celtic_win <- replicate(B,sum(sample(c(1,0), 5, replace = TRUE, prob = c(1/20, 19/20))))
+prop.table(table(celtic_win)) #%>% count(.)
 ```
 
 >10. Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?
