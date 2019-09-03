@@ -236,12 +236,12 @@ die</code></pre>
 <li>Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win <strong>at least</strong> one game?</li>
 </ol>
 </blockquote>
-<p>Winning at least one game means, that we have to find all probabilities to win exactly one game, exactly two games and so on. Then adding up all these probabilities plus the probability of winning zero games must add up to 1, because these are all the probabilities there are.</p>
+<p>Winning at least one game means, that we have to find all probabilities to win exactly one game, exactly two games and so on. Then adding up all these probabilities plus the probability of winning zero games must add up to 1, because these are all the possibiliteis there are.</p>
 <p>However, looking at the corresponding equation we can see that there is a simple shortcut that can be written so that we only need to calculate the probability of winning zero games minus 1. I.e. the probability of loosing all games minus 1 in order to get the desired result. <span class="math display">\[
 1 - \mbox{Pr(0)} = \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)} = 1-0.0016384=0.9983616
 \]</span></p>
 <pre class="r"><code># loose all games
-c(0.6^0*0.4^7,
+sum_all &lt;- sum(c(0.6^0*0.4^7,
 # win 1 game
 0.6^1*0.4^6*7,
 # win 2 games
@@ -255,9 +255,14 @@ c(0.6^0*0.4^7,
 # win 6 games
 0.6^6*0.4^1*7,
 # win all 7 games
-0.6^7*0.4^0)</code></pre>
-<pre><code>## [1] 0.0016384 0.0172032 0.0774144 0.1935360 0.2903040 0.2612736 0.1306368
-## [8] 0.0279936</code></pre>
+0.6^7*0.4^0))
+sum_pr0 &lt;- 0.6^0*0.4^7
+sum_all</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>sum_pr0</code></pre>
+<pre><code>## [1] 0.0016384</code></pre>
+<pre class="r"><code>sum_all-sum_pr0</code></pre>
+<pre><code>## [1] 0.9983616</code></pre>
 <blockquote>
 <ol start="9" style="list-style-type: decimal">
 <li>Create a Monte Carlo simulation to confirm your answer to the previous problem. Use <code>B &lt;- 10000</code> simulations. Hint: Use the following code to generate the results of the first four games:</li>
