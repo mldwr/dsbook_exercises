@@ -130,7 +130,7 @@ die
 
 >8. Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win **at least** one game?
 
-Winning at least one game means, that we have to find all probabilities to win exactly one game, exactly two games and so on. Then summing up all these probabilities plus the probability of winning zero games must sum up to 1, because these are all the probabilities there are.
+Winning at least one game means, that we have to find all probabilities to win exactly one game, exactly two games and so on. Then adding up all these probabilities plus the probability of winning zero games must add up to 1, because these are all the probabilities there are.
 
 However, looking at the corresponding equation we can see that there is a simple shortcut that can be written so that we only need to calculate the probability of winning zero games minus 1.
 I.e. the probability of loosing all games minus 1 in order to get the desired result.

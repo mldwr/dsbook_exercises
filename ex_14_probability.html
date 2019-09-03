@@ -236,7 +236,7 @@ die</code></pre>
 <li>Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win <strong>at least</strong> one game?</li>
 </ol>
 </blockquote>
-<p>Winning at least one game means, that we have to find all probabilities to win exactly one game, exactly two games and so on. Then summing up all these probabilities plus the probability of winning zero games must sum up to 1, because these are all the probabilities there are.</p>
+<p>Winning at least one game means, that we have to find all probabilities to win exactly one game, exactly two games and so on. Then adding up all these probabilities plus the probability of winning zero games must add up to 1, because these are all the probabilities there are.</p>
 <p>However, looking at the corresponding equation we can see that there is a simple shortcut that can be written so that we only need to calculate the probability of winning zero games minus 1. I.e. the probability of loosing all games minus 1 in order to get the desired result. <span class="math display">\[
 1 - \mbox{Pr(0)} = \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)} = 1-0.0016384=0.9983616
 \]</span></p>
@@ -272,8 +272,11 @@ celtic_win &lt;- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.6,
 p &lt;- prop.table(table(celtic_win))
 sum(p[2:8])</code></pre>
 <pre><code>## [1] 0.9984</code></pre>
-<pre class="r"><code>#p
-#p %&gt;% sum(.[3])</code></pre>
+<pre class="r"><code>p</code></pre>
+<pre><code>## celtic_win
+##      0      1      2      3      4      5      6      7 
+## 0.0016 0.0151 0.0776 0.1933 0.2873 0.2651 0.1326 0.0274</code></pre>
+<pre class="r"><code>#p %&gt;% sum(.[3])</code></pre>
 <blockquote>
 <ol start="10" style="list-style-type: decimal">
 <li><p>Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?</p></li>
