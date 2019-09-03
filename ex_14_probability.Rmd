@@ -139,7 +139,7 @@ $$
 $$
 ```{r}
 # loose all games
-c(0.6^0*0.4^7,
+sum_all <- sum(c(0.6^0*0.4^7,
 # win 1 game
 0.6^1*0.4^6*7,
 # win 2 games
@@ -153,7 +153,11 @@ c(0.6^0*0.4^7,
 # win 6 games
 0.6^6*0.4^1*7,
 # win all 7 games
-0.6^7*0.4^0)
+0.6^7*0.4^0))
+sum_pr0 <- 0.6^0*0.4^7
+sum_all
+sum_pr0
+sum_all-sum_pr0
 ```
 
 
