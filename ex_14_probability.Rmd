@@ -138,8 +138,9 @@ $$
 1 - \mbox{Pr(0)} = \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)} = 1-0.0016384=0.9983616
 $$
 ```{r}
+sum_all <- sum(
 # loose all games
-sum_all <- sum(c(0.6^0*0.4^7,
+c(0.6^0*0.4^7,
 # win 1 game
 0.6^1*0.4^6*7,
 # win 2 games
