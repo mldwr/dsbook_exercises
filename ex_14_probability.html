@@ -273,6 +273,7 @@ sum_all</code></pre>
 <p>The Celtics must win one of these 4 games.</p>
 </blockquote>
 <pre class="r"><code>B&lt;-10000
+#
 # result &quot;1&quot; has the proportion of 0.6 (different from the question example)
 celtic_win &lt;- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.6, 0.4))))
 #celtic_win &lt;- replicate(B,sum(sample(c(1,0), 5, replace = TRUE, prob = c(1/20, 19/20))))

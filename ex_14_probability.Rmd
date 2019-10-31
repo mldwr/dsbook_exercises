@@ -172,6 +172,7 @@ sum_all-sum_pr0
 
 ```{r}
 B<-10000
+#
 # result "1" has the proportion of 0.6 (different from the question example)
 celtic_win <- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.6, 0.4))))
 #celtic_win <- replicate(B,sum(sample(c(1,0), 5, replace = TRUE, prob = c(1/20, 19/20))))

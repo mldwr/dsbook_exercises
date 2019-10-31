@@ -183,4 +183,13 @@ xx[x %% 5 == 0] <- "Buzz"
 xx[x %% 15 == 0] <- "FizzBuzz"
 xx
 ```
+```{r}
+#install.packages("GGally")
+library(ggplot2)
+library(GGally)
+
+GGally::ggscatmat(iris, columns=1:4, color="Species") +
+    scale_color_brewer(palette="Dark2") + 
+    theme(legend.position="bottom")
+```
 
