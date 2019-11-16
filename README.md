@@ -1,5 +1,9 @@
 # dsbook_exercises
-my exercise solutions from the **dsbook**(https://rafalab.github.io/dsbook/) by *Rafael Irizarry*
+my exercise solutions from the **dsbook** by *Rafael Irizarry*
+
+online(https://rafalab.github.io/dsbook)
+
+github(https://github.com/rafalab/dsbook)
 
 I have worked through the dsbook and finished also the exercises. Here, I provide my solutions.
 
