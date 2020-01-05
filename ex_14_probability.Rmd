@@ -179,7 +179,6 @@ celtic_win <- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.6, 0.
 p <- prop.table(table(celtic_win))
 sum(p[2:8])
 p
-#p %>% sum(.[3])
 ```
 
 >10. Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?

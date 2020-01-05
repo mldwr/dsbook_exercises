@@ -12,10 +12,10 @@ I R
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 03](ex_03_r_basics.html) |  [Chapter 03] |
- [Chapter 04] |  [Chapter 05] |
- [Chapter 05] |  [Chapter 04] |
- [Chapter 06](ex_06_importing_data.html) |  [Chapter 06] |
+ [ch 2](ex_03_r_basics.html) |  [R baiscs] |
+ [ch 3] |  [Programming basics] |
+ [ch 4] |  [The tidyverse] |
+ [ch 5](ex_06_importing_data.html) |  [Importing data] |
 
 II Data Visualization
 ------
@@ -33,27 +33,25 @@ III Statistics with R
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 13] |  [Chapter 13] |
- [Chapter 14](ex_14_probability.html) |  [Chapter 14](su_14_probability.html) |
- [Chapter 15] |  [Chapter 15] |
- [Chapter 16] |  [Chapter 16] |
- [Chapter 17] |  [Chapter 17] |
- [Chapter 18] |  [Chapter 18] |
- [Chapter 19] |  [Chapter 19] |
- [Chapter 20] |  [Chapter 20] |
+ [ch 13](ex_14_probability.html) |  [Probability](su_14_probability.html) |
+ [ch 14] |  [Random variables] |
+ [ch 15] |  [Statistical inference] |
+ [ch 16] |  [Statistical models] |
+ [ch 17] |  [Regression] |
+ [ch 18] |  [Linear models] |
+ [ch 19] |  [Association is not causation] |
 
 IV Data Wrangling
 ------
 
  Exercises  |    Summaries  |
 ----------|:-------------:|
- [Chapter 21] |  [Chapter 21] |
- [Chapter 22](ex_22_reshaping_data.html) |  [Chapter 25] |
- [Chapter 23](ex_23_joining_tables.html) |  [Chapter 25] |
- [Chapter 24](ex_24_web_scraping.html) |  [Chapter 25] |
- [Chapter 25](ex_25_string_processing.html) |  [Chapter 25](su_25_string_processing.html) |
- [Chapter 26](ex_26_parsing_dates_and_times.html) | [Chapter 26]  |
- [Chapter 27](ex_27_text_mining.html) | [Chapter 27](su_27_text_mining.html) |
+ [ch 21](ex_22_reshaping_data.html) |  [Reshaping data] |
+ [ch 22](ex_23_joining_tables.html) |  [Joining tables] |
+ [ch 23](ex_24_web_scraping.html) |  [Web scraping] |
+ [ch 24](ex_25_string_processing.html) |  [String processing](su_25_string_processing.html) |
+ [ch 25](ex_26_parsing_dates_and_times.html) | [Parsing dates and times]  |
+ [ch 26](ex_27_text_mining.html) | [Text mining](su_27_text_mining.html) |
 
 V Machine Learning
 ------
