@@ -10,27 +10,16 @@ I have worked through the dsbook and finished also the exercises. Here, I provid
 I R
 ------
 
-| I R |    II Data Visualization |
-| ----------|:-------------:|
-| [ch 2 R basics](ex_03_r_basics.html) |  [Chapter 08] |
-| [ch 3 Programming basics] |  [Chapter 09] |
-| [ch 4 The tidyverse] |  [Chapter 10] |
-| [ch 5 Importing data](ex_06_importing_data.html) |  [Chapter 11] |
-|  | [Chapter 12] |
+| I R                                  |    II Data Visualization | III Statistics with R |
+| ----------                           | ------------- | --- |
+| [ch 2 R basics](ex_03_r_basics.html) |  [Chapter 08] | [ch 13 Probability](ex_14_probability.html) | 
+| [ch 3 Programming basics]            |  [Chapter 09] | [Random variables] |
+| [ch 4 The tidyverse]                 |  [Chapter 10] | [Statistical inference] |
+| [ch 5 Importing data](ex_06_importing_data.html) |  [Chapter 11] | [Statistical models] |
+|                                      | [Chapter 12] | [Regression] |
+|   |    | [Linear models] |
+|   |    | [Association is not causation] |
 
-
-III Statistics with R
-------
-
- Exercises  |    Summaries  |
-----------|:-------------:|
- [ch 13](ex_14_probability.html) |  [Probability](su_14_probability.html) |
- [ch 14] |  [Random variables] |
- [ch 15] |  [Statistical inference] |
- [ch 16] |  [Statistical models] |
- [ch 17] |  [Regression] |
- [ch 18] |  [Linear models] |
- [ch 19] |  [Association is not causation] |
 
 IV Data Wrangling
 ------
