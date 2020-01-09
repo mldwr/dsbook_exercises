@@ -182,9 +182,45 @@ p
 ```
 
 >10. Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?
->
+
+```{r}
+sum_all <- sum(
+# loose all games
+c(0.6^0*0.4^7,
+# win 1 game
+0.6^1*0.4^6*7,
+# win 2 games
+0.6^2*0.4^5*7*3,
+# win 3 games
+0.6^3*0.4^4*7*5,
+# win 4 games
+0.6^4*0.4^3*7*5,
+# win 5 games
+0.6^5*0.4^2*7*3,
+# win 6 games
+0.6^6*0.4^1*7,
+# win all 7 games
+0.6^7*0.4^0)
+)
+sum_pr0 <- 0.6^0*0.4^7
+sum_all
+sum_pr0
+sum_all-sum_pr0
+```
+
 >11. Confirm the results of the previous question with a Monte Carlo simulation.
->
+
+```{r}
+B<-10000
+#
+# result "1" has the proportion of 0.6 (different from the question example)
+celtic_win <- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.5, 0.5))))
+#celtic_win <- replicate(B,sum(sample(c(1,0), 5, replace = TRUE, prob = c(1/20, 19/20))))
+p <- prop.table(table(celtic_win))
+sum(p[2:8])
+p
+```
+
 >12. Two teams, $A$ and $B$, are playing a seven game series. Team $A$ is better than team $B$ and has a $p>0.5$ chance of winning each game. Given a value $p$, the probability of winning the series for the underdog team $B$ can be computed with the following function based on a Monte Carlo simulation:
 >
 >```{r, eval=FALSE}

@@ -10,23 +10,14 @@ I have worked through the dsbook and finished also the exercises. Here, I provid
 I R
 ------
 
- Exercises  |    Summaries  |
-----------|:-------------:|
- [ch 2](ex_03_r_basics.html) |  [R baiscs] |
- [ch 3] |  [Programming basics] |
- [ch 4] |  [The tidyverse] |
- [ch 5](ex_06_importing_data.html) |  [Importing data] |
+| I R |    II Data Visualization |
+| ----------|:-------------:|
+| [ch 2 R basics](ex_03_r_basics.html) |  [Chapter 08] |
+| [ch 3 Programming basics] |  [Chapter 09] |
+| [ch 4 The tidyverse] |  [Chapter 10] |
+| [ch 5 Importing data](ex_06_importing_data.html) |  [Chapter 11] |
+|  | [Chapter 12] |
 
-II Data Visualization
-------
-
- Exercises  |    Summaries  |
-----------|:-------------:|
- [Chapter 08] |  [Chapter 08] |
- [Chapter 09] |  [Chapter 09] |
- [Chapter 10] |  [Chapter 10] |
- [Chapter 11] |  [Chapter 11] |
- [Chapter 12] |  [Chapter 12] |
 
 III Statistics with R
 ------
