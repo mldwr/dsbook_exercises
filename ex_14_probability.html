@@ -286,9 +286,54 @@ sum(p[2:8])</code></pre>
 ## 0.0016 0.0151 0.0776 0.1933 0.2873 0.2651 0.1326 0.0274</code></pre>
 <blockquote>
 <ol start="10" style="list-style-type: decimal">
-<li><p>Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?</p></li>
-<li><p>Confirm the results of the previous question with a Monte Carlo simulation.</p></li>
-<li><p>Two teams, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, are playing a seven game series. Team <span class="math inline">\(A\)</span> is better than team <span class="math inline">\(B\)</span> and has a <span class="math inline">\(p&gt;0.5\)</span> chance of winning each game. Given a value <span class="math inline">\(p\)</span>, the probability of winning the series for the underdog team <span class="math inline">\(B\)</span> can be computed with the following function based on a Monte Carlo simulation:</p></li>
+<li>Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?</li>
+</ol>
+</blockquote>
+<pre class="r"><code>sum_all &lt;- sum(
+# loose all games
+c(0.6^0*0.4^7,
+# win 1 game
+0.6^1*0.4^6*7,
+# win 2 games
+0.6^2*0.4^5*7*3,
+# win 3 games
+0.6^3*0.4^4*7*5,
+# win 4 games
+0.6^4*0.4^3*7*5,
+# win 5 games
+0.6^5*0.4^2*7*3,
+# win 6 games
+0.6^6*0.4^1*7,
+# win all 7 games
+0.6^7*0.4^0)
+)
+sum_pr0 &lt;- 0.6^0*0.4^7
+sum_all</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>sum_pr0</code></pre>
+<pre><code>## [1] 0.0016384</code></pre>
+<pre class="r"><code>sum_all-sum_pr0</code></pre>
+<pre><code>## [1] 0.9983616</code></pre>
+<blockquote>
+<ol start="11" style="list-style-type: decimal">
+<li>Confirm the results of the previous question with a Monte Carlo simulation.</li>
+</ol>
+</blockquote>
+<pre class="r"><code>B&lt;-10000
+#
+# result &quot;1&quot; has the proportion of 0.6 (different from the question example)
+celtic_win &lt;- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.5, 0.5))))
+#celtic_win &lt;- replicate(B,sum(sample(c(1,0), 5, replace = TRUE, prob = c(1/20, 19/20))))
+p &lt;- prop.table(table(celtic_win))
+sum(p[2:8])</code></pre>
+<pre><code>## [1] 0.9923</code></pre>
+<pre class="r"><code>p</code></pre>
+<pre><code>## celtic_win
+##      0      1      2      3      4      5      6      7 
+## 0.0077 0.0582 0.1710 0.2744 0.2637 0.1650 0.0529 0.0071</code></pre>
+<blockquote>
+<ol start="12" style="list-style-type: decimal">
+<li>Two teams, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, are playing a seven game series. Team <span class="math inline">\(A\)</span> is better than team <span class="math inline">\(B\)</span> and has a <span class="math inline">\(p&gt;0.5\)</span> chance of winning each game. Given a value <span class="math inline">\(p\)</span>, the probability of winning the series for the underdog team <span class="math inline">\(B\)</span> can be computed with the following function based on a Monte Carlo simulation:</li>
 </ol>
 <pre class="r"><code>prob_win &lt;- function(p){
   B &lt;- 10000
@@ -299,6 +344,23 @@ sum(p[2:8])</code></pre>
   mean(result)
 }</code></pre>
 <p>Use the function <code>sapply</code> to compute the probability, call it <code>Pr</code>, of winning for <code>p &lt;- seq(0.5, 0.95, 0.025)</code>. Then plot the result.</p>
+</blockquote>
+<pre class="r"><code>prob_win &lt;- function(p){
+   B &lt;- 10000
+   result &lt;- replicate(B, {
+      b_win &lt;- sample(c(1,0), 7, replace = TRUE, prob = c(1-p, p))
+      sum(b_win)&gt;=4
+   })
+   mean(result)
+}
+p &lt;- prop.table(table(prob_win(0.5)))
+sum(p[2:8])</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>p</code></pre>
+<pre><code>## 
+## 0.5002 
+##      1</code></pre>
+<blockquote>
 <ol start="13" style="list-style-type: decimal">
 <li>Repeat the exercise above, but now keep the probability fixed at <code>p &lt;- 0.75</code> and compute the probability for different series lengths: best of 1 game, 3 games, 5 games,… Specifically, <code>N &lt;- seq(1, 25, 2)</code>. Hint: use this function:</li>
 </ol>

@@ -235,7 +235,21 @@ p
 >```
 >
 >    Use the function `sapply` to compute the probability, call it `Pr`, of winning for `p <- seq(0.5, 0.95, 0.025)`. Then plot the result.
->
+
+```{r}
+prob_win <- function(p){
+   B <- 10000
+   result <- replicate(B, {
+      b_win <- sample(c(1,0), 7, replace = TRUE, prob = c(1-p, p))
+      sum(b_win)>=4
+   })
+   mean(result)
+}
+p <- prop.table(table(prob_win(0.5)))
+sum(p[2:8])
+p
+```
+
 >13. Repeat the exercise above, but now keep the probability fixed at `p <- 0.75` and compute the probability for different series lengths: best of 1 game, 3 games, 5 games,... Specifically, `N <- seq(1, 25, 2)`. Hint: use this function:
 >
 >```{r, eval = FALSE}
