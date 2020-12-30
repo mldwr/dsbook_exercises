@@ -74,14 +74,14 @@ second_draw <- perms[2,]
 sum(first_draw %in% cyan & !second_draw %in% cyan)/sum(first_draw %in% cyan)
 ```
 
-Here, the experimental result of 85,50% is slightly off of the predicted result, because the number of repititions of the random draw was not infinite but limited to a small number.
+Here, the experimental result of 85,50% is slightly off of the predicted result, because the number of repititions of the random draw was not infinite but limited to a small number.\
 If we would increase the number of draws the value would convere to the predicted value.
 
 >4. Now repeat the experiment, but this time, after taking the first draw and recording the color, return it to the box and shake the box. We call this sampling **with** replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
 
-First let's think what result can be expected. 
-Again, the proportion of a draw being "cyan" is A=0.2 or 20% and the proportion of not being "cyan" is B=0.8 or 80%.
-Since we are putting the ball from the first draw back in the bag and performing another draw, both draws are independent of yeach other.
+First let's think what result can be expected.\
+Again, the proportion of a draw being "cyan" is A=0.2 or 20% and the proportion of not being "cyan" is B=0.8 or 80%.\
+Since we are putting the ball from the first draw back in the bag and performing another draw, both draws are independent of yeach other.\
 Therefore, the following equation can be applied and showing that only the proportion of the last draw counts. 
 $$
 \mbox{Pr}(B|A) = \frac{\mbox{Pr}(A \mbox{ and } B)} { \mbox{Pr}(A)} = \frac{\mbox{Pr}(A) \mbox{Pr}(B)} { \mbox{Pr}(A)} = \mbox{Pr}(B)
@@ -101,15 +101,18 @@ Again, by increasing the number of possible permutations in the Monte Carlo expe
 
 >5. Two events $A$ and $B$ are independent if $\mbox{Pr}(A \mbox{ and } B) = \mbox{Pr}(A) Pr(B)$. Under which situation are the draws independent?
 >
->    A. You don't replace the draw.
+>        A. You don't replace the draw.
 >
->    B. You replace the draw.
+>        B. You replace the draw.
 >
->    C. Neither
+>        C. Neither
 >
->    D. Both
+>        D. Both
 
-Answer B.
+Answer B.\
+After replacing the draw the state of the system is in its initial state and the number of possible draws stays the same.\
+Threfore, you cannot distinguish if the event $A$ has taken place before or after event $B$.
+Howerver, if you do not replace the draw, then after each draw the state of the system changes and the number of possible draws is reduced.
 
 >6. Say you've drawn 5 balls from the box, with replacement, and all have been yellow. What is the probability that the next one is yellow? 
 
@@ -245,8 +248,11 @@ prob_win <- function(p){
    })
    mean(result)
 }
-p <- prop.table(table(prob_win(0.5)))
-sum(p[2:8])
+
+#p <- prop.table(table(prob_win(0.5)))
+#sum(p[2:8])
+p <- seq(0.5, 0.95, 0.025)
+#Pr <- sapply(prob_win(p))
 p
 ```
 

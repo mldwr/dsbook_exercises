@@ -185,13 +185,17 @@ first_draw &lt;- perms[1,]
 second_draw &lt;- perms[2,]
 sum(first_draw %in% cyan &amp; !second_draw %in% cyan)/sum(first_draw %in% cyan)</code></pre>
 <pre><code>## [1] 0.8550382</code></pre>
-<p>Here, the experimental result of 85,50% is slightly off of the predicted result, because the number of repititions of the random draw was not infinite but limited to a small number. If we would increase the number of draws the value would convere to the predicted value.</p>
+<p>Here, the experimental result of 85,50% is slightly off of the predicted result, because the number of repititions of the random draw was not infinite but limited to a small number.<br />
+If we would increase the number of draws the value would convere to the predicted value.</p>
 <blockquote>
 <ol start="4" style="list-style-type: decimal">
 <li>Now repeat the experiment, but this time, after taking the first draw and recording the color, return it to the box and shake the box. We call this sampling <strong>with</strong> replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?</li>
 </ol>
 </blockquote>
-<p>First let’s think what result can be expected. Again, the proportion of a draw being “cyan” is A=0.2 or 20% and the proportion of not being “cyan” is B=0.8 or 80%. Since we are putting the ball from the first draw back in the bag and performing another draw, both draws are independent of yeach other. Therefore, the following equation can be applied and showing that only the proportion of the last draw counts. <span class="math display">\[
+<p>First let’s think what result can be expected.<br />
+Again, the proportion of a draw being “cyan” is A=0.2 or 20% and the proportion of not being “cyan” is B=0.8 or 80%.<br />
+Since we are putting the ball from the first draw back in the bag and performing another draw, both draws are independent of yeach other.<br />
+Therefore, the following equation can be applied and showing that only the proportion of the last draw counts. <span class="math display">\[
 \mbox{Pr}(B|A) = \frac{\mbox{Pr}(A \mbox{ and } B)} { \mbox{Pr}(A)} = \frac{\mbox{Pr}(A) \mbox{Pr}(B)} { \mbox{Pr}(A)} = \mbox{Pr}(B)
 \]</span></p>
 <p>To answer this question we use the same functions but this time we utelize the parameter <code>replace=TRUE</code> from the <code>sample</code> function.</p>
@@ -206,14 +210,16 @@ sum(first_draw %in% cyan &amp; !second_draw %in% cyan)/sum(first_draw %in% cyan)
 <p>Again, by increasing the number of possible permutations in the Monte Carlo experiment, the value will converge towards the predicted value.</p>
 <blockquote>
 <ol start="5" style="list-style-type: decimal">
-<li>Two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent if <span class="math inline">\(\mbox{Pr}(A \mbox{ and } B) = \mbox{Pr}(A) Pr(B)\)</span>. Under which situation are the draws independent?</li>
-</ol>
+<li><p>Two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent if <span class="math inline">\(\mbox{Pr}(A \mbox{ and } B) = \mbox{Pr}(A) Pr(B)\)</span>. Under which situation are the draws independent?</p>
 <p>A. You don’t replace the draw.</p>
 <p>B. You replace the draw.</p>
 <p>C. Neither</p>
-<p>D. Both</p>
+<p>D. Both</p></li>
+</ol>
 </blockquote>
-<p>Answer B.</p>
+<p>Answer B.<br />
+After replacing the draw the state of the system is in its initial state and the number of possible draws stays the same.<br />
+Threfore, you cannot distinguish if the event <span class="math inline">\(A\)</span> has taken place before or after event <span class="math inline">\(B\)</span>. Howerver, if you do not replace the draw, then after each draw the state of the system changes and the number of possible draws is reduced.</p>
 <blockquote>
 <ol start="6" style="list-style-type: decimal">
 <li>Say you’ve drawn 5 balls from the box, with replacement, and all have been yellow. What is the probability that the next one is yellow?</li>
@@ -353,13 +359,14 @@ sum(p[2:8])</code></pre>
    })
    mean(result)
 }
-p &lt;- prop.table(table(prob_win(0.5)))
-sum(p[2:8])</code></pre>
-<pre><code>## [1] NA</code></pre>
-<pre class="r"><code>p</code></pre>
-<pre><code>## 
-## 0.5002 
-##      1</code></pre>
+
+#p &lt;- prop.table(table(prob_win(0.5)))
+#sum(p[2:8])
+p &lt;- seq(0.5, 0.95, 0.025)
+#Pr &lt;- sapply(prob_win(p))
+p</code></pre>
+<pre><code>##  [1] 0.500 0.525 0.550 0.575 0.600 0.625 0.650 0.675 0.700 0.725 0.750
+## [12] 0.775 0.800 0.825 0.850 0.875 0.900 0.925 0.950</code></pre>
 <blockquote>
 <ol start="13" style="list-style-type: decimal">
 <li>Repeat the exercise above, but now keep the probability fixed at <code>p &lt;- 0.75</code> and compute the probability for different series lengths: best of 1 game, 3 games, 5 games,… Specifically, <code>N &lt;- seq(1, 25, 2)</code>. Hint: use this function:</li>
