@@ -1,12 +1,13 @@
 # dsbook_exercises
-my exercise solutions from the **dsbook** by *Rafael Irizarry*
+my exercise solutions from the **dsbook** (
+[online](https://rafalab.github.io/dsbook) and
+[github](https://github.com/rafalab/dsbook))
+by *Rafael Irizarry*
 
-[online](https://rafalab.github.io/dsbook)
 
-[github](https://github.com/rafalab/dsbook)
 
 I have worked through the dsbook and finished also the exercises. Here, I provide my solutions.
-
+[this site](https://braunschweig.github.io/dsbook_exercises/)
 
 | I R    |    II Data Visualization | III Statistics with R | IV Data Wrangling | V Machine Learning |
 | ------  | --------- | --- | | --- |

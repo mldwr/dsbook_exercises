@@ -12,20 +12,19 @@ output:
 ---
 
 
-
 ## Exercises Discrete Probability
 
-
+### Qn
 >1. One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will be cyan?
 
-The cyan ball proportion is 20% or 3/15=1/5.
-The experiment is showing the theoretical prediction.
-First create the ball structure.
+The cyan ball proportion is 20% or 3/15=1/5.\
+The experiment is showing the theoretical prediction.\
+First create the ball structure by using the function `rep`.\
 ```{r}
 balls <- rep(c("cyan", "magenta", "yellow"), times = c(3,5,7))
 ```
 
-Then we make random draw with `sample` and repeate the random draw with `replicate` for a large number of times (nr_perms), then we evalute the result with `prop.table`.
+Then we make random draw with `sample` and repeate the random draw with `replicate` for a large number of times (B), then we evalute the result with `prop.table`. The function `replicate` is a wrapper for the function `sapply` for the repeaded evaluation of an expression (it has nothing in common with the previously used function `rep`).
 ```{r}
 set.seed(1986)
 B <- 10000
@@ -34,7 +33,7 @@ tab <- table(events)
 prop.table(tab)
 ```
 
-Alternativley, we can untilise the parameters of the function `sample` to create a large number of draws directly. The result is the same. 
+Alternativley, we can utilise the parameters of the function `sample` to create a large number of draws directly. The result is the same. 
 ```{r}
 set.seed(1986)
 B <- 10000
@@ -42,6 +41,7 @@ events <- sample(balls, B, replace = TRUE)
 prop.table(table(events))
 ```
 
+### Qn
 >2. What is the probability that the ball will not be cyan?
 
 The proportion is 1-1/5=4/5, which is 80%.
@@ -49,6 +49,7 @@ See experiment in question 1).
 
 Here, by summing up the proportions of the balls "magenta" and "yellow" we see that the probability sums up to 0.8039 (=0.339+0.4649) that is 80,4%.
 
+### Qn
 >3. Instead of taking just one draw, consider taking two draws. You take the second draw without returning the first draw to the box. We call this sampling **without** replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
 
 The proportion of the first draw being cyan is 1/5 or 20%.
@@ -77,6 +78,7 @@ sum(first_draw %in% cyan & !second_draw %in% cyan)/sum(first_draw %in% cyan)
 Here, the experimental result of 85,50% is slightly off of the predicted result, because the number of repititions of the random draw was not infinite but limited to a small number.\
 If we would increase the number of draws the value would convere to the predicted value.
 
+### Qn
 >4. Now repeat the experiment, but this time, after taking the first draw and recording the color, return it to the box and shake the box. We call this sampling **with** replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
 
 First let's think what result can be expected.\
@@ -99,6 +101,7 @@ sum(first_draw %in% cyan & !second_draw %in% cyan)/sum(first_draw %in% cyan)
 ```
 Again, by increasing the number of possible permutations in the Monte Carlo experiment, the value will converge towards the predicted value. 
 
+### Qn
 >5. Two events $A$ and $B$ are independent if $\mbox{Pr}(A \mbox{ and } B) = \mbox{Pr}(A) Pr(B)$. Under which situation are the draws independent?
 >
 >        A. You don't replace the draw.
@@ -111,14 +114,16 @@ Again, by increasing the number of possible permutations in the Monte Carlo expe
 
 Answer B.\
 After replacing the draw the state of the system is in its initial state and the number of possible draws stays the same.\
-Threfore, you cannot distinguish if the event $A$ has taken place before or after event $B$.
+Threfore, you cannot distinguish if the event $A$ has taken place before or after event $B$ and vise versa.
 Howerver, if you do not replace the draw, then after each draw the state of the system changes and the number of possible draws is reduced.
 
+### Qn
 >6. Say you've drawn 5 balls from the box, with replacement, and all have been yellow. What is the probability that the next one is yellow? 
 
 Since we draw our balls with replacement the proportion of drawing any yellow colored ball is 7/15=0.47 or 47% no matter how often a yellow ball was drawn before, because the draw events are independent of yeach other.
 The conditions of each draw are the same.
 
+### Qn
 >7. If you roll a 6-sided die six times, what is the probability of not seeing a 6?
 
 The proportion/probability of seeing a 6 is 1/6 and of not seeing a 6 1-1/6=0.83 or 83%.
@@ -131,6 +136,7 @@ die
 ```
 
 
+### Qn
 >8. Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win **at least** one game?
 
 Winning at least one game means, that we have to find all probabilities to win exactly one game, exactly two games and so on. Then adding up all these probabilities plus the probability of winning zero games must add up to 1, because these are all the possibiliteis there are.
@@ -138,8 +144,15 @@ Winning at least one game means, that we have to find all probabilities to win e
 However, looking at the corresponding equation we can see that there is a simple shortcut that can be written so that we only need to calculate the probability of winning zero games minus 1.
 I.e. the probability of loosing all games minus 1 in order to get the desired result.
 $$
+1 = \mbox{Pr(0)} + \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
+$$
+$$
 1 - \mbox{Pr(0)} = \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)} = 1-0.0016384=0.9983616
 $$
+$$
+1 - \mbox{Pr(0)} = 1-0.0016384=0.9983616
+$$
+
 ```{r}
 sum_all <- sum(
 # loose all games
@@ -166,6 +179,7 @@ sum_all-sum_pr0
 ```
 
 
+### Qn
 >9. Create a Monte Carlo simulation to confirm your answer to the previous problem. Use `B <- 10000` simulations. Hint: Use the following code to generate the results of the first four games:
 >
 >```{r, eval=FALSE}
@@ -174,43 +188,33 @@ sum_all-sum_pr0
 >    The Celtics must win one of these 4 games.
 
 ```{r}
+B<-10
+celtic_wins <- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))
+result <-replicate(B,celtic_win)
+prop.table(table(result))
+```
+
+```{r}
 B<-10000
-#
-# result "1" has the proportion of 0.6 (different from the question example)
-celtic_win <- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.6, 0.4))))
-#celtic_win <- replicate(B,sum(sample(c(1,0), 5, replace = TRUE, prob = c(1/20, 19/20))))
+celtic_win <- replicate(B,sum(sample(c(1,0), 4, replace = TRUE, prob = c(0.6, 0.4))))
 p <- prop.table(table(celtic_win))
 sum(p[2:8])
 p
 ```
 
+### Qn
 >10. Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?
 
 ```{r}
-sum_all <- sum(
-# loose all games
-c(0.6^0*0.4^7,
-# win 1 game
-0.6^1*0.4^6*7,
-# win 2 games
-0.6^2*0.4^5*7*3,
-# win 3 games
-0.6^3*0.4^4*7*5,
-# win 4 games
-0.6^4*0.4^3*7*5,
-# win 5 games
-0.6^5*0.4^2*7*3,
-# win 6 games
-0.6^6*0.4^1*7,
-# win all 7 games
-0.6^7*0.4^0)
-)
-sum_pr0 <- 0.6^0*0.4^7
-sum_all
-sum_pr0
-sum_all-sum_pr0
+B <- 10000
+result <- replicate(B, {
+    b_win <- sample(c(1,0), 7, replace = TRUE, prob = c(0.6, 0.4))
+    sum(b_win)>=4
+    })
+sum(result)
 ```
 
+### Qn
 >11. Confirm the results of the previous question with a Monte Carlo simulation.
 
 ```{r}
@@ -224,6 +228,7 @@ sum(p[2:8])
 p
 ```
 
+### Qn
 >12. Two teams, $A$ and $B$, are playing a seven game series. Team $A$ is better than team $B$ and has a $p>0.5$ chance of winning each game. Given a value $p$, the probability of winning the series for the underdog team $B$ can be computed with the following function based on a Monte Carlo simulation:
 >
 >```{r, eval=FALSE}
@@ -256,6 +261,7 @@ p <- seq(0.5, 0.95, 0.025)
 p
 ```
 
+### Qn
 >13. Repeat the exercise above, but now keep the probability fixed at `p <- 0.75` and compute the probability for different series lengths: best of 1 game, 3 games, 5 games,... Specifically, `N <- seq(1, 25, 2)`. Hint: use this function:
 >
 >```{r, eval = FALSE}
@@ -271,21 +277,27 @@ p
 
 ## Exercises Continuous Probability
 
+### Qn
 >1. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 5 feet or shorter? 
->
->
+
+
+### Qn
 >2. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 6 feet or taller? 
->
->
+
+
+### Qn
 >3. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is between 61 and 67 inches?
->
->
+
+
+### Qn
 >4. Repeat the exercise above, but convert everything to centimeters. That is, multiply every height, including the standard deviation, by 2.54. What is the answer now?
->
->
+
+
+### Qn
 >5. Notice that the answer to the question does not change when you change units. This makes sense since the answer to the question should not be affected by what units we use. In fact, if you look closely, you notice that 61 and 64 are both 1 SD away from the average. Compute the probability that a randomly picked, normally distributed random variable is within 1 SD from the average.
->
->
+
+
+### Qn
 >6. To see the math that explains why the answers to questions 3, 4, and 5 are the same, suppose we have a random variable with average $m$ and standard error $s$. Suppose we ask the probability of $X$ being smaller or equal to $a$. Remember that, by definition, $a$ is $(a - m)/s$ standard deviations $s$ away from the average $m$. The probability is: 
 >
 >    $$
@@ -315,9 +327,12 @@ p
 >    C. `pnorm((a - m)/s, m, s)`
 >    
 >    D. `pnorm(a)`
->    
+
+
+### Qn
 >7. Imagine the distribution of male adults is approximately normal with an expected value of 69 and a standard deviation of 3. How tall is the male in the 99th percentile? Hint: use `qnorm`.
->
->
+
+
+### Qn
 >8. The distribution of IQ scores is approximately normally distributed.  The average is 100 and the standard deviation is 15. Suppose you want to know the distribution of the highest IQ across all graduating classes if 10,000 people are born each in your school district. Run a Monte Carlo simulation with `B=1000` generating 10,000 IQ scores and keeping the highest. Make a histogram.
 >
