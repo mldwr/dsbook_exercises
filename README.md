@@ -6,8 +6,8 @@ by *Rafael Irizarry*
 
 
 
-I have worked through the dsbook and finished also the exercises. Here, I provide my solutions.
-[this site](https://braunschweig.github.io/dsbook_exercises/)
+I have worked through the dsbook and finished also the exercises.\ 
+Here, I provide my solutions on [this website](https://braunschweig.github.io/dsbook_exercises/).
 
 | I R    |    II Data Visualization | III Statistics with R | IV Data Wrangling | V Machine Learning |
 | ------  | --------- | --- | | --- |
