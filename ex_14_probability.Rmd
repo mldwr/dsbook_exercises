@@ -139,18 +139,20 @@ die
 ### Qn
 >8. Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win **at least** one game?
 
-Winning at least one game means, that we have to find all probabilities to win exactly one game, exactly two games and so on. Then adding up all these probabilities plus the probability of winning zero games must add up to 1, because these are all the possibiliteis there are.
+Winning at least one game means, that we have to find all probabilities to win exactly one game, exactly two games and so on: $=\mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}$. Then adding up all these probabilities plus the probability of winning zero games must add up to 1, because these are all the possibiliteis there are.
 
-However, looking at the corresponding equation we can see that there is a simple shortcut that can be written so that we only need to calculate the probability of winning zero games minus 1.
-I.e. the probability of loosing all games minus 1 in order to get the desired result.
 $$
 1 = \mbox{Pr(0)} + \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
 $$
+
+However, looking at the corresponding equation we can see that there is a simple shortcut that can be written so that we only need to calculate the probability of winning zero games minus 1.
+Tha is the probability of loosing all games minus 1 in order to get the desired result.
+
 $$
-1 - \mbox{Pr(0)} = \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)} = 1-0.0016384=0.9983616
+1 - \mbox{Pr(0)} = \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
 $$
 $$
-1 - \mbox{Pr(0)} = 1-0.0016384=0.9983616
+<=> 1 - \mbox{Pr(0)} = 1-0.0016384=0.9983616
 $$
 
 ```{r}
@@ -183,15 +185,40 @@ sum_all-sum_pr0
 >9. Create a Monte Carlo simulation to confirm your answer to the previous problem. Use `B <- 10000` simulations. Hint: Use the following code to generate the results of the first four games:
 >
 >```{r, eval=FALSE}
->celtic_wins <- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))
+>celtic_wins <- sample(c(1,0), 4, replace = TRUE, prob = c(0.6, 0.4))
 >```
 >    The Celtics must win one of these 4 games.
 
+First, let's understand the suggested function in the question. The function `sample` requires four arguments. First, the data itself as a vector, here these are the numbers `1`and `0`. Second, the number of items to choose from, here we have the value 4, which is the number of games. Third, the parameter, if the sampling is supposed to be performed with replacement or not, here the parameter is set to perform the replacement. Lastly, the function requires a vector for the probabilities weights, here it is `0.6` and `0.4`.
 ```{r}
-B<-10
-celtic_wins <- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))
-result <-replicate(B,celtic_win)
+sample(c(1,0), 4, replace = TRUE, prob = c(0.6, 0.4))
+```
+
+The output of the function is a vector of four values of `1` and `0`, representing the outcome of the four games played between the two teams Cavs (favorites) and Celtics (underdogs). The probability, of a value to be `1` is 60% and `0` is 40%. For example, the outcome vector of `1 0 1 1?? means that in this simulated game series the Cavs won the first, third and fourth game, but lost the second. 
+
+```{r}
+celtic_wins <- sample(c(1,0), 4, replace = TRUE, prob = c(0.6, 0.4))
+result <- celtic_wins
+result
+sum_wins <- sum(result)>=1
+sum_wins
+```
+
+```{r}
+celtic_wins <- sample(c(1,0), 4, replace = TRUE, prob = c(0.6, 0.4))
+result <- celtic_wins
+result
+sum_wins <- sum(result)>=1
+sum_wins
+```
+
+```{r}
+B<-10000
+celtic_wins <- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.6, 0.4)))>=1)
+result <- celtic_wins
 prop.table(table(result))
+#result <-replicate(B,celtic_win)
+#prop.table(table(result))
 ```
 
 ```{r}
