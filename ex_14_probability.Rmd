@@ -192,6 +192,7 @@ In numbers it means, that adding up all probabilites results in the total of 1 a
 >```
 >    The Celtics must win one of these 4 games.
 
+Again, the mentioned condition in the question, that the Celtics mus win one of the first four games is due to the fact that the series(tournament) will be over, if the Celtics lose all first four games. \
 Before we dive in, let's understand the suggested function in the question. The function `sample` requires four arguments. First, the data itself as a vector, here these are the numbers `1`and `0`. Second, the number of items to choose from, here we have the value 4, which is the number of games. Third, the parameter, if the sampling is supposed to be performed with replacement or not, here the parameter is set to perform the replacement. Lastly, the function requires a vector for the probabilities weights, here it is `0.6` and `0.4`.
 ```{r}
 sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))
@@ -228,48 +229,42 @@ prop.table(table(result))
 ### Qn
 >10. Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?
 
-First, let's compute the general case.\
+By looking at the previous equatin, one can see that the relevant terms for this questions are those, which include the probabilities of winning at least 4 games.\
 $$
-1 = \mbox{Pr(0)} + \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
+\mbox{Pr(winning at least 4 games)} = \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
 $$
-The probability that the Cavs win a game is $p$, the probability that they loose $q=1-p$. 
-The probability to win the first four of seven games is $p^4$, then the fifth $p^4 q^1$, the sixth $p^4 q^2$ and the seventh $p^4 q^3$. 
-
-The Cavs `1` and Worriors are `0`.\
-There are 6 games left.
+The probability that the Cavs win a game is $p$, the probability that they lose $q=1-p$. 
+The probability to win the first four is $p^4$, then the fifth ist $p^4 q^1$, because it means out of the four games they must have lost one, othervise the series would be over by then.
+The probability that the series continues to the sixth game is $p^4 q^2$ and the seventh $p^4 q^3$. 
+$$
+P\mbox{(winning at least 4 games)}  = p^4 + 4p^4q + 10p^4q^2 + 20p^4q^3
+$$
+If the Cavs lose the first game, then the last term must be dropped, because there are only 6 games left. 
+By inserting the probabilities of $p=q=0.5$ leads to the probability of $0.34$ of winning the series after losing the first game.
 
 ```{r}
-games <- rep(c(1,0), times = c(1,1))
-#games
-#sample(games,7,replace = TRUE)
-#sum(sample(games, 7,replace = TRUE))>=4
-B<-10000
-prop.table(table(replicate(B,sum(sample(games, 7, replace=TRUE))>=4)))
-#prop.table(table(replicate(B,sum(sample(games, 6, replace=TRUE))>=4)))
+p<-0.5
+q<-0.5
+a<-4
+b<-10
+c<-20
+p^4*(1+a*q+b*q^2+c*q^3)
+p^4+a*q*p^4+b*q^2*p^4
+c*q^3*p^4
 ```
 
 ### Qn
 >11. Confirm the results of the previous question with a Monte Carlo simulation.
 
 ```{r}
-B <- 10000
+B <- 100000
 result <- replicate(B, {
-    b_win <- sample(c(0,1), 7, replace = TRUE, prob = c(0.5, 0.5))
+    b_win <- sample(c(0,1), 6, replace = TRUE, prob = c(0.5, 0.5))
     sum(b_win)>=4
     })
 prop.table(table(result))
 ```
 
-```{r}
-B<-10000
-#
-# result "1" has the proportion of 0.6 (different from the question example)
-celtic_win <- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.5, 0.5))))
-#celtic_win <- replicate(B,sum(sample(c(1,0), 5, replace = TRUE, prob = c(1/20, 19/20))))
-p <- prop.table(table(celtic_win))
-sum(p[2:8])
-p
-```
 
 ### Qn
 >12. Two teams, $A$ and $B$, are playing a seven game series. Team $A$ is better than team $B$ and has a $p>0.5$ chance of winning each game. Given a value $p$, the probability of winning the series for the underdog team $B$ can be computed with the following function based on a Monte Carlo simulation:

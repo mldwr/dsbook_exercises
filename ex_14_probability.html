@@ -406,7 +406,8 @@ sum_four</code></pre>
 <pre class="r"><code>celtic_wins &lt;- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))</code></pre>
 <p>The Celtics must win one of these 4 games.</p>
 </blockquote>
-<p>Before we dive in, let's understand the suggested function in the question. The function <code>sample</code> requires four arguments. First, the data itself as a vector, here these are the numbers <code>1</code>and <code>0</code>. Second, the number of items to choose from, here we have the value 4, which is the number of games. Third, the parameter, if the sampling is supposed to be performed with replacement or not, here the parameter is set to perform the replacement. Lastly, the function requires a vector for the probabilities weights, here it is <code>0.6</code> and <code>0.4</code>.</p>
+<p>Again, the mentioned condition in the question, that the Celtics mus win one of the first four games is due to the fact that the series(tournament) will be over, if the Celtics lose all first four games.<br />
+Before we dive in, let's understand the suggested function in the question. The function <code>sample</code> requires four arguments. First, the data itself as a vector, here these are the numbers <code>1</code>and <code>0</code>. Second, the number of items to choose from, here we have the value 4, which is the number of games. Third, the parameter, if the sampling is supposed to be performed with replacement or not, here the parameter is set to perform the replacement. Lastly, the function requires a vector for the probabilities weights, here it is <code>0.6</code> and <code>0.4</code>.</p>
 <pre class="r"><code>sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))</code></pre>
 <pre><code>## [1] 1 0 0 1</code></pre>
 <p>The output of the function is a vector of four values of <code>1</code> and <code>0</code>, representing the outcome of the four games played between the two teams Cavs (favorites) and Celtics (underdogs). The probability, of a value to be <code>1</code> is 60% and <code>0</code> is 40%. For example, the outcome vector of <code>1 0 1 1</code> means that in this simulated game series the Cavs won the first, third and fourth game, but lost the second.</p>
@@ -443,22 +444,23 @@ prop.table(table(result))</code></pre>
 <li>Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?</li>
 </ol>
 </blockquote>
-<p>First, let's compute the general case.<br />
+<p>By looking at the previous equatin, one can see that the relevant terms for this questions are those, which include the probabilities of winning at least 4 games.<br />
 <span class="math display">\[
-1 = \mbox{Pr(0)} + \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
-\]</span> The probability that the Cavs win a game is <span class="math inline">\(p\)</span>, the probability that they loose <span class="math inline">\(q=1-p\)</span>. The probability to win the first four of seven games is <span class="math inline">\(p^4\)</span>, then the fifth <span class="math inline">\(p^4 q^1\)</span>, the sixth <span class="math inline">\(p^4 q^2\)</span> and the seventh <span class="math inline">\(p^4 q^3\)</span>.</p>
-<p>The Cavs <code>1</code> and Worriors are <code>0</code>.<br />
-There are 6 games left.</p>
-<pre class="r"><code>games &lt;- rep(c(1,0), times = c(1,1))
-#games
-#sample(games,7,replace = TRUE)
-#sum(sample(games, 7,replace = TRUE))&gt;=4
-B&lt;-10000
-prop.table(table(replicate(B,sum(sample(games, 7, replace=TRUE))&gt;=4)))</code></pre>
-<pre><code>## 
-##  FALSE   TRUE 
-## 0.5001 0.4999</code></pre>
-<pre class="r"><code>#prop.table(table(replicate(B,sum(sample(games, 6, replace=TRUE))&gt;=4)))</code></pre>
+\mbox{Pr(winning at least 4 games)} = \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
+\]</span> The probability that the Cavs win a game is <span class="math inline">\(p\)</span>, the probability that they lose <span class="math inline">\(q=1-p\)</span>. The probability to win the first four is <span class="math inline">\(p^4\)</span>, then the fifth ist <span class="math inline">\(p^4 q^1\)</span>, because it means out of the four games they must have lost one, othervise the series would be over by then. The probability that the series continues to the sixth game is <span class="math inline">\(p^4 q^2\)</span> and the seventh <span class="math inline">\(p^4 q^3\)</span>. <span class="math display">\[
+P\mbox{(winning at least 4 games)}  = p^4 + 4p^4q + 10p^4q^2 + 20p^4q^3
+\]</span> If the Cavs lose the first game, then the last term must be dropped, because there are only 6 games left. By inserting the probabilities of <span class="math inline">\(p=q=0.5\)</span> leads to the probability of <span class="math inline">\(0.34\)</span> of winning the series after losing the first game.</p>
+<pre class="r"><code>p&lt;-0.5
+q&lt;-0.5
+a&lt;-4
+b&lt;-10
+c&lt;-20
+p^4*(1+a*q+b*q^2+c*q^3)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<pre class="r"><code>p^4+a*q*p^4+b*q^2*p^4</code></pre>
+<pre><code>## [1] 0.34375</code></pre>
+<pre class="r"><code>c*q^3*p^4</code></pre>
+<pre><code>## [1] 0.15625</code></pre>
 </div>
 <div id="qn-10" class="section level3">
 <h3><span class="header-section-number">14.1.11</span> Qn</h3>
@@ -467,27 +469,15 @@ prop.table(table(replicate(B,sum(sample(games, 7, replace=TRUE))&gt;=4)))</code>
 <li>Confirm the results of the previous question with a Monte Carlo simulation.</li>
 </ol>
 </blockquote>
-<pre class="r"><code>B &lt;- 10000
+<pre class="r"><code>B &lt;- 100000
 result &lt;- replicate(B, {
-    b_win &lt;- sample(c(0,1), 7, replace = TRUE, prob = c(0.5, 0.5))
+    b_win &lt;- sample(c(0,1), 6, replace = TRUE, prob = c(0.5, 0.5))
     sum(b_win)&gt;=4
     })
 prop.table(table(result))</code></pre>
 <pre><code>## result
-##  FALSE   TRUE 
-## 0.5012 0.4988</code></pre>
-<pre class="r"><code>B&lt;-10000
-#
-# result &quot;1&quot; has the proportion of 0.6 (different from the question example)
-celtic_win &lt;- replicate(B,sum(sample(c(1,0), 7, replace = TRUE, prob = c(0.5, 0.5))))
-#celtic_win &lt;- replicate(B,sum(sample(c(1,0), 5, replace = TRUE, prob = c(1/20, 19/20))))
-p &lt;- prop.table(table(celtic_win))
-sum(p[2:8])</code></pre>
-<pre><code>## [1] 0.9925</code></pre>
-<pre class="r"><code>p</code></pre>
-<pre><code>## celtic_win
-##      0      1      2      3      4      5      6      7 
-## 0.0075 0.0528 0.1635 0.2804 0.2716 0.1621 0.0544 0.0077</code></pre>
+##   FALSE    TRUE 
+## 0.65752 0.34248</code></pre>
 </div>
 <div id="qn-11" class="section level3">
 <h3><span class="header-section-number">14.1.12</span> Qn</h3>
