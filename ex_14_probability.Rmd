@@ -152,7 +152,7 @@ Tha is the probability of loosing all games minus 1 in order to get the desired 
 $$
 1 - \mbox{Pr(0)} = \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
 $$
-The terms in the above equation can be defined as follows. The probability of winning exactly one game and loosing all other six games as $Pr(1)=p^1q^6$. Then winning exactly two games and loosing the other five games as $Pr(2)=p^2q^5$ and so on. The result can be seen in the following equation. The coefficients 1, 7, 21 and 35 result from plugging in $q=1-p$ and evaluation all terms. Alternativly, on can precompute the coefficients by using the binominal euqation. 
+The terms in the above equation can be defined as follows. The probability of winning exactly one game and loosing all other six games as $Pr(1)=7p^1q^6$. Then winning exactly two games and loosing the other five games as $Pr(2)=21p^2q^5$ and so on. The result can be seen in the following equation. The coefficients result from the number of possible permutations of $q^x$ and $p^y$. For example, for $7p^1q^6$ there are $7$ ways to combine the terms $pqqqqqq$.
 
 $$
 1 = 1p^0q^7 + 7p^1q^6 + 21p^2q^5 + 35p^3q^4 + 35p^4q^3 + 21p^5q^2 + 7p^6q^1 + 1p^7q^0
