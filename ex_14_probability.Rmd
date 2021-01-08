@@ -182,7 +182,7 @@ sum_four <- sum(c(win_1_games,win_2_games,win_3_games,win_4_games))
 sum_four
 sum_all-win_0_games
 ```
-In numbers it means, that adding up all probabilites results in the total of 1 as reasoned above. By summing the probabilities of winning the first four games by the underdog team the Celtics yields a value of 88%. Where given the chance of three more games, the probability that the Celtics might win at least one game rises to 97%.
+In numbers it means, that adding up all probabilites results in the total of 1 as reasoned above. By summing the probabilities of winning at least one of the first four games by the underdog team the Celtics yields a value of 88%. Where given the chance of three more games, the probability that the Celtics might win at least one game rises to 97%.
 
 ### Qn
 >9. Create a Monte Carlo simulation to confirm your answer to the previous problem. Use `B <- 10000` simulations. Hint: Use the following code to generate the results of the first four games:
