@@ -357,7 +357,31 @@ die</code></pre>
 <li>Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win <strong>at least</strong> one game?</li>
 </ol>
 </blockquote>
-<p>The question is asking for the chances of the underdog team the Cavs winning at least one game. That means one has to find all probabilities for which the Cavs win exactly one game, exactly two games and so on: <span class="math inline">\(=\mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}\)</span>. Then adding up all these probabilities plus the probability of winning zero games must add up to 1, because these are all the possibiliteis there are.<br />
+<p>The question is asking for the chances of the underdog team the Cavs winning at least one game. That means one has to find all probabilities for which the Cavs win exactly one game, exactly two games and so on: <span class="math display">\[
+P\mbox{(winning at least 1 game)}  =\mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
+\]</span> The probability of winning one game and playing one game is <span class="math inline">\(p\)</span>. The Probability of winning after the second game, therefore loosing the first game and winning the second game is <span class="math inline">\(pq\)</span> and so on, leading to the following term. <span class="math display">\[
+P\mbox{(winning at least 1 game)}  = p + pq + pq^2 + pq^3 + pq^4 + pq^5 + pq^6 
+\]</span></p>
+<pre class="r"><code>p&lt;-0.4
+q&lt;-0.6
+win_7_games &lt;- q^7
+win_6_games &lt;- p*q^6
+win_5_games &lt;- p*q^5
+win_4_games &lt;- p*q^4
+win_3_games &lt;- p*q^3
+win_2_games &lt;- p*q^2
+win_1_games &lt;- p*q^1
+win_0_games &lt;- p
+win_games &lt;- c(win_0_games,win_1_games,win_2_games,win_3_games,win_4_games,win_5_games,win_6_games,win_7_games)
+win_games</code></pre>
+<pre><code>## [1] 0.4000000 0.2400000 0.1440000 0.0864000 0.0518400 0.0311040 0.0186624
+## [8] 0.0279936</code></pre>
+<pre class="r"><code>sum_all &lt;- sum(win_games)
+sum_all</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>sum_all-win_7_games</code></pre>
+<pre><code>## [1] 0.9720064</code></pre>
+<p>Then adding up all these probabilities plus the probability of winning zero games must add up to 1, because these are all the possibiliteis there are.<br />
 However, when reading the other questions it gets clear that the overall winner of the series is the team, which first winns 4 games. For this question it means that the underdog team the Celtics must win one of the first four games, because otherwise the Cavs will win all first four games and therefore win the series ends without the last three games being played.</p>
 <p><span class="math display">\[
 1 = \mbox{Pr(0)} + \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
@@ -394,6 +418,9 @@ sum_all</code></pre>
 sum_four</code></pre>
 <pre><code>## [1] 0.8757504</code></pre>
 <pre class="r"><code>sum_all-win_0_games</code></pre>
+<pre><code>## [1] 0.9720064</code></pre>
+<pre class="r"><code>sum_6 &lt;- sum(c(win_1_games,win_2_games,win_3_games,win_4_games,win_5_games,win_6_games,win_7_games))
+sum_6</code></pre>
 <pre><code>## [1] 0.9720064</code></pre>
 <p>In numbers it means, that adding up all probabilites results in the total of 1 as reasoned above. By summing the probabilities of winning at least one of the first four games by the underdog team the Celtics yields a value of 88%. Where given the chance of three more games, the probability that the Celtics might win at least one game rises to 97%.</p>
 </div>
@@ -447,7 +474,7 @@ prop.table(table(result))</code></pre>
 <p>By looking at the previous equatin, one can see that the relevant terms for this questions are those, which include the probabilities of winning at least 4 games.<br />
 <span class="math display">\[
 \mbox{Pr(winning at least 4 games)} = \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
-\]</span> The probability that the Cavs win a game is <span class="math inline">\(p\)</span>, the probability that they lose <span class="math inline">\(q=1-p\)</span>. The probability to win the first four is <span class="math inline">\(p^4\)</span>, then the fifth ist <span class="math inline">\(p^4 q^1\)</span>, because it means out of the four games they must have lost one, othervise the series would be over by then. The probability that the series continues to the sixth game is <span class="math inline">\(p^4 q^2\)</span> and the seventh <span class="math inline">\(p^4 q^3\)</span>. <span class="math display">\[
+\]</span> The probability that the Cavs win a game is <span class="math inline">\(p\)</span>, the probability that they lose <span class="math inline">\(q=1-p\)</span>. The probability to win the first four is <span class="math inline">\(p^4\)</span>, then winning the fifth and losing one of the first four is <span class="math inline">\(4p^4 q^1\)</span>, where the prefactor results from four possible combinations of the four games with one of them being lost and three won <span class="math inline">\(\frac{4!}{3!1!}=4\)</span>, otherwise the series would be over by then. The probability that the series continues to the sixth game is <span class="math inline">\(10p^4 q^2\)</span>, where two of the first five games must been lost and three won resulting the prefactor <span class="math inline">\(\frac{5!}{3!2!}=10\)</span>. Finally, by winning the seventh game means having lost three previous games <span class="math inline">\(20p^4 q^3\)</span> resulting in the prefactor <span class="math inline">\(\frac{6!}{3!3!}=20\)</span>. <span class="math display">\[
 P\mbox{(winning at least 4 games)}  = p^4 + 4p^4q + 10p^4q^2 + 20p^4q^3
 \]</span> If the Cavs lose the first game, then the last term must be dropped, because there are only 6 games left. By inserting the probabilities of <span class="math inline">\(p=q=0.5\)</span> leads to the probability of <span class="math inline">\(0.34\)</span> of winning the series after losing the first game.</p>
 <pre class="r"><code>p&lt;-0.5
