@@ -136,7 +136,7 @@ die
 ```
 
 
-### Qn
+### Qn (seven game series)
 >8. Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win **at least** one game?
 
 The question is asking for the chances of the underdog team the Cavs winning at least one game. That means one has to find all probabilities for which the Cavs win exactly one game, exactly two games and so on: 
@@ -160,9 +160,9 @@ win_2_games <- p*q^2
 win_1_games <- p*q^1
 win_0_games <- p
 win_games <- c(win_0_games,win_1_games,win_2_games,win_3_games,win_4_games,win_5_games,win_6_games,win_7_games)
-win_games
+#win_games
 sum_all <- sum(win_games)
-sum_all
+#sum_all
 sum_all-win_7_games
 ```
 
@@ -207,14 +207,12 @@ win_5_games <- p^5*q^2*b
 win_6_games <- p^6*q^1*a
 win_7_games <- p^7*q^0
 win_games <- c(win_0_games,win_1_games,win_2_games,win_3_games,win_4_games,win_5_games,win_6_games,win_7_games)
-win_games
+#win_games
 sum_all <- sum(win_games)
-sum_all
-sum_four <- sum(c(win_1_games,win_2_games,win_3_games,win_4_games))
-sum_four
+#sum_all
 sum_all-win_0_games
-sum_6 <- sum(c(win_1_games,win_2_games,win_3_games,win_4_games,win_5_games,win_6_games,win_7_games))
-sum_6
+#sum_6 <- sum(c(win_1_games,win_2_games,win_3_games,win_4_games,win_5_games,win_6_games,win_7_games))
+#sum_6
 ```
 In numbers it means, that adding up all probabilites results in the total of 1 as reasoned above. By summing the probabilities of winning at least one of the first four games by the underdog team the Celtics yields a value of 88%. Where given the chance of three more games, the probability that the Celtics might win at least one game rises to 97%.
 
@@ -226,7 +224,22 @@ In numbers it means, that adding up all probabilites results in the total of 1 a
 >```
 >    The Celtics must win one of these 4 games.
 
-Again, the mentioned condition in the question, that the Celtics mus win one of the first four games is due to the fact that the series(tournament) will be over, if the Celtics lose all first four games. \
+Again, the mentioned condition in the question, that the Celtics mus win one of the first four games is due to the fact that the series(tournament) will be over, if the Celtics lose all first four games. 
+$$
+P\mbox{(winning at least 1 game after 4 games)}  = p + pq + pq^2 + pq^3  
+$$
+
+```{r}
+p<-0.4
+q<-0.6
+lose_3_games <- p*q^3
+lose_2_games <- p*q^2
+lose_1_games <- p*q^1
+lose_0_games <- p
+sum_games <- sum(c(lose_0_games,lose_1_games,lose_2_games,lose_3_games))
+sum_games
+```
+
 Before we dive in, let's understand the suggested function in the question. The function `sample` requires four arguments. First, the data itself as a vector, here these are the numbers `1`and `0`. Second, the number of items to choose from, here we have the value 4, which is the number of games. Third, the parameter, if the sampling is supposed to be performed with replacement or not, here the parameter is set to perform the replacement. Lastly, the function requires a vector for the probabilities weights, here it is `0.6` and `0.4`.
 ```{r}
 sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))
@@ -242,7 +255,7 @@ sum_wins <- sum(result)>=1
 sum_wins
 ```
 
-The Monte Carlo simulation confirms now the probablity of 87% (TRUE: 0.8691) that the underdog team the Celtics will win the first four games.
+The Monte Carlo simulation confirms now the probablity of 87% (TRUE: 0.869) that the underdog team the Celtics will win the first four games.
 ```{r}
 B<-10000
 celtic_wins <- replicate(B,sum(sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4)))>=1)
@@ -251,7 +264,7 @@ result <- celtic_wins
 prop.table(table(result))
 ```
 
-The probability of winning at leas one game in the series of seven games is 97% (TRUE: 0.9735), as calculated in the previous question.
+The probability of winning at leas one game in the series of seven games is 97% (TRUE: 0.97), as calculated in the previous question.
 ```{r}
 B<-10000
 celtic_wins <- replicate(B,sum(sample(c(0,1), 7, replace = TRUE, prob = c(0.6, 0.4)))>=1)

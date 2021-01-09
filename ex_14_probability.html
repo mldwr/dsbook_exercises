@@ -202,22 +202,22 @@ summary {
 <li><a href="#qn-4"><span class="toc-section-number">14.1.5</span> Qn</a></li>
 <li><a href="#qn-5"><span class="toc-section-number">14.1.6</span> Qn</a></li>
 <li><a href="#qn-6"><span class="toc-section-number">14.1.7</span> Qn</a></li>
-<li><a href="#qn-7"><span class="toc-section-number">14.1.8</span> Qn</a></li>
-<li><a href="#qn-8"><span class="toc-section-number">14.1.9</span> Qn</a></li>
-<li><a href="#qn-9"><span class="toc-section-number">14.1.10</span> Qn</a></li>
-<li><a href="#qn-10"><span class="toc-section-number">14.1.11</span> Qn</a></li>
-<li><a href="#qn-11"><span class="toc-section-number">14.1.12</span> Qn</a></li>
-<li><a href="#qn-12"><span class="toc-section-number">14.1.13</span> Qn</a></li>
+<li><a href="#qn-seven-game-series"><span class="toc-section-number">14.1.8</span> Qn (seven game series)</a></li>
+<li><a href="#qn-7"><span class="toc-section-number">14.1.9</span> Qn</a></li>
+<li><a href="#qn-8"><span class="toc-section-number">14.1.10</span> Qn</a></li>
+<li><a href="#qn-9"><span class="toc-section-number">14.1.11</span> Qn</a></li>
+<li><a href="#qn-10"><span class="toc-section-number">14.1.12</span> Qn</a></li>
+<li><a href="#qn-11"><span class="toc-section-number">14.1.13</span> Qn</a></li>
 </ul></li>
 <li><a href="#exercises-continuous-probability"><span class="toc-section-number">14.2</span> Exercises Continuous Probability</a><ul>
-<li><a href="#qn-13"><span class="toc-section-number">14.2.1</span> Qn</a></li>
-<li><a href="#qn-14"><span class="toc-section-number">14.2.2</span> Qn</a></li>
-<li><a href="#qn-15"><span class="toc-section-number">14.2.3</span> Qn</a></li>
-<li><a href="#qn-16"><span class="toc-section-number">14.2.4</span> Qn</a></li>
-<li><a href="#qn-17"><span class="toc-section-number">14.2.5</span> Qn</a></li>
-<li><a href="#qn-18"><span class="toc-section-number">14.2.6</span> Qn</a></li>
-<li><a href="#qn-19"><span class="toc-section-number">14.2.7</span> Qn</a></li>
-<li><a href="#qn-20"><span class="toc-section-number">14.2.8</span> Qn</a></li>
+<li><a href="#qn-12"><span class="toc-section-number">14.2.1</span> Qn</a></li>
+<li><a href="#qn-13"><span class="toc-section-number">14.2.2</span> Qn</a></li>
+<li><a href="#qn-14"><span class="toc-section-number">14.2.3</span> Qn</a></li>
+<li><a href="#qn-15"><span class="toc-section-number">14.2.4</span> Qn</a></li>
+<li><a href="#qn-16"><span class="toc-section-number">14.2.5</span> Qn</a></li>
+<li><a href="#qn-17"><span class="toc-section-number">14.2.6</span> Qn</a></li>
+<li><a href="#qn-18"><span class="toc-section-number">14.2.7</span> Qn</a></li>
+<li><a href="#qn-19"><span class="toc-section-number">14.2.8</span> Qn</a></li>
 </ul></li>
 </ul>
 </div>
@@ -350,8 +350,8 @@ die &lt;- sample(6, replace=TRUE)
 die</code></pre>
 <pre><code>## [1] 2 5 2 1 4 3</code></pre>
 </div>
-<div id="qn-7" class="section level3">
-<h3><span class="header-section-number">14.1.8</span> Qn</h3>
+<div id="qn-seven-game-series" class="section level3">
+<h3><span class="header-section-number">14.1.8</span> Qn (seven game series)</h3>
 <blockquote>
 <ol start="8" style="list-style-type: decimal">
 <li>Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win <strong>at least</strong> one game?</li>
@@ -373,13 +373,10 @@ win_2_games &lt;- p*q^2
 win_1_games &lt;- p*q^1
 win_0_games &lt;- p
 win_games &lt;- c(win_0_games,win_1_games,win_2_games,win_3_games,win_4_games,win_5_games,win_6_games,win_7_games)
-win_games</code></pre>
-<pre><code>## [1] 0.4000000 0.2400000 0.1440000 0.0864000 0.0518400 0.0311040 0.0186624
-## [8] 0.0279936</code></pre>
-<pre class="r"><code>sum_all &lt;- sum(win_games)
-sum_all</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>sum_all-win_7_games</code></pre>
+#win_games
+sum_all &lt;- sum(win_games)
+#sum_all
+sum_all-win_7_games</code></pre>
 <pre><code>## [1] 0.9720064</code></pre>
 <p>Then adding up all these probabilities plus the probability of winning zero games must add up to 1, because these are all the possibiliteis there are.<br />
 However, when reading the other questions it gets clear that the overall winner of the series is the team, which first winns 4 games. For this question it means that the underdog team the Celtics must win one of the first four games, because otherwise the Cavs will win all first four games and therefore win the series ends without the last three games being played.</p>
@@ -409,24 +406,19 @@ win_4_games &lt;- p^4*q^3*c
 win_5_games &lt;- p^5*q^2*b
 win_6_games &lt;- p^6*q^1*a
 win_7_games &lt;- p^7*q^0
-win_games &lt;- c(win_0_games,win_1_games,win_2_games,win_3_games,win_4_games,win_5_games,win_6_games,win_7_games)
-win_games</code></pre>
-<pre><code>## [1] 0.0279936 0.1306368 0.2612736 0.2903040 0.1935360 0.0774144 0.0172032
-## [8] 0.0016384</code></pre>
-<pre class="r"><code>sum_all &lt;- sum(win_games)
-sum_all</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>sum_four &lt;- sum(c(win_1_games,win_2_games,win_3_games,win_4_games))
-sum_four</code></pre>
-<pre><code>## [1] 0.8757504</code></pre>
-<pre class="r"><code>sum_all-win_0_games</code></pre>
+#win_games &lt;- c(win_0_games,win_1_games,win_2_games,win_3_games,win_4_games,win_5_games,win_6_games,win_7_games)
+#win_games
+#sum_all &lt;- sum(win_games)
+#sum_all
+#sum_four &lt;- sum(c(win_1_games,win_2_games,win_3_games,win_4_games))
+#sum_four
+sum_all-win_0_games</code></pre>
 <pre><code>## [1] 0.9720064</code></pre>
-<pre class="r"><code>sum_6 &lt;- sum(c(win_1_games,win_2_games,win_3_games,win_4_games,win_5_games,win_6_games,win_7_games))
-sum_6</code></pre>
-<pre><code>## [1] 0.9720064</code></pre>
+<pre class="r"><code>#sum_6 &lt;- sum(c(win_1_games,win_2_games,win_3_games,win_4_games,win_5_games,win_6_games,win_7_games))
+#sum_6</code></pre>
 <p>In numbers it means, that adding up all probabilites results in the total of 1 as reasoned above. By summing the probabilities of winning at least one of the first four games by the underdog team the Celtics yields a value of 88%. Where given the chance of three more games, the probability that the Celtics might win at least one game rises to 97%.</p>
 </div>
-<div id="qn-8" class="section level3">
+<div id="qn-7" class="section level3">
 <h3><span class="header-section-number">14.1.9</span> Qn</h3>
 <blockquote>
 <ol start="9" style="list-style-type: decimal">
@@ -435,8 +427,19 @@ sum_6</code></pre>
 <pre class="r"><code>celtic_wins &lt;- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))</code></pre>
 <p>The Celtics must win one of these 4 games.</p>
 </blockquote>
-<p>Again, the mentioned condition in the question, that the Celtics mus win one of the first four games is due to the fact that the series(tournament) will be over, if the Celtics lose all first four games.<br />
-Before we dive in, let's understand the suggested function in the question. The function <code>sample</code> requires four arguments. First, the data itself as a vector, here these are the numbers <code>1</code>and <code>0</code>. Second, the number of items to choose from, here we have the value 4, which is the number of games. Third, the parameter, if the sampling is supposed to be performed with replacement or not, here the parameter is set to perform the replacement. Lastly, the function requires a vector for the probabilities weights, here it is <code>0.6</code> and <code>0.4</code>.</p>
+<p>Again, the mentioned condition in the question, that the Celtics mus win one of the first four games is due to the fact that the series(tournament) will be over, if the Celtics lose all first four games. <span class="math display">\[
+P\mbox{(winning at least 1 game after 4 games)}  = p + pq + pq^2 + pq^3  
+\]</span></p>
+<pre class="r"><code>p&lt;-0.4
+q&lt;-0.6
+lose_3_games &lt;- p*q^3
+lose_2_games &lt;- p*q^2
+lose_1_games &lt;- p*q^1
+lose_0_games &lt;- p
+sum_games &lt;- sum(c(lose_0_games,lose_1_games,lose_2_games,lose_3_games))
+sum_games</code></pre>
+<pre><code>## [1] 0.8704</code></pre>
+<p>Before we dive in, let's understand the suggested function in the question. The function <code>sample</code> requires four arguments. First, the data itself as a vector, here these are the numbers <code>1</code>and <code>0</code>. Second, the number of items to choose from, here we have the value 4, which is the number of games. Third, the parameter, if the sampling is supposed to be performed with replacement or not, here the parameter is set to perform the replacement. Lastly, the function requires a vector for the probabilities weights, here it is <code>0.6</code> and <code>0.4</code>.</p>
 <pre class="r"><code>sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))</code></pre>
 <pre><code>## [1] 1 0 0 1</code></pre>
 <p>The output of the function is a vector of four values of <code>1</code> and <code>0</code>, representing the outcome of the four games played between the two teams Cavs (favorites) and Celtics (underdogs). The probability, of a value to be <code>1</code> is 60% and <code>0</code> is 40%. For example, the outcome vector of <code>1 0 1 1</code> means that in this simulated game series the Cavs won the first, third and fourth game, but lost the second.</p>
@@ -447,7 +450,7 @@ result</code></pre>
 <pre class="r"><code>sum_wins &lt;- sum(result)&gt;=1
 sum_wins</code></pre>
 <pre><code>## [1] FALSE</code></pre>
-<p>The Monte Carlo simulation confirms now the probablity of 87% (TRUE: 0.8691) that the underdog team the Celtics will win the first four games.</p>
+<p>The Monte Carlo simulation confirms now the probablity of 87% (TRUE: 0.869) that the underdog team the Celtics will win the first four games.</p>
 <pre class="r"><code>B&lt;-10000
 celtic_wins &lt;- replicate(B,sum(sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4)))&gt;=1)
 result &lt;- celtic_wins
@@ -456,7 +459,7 @@ prop.table(table(result))</code></pre>
 <pre><code>## result
 ##  FALSE   TRUE 
 ## 0.1309 0.8691</code></pre>
-<p>The probability of winning at leas one game in the series of seven games is 97% (TRUE: 0.9735), as calculated in the previous question.</p>
+<p>The probability of winning at leas one game in the series of seven games is 97% (TRUE: 0.97), as calculated in the previous question.</p>
 <pre class="r"><code>B&lt;-10000
 celtic_wins &lt;- replicate(B,sum(sample(c(0,1), 7, replace = TRUE, prob = c(0.6, 0.4)))&gt;=1)
 result &lt;- celtic_wins
@@ -466,7 +469,7 @@ prop.table(table(result))</code></pre>
 ##  FALSE   TRUE 
 ## 0.0287 0.9713</code></pre>
 </div>
-<div id="qn-9" class="section level3">
+<div id="qn-8" class="section level3">
 <h3><span class="header-section-number">14.1.10</span> Qn</h3>
 <blockquote>
 <ol start="10" style="list-style-type: decimal">
@@ -514,7 +517,7 @@ sum_four &lt;- sum(c(win_4_games,win_5_games,win_6_games))
 sum_four</code></pre>
 <pre><code>## [1] 0.34375</code></pre>
 </div>
-<div id="qn-10" class="section level3">
+<div id="qn-9" class="section level3">
 <h3><span class="header-section-number">14.1.11</span> Qn</h3>
 <blockquote>
 <ol start="11" style="list-style-type: decimal">
@@ -532,7 +535,7 @@ prop.table(table(result))</code></pre>
 ##   FALSE    TRUE 
 ## 0.65752 0.34248</code></pre>
 </div>
-<div id="qn-11" class="section level3">
+<div id="qn-10" class="section level3">
 <h3><span class="header-section-number">14.1.12</span> Qn</h3>
 <blockquote>
 <ol start="12" style="list-style-type: decimal">
@@ -565,7 +568,7 @@ p</code></pre>
 <pre><code>##  [1] 0.500 0.525 0.550 0.575 0.600 0.625 0.650 0.675 0.700 0.725 0.750 0.775
 ## [13] 0.800 0.825 0.850 0.875 0.900 0.925 0.950</code></pre>
 </div>
-<div id="qn-12" class="section level3">
+<div id="qn-11" class="section level3">
 <h3><span class="header-section-number">14.1.13</span> Qn</h3>
 <blockquote>
 <ol start="13" style="list-style-type: decimal">
@@ -584,7 +587,7 @@ p</code></pre>
 </div>
 <div id="exercises-continuous-probability" class="section level2">
 <h2><span class="header-section-number">14.2</span> Exercises Continuous Probability</h2>
-<div id="qn-13" class="section level3">
+<div id="qn-12" class="section level3">
 <h3><span class="header-section-number">14.2.1</span> Qn</h3>
 <blockquote>
 <ol style="list-style-type: decimal">
@@ -592,7 +595,7 @@ p</code></pre>
 </ol>
 </blockquote>
 </div>
-<div id="qn-14" class="section level3">
+<div id="qn-13" class="section level3">
 <h3><span class="header-section-number">14.2.2</span> Qn</h3>
 <blockquote>
 <ol start="2" style="list-style-type: decimal">
@@ -600,7 +603,7 @@ p</code></pre>
 </ol>
 </blockquote>
 </div>
-<div id="qn-15" class="section level3">
+<div id="qn-14" class="section level3">
 <h3><span class="header-section-number">14.2.3</span> Qn</h3>
 <blockquote>
 <ol start="3" style="list-style-type: decimal">
@@ -608,7 +611,7 @@ p</code></pre>
 </ol>
 </blockquote>
 </div>
-<div id="qn-16" class="section level3">
+<div id="qn-15" class="section level3">
 <h3><span class="header-section-number">14.2.4</span> Qn</h3>
 <blockquote>
 <ol start="4" style="list-style-type: decimal">
@@ -616,7 +619,7 @@ p</code></pre>
 </ol>
 </blockquote>
 </div>
-<div id="qn-17" class="section level3">
+<div id="qn-16" class="section level3">
 <h3><span class="header-section-number">14.2.5</span> Qn</h3>
 <blockquote>
 <ol start="5" style="list-style-type: decimal">
@@ -624,7 +627,7 @@ p</code></pre>
 </ol>
 </blockquote>
 </div>
-<div id="qn-18" class="section level3">
+<div id="qn-17" class="section level3">
 <h3><span class="header-section-number">14.2.6</span> Qn</h3>
 <blockquote>
 <ol start="6" style="list-style-type: decimal">
@@ -648,7 +651,7 @@ p</code></pre>
 <p>D. <code>pnorm(a)</code></p>
 </blockquote>
 </div>
-<div id="qn-19" class="section level3">
+<div id="qn-18" class="section level3">
 <h3><span class="header-section-number">14.2.7</span> Qn</h3>
 <blockquote>
 <ol start="7" style="list-style-type: decimal">
@@ -656,7 +659,7 @@ p</code></pre>
 </ol>
 </blockquote>
 </div>
-<div id="qn-20" class="section level3">
+<div id="qn-19" class="section level3">
 <h3><span class="header-section-number">14.2.8</span> Qn</h3>
 <blockquote>
 <ol start="8" style="list-style-type: decimal">
