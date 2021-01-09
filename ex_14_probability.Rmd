@@ -321,7 +321,7 @@ sum_four
 ### Qn
 >11. Confirm the results of the previous question with a Monte Carlo simulation.
 
-The Monte Carlso simulation confirmes the theoretically found value of 34%.
+The Monte Carlo simulation confirmes the theoretically found value of 34%.
 ```{r}
 B <- 100000
 result <- replicate(B, {
