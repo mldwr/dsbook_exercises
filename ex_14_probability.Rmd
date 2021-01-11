@@ -331,10 +331,23 @@ sum_four <- sum(c(win_4_games,win_5_games,win_6_games))
 sum_four
 ```
 
+Final thoughts: By looking at the two equations in the last question, it was possible to compute the same result, although the individual terms are different. The one equation keeps the number of wins the same, but the number of games changes. 
+$$
+P_1\mbox{(winning at least 4 games)} = p^4(4q + 10q^2 + 20q^3)
+$$
+The other equation keeps the number of games the same, but the number of wins changes.
+$$
+P_2\mbox{(winning at least 4 games)} = p^4(35q^3 + 21pq^2 + 7p^2q^1 + p^3)
+$$
+However, it is possible to show that both equations can be reduced to the same term. By substituting $q$ with $q:=(1-p)$ in each of the above terms, each term can be reduced to the following expression showing that both equations are the same.\
+Each equation can be convinient to use, in order to answear different type of questions. For equample, in question 10 it was asked for the probability, if the first game was lost, that is, if the number of games was reduced from 7 to 6.
+For this quesion the most convinient equation is the first one, because here one can simply drop the last term. The second question cannot be used to answear that question at all, because none of the term can be tropped since each term considers the probability of playing 7 games.
+
+
 ### Qn
 >11. Confirm the results of the previous question with a Monte Carlo simulation.
 
-The Monte Carlo simulation confirmes the theoretically found value of 34%.
+The Monte Carlo simulation confirmes the theoretically found value of 34%. The computation works by decreasing the number of games from 7 to 6, because the Cavs have lost one game there are 6 games left to play. They still have to win 4 games in the remaining 6 games, therefore only the samples with more than 4 wins are considered $\mbox{sum}(\mbox{b_win})>=4$.
 ```{r}
 B <- 100000
 result <- replicate(B, {
@@ -361,7 +374,9 @@ prop.table(table(result))
 >
 >    Use the function `sapply` to compute the probability, call it `Pr`, of winning for `p <- seq(0.5, 0.95, 0.025)`. Then plot the result.
 
+
 ```{r}
+library(ggplot2)
 prob_win <- function(p){
    B <- 10000
    result <- replicate(B, {
@@ -370,12 +385,9 @@ prob_win <- function(p){
    })
    mean(result)
 }
-
-#p <- prop.table(table(prob_win(0.5)))
-#sum(p[2:8])
 p <- seq(0.5, 0.95, 0.025)
-#Pr <- sapply(prob_win(p))
-p
+Pr <- sapply(p,prob_win)
+qplot(p,Pr)
 ```
 
 ### Qn
@@ -391,6 +403,21 @@ p
 >   mean(result)
 >}
 >```
+
+```{r}
+prob_win <- function(N, p=0.75){
+   B <- 10000
+   result <- replicate(B, {
+      b_win <- sample(c(1,0), N, replace = TRUE, prob = c(1-p, p))
+      sum(b_win)>=(N+1)/2
+   })
+   mean(result)
+}
+#prob_win(7)
+N <- seq(1, 25, 2)
+Pr <- sapply(N,prob_win)
+qplot(N,Pr)
+```
 
 ## Exercises Continuous Probability
 
