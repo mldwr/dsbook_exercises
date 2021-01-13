@@ -417,8 +417,8 @@ Pr2 <- sapply(p,prob_win)
 #qplot(p,Pr)
 k1 <- rep("6",length(p))
 k0 <- rep("7",length(p))
-Pr12 <- tibble(k=c(k1,k0),N=c(p,p),Pr=c(Pr1,Pr2))
-qplot(N,Pr,data=Pr12,color=k)
+Pr12 <- tibble(k=c(k1,k0),p=c(p,p),Pr=c(Pr1,Pr2))
+qplot(p,Pr,data=Pr12,color=k)
 ```
 
 ### Qn
