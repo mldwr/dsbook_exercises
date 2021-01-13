@@ -192,4 +192,12 @@ GGally::ggscatmat(iris, columns=1:4, color="Species") +
     scale_color_brewer(palette="Dark2") + 
     theme(legend.position="bottom")
 ```
-
+```{r}
+library(ggplot2)
+library(datasets)
+data(mtcars)
+qplot(mpg, wt, data = mtcars)
+qplot(mpg, wt, data = mtcars, colour = cyl)
+qplot(mpg, wt, data = mtcars, size = cyl)
+qplot(mpg, wt, data = mtcars, facets = vs ~ am)
+```
