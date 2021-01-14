@@ -17,6 +17,9 @@ output:
 ### Qn
 >1. One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will be cyan?
 
+It is helpful to keep the following thought from the book in mind, while working on the exercises: \
+"*A more tangible way to think about the probability of an event is as the **proportion** of times the event occurs when we repeat the experiment an infinite number of times, independently, and under the same conditions.*" \
+
 The cyan ball proportion is 20% or 3/15=1/5.\
 The experiment is showing the theoretical prediction.\
 First create the ball structure by using the function `rep`.\
@@ -224,6 +227,9 @@ In numbers it means, that adding up all probabilites results in the total of 1 a
 >```
 >    The Celtics must win one of these 4 games.
 
+Another valuable point from the book is the following, which is worth remembering:
+"*This line of code produces one random outcome. We want to repeat this experiment an infinite number of times, but it is impossible to repeat forever. Instead, we repeat the experiment a large enough number of times to make the results practically equivalent to repeating forever. This is an example of a Monte Carlo simulation.*" \
+\
 Again, the mentioned condition in the question, that the Celtics mus win one of the first four games is due to the fact that the series(tournament) will be over, if the Celtics lose all first four games. 
 $$
 P\mbox{(winning at least 1 game after 4 games)}  = p + pq + pq^2 + pq^3  
@@ -418,7 +424,7 @@ Pr2 <- sapply(p,prob_win)
 k1 <- rep("6",length(p))
 k0 <- rep("7",length(p))
 Pr12 <- tibble(k=c(k1,k0),p=c(p,p),Pr=c(Pr1,Pr2))
-qplot(p,Pr,data=Pr12,color=k)
+qplot(p,Pr,data=Pr12,color=k,geom=c("point","smooth"))
 ```
 
 ### Qn
@@ -465,7 +471,7 @@ Pr2 <- sapply(N,prob_win)
 k1 <- rep("0.6",length(N))
 k0 <- rep("0.75",length(N))
 Pr12 <- tibble(k=c(k1,k0),N=c(N,N),Pr=c(Pr1,Pr2))
-qplot(N,Pr,data=Pr12,color=k)
+qplot(N,Pr,data=Pr12,color=k,geom=c("point","smooth"))
 ```
 
 ## Exercises Continuous Probability
@@ -473,6 +479,15 @@ qplot(N,Pr,data=Pr12,color=k)
 ### Qn
 >1. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 5 feet or shorter? 
 
+```{r}
+library(tidyverse)
+library(dslabs)
+data(heights)
+x <- heights %>% filter(sex=="Male") %>% pull(height)
+F <- function(a) mean(x<=a)
+1 - F(70)
+F(b)-F(a)
+```
 
 ### Qn
 >2. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 6 feet or taller? 
