@@ -475,10 +475,6 @@ qplot(N,Pr,data=Pr12,color=k,geom=c("point","smooth"))
 ```
 
 ## Exercises Continuous Probability
-
-### Qn
->1. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 5 feet or shorter? 
-
 ```{r}
 library(tidyverse)
 library(dslabs)
@@ -486,27 +482,124 @@ data(heights)
 x <- heights %>% filter(sex=="Male") %>% pull(height)
 F <- function(a) mean(x<=a)
 1 - F(70)
-F(b)-F(a)
+sx <-sort(x)
+length(x)
+tibble(sx,sx>70) %>% filter(sx>70)
+1-306/length(x)
+```
+
+### Qn
+>1. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 5 feet or shorter? 
+
+First, 1 foot is 12 inches, therefore 5 feet is 60 inches.\
+As defined previously in the book: "[...] the empirical distribution function as: `F <- function(a) mean(x<=a)` which, for any value `a`, gives the proportion of values in the list `x` that are smaller or equal than `a`."\
+Using the function $\mbox{mean}(x<=a)$ and the actual dataset, yields a value of 91%. That means, by picking a female at random the probability that she will be 60 inches (5 feet) or shorter is 91%.\
+Using the normal distirbution $\mbox{pnorm}(x,m,s)$ with $m:=64$ and $s:=3$ yields a very good approximation of 90.9%. \ 
+However using the mean $m:=64.9$ and standard deviation $s:=3.7$ of the `heights` dataset yields a slightly worse approximation of 90.5%.
+```{r}
+library(tidyverse)
+library(dslabs)
+data(heights)
+x <- heights %>% filter(sex=="Female") %>% pull
+#qplot(x)
+F <- function(a) mean(x<=a)
+1 - F(60)
+m<-64
+s<-3
+1 - pnorm(60, m, s)
+m <- mean(x)
+m
+s <- sd(x)
+s
+1 - pnorm(60, m, s)
+#qplot(x,pnorm(x,m,s),geom=("point"))
+sx<-sort(x)
+tibble(sx,sx<=60) %>% filter(sx<=60) #%>% pull
+x %>% sort()
+1-21/238
 ```
 
 ### Qn
 >2. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 6 feet or taller? 
 
+For this question the same conditions apply as for the previous question with $m:=64$ and $s:=3$. Using the definition of 1 foot is 12 inches one gets for 6 feet 72 inches. \
+```{r}
+library(tidyverse)
+library(dslabs)
+data(heights)
+x <- heights %>% filter(sex=="Female") %>% pull
+F <- function(a) mean(x>a)
+1 - F(72)
+F <- function(a) mean(x<=a)
+1 - F(72)
+m<-64
+s<-3
+1 - pnorm(72, m, s)
+1 - pnorm(72, m, s,lower.tail = TRUE)
+1-mean(x<=72)
+#tibble(x,x<=72) %>% filter(x>72)
+#7/238
+```
 
 ### Qn
 >3. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is between 61 and 67 inches?
+
+```{r}
+library(tidyverse)
+library(dslabs)
+data(heights)
+x <- heights %>% filter(sex=="Female") %>% pull
+F <- function(a) mean(x<=a)
+#F(67) - F(61)
+m<-64
+s<-3
+#pnorm(67, m, s) - pnorm(61, m, s)
+#F(67)-F(61)
+a<-(61-m)/s
+b<-(67-m)/s
+c<-(60-m)/s
+pnorm(1)
+pnorm(0)
+pnorm(-1)
+#pnorm(67, m, s)-pnorm(61, m, s)
+#pnorm(67, 0, 1)-pnorm(61, 0, 1)
+pnorm(b)
+pnorm(a)
+1-pnorm(c)
+#pnorm(b,m,s)-pnorm(a,m,s)
+#pnorm(67)-pnorm(61)
+```
 
 
 ### Qn
 >4. Repeat the exercise above, but convert everything to centimeters. That is, multiply every height, including the standard deviation, by 2.54. What is the answer now?
 
+```{r}
+library(tidyverse)
+library(dslabs)
+data(heights)
+x <- heights %>% filter(sex=="Female") %>% pull
+x<- x*2.54
+F <- function(a) mean(x<=a)
+F(67*2.54) - F(61*2.54)
+m<-64*2.54
+s<-3*2.54
+pnorm(67*2.54, m, s) - pnorm(61*2.54, m, s)
+```
+
 
 ### Qn
->5. Notice that the answer to the question does not change when you change units. This makes sense since the answer to the question should not be affected by what units we use. In fact, if you look closely, you notice that 61 and 64 are both 1 SD away from the average. Compute the probability that a randomly picked, normally distributed random variable is within 1 SD from the average.
+>5. Notice that the answer to the question does not change when you change units. This makes sense since the answer to the question should not be affected by what units we use. In fact, if you look closely, you notice that 61 and 67 are both 1 SD away from the average. Compute the probability that a randomly picked, normally distributed random variable is within 1 SD from the average.
 
+(typo in question 64=>67)
+```{r}
+m<-64
+s<-3
+pnorm(m+s, m, s) - pnorm(m-s, m, s)
+```
 
 ### Qn
->6. To see the math that explains why the answers to questions 3, 4, and 5 are the same, suppose we have a random variable with average $m$ and standard error $s$. Suppose we ask the probability of $X$ being smaller or equal to $a$. Remember that, by definition, $a$ is $(a - m)/s$ standard deviations $s$ away from the average $m$. The probability is: 
+>6. To see the math that explains why the answers to questions 3, 4, and 5 are the same, suppose we have a random variable with average $m$ and standard error $s$. Suppose we ask the probability of $X$ being smaller or equal to $a$. Remember, that by definition, $a$ is $(a - m)/s$ standard deviations $s$ away from the average $m$. The probability is: 
 >
 >    $$
 >\mbox{Pr}(X \leq a)
@@ -518,7 +611,7 @@ F(b)-F(a)
 >\mbox{Pr}\left(\frac{X-m}{s} \leq \frac{a-m}{s} \right)
 >    $$
 >
->    The quantity on the right is a standard normal random variable. It has an average of 0 and a standard error of 1. We will call it $Z$:
+>    The quantity on the left is a standard normal random variable. It has an average of 0 and a standard error of 1. We will call it $Z$:
 >
 >
 >
@@ -526,7 +619,7 @@ F(b)-F(a)
 >\mbox{Pr}\left(Z \leq \frac{a-m}{s} \right)
 >    $$
 >
->    So, no matter the units, the probability of $X\leq a$ is the same as the probability of a standard normal variable being less than $(a - m)/s$. If `mu` is the average and `sigma` the standard error, which of the following R code would give us the right answer in every situation:
+>    So, no matter the units, the probability of $X\leq a$ is the same as the probability of a standard normal variable being less than $(a - m)/s$. If $\mu$ is the average and $\sigma$ the standard error, which of the following R code would give us the right answer in every situation:
 >
 >    A. `mean(X<=a)`
 >    
@@ -536,6 +629,54 @@ F(b)-F(a)
 >    
 >    D. `pnorm(a)`
 
+(typo instead \` rather $ for mu and sigma)\
+(type instead of right => left)\
+(typo comma before then)
+Answear: B. \
+The Theory behind is to understand the difference between normal distribution and standard normal distribution.
+The R code `pnorm((a-m)/s)` standardizes the value a.
+It removes the units and transforms the value from the normal distribution to the standard normal distribution. \
+$$
+\mbox{Pr}\left(Z \leq \frac{a-m}{s} \right) = \mbox{Pr}\left(Z \leq z \right)
+$$
+The lowercase letter z is defined as $z:=\frac{a-m}{s}$ and called the `z-transform`.
+The code of answear A is the normal distribution as used before `pnorm(x,m,s)`=$F(x)$.
+$$
+f(a) = \frac{1}{s\sqrt{2\pi}} \cdot \mbox{exp}(-\frac{(a-m)^2}{2s^2})
+$$
+$$
+f(a) = \frac{1}{\sqrt{2\pi}} \cdot \mbox{exp}(-\frac{a^2}{2})
+$$
+
+With $a=(a-m)/s$ one gets:
+$$
+f((a-m)/s) = \frac{1}{s\sqrt{2\pi}} \cdot \mbox{exp}(-\frac{a^2+(1-m)^2s^2-2a(1-ms)}{2s^4})
+$$
+
+```{r}
+m<-64
+s<-3
+a<-60
+1 - pnorm(a, m, s) # mean(x<=a)
+mean(x<=a)
+1 - pnorm((a-m)/s) # pnorm((a - m)/s)
+1 - pnorm((a-m)/s, m, s) # pnorm((a - m)/s,m,s)
+1 - pnorm(a) # pnorm(a)
+```
+
+```{r}
+m<-64.5
+s<-2.5
+a<-71
+z<-(a-m)/s
+pnorm(z)
+1-pnorm(z)
+1 - pnorm(a, m, s) # mean(x<=a)
+mean(x<=a)
+1 - pnorm((a-m)/s) # pnorm((a - m)/s)
+1 - pnorm((a-m)/s, m, s) # pnorm((a - m)/s,m,s)
+1 - pnorm(a) # pnorm(a)
+```
 
 ### Qn
 >7. Imagine the distribution of male adults is approximately normal with an expected value of 69 and a standard deviation of 3. How tall is the male in the 99th percentile? Hint: use `qnorm`.
