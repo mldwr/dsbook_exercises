@@ -498,15 +498,15 @@ library(dslabs)
 data(heights)
 df <- heights %>% filter(sex == "Female")
 x <- df %>% pull(height)
-xm <- seq(min(x),max(x),.1)
-ym <- dnorm(xm,m,s)
-dfm <- tibble(height=xm, density=ym)
 a <- 60
 s <- sd(x)
 m <- mean(x)
 d <- dnorm(a,m,s)
 p <- pnorm(a,m,s)
 pr <- round(p,2)*100
+xm <- seq(min(x),max(x),.1)
+ym <- dnorm(xm,m,s)
+dfm <- tibble(height=xm, density=ym)
 #qplot(x,d)
 ggplot(df,aes(height)) +
   #geom_density() +
