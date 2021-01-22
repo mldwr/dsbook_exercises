@@ -475,7 +475,7 @@ qplot(N,Pr,data=Pr12,color=k,geom=c("point","smooth"))
 ```
 
 ## Exercises Continuous Probability
-```{r}
+```{r,message=FALSE}
 library(tidyverse)
 library(dslabs)
 data(heights)
@@ -491,7 +491,12 @@ tibble(sx,sx>70) %>% filter(sx>70)
 ### Qn
 >1. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 5 feet or shorter? 
 
-```{r}
+First, recall that 1 foot is 12 inches, therefore 5 feet is 60 inches.\
+Next, the necessary function to compute the probabilities is defined in the book (Ch. 13.10) as: "*[...] the empirical distribution function as: `F <- function(a) mean(x<=a)` which, for any value `a`, gives the proportion of values in the list `x` that are smaller or equal than `a`.*"\
+In the following chart there are serveral plots shown. The blue crosses mark the height values, which are crossed by the black lined distribution of their values. In the background, a histogram is plotted to show the density of the distribution of the height values. The area under the distribution function is separated by a thik red bar, that is located at a height value of 60 inches and yields a percentile of 9%. This red bar distinguishes the area into two part. All height values that are smaler thatn 60 inches are filled red and all values that are larger than 60 inches are filled green.\
+Now, the question is asking for the probability that a randomly picked female is 60 inches or shorter. Therefore, all possible values, which are smaller than 60 are located in the red area of the plot in the chart. 
+
+```{r,message=FALSE}
 library(magrittr)
 library(ggplot2)
 library(dslabs)
@@ -510,41 +515,36 @@ dfm <- tibble(height=xm, density=ym)
 #qplot(x,d)
 ggplot(df,aes(height)) +
   #geom_density() +
-  geom_histogram(aes(y=..density..),bins=40, alpha=.5, position="dodge", colour = "black") +
+  geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
   stat_function(fun = dnorm, args = list(mean = m, sd = s)) +
   geom_point(aes(y=dnorm(x,m,s)),shape=3, color="blue", size=1.2) +
-  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=0.5) +
-  annotate("text", x = a-1.5, y = d, label = paste(c(pr,"%"), collapse = " "),color="red") +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=1.5) +
+  annotate("text", x = a-2, y = d, label = paste(c(pr,"%"), collapse = " "),color="red") +
   geom_ribbon(data=subset(dfm,height<=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2)+
   geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="green", alpha=0.2)
 ```
 
-First, 1 foot is 12 inches, therefore 5 feet is 60 inches.\
-As defined previously in the book: "[...] the empirical distribution function as: `F <- function(a) mean(x<=a)` which, for any value `a`, gives the proportion of values in the list `x` that are smaller or equal than `a`."\
-Using the function $\mbox{mean}(x<=a)$ and the actual dataset, yields a value of 91%. That means, by picking a female at random the probability that she will be 60 inches (5 feet) or shorter is 91%.\
-Using the normal distirbution $\mbox{pnorm}(x,m,s)$ with $m:=64$ and $s:=3$ yields a very good approximation of 90.9%. \ 
-However using the mean $m:=64.9$ and standard deviation $s:=3.7$ of the `heights` dataset yields a slightly worse approximation of 90.5%.
-```{r}
-library(tidyverse)
+In order to compute the probablity that a randomly picked value will be within the red area and below the percentile of 9%, the empirical distribution function is utilised. 
+Using the function $\mbox{mean}(x<=a)$ and the actual dataset, yields a value of 8.8%. That means, by picking a female at random the probability that she will be 60 inches (5 feet) or shorter is about 9%.\
+Using the normal distirbution $\mbox{pnorm}(x,m,s)$ with $m:=64$ and $s:=3$ yields a slightly overestimated value of 9.1%. \ 
+However using the mean $m:=64.9$ and standard deviation $s:=3.7$ of the `heights` dataset yields an even larger overestimation of the original value of 9.4%.
+```{r,message=FALSE}
 library(dslabs)
 data(heights)
 x <- heights %>% filter(sex=="Female") %>% pull
-#qplot(x)
 F <- function(a) mean(x<=a)
-1 - F(60)
+a <- 60
+F(a)
 m<-64
 s<-3
-1 - pnorm(60, m, s)
+pnorm(a, m, s)
 m <- mean(x)
-m
 s <- sd(x)
-s
-1 - pnorm(60, m, s)
-#qplot(x,pnorm(x,m,s),geom=("point"))
+pnorm(a, m, s)
 sx<-sort(x)
-tibble(sx,sx<=60) %>% filter(sx<=60) #%>% pull
-x %>% sort()
-1-21/238
+tibble(sx,sx<=a) %>% filter(sx<=a) #%>% pull
+#x %>% sort()
+21/length(x)
 ```
 
 ### Qn
