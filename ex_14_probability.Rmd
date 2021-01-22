@@ -407,7 +407,7 @@ Pr1 <- sapply(p,prob_win)
 ```
 
 For sake of completeness, here is the graph for seven games.
-```{r}
+```{r, message=FALSE}
 library(ggplot2)
 library(tibble)
 prob_win <- function(p){
@@ -457,7 +457,7 @@ Pr1 <- sapply(N,prob_win)
 ```
 
 For sake of completenss, here the chart for p=0.75.
-```{r}
+```{r,message=FALSE}
 prob_win <- function(N, p=0.75){
    B <- 10000
    result <- replicate(B, {
@@ -490,6 +490,34 @@ tibble(sx,sx>70) %>% filter(sx>70)
 
 ### Qn
 >1. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 5 feet or shorter? 
+
+```{r}
+library(magrittr)
+library(ggplot2)
+library(dslabs)
+data(heights)
+df <- heights %>% filter(sex == "Female")
+x <- df %>% pull(height)
+xm <- seq(min(x),max(x),.1)
+ym <- dnorm(xm,m,s)
+dfm <- tibble(height=xm, density=ym)
+a <- 60
+s <- sd(x)
+m <- mean(x)
+d <- dnorm(a,m,s)
+p <- pnorm(a,m,s)
+pr <- round(p,2)*100
+#qplot(x,d)
+ggplot(df,aes(height)) +
+  #geom_density() +
+  geom_histogram(aes(y=..density..),bins=40, alpha=.5, position="dodge", colour = "black") +
+  stat_function(fun = dnorm, args = list(mean = m, sd = s)) +
+  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="blue", size=1.2) +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=0.5) +
+  annotate("text", x = a-1.5, y = d, label = paste(c(pr,"%"), collapse = " "),color="red") +
+  geom_ribbon(data=subset(dfm,height<=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2)+
+  geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="green", alpha=0.2)
+```
 
 First, 1 foot is 12 inches, therefore 5 feet is 60 inches.\
 As defined previously in the book: "[...] the empirical distribution function as: `F <- function(a) mean(x<=a)` which, for any value `a`, gives the proportion of values in the list `x` that are smaller or equal than `a`."\
