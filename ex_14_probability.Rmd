@@ -546,6 +546,7 @@ tibble(sx,sx<=a) %>% filter(sx<=a) #%>% pull
 #x %>% sort()
 21/length(x)
 ```
+In this calculation it is not nessessary to substract the probability from 1 i.e. `1-F(a)`, because the question asked for the probability according to the definition of the empirical density function `mean(x<=a)`. That is, the probability of all values of `x` that are smaller or equal to `a`, here 60 inches. If it is asked for all values `x` that are larger than `a` as in the book, then the probability needs to be substracted from 1, in order to get the inverse value.
 
 ### Qn
 >2. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 6 feet or taller? 

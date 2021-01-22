@@ -727,6 +727,7 @@ tibble(sx,sx&lt;=a) %&gt;% filter(sx&lt;=a) #%&gt;% pull</code></pre>
 <pre class="r"><code>#x %&gt;% sort()
 21/length(x)</code></pre>
 <pre><code>## [1] 0.08823529</code></pre>
+<p>In this calculation it is not nessessary to substract the probability from 1 i.e. <code>1-F(a)</code>, because the question asked for the probability according to the definition of the empirical density function <code>mean(x&lt;=a)</code>. That is, the probability of all values of <code>x</code> that are smaller or equal to <code>a</code>, here 60 inches. If it is asked for all values <code>x</code> that are larger than <code>a</code> as in the book, then the probability needs to be substracted from 1, in order to get the inverse value.</p>
 </div>
 <div id="qn-13" class="section level3">
 <h3><span class="header-section-number">14.2.2</span> Qn</h3>
