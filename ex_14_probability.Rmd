@@ -493,7 +493,7 @@ tibble(sx,sx>70) %>% filter(sx>70)
 
 First, recall that 1 foot is 12 inches, therefore 5 feet is 60 inches.\
 Next, the necessary function to compute the probabilities is defined in the book (Ch. 13.10) as: "*[...] the empirical distribution function as: `F <- function(a) mean(x<=a)` which, for any value `a`, gives the proportion of values in the list `x` that are smaller or equal than `a`.*"\
-In the following chart there are serveral plots shown. The blue crosses mark the height values, which are crossed by the black lined distribution of their values. In the background, a histogram is plotted to show the density of the distribution of the height values. The area under the distribution function is separated by a thik red bar, that is located at a height value of 60 inches and yields a percentile of 9%. This red bar distinguishes the area into two part. All height values that are smaler thatn 60 inches are filled red and all values that are larger than 60 inches are filled green.\
+In the following chart there are serveral plots shown. The blue crosses mark the height values, which are crossed by the black lined distribution of their values.The area under the distribution function is separated by a thik red bar, that is located at a height value of 60 inches and yields a percentile of 9%. This red bar distinguishes the area into two part. All height values that are smaler thatn 60 inches are filled red and all values that are larger than 60 inches are filled green.\
 Now, the question is asking for the probability that a randomly picked female is 60 inches or shorter. Therefore, all possible values, which are smaller than 60 are located in the red area of the plot in the chart. 
 
 ```{r,message=FALSE}
@@ -515,7 +515,7 @@ dfm <- tibble(height=xm, density=ym)
 #qplot(x,d)
 ggplot(df,aes(height)) +
   #geom_density() +
-  geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
+  #geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
   stat_function(fun = dnorm, args = list(mean = m, sd = s)) +
   geom_point(aes(y=dnorm(x,m,s)),shape=3, color="blue", size=1.2) +
   geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=1.5) +
