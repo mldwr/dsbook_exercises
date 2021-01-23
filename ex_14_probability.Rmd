@@ -504,8 +504,10 @@ data(heights)
 df <- heights %>% filter(sex == "Female")
 x <- df %>% pull(height)
 a <- 60
-s <- sd(x)
+sh <-3
+mh <- 64
 m <- mean(x)
+s <- sd(x)
 d <- dnorm(a,m,s)
 p <- pnorm(a,m,s)
 pr <- round(p,2)*100
@@ -516,12 +518,14 @@ dfm <- tibble(height=xm, density=ym)
 ggplot(df,aes(height)) +
   #geom_density() +
   #geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
-  stat_function(fun = dnorm, args = list(mean = m, sd = s)) +
-  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="blue", size=1.2) +
-  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=1.5) +
-  annotate("text", x = a-2, y = d, label = paste(c(pr,"%"), collapse = " "),color="red") +
+  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="black") +
+  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="blue") +
+  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="orange", size=1.2) +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=1) +
+  annotate("text", x = a-1.5, y = d, label = paste(c(pr,"%"), collapse = " "),color="red") +
   geom_ribbon(data=subset(dfm,height<=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2)+
-  geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="green", alpha=0.2)
+  geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="green", alpha=0.2) +
+  ylab("Density") + xlab("Heights in inches")
 ```
 
 In order to compute the probablity that a randomly picked value will be within the red area and below the percentile of 9%, the empirical distribution function is utilised. 
@@ -541,15 +545,57 @@ pnorm(a, m, s)
 m <- mean(x)
 s <- sd(x)
 pnorm(a, m, s)
-sx<-sort(x)
-tibble(sx,sx<=a) %>% filter(sx<=a) #%>% pull
-#x %>% sort()
-21/length(x)
 ```
 In this calculation it is not nessessary to substract the probability of `1` i.e. `1-F(a)`, because the question asked for the probability according to the definition of the empirical density function `mean(x<=a)`. That is, the probability of all values of `x` that are smaller or equal to `a`, here 60 inches. If it is asked for all values `x` that are larger than `a` as in the book, then the probability needs to be substracted of `1`, in order to get the inverse value.
 
+```{r,message=FALSE}
+library(dslabs)
+data(heights)
+x <- heights %>% filter(sex=="Female") %>% pull
+F <- function(a) mean(x<=a)
+a <- 60
+F(a)
+sx<-sort(x)
+xa <- tibble(sx,true=sx<=a) %>% filter(sx<=a) %>% pull(true)
+length(xa)/length(x)
+```
+
+From a descrete perspective the function `F(a)` can also be reproduced by looking at the number of total values available in the dataset of female heights, which is 238 (length of the vector `x`). The number of values, which are smaller than `a=60` is 21 (length of vector ax). The ratio of these two values is exactly `F(a)`, because this is the definition of the function `F(a)=mean(x<=a)`. 
+
 ### Qn
 >2. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 6 feet or taller? 
+
+```{r,message=FALSE}
+library(magrittr)
+library(ggplot2)
+library(dslabs)
+data(heights)
+df <- heights %>% filter(sex == "Female")
+x <- df %>% pull(height)
+a <- 72
+sh <-3
+mh <- 64
+m <- mean(x)
+s <- sd(x)
+d <- dnorm(a,m,s)
+p <- pnorm(a,m,s)
+pr <- round(p,2)*100
+xm <- seq(min(x),max(x),.1)
+ym <- dnorm(xm,m,s)
+dfm <- tibble(height=xm, density=ym)
+#qplot(x,d)
+ggplot(df,aes(height)) +
+  #geom_density() +
+  #geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
+  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="black") +
+  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="blue") +
+  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="orange", size=1.2) +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=1) +
+  annotate("text", x = a+1.5, y = d, label = paste(c(pr,"%"), collapse = " "),color="red") +
+  geom_ribbon(data=subset(dfm,height<=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2)+
+  geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="green", alpha=0.2) +
+  ylab("Density") + xlab("Heights in inches")
+```
 
 For this question the same conditions apply as for the previous question with $m:=64$ and $s:=3$. Using the definition of 1 foot is 12 inches one gets for 6 feet 72 inches. \
 ```{r}
@@ -557,21 +603,54 @@ library(tidyverse)
 library(dslabs)
 data(heights)
 x <- heights %>% filter(sex=="Female") %>% pull
-F <- function(a) mean(x>a)
-1 - F(72)
 F <- function(a) mean(x<=a)
 1 - F(72)
 m<-64
 s<-3
 1 - pnorm(72, m, s)
-1 - pnorm(72, m, s,lower.tail = TRUE)
-1-mean(x<=72)
-#tibble(x,x<=72) %>% filter(x>72)
-#7/238
+1 - pnorm(72, mean(x), sd(x))
 ```
 
 ### Qn
 >3. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is between 61 and 67 inches?
+
+```{r,message=FALSE}
+library(magrittr)
+library(ggplot2)
+library(dslabs)
+data(heights)
+df <- heights %>% filter(sex == "Female")
+x <- df %>% pull(height)
+a <- 67
+b <- 61
+sh <-3
+mh <- 64
+m <- mean(x)
+s <- sd(x)
+d <- dnorm(a,m,s)
+p <- pnorm(a,m,s)
+db <- dnorm(b,m,s)
+pb <- pnorm(b,m,s)
+pr <- round(p,2)*100
+prb <- round(pb,2)*100
+xm <- seq(min(x),max(x),.1)
+ym <- dnorm(xm,m,s)
+dfm <- tibble(height=xm, density=ym)
+ggplot(df,aes(height)) +
+  #geom_density() +
+  #geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
+  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="black") +
+  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="blue") +
+  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="orange", size=1.2) +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=1) +
+  geom_segment(aes(x = b, y = 0.0, xend = b, yend = db), color="red",size=1) +
+  annotate("text", x = a+1.5, y = d, label = paste(c(pr,"%"), collapse = " "),color="red") +
+  annotate("text", x = b-1.5, y = db, label = paste(c(prb,"%"), collapse = " "),color="red") +
+  geom_ribbon(data=subset(dfm,height<=a & height>=b), aes(ymin=0,ymax=dnorm(height,m,s)),fill="green", alpha=0.2)+
+  geom_ribbon(data=subset(dfm,height<=b), aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2)+
+  geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2) +
+  ylab("Density") + xlab("Heights in inches")
+```
 
 ```{r}
 library(tidyverse)
@@ -579,30 +658,21 @@ library(dslabs)
 data(heights)
 x <- heights %>% filter(sex=="Female") %>% pull
 F <- function(a) mean(x<=a)
-#F(67) - F(61)
+F(67) - F(61)
 m<-64
 s<-3
-#pnorm(67, m, s) - pnorm(61, m, s)
-#F(67)-F(61)
+pnorm(67, m, s) - pnorm(61, m, s)
 a<-(61-m)/s
 b<-(67-m)/s
 c<-(60-m)/s
-pnorm(1)
-pnorm(0)
-pnorm(-1)
-#pnorm(67, m, s)-pnorm(61, m, s)
-#pnorm(67, 0, 1)-pnorm(61, 0, 1)
-pnorm(b)
-pnorm(a)
-1-pnorm(c)
-#pnorm(b,m,s)-pnorm(a,m,s)
-#pnorm(67)-pnorm(61)
+pnorm(67, mean(x), sd(x))-pnorm(61, mean(x), sd(x))
 ```
 
 
 ### Qn
 >4. Repeat the exercise above, but convert everything to centimeters. That is, multiply every height, including the standard deviation, by 2.54. What is the answer now?
 
+The unity of the values is just a scaling factor, which will not change the probabilities, because it is cancelled out by the substraction. That is why the answear is the same as in the question before. 
 ```{r}
 library(tidyverse)
 library(dslabs)
@@ -670,17 +740,6 @@ $$
 $$
 The lowercase letter z is defined as $z:=\frac{a-m}{s}$ and called the `z-transform`.
 The code of answear A is the normal distribution as used before `pnorm(x,m,s)`=$F(x)$.
-$$
-f(a) = \frac{1}{s\sqrt{2\pi}} \cdot \mbox{exp}(-\frac{(a-m)^2}{2s^2})
-$$
-$$
-f(a) = \frac{1}{\sqrt{2\pi}} \cdot \mbox{exp}(-\frac{a^2}{2})
-$$
-
-With $a=(a-m)/s$ one gets:
-$$
-f((a-m)/s) = \frac{1}{s\sqrt{2\pi}} \cdot \mbox{exp}(-\frac{a^2+(1-m)^2s^2-2a(1-ms)}{2s^4})
-$$
 
 ```{r}
 m<-64
@@ -710,6 +769,43 @@ mean(x<=a)
 ### Qn
 >7. Imagine the distribution of male adults is approximately normal with an expected value of 69 and a standard deviation of 3. How tall is the male in the 99th percentile? Hint: use `qnorm`.
 
+```{r,message=FALSE}
+library(magrittr)
+library(ggplot2)
+library(dslabs)
+data(heights)
+df <- heights %>% filter(sex == "Male")
+x <- df %>% pull(height)
+a <- 78
+sh <-3
+mh <- 69
+m <- mean(x)
+s <- sd(x)
+d <- dnorm(a,m,s)
+p <- pnorm(a,m,s)
+pr <- round(p,2)*100
+xm <- seq(min(x),max(x),.1)
+ym <- dnorm(xm,m,s)
+dfm <- tibble(height=xm, density=ym)
+ggplot(df,aes(height)) +
+  #geom_density() +
+  #geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
+  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="black") +
+  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="blue") +
+  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="orange", size=1.2) +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=1) +
+  annotate("text", x = a+1.5, y = d, label = paste(c(pr,"%"), collapse = " "),color="red") +
+  geom_ribbon(data=subset(dfm,height<=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2)+
+  geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="green", alpha=0.2) +
+  ylab("Density") + xlab("Heights in inches")
+```
+
+```{r}
+m<-69
+s<-3
+u<-c(0.99)
+qnorm(u,m,s)
+```
 
 ### Qn
 >8. The distribution of IQ scores is approximately normally distributed.  The average is 100 and the standard deviation is 15. Suppose you want to know the distribution of the highest IQ across all graduating classes if 10,000 people are born each in your school district. Run a Monte Carlo simulation with `B=1000` generating 10,000 IQ scores and keeping the highest. Make a histogram.
