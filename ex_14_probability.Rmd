@@ -506,11 +506,14 @@ x <- df %>% pull(height)
 a <- 60
 sh <-3
 mh <- 64
+dh <- dnorm(a,mh,sh)
+ph <- pnorm(a,mh,sh)
+prh <- round(ph,3)*100
 m <- mean(x)
 s <- sd(x)
 d <- dnorm(a,m,s)
 p <- pnorm(a,m,s)
-pr <- round(p,2)*100
+pr <- round(p,3)*100
 xm <- seq(min(x),max(x),.1)
 ym <- dnorm(xm,m,s)
 dfm <- tibble(height=xm, density=ym)
@@ -518,13 +521,16 @@ dfm <- tibble(height=xm, density=ym)
 ggplot(df,aes(height)) +
   #geom_density() +
   #geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
-  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="black") +
-  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="blue") +
-  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="orange", size=1.2) +
-  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=1) +
-  annotate("text", x = a-1.5, y = d, label = paste(c(pr,"%"), collapse = " "),color="red") +
-  geom_ribbon(data=subset(dfm,height<=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2)+
-  geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="green", alpha=0.2) +
+  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="green") +
+  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="black", size=1.2) +
+  #geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="green",size=1) +
+  annotate("text", x = a-1.5, y = d, label = paste(c(pr,"%"), collapse = " "),color="green") +
+  geom_ribbon(data=subset(dfm,height<=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="green", alpha=0.2) +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="green",size=0.5) +
+  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="red") +
+  geom_ribbon(data=subset(dfm,height<=a),aes(ymin=0,ymax=dnorm(height,mh,sh)),fill="red", alpha=0.2)+
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = dh), color="red",size=0.5) +
+  annotate("text", x = a-1.5, y = dh, label = paste(c(prh,"%"), collapse = " "),color="red") +
   ylab("Density") + xlab("Heights in inches")
 ```
 
@@ -575,11 +581,14 @@ x <- df %>% pull(height)
 a <- 72
 sh <-3
 mh <- 64
+dh <- dnorm(a,mh,sh)
+ph <- pnorm(a,mh,sh)
+prh <- round(ph,3)*100
 m <- mean(x)
 s <- sd(x)
 d <- dnorm(a,m,s)
 p <- pnorm(a,m,s)
-pr <- round(p,2)*100
+pr <- round(p,3)*100
 xm <- seq(min(x),max(x),.1)
 ym <- dnorm(xm,m,s)
 dfm <- tibble(height=xm, density=ym)
@@ -587,13 +596,16 @@ dfm <- tibble(height=xm, density=ym)
 ggplot(df,aes(height)) +
   #geom_density() +
   #geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
-  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="black") +
-  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="blue") +
-  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="orange", size=1.2) +
-  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=1) +
-  annotate("text", x = a+1.5, y = d, label = paste(c(pr,"%"), collapse = " "),color="red") +
-  geom_ribbon(data=subset(dfm,height<=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2)+
+  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="green") +
+  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="black", size=1.2) +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="green",size=0.5) +
+  annotate("text", x = a+1.5, y = d, label = paste(c(pr,"%"), collapse = " "),color="green") +
   geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="green", alpha=0.2) +
+  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="red") +
+  geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,mh,sh)),fill="red", alpha=0.2)+
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = dh), color="blue",size=0.5) +
+  annotate("text", x = a-1.5, y = dh, label = paste(c(prh,"%"), collapse = " "),color="red") +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = dh), color="red",size=0.5) +
   ylab("Density") + xlab("Heights in inches")
 ```
 
@@ -629,26 +641,37 @@ m <- mean(x)
 s <- sd(x)
 d <- dnorm(a,m,s)
 p <- pnorm(a,m,s)
+dh <- dnorm(a,mh,sh)
+ph <- pnorm(a,mh,sh)
 db <- dnorm(b,m,s)
 pb <- pnorm(b,m,s)
-pr <- round(p,2)*100
-prb <- round(pb,2)*100
+dbh <- dnorm(b,mh,sh)
+pbh <- pnorm(b,mh,sh)
+pr <- round(p,3)*100
+prb <- round(pb,3)*100
+prh <- round(ph,3)*100
+prbh <- round(pbh,3)*100
 xm <- seq(min(x),max(x),.1)
 ym <- dnorm(xm,m,s)
 dfm <- tibble(height=xm, density=ym)
 ggplot(df,aes(height)) +
   #geom_density() +
   #geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
-  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="black") +
-  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="blue") +
-  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="orange", size=1.2) +
-  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=1) +
-  geom_segment(aes(x = b, y = 0.0, xend = b, yend = db), color="red",size=1) +
-  annotate("text", x = a+1.5, y = d, label = paste(c(pr,"%"), collapse = " "),color="red") +
-  annotate("text", x = b-1.5, y = db, label = paste(c(prb,"%"), collapse = " "),color="red") +
+  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="green") +
+  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="black", size=1.2) +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="green",size=0.5) +
+  geom_segment(aes(x = b, y = 0.0, xend = b, yend = db), color="green",size=0.5) +
+  annotate("text", x = a+2, y = d, label = paste(c(pr,"%"), collapse = " "),color="green") +
+  annotate("text", x = b-2, y = db, label = paste(c(prb,"%"), collapse = " "),color="green") +
   geom_ribbon(data=subset(dfm,height<=a & height>=b), aes(ymin=0,ymax=dnorm(height,m,s)),fill="green", alpha=0.2)+
-  geom_ribbon(data=subset(dfm,height<=b), aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2)+
-  geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2) +
+  #geom_ribbon(data=subset(dfm,height<=b), aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2)+
+  #geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2) +
+  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="red") +
+  geom_ribbon(data=subset(dfm,height<=a & height>=b), aes(ymin=0,ymax=dnorm(height,mh,sh)),fill="red", alpha=0.2)+
+  annotate("text", x = a+2.5, y = dh, label = paste(c(prh,"%"), collapse = " "),color="red") +
+  annotate("text", x = b-1.5, y = dbh, label = paste(c(prbh,"%"), collapse = " "),color="red") +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = dh), color="red",size=0.5) +
+  geom_segment(aes(x = b, y = 0.0, xend = b, yend = dbh), color="red",size=0.5) +
   ylab("Density") + xlab("Heights in inches")
 ```
 
@@ -728,9 +751,6 @@ pnorm(m+s, m, s) - pnorm(m-s, m, s)
 >    
 >    D. `pnorm(a)`
 
-(typo instead \` rather $ for mu and sigma)\
-(type instead of right => left)\
-(typo comma before then)
 Answear: B. \
 The Theory behind is to understand the difference between normal distribution and standard normal distribution.
 The R code `pnorm((a-m)/s)` standardizes the value a.
@@ -741,29 +761,83 @@ $$
 The lowercase letter z is defined as $z:=\frac{a-m}{s}$ and called the `z-transform`.
 The code of answear A is the normal distribution as used before `pnorm(x,m,s)`=$F(x)$.
 
+```{r,message=FALSE}
+library(magrittr)
+library(ggplot2)
+library(dslabs)
+data(heights)
+df <- heights %>% filter(sex == "Female")
+x <- df %>% pull(height)
+a <- 60
+sh <-3
+mh <- 64
+dh <- dnorm(a,mh,sh)
+ph <- pnorm(a,mh,sh)
+prh <- round(ph,3)*100
+ggplot(df,aes(height)) +
+  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="black") +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = dh), color="blue",size=0.5) +
+  annotate("text", x = a-1.5, y = dh, label = paste(c(prh,"%"), collapse = " "),color="blue") +
+  ylab("Density") + xlab("Heights in inches")
+```
+
+```{r,message=FALSE}
+library(magrittr)
+library(ggplot2)
+library(dslabs)
+data(heights)
+df <- heights %>% filter(sex == "Female")
+x <- df %>% pull(height)
+a <- 60
+sh <-3
+mh <- 64
+as <- (a-mh)/sh 
+dfs <- tibble(sex="Female", height=(df$height-mh)/sh)
+dh <- dnorm(as,0,1)
+ph <- pnorm(as,0,1)
+prh <- round(ph,3)*100
+ggplot(dfs,aes(height)) +
+  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), color="black") +
+  geom_segment(aes(x = as, y = 0.0, xend = as, yend = dh), color="blue",size=0.5) +
+  annotate("text", x = as-0.5, y = dh, label = paste(c(prh,"%"), collapse = " "),color="blue") +
+  ylab("Density") + xlab("Standardised heights")
+```
+
+```{r,message=FALSE}
+library(magrittr)
+library(ggplot2)
+library(dslabs)
+data(heights)
+df <- heights %>% filter(sex == "Female")
+x <- df %>% pull(height)
+a <- 60
+sh <-3
+mh <- 64
+as <- (a-mh)/sh 
+dfs <- tibble(sex="Female", height=(df$height-mh)/sh)
+ph <- pnorm(as,0,1)
+prh <- round(ph,3)*100
+ggplot(dfs,aes(height)) +
+  stat_function(fun = pnorm, args = list(mean = 0, sd = 1), color="black") +
+  geom_segment(aes(x = as, y = 0.0, xend = as, yend = ph), color="blue",size=0.5) +
+  annotate("text", x = as-0.5, y = ph, label = paste(c(prh,"%"), collapse = " "),color="blue") +
+  ylab("Probability") + xlab("Standardised heights")
+```
+
 ```{r}
 m<-64
 s<-3
 a<-60
-1 - pnorm(a, m, s) # mean(x<=a)
-mean(x<=a)
-1 - pnorm((a-m)/s) # pnorm((a - m)/s)
-1 - pnorm((a-m)/s, m, s) # pnorm((a - m)/s,m,s)
-1 - pnorm(a) # pnorm(a)
-```
-
-```{r}
-m<-64.5
-s<-2.5
-a<-71
-z<-(a-m)/s
+z <- (a-m)/s
+pnorm(a, m, s)  
+#=> normal distribution (ND)
+mean(x<=a) 
+#=> standard normal distribution (SND)
 pnorm(z)
-1-pnorm(z)
-1 - pnorm(a, m, s) # mean(x<=a)
-mean(x<=a)
-1 - pnorm((a-m)/s) # pnorm((a - m)/s)
-1 - pnorm((a-m)/s, m, s) # pnorm((a - m)/s,m,s)
-1 - pnorm(a) # pnorm(a)
+#=> value of (a-m)/s=-1.3 in ND is far left, therefore close to zero
+pnorm(z, m, s)  
+#=> for large values of a (i.e. >3) the percentile will be sero, but the probability will be 1, because the SND is normalized to 1
+pnorm(a) 
 ```
 
 ### Qn
@@ -776,34 +850,49 @@ library(dslabs)
 data(heights)
 df <- heights %>% filter(sex == "Male")
 x <- df %>% pull(height)
-a <- 78
+a <- 77.71525
+ah <- 75.97904
 sh <-3
 mh <- 69
 m <- mean(x)
 s <- sd(x)
 d <- dnorm(a,m,s)
 p <- pnorm(a,m,s)
-pr <- round(p,2)*100
+pr <- round(p,3)*100
+dh <- dnorm(ah,mh,sh)
+ph <- pnorm(ah,mh,sh)
+prh <- round(ph,3)*100
 xm <- seq(min(x),max(x),.1)
 ym <- dnorm(xm,m,s)
 dfm <- tibble(height=xm, density=ym)
 ggplot(df,aes(height)) +
   #geom_density() +
   #geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
-  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="black") +
-  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="blue") +
-  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="orange", size=1.2) +
-  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="red",size=1) +
-  annotate("text", x = a+1.5, y = d, label = paste(c(pr,"%"), collapse = " "),color="red") +
-  geom_ribbon(data=subset(dfm,height<=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="red", alpha=0.2)+
+  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="green") +
+  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="black", size=0.8) +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="green",size=1) +
+  annotate("text", x = a+1.5, y = d+0.005, label = paste(c(pr,"%"), collapse = " "),color="green") +
   geom_ribbon(data=subset(dfm,height>=a),aes(ymin=0,ymax=dnorm(height,m,s)),fill="green", alpha=0.2) +
+  # RED
+  stat_function(fun = dnorm, args = list(mean = mh, sd = sh), color="red") +
+  geom_ribbon(data=subset(dfm,height>=ah),aes(ymin=0,ymax=dnorm(height,mh,sh)),fill="red", alpha=0.2)+
+  geom_segment(aes(x = ah, y = 0.0, xend = ah, yend = dh), color="red",size=1) +annotate("text", x = ah-2, y = dh, label = paste(c(prh,"%"), collapse = " "),color="red") +
   ylab("Density") + xlab("Heights in inches")
 ```
 
 ```{r}
-m<-69
-s<-3
+library(magrittr)
+library(ggplot2)
+library(dslabs)
+data(heights)
+df <- heights %>% filter(sex == "Male")
+x <- df %>% pull(height)
+mh<-69
+sh<-3
 u<-c(0.99)
+qnorm(u,mh,sh)
+m <- mean(x)
+s <- sd(x)
 qnorm(u,m,s)
 ```
 
