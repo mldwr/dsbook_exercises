@@ -1,5 +1,5 @@
 ---
-title: "Ex 14 Probability"
+title: 'Ex 14 Probability'
 output:
   html_document:
     df_print: paged
@@ -8,26 +8,28 @@ output:
     pandoc_args: [
       "--number-sections",
       "--number-offset=14"
-    ]
+      ]
 ---
-
 
 ## Exercises Discrete Probability
 
 ### Qn
->1. One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will be cyan?
 
-It is helpful to keep the following thought from the book in mind, while working on the exercises: \
-"*A more tangible way to think about the probability of an event is as the **proportion** of times the event occurs when we repeat the experiment an infinite number of times, independently, and under the same conditions.*" \
+> 1.  One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will be cyan?
 
-The cyan ball proportion is 20% or 3/15=1/5.\
+It is helpful to keep the following thought from the book in mind, while working on the exercises:\
+"*A more tangible way to think about the probability of an event is as the **proportion** of times the event occurs when we repeat the experiment an infinite number of times, independently, and under the same conditions.*"\
+
+The cyan bead proportion is 20% or 3/15=1/5.\
 The experiment is showing the theoretical prediction.\
-First create the ball structure by using the function `rep`.\
+First create the bead structure by using the function `rep`.\
+
 ```{r}
 balls <- rep(c("cyan", "magenta", "yellow"), times = c(3,5,7))
 ```
 
-Then we make random draw with `sample` and repeate the random draw with `replicate` for a large number of times (B), then we evalute the result with `prop.table`. The function `replicate` is a wrapper for the function `sapply` for the repeaded evaluation of an expression (it has nothing in common with the previously used function `rep`).
+Then we make random draw with `sample` and repeat the random draw with `replicate` for a large number of times (B), then we evaluate the result with `prop.table`. The function `replicate` is a wrapper for the function `sapply` for the repeated evaluation of an expression (it has nothing in common with the previously used function `rep`).
+
 ```{r}
 set.seed(1986)
 B <- 10000
@@ -36,7 +38,8 @@ tab <- table(events)
 prop.table(tab)
 ```
 
-Alternativley, we can utilise the parameters of the function `sample` to create a large number of draws directly. The result is the same. 
+Alternatively, we can utilize the parameters of the function `sample` to create a large number of draws directly. The result is the same.
+
 ```{r}
 set.seed(1986)
 B <- 10000
@@ -45,29 +48,29 @@ prop.table(table(events))
 ```
 
 ### Qn
->2. What is the probability that the ball will not be cyan?
 
-The proportion is 1-1/5=4/5, which is 80%.
-See experiment in question 1).
+> 2.  What is the probability that the ball will not be cyan?
 
-Here, by summing up the proportions of the balls "magenta" and "yellow" we see that the probability sums up to 0.8039 (=0.339+0.4649) that is 80,4%.
+The proportion is 1-1/5=4/5, which is 80%. See experiment in question 1).
+
+Here, by summing up the proportions of the beads "magenta" and "yellow" we see that the probability sums up to 0.8039 (=0.339+0.4649) that is 80,4%.
 
 ### Qn
->3. Instead of taking just one draw, consider taking two draws. You take the second draw without returning the first draw to the box. We call this sampling **without** replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
 
-The proportion of the first draw being cyan is 1/5 or 20%.
-Then the proportion of the second draw will be with a collection of just 14 balls of which 2 are cyan and 12 being not cyan.
-Therefore the proportion that the second draw will be not cyan is 12/14=6/7 or about 86%.
+> 3.  Instead of taking just one draw, consider taking two draws. You take the second draw without returning the first draw to the box. We call this sampling **without** replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
 
-We can validate these conseptual thoughts by conducting an experiment utilizing the following equation.
+The proportion of the first draw being cyan is 1/5 or 20%. Then the proportion of the second draw will be with a collection of just 14 balls of which 2 are cyan and 12 being not cyan. Therefore the proportion that the second draw will be not cyan is 12/14=6/7 or about 86%.
 
-Where the condition $A=$ "the first draw is cyan" and $B=$ "the second draw is not cyan".
+We can validate these conceptual thoughts by conducting an experiment utilizing the following equation.
+
+Where the condition $A=$ "the first draw is cyan" and $B=$ "the second draw is not cyan". 
+
 $$
 \mbox{Pr}(B|A) = \frac{\mbox{Pr}(A \mbox{ and } B)} { \mbox{Pr}(A)}
 $$
 
-
 The replicate function creates a matrix with the first row carrying all first draws and the second row all second draws.
+
 ```{r}
 set.seed(1986)
 B <- 100000
@@ -82,17 +85,20 @@ Here, the experimental result of 85,50% is slightly off of the predicted result,
 If we would increase the number of draws the value would convere to the predicted value.
 
 ### Qn
->4. Now repeat the experiment, but this time, after taking the first draw and recording the color, return it to the box and shake the box. We call this sampling **with** replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
+
+> 4.  Now repeat the experiment, but this time, after taking the first draw and recording the color, return it to the box and shake the box. We call this sampling **with** replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
 
 First let's think what result can be expected.\
 Again, the proportion of a draw being "cyan" is A=0.2 or 20% and the proportion of not being "cyan" is B=0.8 or 80%.\
-Since we are putting the ball from the first draw back in the bag and performing another draw, both draws are independent of yeach other.\
+Since we are putting the ball from the first draw back in the bag and performing another draw, both draws are independent of each other.\
 Therefore, the following equation can be applied and showing that only the proportion of the last draw counts. 
+
 $$
 \mbox{Pr}(B|A) = \frac{\mbox{Pr}(A \mbox{ and } B)} { \mbox{Pr}(A)} = \frac{\mbox{Pr}(A) \mbox{Pr}(B)} { \mbox{Pr}(A)} = \mbox{Pr}(B)
 $$
 
 To answer this question we use the same functions but this time we utelize the parameter `replace=TRUE` from the `sample` function.
+
 ```{r}
 set.seed(1986)
 B <- 100000
@@ -102,51 +108,55 @@ first_draw <- perms[1,]
 second_draw <- perms[2,]
 sum(first_draw %in% cyan & !second_draw %in% cyan)/sum(first_draw %in% cyan)
 ```
-Again, by increasing the number of possible permutations in the Monte Carlo experiment, the value will converge towards the predicted value. 
+
+Again, by increasing the number of possible permutations in the Monte Carlo experiment, the value will converge towards the predicted value.
 
 ### Qn
->5. Two events $A$ and $B$ are independent if $\mbox{Pr}(A \mbox{ and } B) = \mbox{Pr}(A) Pr(B)$. Under which situation are the draws independent?
+
+> 5.  Two events $A$ and $B$ are independent if $\mbox{Pr}(A \mbox{ and } B) = \mbox{Pr}(A) Pr(B)$. Under which situation are the draws independent?
 >
->        A. You don't replace the draw.
+>         A. You don't replace the draw.
 >
->        B. You replace the draw.
+>         B. You replace the draw.
 >
->        C. Neither
+>         C. Neither
 >
->        D. Both
+>         D. Both
 
 Answer B.\
 After replacing the draw the state of the system is in its initial state and the number of possible draws stays the same.\
-Threfore, you cannot distinguish if the event $A$ has taken place before or after event $B$ and vise versa.
-Howerver, if you do not replace the draw, then after each draw the state of the system changes and the number of possible draws is reduced.
+Threfore, you cannot distinguish if the event $4$ has taken place before or after event $B$ and vise versa. Howerver, if you do not replace the draw, then after each draw the state of the system changes and the number of possible draws is reduced.
 
 ### Qn
->6. Say you've drawn 5 balls from the box, with replacement, and all have been yellow. What is the probability that the next one is yellow? 
 
-Since we draw our balls with replacement the proportion of drawing any yellow colored ball is 7/15=0.47 or 47% no matter how often a yellow ball was drawn before, because the draw events are independent of yeach other.
-The conditions of each draw are the same.
+> 6.  Say you've drawn 5 balls from the box, with replacement, and all have been yellow. What is the probability that the next one is yellow?
+
+Since we draw our balls with replacement the proportion of drawing any yellow colored ball is 7/15=0.47 or 47% no matter how often a yellow ball was drawn before, because the draw events are independent of each other. The conditions of each draw are the same.
 
 ### Qn
->7. If you roll a 6-sided die six times, what is the probability of not seeing a 6?
+
+> 7.  If you roll a 6-sided die six times, what is the probability of not seeing a 6?
 
 The proportion/probability of seeing a 6 is 1/6 and of not seeing a 6 1-1/6=0.83 or 83%.
+The following Monte Carlo experiment verifies the answer.
 
-The following Monte Carlo experiemnt verifies the answer.
 ```{r}
 B <- 10000
 die <- sample(6, replace=TRUE)
 die
 ```
 
-
 ### Qn (seven game series)
->8. Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win **at least** one game?
+
+> 8.  Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win **at least** one game?
 
 The question is asking for the chances of the underdog team the Cavs winning at least one game. That means one has to find all probabilities for which the Cavs win exactly one game, exactly two games and so on: 
 $$
 P\mbox{(winning at least 1 game)}  =\mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
 $$ 
-The probability of winning one game and playing one game is $p$. The Probability of winning after the second game, therefore loosing the first game and winning the second game is $pq$ and so on, leading to the following term.
+
+The probability of winning one game and playing one game is $p$. The Probability of winning after the second game, therefore loosing the first game and winning the second game is $pq$ and so on, leading to the following term. 
+
 $$
 P\mbox{(winning at least 1 game)}  = p + pq + pq^2 + pq^3 + pq^4 + pq^5 + pq^6 
 $$
@@ -176,19 +186,20 @@ $$
 1 = \mbox{Pr(0)} + \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
 $$
 
-However, looking at the corresponding equation we can see that there is a simple shortcut that can be written so that we only need to calculate the probability of winning zero games minus 1.
-Tha is the probability of loosing all games minus 1 in order to get the desired result.
+However, looking at the corresponding equation we can see that there is a simple shortcut that can be written so that we only need to calculate the probability of winning zero games minus 1. Tha is the probability of loosing all games minus 1 in order to get the desired result.
 
 $$
 1 - \mbox{Pr(0)} = \mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
-$$
+$$ 
+
 The terms in the above equation can be defined as follows. The probability of winning exactly one game and loosing all other six games as $Pr(1)=7p^1q^6$. Then winning exactly two games and loosing the other five games as $Pr(2)=21p^2q^5$ and so on. The result can be seen in the following equation. The coefficients result from the number of possible permutations of $q^x$ and $p^y$. For example, for $7p^1q^6$ there are $7$ ways to combine the terms $pqqqqqq$.
 
 $$
 P(n;k;p) = \sum^{n}_{k=0} \binom{n}{k} \cdot p^k  \cdot (1-p)^{n-k}
-$$
-Using the euqation of the binominal distribution with $n$ being the number of games, $k$ the number of wins and $p$ the probability of winning a game and $q=(1-p)$.
-One can write for $n=7$ and $k=4$:
+$$ 
+
+Using the equation of the binomial distribution with $n$ being the number of games, $k$ the number of wins and $p$ the probability of winning a game and $q=(1-p)$. One can write for $n=7$ and $k=4$: 
+
 $$
 1 = 1p^0q^7 + 7p^1q^6 + 21p^2q^5 + 35p^3q^4 + 35p^4q^3 + 21p^5q^2 + 7p^6q^1 + 1p^7q^0
 $$
@@ -217,18 +228,21 @@ sum_all-win_0_games
 #sum_6 <- sum(c(win_1_games,win_2_games,win_3_games,win_4_games,win_5_games,win_6_games,win_7_games))
 #sum_6
 ```
+
 In numbers it means, that adding up all probabilites results in the total of 1 as reasoned above. By summing the probabilities of winning at least one of the first four games by the underdog team the Celtics yields a value of 88%. Where given the chance of three more games, the probability that the Celtics might win at least one game rises to 97%.
 
 ### Qn
->9. Create a Monte Carlo simulation to confirm your answer to the previous problem. Use `B <- 10000` simulations. Hint: Use the following code to generate the results of the first four games:
->
->```{r, eval=FALSE}
->celtic_wins <- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))
->```
->    The Celtics must win one of these 4 games.
 
-Another valuable point from the book is the following, which is worth remembering:
-"*This line of code produces one random outcome. We want to repeat this experiment an infinite number of times, but it is impossible to repeat forever. Instead, we repeat the experiment a large enough number of times to make the results practically equivalent to repeating forever. This is an example of a Monte Carlo simulation.*" \
+> 9.  Create a Monte Carlo simulation to confirm your answer to the previous problem. Use `B <- 10000` simulations. Hint: Use the following code to generate the results of the first four games:
+>
+> ```{r, eval=FALSE}
+> celtic_wins <- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))
+> ```
+>
+> The Celtics must win one of these 4 games.
+
+Another valuable point from the book is the following, which is worth remembering:\
+"*This line of code produces one random outcome. We want to repeat this experiment an infinite number of times, but it is impossible to repeat forever. Instead, we repeat the experiment a large enough number of times to make the results practically equivalent to repeating forever. This is an example of a Monte Carlo simulation.*"\
 \
 Again, the mentioned condition in the question, that the Celtics mus win one of the first four games is due to the fact that the series(tournament) will be over, if the Celtics lose all first four games. 
 $$
@@ -247,11 +261,12 @@ sum_games
 ```
 
 Before we dive in, let's understand the suggested function in the question. The function `sample` requires four arguments. First, the data itself as a vector, here these are the numbers `1`and `0`. Second, the number of items to choose from, here we have the value 4, which is the number of games. Third, the parameter, if the sampling is supposed to be performed with replacement or not, here the parameter is set to perform the replacement. Lastly, the function requires a vector for the probabilities weights, here it is `0.6` and `0.4`.
+
 ```{r}
 sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))
 ```
 
-The output of the function is a vector of four values of `1` and `0`, representing the outcome of the four games played between the two teams Cavs (favorites) and Celtics (underdogs). The probability, of a value to be `1` is 60% and `0` is 40%. For example, the outcome vector of `1 0 1 1` means that in this simulated game series the Cavs won the first, third and fourth game, but lost the second. 
+The output of the function is a vector of four values of `1` and `0`, representing the outcome of the four games played between the two teams Cavs (favorites) and Celtics (underdogs). The probability, of a value to be `1` is 60% and `0` is 40%. For example, the outcome vector of `1 0 1 1` means that in this simulated game series the Cavs won the first, third and fourth game, but lost the second.
 
 ```{r}
 celtic_wins <- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))
@@ -262,6 +277,7 @@ sum_wins
 ```
 
 The Monte Carlo simulation confirms now the probablity of 87% (TRUE: 0.869) that the underdog team the Celtics will win the first four games.
+
 ```{r}
 B<-10000
 celtic_wins <- replicate(B,sum(sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4)))>=1)
@@ -271,6 +287,7 @@ prop.table(table(result))
 ```
 
 The probability of winning at leas one game in the series of seven games is 97% (TRUE: 0.97), as calculated in the previous question.
+
 ```{r}
 B<-10000
 celtic_wins <- replicate(B,sum(sample(c(0,1), 7, replace = TRUE, prob = c(0.6, 0.4)))>=1)
@@ -280,20 +297,21 @@ prop.table(table(result))
 ```
 
 ### Qn
->10. Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?
 
-By looking at the previous equatin, one can see that the relevant terms for this questions are those, which include the probabilities of winning at least 4 games.\
+> 10. Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?
+
+By looking at the previous equation, one can see that the relevant terms for this questions are those, which include the probabilities of winning at least 4 games.\
 $$
 \mbox{Pr(winning at least 4 games)} = \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
-$$
-The probability that the Cavs win a game is $p$, the probability that they lose $q=1-p$. 
-The probability to win the first four is $p^4$, then winning the fifth and losing one of the first four is $4p^4 q^1$, where the prefactor results from four possible combinations of the four games with one of them being lost and three won $\frac{4!}{3!1!}=4$, otherwise the series would be over by then.
-The probability that the series continues to the sixth game is $10p^4 q^2$, where two of the first five games must been lost and three won resulting the prefactor $\frac{5!}{3!2!}=10$. Finally, by winning the seventh game means having lost three previous games $20p^4 q^3$ resulting in the prefactor $\frac{6!}{3!3!}=20$. 
+$$ 
+
+The probability that the Cavs win a game is $p$, the probability that they lose $q=1-p$. The probability to win the first four is $p^4$, then winning the fifth and losing one of the first four is $4p^4 q^1$, where the pre factor results from four possible combinations of the four games with one of them being lost and three won $\frac{4!}{3!1!}=4$, otherwise the series would be over by then. The probability that the series continues to the sixth game is $10p^4 q^2$, where two of the first five games must been lost and three won resulting the pre factor $\frac{5!}{3!2!}=10$. Finally, by winning the seventh game means having lost three previous games $20p^4 q^3$ resulting in the pre factor $\frac{6!}{3!3!}=20$. 
+
 $$
 P\mbox{(winning at least 4 games)}  = p^4 + 4p^4q + 10p^4q^2 + 20p^4q^3 = p^4(1+4q + 10q^2 + 20q^3)
-$$
-If the Cavs lose the first game, then the last term $20p^4q^3$ must be dropped, because there are only 6 games left. 
-By inserting the probabilities of $p=q=0.5$ leads to the probability of 34% of winning the series after losing the first game.
+$$ 
+
+If the Cavs lose the first game, then the last term $20p^4q^3$ must be dropped, because there are only 6 games left. By inserting the probabilities of $p=q=0.5$ leads to the probability of 34% of winning the series after losing the first game.
 
 ```{r}
 p<-0.5
@@ -305,10 +323,11 @@ c<-20
 p^4*(1+a*q+b*q^2)
 ```
 
-Just like before, another way to get the same result is by utilizing the binominal distribution.
+Just like before, another way to get the same result is by utilizing the binominal distribution. 
+
 $$
 1 = 1p^0q^6 + 6p^1q^5 + 15p^2q^4 + 20p^3q^3 + 15p^4q^2 + 6p^5q^1 + 1p^6q^0
-$$
+$$ 
 Then eliminating all except the terms, which contribute to win more than four times leads to the reduced term.
 
 $$
@@ -316,6 +335,7 @@ P\mbox{(winning at least 4 games)} = 15p^4q^2 + 6p^5q^1 + p^6 = p^4(15q^2 + 6pq 
 $$
 
 When inserting the actual value, one gets the expected result of 34% probability winning the series after losing the first game.
+
 ```{r}
 p<-0.5
 q<-0.5
@@ -338,31 +358,34 @@ sum_four
 ```
 
 Final thoughts: By looking at the two equations in the last question, it was possible to compute the same result, although the individual terms are different. The one equation keeps the number of wins the same, but the number of games changes. 
+
 $$
 P_1\mbox{(winning at least 4 games)} = p^4(1+4q + 10q^2 + 20q^3)
-$$
-The other equation keeps the number of games the same, but the number of wins changes.
+$$ 
+The other equation keeps the number of games the same, but the number of wins changes. 
+
 $$
 P_2\mbox{(winning at least 4 games)} = p^4(35q^3 + 21pq^2 + 7p^2q^1 + p^3)
-$$
-However, it is possible to show that both equations can be reduced to the same term. By substituting $q$ with $q:=(1-p)$ in each of the above terms, each term can be reduced to the following expression showing that both equations are the same.\
-For example, after subsituting the term of $P_1$ looks as follows. 
-$$
+$$ 
+
+However, it is possible to show that both equations can be reduced to the same term. By 
+substituting $q$ with $q:=(1-p)$ in each of the above terms, each term can be reduced to the following expression showing that both equations are the same.\
+For example, after subsituting the term of $P_1$ looks as follows. $$
 P_1 = p^4 (1+4(1-p)+10(1-p)^2+20(1-p)^3)
-$$
-After wokring out the above equation, one finally yealds the following term.
+
+$$ After wokring out the above equation, one finally yields the following term. 
 $$
 P_1 = P_2 = p^4 (35-84p+70p^2-20p^3)
 $$
 
-Each equation can be convinient to use, in order to answear different type of questions. For equample, in question 10 it was asked for the probability, if the first game was lost, that is, if the number of games was reduced from 7 to 6.
-For this quesion the most convinient equation is the first one, because here one can simply drop the last term. The second question cannot be used to answear that question at all, because none of the term can be tropped since each term considers the probability of playing 7 games.
-
+Each equation can be convenient to use, in order to answer different type of questions. For example, in question 10 it was asked for the probability, if the first game was lost, that is, if the number of games was reduced from 7 to 6. For this question the most convenient equation is the first one, because here one can simply drop the last term. The second question cannot be used to answer that question at all, because none of the term can be dropped since each term considers the probability of playing 7 games.
 
 ### Qn
->11. Confirm the results of the previous question with a Monte Carlo simulation.
+
+> 11. Confirm the results of the previous question with a Monte Carlo simulation.
 
 The Monte Carlo simulation confirmes the theoretically found value of 34%. The computation works by decreasing the number of games from 7 to 6, because the Cavs have lost one game there are 6 games left to play. They still have to win 4 games in the remaining 6 games, therefore only the samples with more than 4 wins are considered $\mbox{sum}(\mbox{b_win})>=4$.
+
 ```{r}
 B <- 100000
 result <- replicate(B, {
@@ -372,26 +395,27 @@ result <- replicate(B, {
 prop.table(table(result))
 ```
 
-
 ### Qn
->12. Two teams, $A$ and $B$, are playing a seven game series. Team $A$ is better than team $B$ and has a $p>0.5$ chance of winning each game. Given a value $p$, the probability of winning the series for the underdog team $B$ can be computed with the following function based on a Monte Carlo simulation:
+
+> 12. Two teams, $A$ and $B$, are playing a seven game series. Team $A$ is better than team $B$ and has a $p>0.5$ chance of winning each game. Given a value $p$, the probability of winning the series for the underdog team $B$ can be computed with the following function based on a Monte Carlo simulation:
 >
->```{r, eval=FALSE}
->prob_win <- function(p){
->   B <- 10000
->   result <- replicate(B, {
->      b_win <- sample(c(1,0), 7, replace = TRUE, prob = c(1-p, p))
->      sum(b_win)>=4
->   })
->   mean(result)
->}
->```
+> ```{r, eval=FALSE}
+> prob_win <- function(p){
+>    B <- 10000
+>    result <- replicate(B, {
+>       b_win <- sample(c(1,0), 7, replace = TRUE, prob = c(1-p, p))
+>       sum(b_win)>=4
+>    })
+>    mean(result)
+> }
+> ```
 >
->    Use the function `sapply` to compute the probability, call it `Pr`, of winning for `p <- seq(0.5, 0.95, 0.025)`. Then plot the result.
+> Use the function `sapply` to compute the probability, call it `Pr`, of winning for `p <- seq(0.5, 0.95, 0.025)`. Then plot the result.
 
 Up until now the computed values in the previous questions showed only on point on a larger graph. Meaning that the probability of winning a game was kept constant. However, by varying the probability one can get a better understanding of meaning of the probability to win a game and therefore of the strenght of a team.\
 For the sake of comparison the number of games in the following simulation was changed from 7 to 6. Then just as in question 10 the assumption is that the first game was lost. Because now one can see the result of the calculatioin from the previous question. In the graph below for $p=0.5$ the probability of $Pr=0.34$ can be read.\
-Consequently, if the probability of winning a game is reduced, therefore the probability of loosing a game is increased from 0.5 to 0.95, then we see from the chart that the probability of loosing the series dropps drastically. That means if a team loses the first game, then their chances of winning the series goes below 0.1 with the probability of winning a game (the strenth of a team) of about 0.67. 
+Consequently, if the probability of winning a game is reduced, therefore the probability of loosing a game is increased from 0.5 to 0.95, then we see from the chart that the probability of loosing the series dropps drastically. That means if a team loses the first game, then their chances of winning the series goes below 0.1 with the probability of winning a game (the strenth of a team) of about 0.67.
+
 ```{r}
 prob_win <- function(p){
    B <- 10000
@@ -407,6 +431,7 @@ Pr1 <- sapply(p,prob_win)
 ```
 
 For sake of completeness, here is the graph for seven games.
+
 ```{r, message=FALSE}
 library(ggplot2)
 library(tibble)
@@ -428,20 +453,22 @@ qplot(p,Pr,data=Pr12,color=k,geom=c("point","smooth"))
 ```
 
 ### Qn
->13. Repeat the exercise above, but now keep the probability fixed at `p <- 0.75` and compute the probability for different series lengths: best of 1 game, 3 games, 5 games,... Specifically, `N <- seq(1, 25, 2)`. Hint: use this function:
->
->```{r, eval = FALSE}
->prob_win <- function(N, p=0.75){
->   B <- 10000
->   result <- replicate(B, {
->      b_win <- sample(c(1,0), N, replace = TRUE, prob = c(1-p, p))
->      sum(b_win)>=(N+1)/2
->   })
->   mean(result)
->}
->```
 
-Similary, in the following simulation the probability of $p=0.6$ is assumed in order to be able to compare the results with previous questions. For a weaker team the chances of winning a series with more games reduces strongly. 
+> 13. Repeat the exercise above, but now keep the probability fixed at `p <- 0.75` and compute the probability for different series lengths: best of 1 game, 3 games, 5 games,... Specifically, `N <- seq(1, 25, 2)`. Hint: use this function:
+>
+> ```{r, eval = FALSE}
+> prob_win <- function(N, p=0.75){
+>    B <- 10000
+>    result <- replicate(B, {
+>       b_win <- sample(c(1,0), N, replace = TRUE, prob = c(1-p, p))
+>       sum(b_win)>=(N+1)/2
+>    })
+>    mean(result)
+> }
+> ```
+
+Similary, in the following simulation the probability of $p=0.6$ is assumed in order to be able to compare the results with previous questions. For a weaker team the chances of winning a series with more games reduces strongly.
+
 ```{r}
 prob_win <- function(N, p=0.6){
    B <- 10000
@@ -457,6 +484,7 @@ Pr1 <- sapply(N,prob_win)
 ```
 
 For sake of completenss, here the chart for p=0.75.
+
 ```{r,message=FALSE}
 prob_win <- function(N, p=0.75){
    B <- 10000
@@ -475,31 +503,22 @@ qplot(N,Pr,data=Pr12,color=k,geom=c("point","smooth"))
 ```
 
 ## Exercises Continuous Probability
-```{r,message=FALSE}
-library(tidyverse)
-library(dslabs)
-data(heights)
-x <- heights %>% filter(sex=="Male") %>% pull(height)
-F <- function(a) mean(x<=a)
-1 - F(70)
-sx <-sort(x)
-length(x)
-tibble(sx,sx>70) %>% filter(sx>70)
-1-306/length(x)
-```
 
 ### Qn
->1. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 5 feet or shorter? 
+
+> 1.  Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 5 feet or shorter?
 
 First, recall that 1 foot is 12 inches, therefore 5 feet is 60 inches.\
-Next, the necessary function to compute the probabilities is defined in the book (Ch. 13.10) as: "*[...] the empirical distribution function as: `F <- function(a) mean(x<=a)` which, for any value `a`, gives the proportion of values in the list `x` that are smaller or equal than `a`.*"\
-In the following chart there are serveral plots shown. The blue crosses mark the height values, which are crossed by the black lined distribution of their values.The area under the distribution function is separated by a thik red bar, that is located at a height value of 60 inches and yields a percentile of 9%. This red bar distinguishes the area into two part. All height values that are smaler thatn 60 inches are filled red and all values that are larger than 60 inches are filled green.\
-Now, the question is asking for the probability that a randomly picked female is 60 inches or shorter. Therefore, all possible values, which are smaller than 60 are located in the red area of the plot in the chart. 
+Next, the necessary function to compute the probabilities is defined in the book (Ch. 13.10) as: 
+"*[...] the empirical distribution function as: `F <- function(a) mean(x<=a)` which, for any value `a`, gives the proportion of values in the list `x` that are smaller or equal than `a`.*"\
+In the following chart there are several plots shown. The blue crosses mark the height values, which are crossed by the black lined distribution of their values.The area under the distribution function is separated by a thick red bar, that is located at a height value of 60 inches and yields a percentile of 9%. This red bar distinguishes the area into two part. All height values that are smaller than 60 inches are filled red and all values that are larger than 60 inches are filled green.\
+Now, the question is asking for the probability that a randomly picked female is 60 inches or shorter. Therefore, all possible values, which are smaller than 60 are located in the red area of the plot in the chart.
 
-```{r,message=FALSE}
+```{r}
 library(magrittr)
 library(ggplot2)
 library(dslabs)
+library(dplyr)
 data(heights)
 df <- heights %>% filter(sex == "Female")
 x <- df %>% pull(height)
@@ -517,7 +536,6 @@ pr <- round(p,3)*100
 xm <- seq(min(x),max(x),.1)
 ym <- dnorm(xm,m,s)
 dfm <- tibble(height=xm, density=ym)
-#qplot(x,d)
 ggplot(df,aes(height)) +
   #geom_density() +
   #geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
@@ -534,16 +552,16 @@ ggplot(df,aes(height)) +
   ylab("Density") + xlab("Heights in inches")
 ```
 
-In order to compute the probablity that a randomly picked value will be within the red area and below the percentile of 9%, the empirical distribution function is utilised. 
-Using the function $\mbox{mean}(x<=a)$ and the actual dataset, yields a value of 8.8%. That means, by picking a female at random the probability that she will be 60 inches (5 feet) or shorter is about 9%.\
-Using the normal distirbution $\mbox{pnorm}(x,m,s)$ with $m:=64$ and $s:=3$ yields a slightly overestimated value of 9.1%. \ 
-However using the mean $m:=64.9$ and standard deviation $s:=3.7$ of the `heights` dataset yields an even larger overestimation of the original value of 9.4%.
+In order to compute the probability that a randomly picked value will be within the red area and below the percentile of 9%, the empirical distribution function is utilized. Using the function $\mbox{mean}(x<=a)$ and the actual data set, yields a value of 8.8%. That means, by picking a female at random the probability that she will be 60 inches (5 feet) or shorter is about 9%.\
+Using the normal distribution $\mbox{pnorm}(x,m,s)$ with $m:=64$ and $s:=3$ yields a slightly overestimated value of 9.1%. However using the mean $m:=64.9$ and standard deviation $s:=3.7$ of the `heights` data set yields an even larger overestimation of the original value of 9.4%.
+
 ```{r,message=FALSE}
 library(dslabs)
 data(heights)
 x <- heights %>% filter(sex=="Female") %>% pull
 F <- function(a) mean(x<=a)
 a <- 60
+#reference
 F(a)
 m<-64
 s<-3
@@ -552,7 +570,8 @@ m <- mean(x)
 s <- sd(x)
 pnorm(a, m, s)
 ```
-In this calculation it is not nessessary to substract the probability of `1` i.e. `1-F(a)`, because the question asked for the probability according to the definition of the empirical density function `mean(x<=a)`. That is, the probability of all values of `x` that are smaller or equal to `a`, here 60 inches. If it is asked for all values `x` that are larger than `a` as in the book, then the probability needs to be substracted of `1`, in order to get the inverse value.
+
+In this calculation it is not necessary to subtract the probability of `1` i.e. `1-F(a)`, because the question asked for the probability according to the definition of the empirical density function `mean(x<=a)`. That is, the probability of all values of `x` that are smaller or equal to `a`, here 60 inches. If it is asked for all values `x` that are larger than `a` as in the book, then the probability needs to be subtracted of `1`, in order to get the inverse value.
 
 ```{r,message=FALSE}
 library(dslabs)
@@ -566,10 +585,11 @@ xa <- tibble(sx,true=sx<=a) %>% filter(sx<=a) %>% pull(true)
 length(xa)/length(x)
 ```
 
-From a descrete perspective the function `F(a)` can also be reproduced by looking at the number of total values available in the dataset of female heights, which is 238 (length of the vector `x`). The number of values, which are smaller than `a=60` is 21 (length of vector ax). The ratio of these two values is exactly `F(a)`, because this is the definition of the function `F(a)=mean(x<=a)`. 
+From a discrete perspective the function `F(a)` can also be reproduced by looking at the number of total values available in the data set of female heights, which is 238 (length of the vector `x`). The number of values, which are smaller than `a=60` is 21 (length of vector ax). The ratio of these two values is exactly `F(a)`, because this is the definition of the function `F(a)=mean(x<=a)`.
 
 ### Qn
->2. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 6 feet or taller? 
+
+> 2.  Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 6 feet or taller?
 
 ```{r,message=FALSE}
 library(magrittr)
@@ -609,7 +629,8 @@ ggplot(df,aes(height)) +
   ylab("Density") + xlab("Heights in inches")
 ```
 
-For this question the same conditions apply as for the previous question with $m:=64$ and $s:=3$. Using the definition of 1 foot is 12 inches one gets for 6 feet 72 inches. \
+For this question the same conditions apply as for the previous question with $m:=64$ and $s:=3$. Using the definition of 1 foot is 12 inches one gets for 6 feet 72 inches.\
+
 ```{r}
 library(tidyverse)
 library(dslabs)
@@ -624,7 +645,8 @@ s<-3
 ```
 
 ### Qn
->3. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is between 61 and 67 inches?
+
+> 3.  Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is between 61 and 67 inches?
 
 ```{r,message=FALSE}
 library(magrittr)
@@ -691,11 +713,12 @@ c<-(60-m)/s
 pnorm(67, mean(x), sd(x))-pnorm(61, mean(x), sd(x))
 ```
 
-
 ### Qn
->4. Repeat the exercise above, but convert everything to centimeters. That is, multiply every height, including the standard deviation, by 2.54. What is the answer now?
 
-The unity of the values is just a scaling factor, which will not change the probabilities, because it is cancelled out by the substraction. That is why the answear is the same as in the question before. 
+> 4.  Repeat the exercise above, but convert everything to centimeters. That is, multiply every height, including the standard deviation, by 2.54. What is the answer now?
+
+The unity of the values is just a scaling factor, which will not change the probabilities, because it is cancelled out by the substraction. That is why the answear is the same as in the question before.
+
 ```{r}
 library(tidyverse)
 library(dslabs)
@@ -709,11 +732,12 @@ s<-3*2.54
 pnorm(67*2.54, m, s) - pnorm(61*2.54, m, s)
 ```
 
-
 ### Qn
->5. Notice that the answer to the question does not change when you change units. This makes sense since the answer to the question should not be affected by what units we use. In fact, if you look closely, you notice that 61 and 67 are both 1 SD away from the average. Compute the probability that a randomly picked, normally distributed random variable is within 1 SD from the average.
 
-(typo in question 64=>67)
+> 5.  Notice that the answer to the question does not change when you change units. This makes sense since the answer to the question should not be affected by what units we use. In fact, if you look closely, you notice that 61 and 67 are both 1 SD away from the average. Compute the probability that a randomly picked, normally distributed random variable is within 1 SD from the average.
+
+(typo in question 64=\>67)
+
 ```{r}
 m<-64
 s<-3
@@ -721,45 +745,41 @@ pnorm(m+s, m, s) - pnorm(m-s, m, s)
 ```
 
 ### Qn
->6. To see the math that explains why the answers to questions 3, 4, and 5 are the same, suppose we have a random variable with average $m$ and standard error $s$. Suppose we ask the probability of $X$ being smaller or equal to $a$. Remember, that by definition, $a$ is $(a - m)/s$ standard deviations $s$ away from the average $m$. The probability is: 
->
->    $$
->\mbox{Pr}(X \leq a)
->    $$
->
->    Now we subtract $\mu$ to both sides and then divide both sides by $\sigma$:
->
->    $$
->\mbox{Pr}\left(\frac{X-m}{s} \leq \frac{a-m}{s} \right)
->    $$
->
->    The quantity on the left is a standard normal random variable. It has an average of 0 and a standard error of 1. We will call it $Z$:
->
->
->
->    $$
->\mbox{Pr}\left(Z \leq \frac{a-m}{s} \right)
->    $$
->
->    So, no matter the units, the probability of $X\leq a$ is the same as the probability of a standard normal variable being less than $(a - m)/s$. If $\mu$ is the average and $\sigma$ the standard error, which of the following R code would give us the right answer in every situation:
->
->    A. `mean(X<=a)`
->    
->    B. `pnorm((a - m)/s)`
->    
->    C. `pnorm((a - m)/s, m, s)`
->    
->    D. `pnorm(a)`
 
-Answear: B. \
-The Theory behind is to understand the difference between normal distribution and standard normal distribution.
-The R code `pnorm((a-m)/s)` standardizes the value a.
-It removes the units and transforms the value from the normal distribution to the standard normal distribution. \
+> 6.  To see the math that explains why the answers to questions 3, 4, and 5 are the same, suppose we have a random variable with average $m$ and standard error $s$. Suppose we ask the probability of $X$ being smaller or equal to $a$. Remember, that by definition, $a$ is $(a - m)/s$ standard deviations $s$ away from the average $m$. The probability is:
+>
+>     $$
+>     \mbox{Pr}(X \leq a)
+>     $$
+>
+>     Now we subtract $\mu$ to both sides and then divide both sides by $\sigma$:
+>
+>     $$
+>     \mbox{Pr}\left(\frac{X-m}{s} \leq \frac{a-m}{s} \right)
+>     $$
+>
+>     The quantity on the left is a standard normal random variable. It has an average of 0 and a standard error of 1. We will call it $Z$:
+>
+>     $$
+>     \mbox{Pr}\left(Z \leq \frac{a-m}{s} \right)
+>     $$
+>
+>     So, no matter the units, the probability of $X\leq a$ is the same as the probability of a standard normal variable being less than $(a - m)/s$. If $\mu$ is the average and $\sigma$ the standard error, which of the following R code would give us the right answer in every situation:
+>
+>     A. `mean(X<=a)`
+>
+>     B. `pnorm((a - m)/s)`
+>
+>     C. `pnorm((a - m)/s, m, s)`
+>
+>     D. `pnorm(a)`
+
+Answer: B.\
+The Theory behind is to understand the difference between normal distribution and standard normal distribution. The R code `pnorm((a-m)/s)` standardizes the value a. It removes the units and transforms the value from the normal distribution to the standard normal distribution.\
 $$
 \mbox{Pr}\left(Z \leq \frac{a-m}{s} \right) = \mbox{Pr}\left(Z \leq z \right)
-$$
-The lowercase letter z is defined as $z:=\frac{a-m}{s}$ and called the `z-transform`.
-The code of answear A is the normal distribution as used before `pnorm(x,m,s)`=$F(x)$.
+$$ 
+The lowercase letter z is defined as $z:=\frac{a-m}{s}$ and called the `z-transform`. The code of answer A is the normal distribution as used before `pnorm(x,m,s)`=$F(x)$.
 
 ```{r,message=FALSE}
 library(magrittr)
@@ -841,7 +861,8 @@ pnorm(a)
 ```
 
 ### Qn
->7. Imagine the distribution of male adults is approximately normal with an expected value of 69 and a standard deviation of 3. How tall is the male in the 99th percentile? Hint: use `qnorm`.
+
+> 7.  Imagine the distribution of male adults is approximately normal with an expected value of 69 and a standard deviation of 3. How tall is the male in the 99th percentile? Hint: use `qnorm`.
 
 ```{r,message=FALSE}
 library(magrittr)
@@ -894,8 +915,28 @@ qnorm(u,mh,sh)
 m <- mean(x)
 s <- sd(x)
 qnorm(u,m,s)
+# reference
+x <- heights %>% filter(sex=="Male") %>% pull
+F <- function(a) mean(x<=a)
+F(75.97904)
+F(77.71525)
 ```
 
 ### Qn
->8. The distribution of IQ scores is approximately normally distributed.  The average is 100 and the standard deviation is 15. Suppose you want to know the distribution of the highest IQ across all graduating classes if 10,000 people are born each in your school district. Run a Monte Carlo simulation with `B=1000` generating 10,000 IQ scores and keeping the highest. Make a histogram.
->
+
+> 8.  The distribution of IQ scores is approximately normally distributed. The average is 100 and the standard deviation is 15. Suppose you want to know the distribution of the highest IQ across all graduating classes if 10,000 people are born each in your school district. Run a Monte Carlo simulation with `B=1000` generating 10,000 IQ scores and keeping the highest. Make a histogram.
+
+```{r}
+prob_win <- function(p){
+   B <- 10000
+   result <- replicate(B, {
+      b_win <- sample(c(1,0), 6, replace = TRUE, prob = c(1-p, p))
+      sum(b_win)>=4
+   })
+   mean(result)
+}
+#prob_win(0.5)
+p <- seq(0.5, 0.95, 0.025)
+Pr1 <- sapply(p,prob_win)
+Pr1
+```
