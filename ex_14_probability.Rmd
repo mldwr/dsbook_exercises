@@ -934,13 +934,14 @@ m<-100
 s<-15
 B<-10000
 rpop<-replicate(B,max(rnorm(10,m,s)))
+mr<-mean(rpop)
+sr<-sd(rpop)
 #rpop <- rnorm(100,m,s)
-dpop<-dnorm(rpop,m,s)
+dpop<-dnorm(rpop,mr,sr)
 tpop <- tibble(iq=rpop,dens=dpop)
 #tpop
 ggplot(tpop,aes(iq,dens)) +
-  #geom_density() +
-  geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", colour = "black") +
-  #stat_function(fun = dnorm, args = list(mean = m, sd = s), color="green") +
-  geom_point(shape=3, color="black", size=0.8)
+  geom_histogram(aes(y=..density..),bins=25, alpha=.5, position="dodge", color="black") +
+  stat_function(fun = dnorm, args = list(mean = mr, sd = sr), color="blue") 
+  #geom_point(aes(y=dens),shape=3, color="green", size=0.8)
 ```
