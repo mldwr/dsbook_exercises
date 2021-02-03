@@ -255,29 +255,21 @@ summary {
 <h3 number="24.1.3"><span class="header-section-number">24.1.3</span> Qn</h3>
 <blockquote>
 <ol start="3" style="list-style-type: decimal">
-<li>We are going to create a tidy dataset with each row representing one observation. The variables in this dataset will be year, month, day and deaths. Start by installing and loading the <strong>pdftools</strong> package:</li>
-</ol>
+<li><p>We are going to create a tidy dataset with each row representing one observation. The variables in this dataset will be year, month, day and deaths. Start by installing and loading the <strong>pdftools</strong> package:</p>
 <pre class="r"><code>install.packages(&quot;pdftools&quot;)
 library(pdftools)</code></pre>
 <p>Now read-in <code>fn</code> using the <code>pdf_text</code> function and store the results in an object called <code>txt</code>. Which of the following best describes what you see in <code>txt</code>.</p>
 <p>A. A table with the mortality data.</p>
 <p>B. A character string of length 12. Each entry represents the text in each page. The mortality data is in there somewhere.</p>
 <p>C. A character string with one entry containing all the information in the PDF file.</p>
-<p>D. An html document.</p>
+<p>D. An html document.</p></li>
+</ol>
 </blockquote>
 <p>Answer B.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(dslabs)
-library(pdftools)</code></pre>
-<pre class="r"><code>fn &lt;- system.file(&quot;extdata&quot;, &quot;RD-Mortality-Report_2015-18-180531.pdf&quot;,package=&quot;dslabs&quot;)
+<pre class="r"><code>library(tidyverse)
+library(dslabs)
+library(pdftools)
+fn &lt;- system.file(&quot;extdata&quot;,&quot;RD-Mortality-Report_2015-18-180531.pdf&quot;,package=&quot;dslabs&quot;)
 txt &lt;- pdf_text(fn)
 length(txt)</code></pre>
 <pre><code>## [1] 12</code></pre>

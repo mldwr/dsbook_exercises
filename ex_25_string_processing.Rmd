@@ -84,56 +84,6 @@ txt <- pdf_text(fn)
 length(txt)
 ```
 
-```{r, message=FALSE}
-library(tidyverse)
-library(dslabs)
-library(pdftools)
-library(tibble)
-filenames <- list.files("~/Downloads/Datensets/Commerzbank/Commerzbank Download Waldemar Hujo",full.names=TRUE)
-extract_table <- function(filename) {
-  #txt <- pdf_text("~/Kontoauszug_550627400_20190201.pdf") %>% str_split("\n") #%>% str_trim()
-  txt <- pdf_text(filename) %>% str_split("\n")
-  txt <- unlist(txt) %>% str_trim()
-  year <- str_extract(txt,"Kontoauszug vom (.+$)") %>%.[1] %>% str_replace_all("[A-Za-z]|\\s","") %>% str_sub(7,10)
-  idx <- str_which(txt,"\\s+\\d{2}\\.\\d{2}\\s+[^,]+,")
-  ntxt <- txt[sort(idx)]
-  paste(ntxt,"  ",year)
-}
-ltxt <- lapply(filenames,extract_table) 
-ltxt <- ltxt %>% unlist %>% str_replace("28055016733","") 
-stxt <- str_split(ltxt,"\\s{2,}")
-#ztxt <- lapply(stxt, function(z){ z[!is.na(z) & z != ""]})
-# transform to tibble, add row-numbers, rename head titles, sort
-dftxt <- data.frame(matrix(unlist(stxt), nrow=length(stxt), byrow=T),stringsAsFactors=FALSE) 
-dftxt <- dftxt %>% mutate(row=row_number()) 
-dftxt <- dftxt %>% mutate(X2=paste(dftxt$X2,dftxt$X4,sep=".")) 
-dftxt <- dftxt %>% rename(pos=X1,date=X2,value=X3,year=X4) #%>% arrange(pos)
-# convert char to num
-dftxt <- dftxt %>% mutate(prefac=str_extract(value,"-")) %>% mutate(prefac=str_replace(prefac,"-","-1")) %>% mutate(prefac=str_replace_na(prefac)) %>% mutate(prefac=str_replace(prefac,"NA","1")) 
-# remove sign
-dftxt <- dftxt %>% mutate(value=str_replace(value,"-","")) 
-# remove thousand point
-dftxt <- dftxt %>% mutate(value=str_replace(value,"\\.",""))
-# replace comma with dot
-dftxt <- dftxt %>% mutate(value=str_replace(value,",",".")) %>% mutate(value=as.numeric(value))
-
-
-dftxt %>% group_by(year,prefac) %>% summarize(sum(value))
-
-z<-data.frame(
-  matrix(
-    data = c(names(stxt), lengths(stxt)),
-    nrow = length(stxt),
-    byrow = TRUE
-    )
-)
-z <- z %>% rename(data=1)
-z %>% filter(data==2)
-
-#dftxt <- dftxt %>% mutate(prefac=str_replace(str_extract(value,"-"),"-","-1"))
-
-```
-
 ### Qn
 
 >4. Extract the ninth page of the PDF file from the object `txt`, then use the `str_split` from the __stringr__ package so that you have each line in a different entry. Call this string vector `s`. Then look at the result and choose the one that best describes what you see.
