@@ -1101,7 +1101,7 @@ F(75.97904)</code></pre>
 </ol>
 </blockquote>
 <p>In order to generate a random sample that is normally distributed the function <code>rnorm</code> is used. First, a sample of the requested 10,000 random values are provided as input into the function along with the defined mean of 100 and standard deviation of 15. From the result the largest value is extracted. This procedure is repeated 1,000 times. After these thousand experiments, in which 10,000 individuals were generated the new mean (=158) and standard deviation (=5) is computed.<br />
-The mean for this new distribution of the individuals with the highest IQ in their population is about 60% larger than the average population. In addition, the rather small standard deviation of only 5 indicates that most of the individuals have similar IQ values around the mean of 158.<br />
+The mean for this new distribution of the individuals with the highest IQ in their population is about 60% larger than the average population. In addition, the rather small standard deviation of only 5 indicates that most of the individuals have similar IQ values around the mean of 158. The result that a population with individuals having a high IQ value results in a narrow standard deviation might account for the he saying “Great minds think alike”.<br />
 For the plot, the resulted IQ values are transformed into density distribution values using the <code>dnorm</code> function. Finally the plot is constructed with <code>stat_function</code> and <code>geom_histogram</code>.</p>
 <pre class="r"><code>library(ggplot2)
 library(magrittr)
