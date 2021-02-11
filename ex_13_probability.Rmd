@@ -1,5 +1,5 @@
 ---
-title: 'Ex 14 Probability'
+title: 'Ex 13 Probability'
 output:
   html_document:
     df_print: paged
@@ -7,7 +7,7 @@ output:
     toc: true
     pandoc_args: [
       "--number-sections",
-      "--number-offset=14"
+      "--number-offset=13"
       ]
 ---
 
