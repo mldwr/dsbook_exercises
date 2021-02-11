@@ -864,6 +864,7 @@ pnorm(a)
 
 > 7.  Imagine the distribution of male adults is approximately normal with an expected value of 69 and a standard deviation of 3. How tall is the male in the 99th percentile? Hint: use `qnorm`.
 
+Depending on the mean and standard deviation the value for the 99th percentile is 78 or 76 inch.
 ```{r,message=FALSE}
 library(magrittr)
 library(ggplot2)
