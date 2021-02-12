@@ -15,7 +15,7 @@ output:
 
 ### Qn
 
-> 1.  One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will be cyan?
+> 1.  One bead will be drawn at random from a box containing: 3 cyan beads, 5 magenta beads, and 7 yellow beads. What is the probability that the bead will be cyan?
 
 It is helpful to keep the following thought from the book in mind, while working on the exercises:\
 "*A more tangible way to think about the probability of an event is as the **proportion** of times the event occurs when we repeat the experiment an infinite number of times, independently, and under the same conditions.*"\
@@ -25,7 +25,7 @@ The experiment is showing the theoretical prediction.\
 First create the bead structure by using the function `rep`.\
 
 ```{r}
-balls <- rep(c("cyan", "magenta", "yellow"), times = c(3,5,7))
+beads <- rep(c("cyan", "magenta", "yellow"), times = c(3,5,7))
 ```
 
 Then we make random draw with `sample` and repeat the random draw with `replicate` for a large number of times (B), then we evaluate the result with `prop.table`. The function `replicate` is a wrapper for the function `sapply` for the repeated evaluation of an expression (it has nothing in common with the previously used function `rep`).
@@ -33,7 +33,7 @@ Then we make random draw with `sample` and repeat the random draw with `replicat
 ```{r}
 set.seed(1986)
 B <- 10000
-events <- replicate(B, sample(balls, 2))
+events <- replicate(B, sample(beads, 2))
 tab <- table(events)
 prop.table(tab)
 ```
@@ -43,13 +43,13 @@ Alternatively, we can utilize the parameters of the function `sample` to create 
 ```{r}
 set.seed(1986)
 B <- 10000
-events <- sample(balls, B, replace = TRUE)
+events <- sample(beads, B, replace = TRUE)
 prop.table(table(events))
 ```
 
 ### Qn
 
-> 2.  What is the probability that the ball will not be cyan?
+> 2.  What is the probability that the bead will not be cyan?
 
 The proportion is 1-1/5=4/5, which is 80%. See experiment in question 1).
 
@@ -59,7 +59,7 @@ Here, by summing up the proportions of the beads "magenta" and "yellow" we see t
 
 > 3.  Instead of taking just one draw, consider taking two draws. You take the second draw without returning the first draw to the box. We call this sampling **without** replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
 
-The proportion of the first draw being cyan is 1/5 or 20%. Then the proportion of the second draw will be with a collection of just 14 balls of which 2 are cyan and 12 being not cyan. Therefore the proportion that the second draw will be not cyan is 12/14=6/7 or about 86%.
+The proportion of the first draw being cyan is 1/5 or 20%. Then the proportion of the second draw will be with a collection of just 14 beads of which 2 are cyan and 12 being not cyan. Therefore the proportion that the second draw will be not cyan is 12/14=6/7 or about 86%.
 
 We can validate these conceptual thoughts by conducting an experiment utilizing the following equation.
 
@@ -75,7 +75,7 @@ The replicate function creates a matrix with the first row carrying all first dr
 set.seed(1986)
 B <- 100000
 cyan <- "cyan"
-perms <- replicate(B,sample(balls,2))
+perms <- replicate(B,sample(beads,2))
 first_draw <- perms[1,]
 second_draw <- perms[2,]
 sum(first_draw %in% cyan & !second_draw %in% cyan)/sum(first_draw %in% cyan)
@@ -90,7 +90,7 @@ If we would increase the number of draws the value would convere to the predicte
 
 First let's think what result can be expected.\
 Again, the proportion of a draw being "cyan" is A=0.2 or 20% and the proportion of not being "cyan" is B=0.8 or 80%.\
-Since we are putting the ball from the first draw back in the bag and performing another draw, both draws are independent of each other.\
+Since we are putting the bead from the first draw back in the bag and performing another draw, both draws are independent of each other.\
 Therefore, the following equation can be applied and showing that only the proportion of the last draw counts. 
 
 $$
@@ -103,7 +103,7 @@ To answer this question we use the same functions but this time we utelize the p
 set.seed(1986)
 B <- 100000
 cyan <- "cyan"
-perms <- replicate(B,sample(balls,2,replace = TRUE))
+perms <- replicate(B,sample(beads,2,replace = TRUE))
 first_draw <- perms[1,]
 second_draw <- perms[2,]
 sum(first_draw %in% cyan & !second_draw %in% cyan)/sum(first_draw %in% cyan)
@@ -115,13 +115,13 @@ Again, by increasing the number of possible permutations in the Monte Carlo expe
 
 > 5.  Two events $A$ and $B$ are independent if $\mbox{Pr}(A \mbox{ and } B) = \mbox{Pr}(A) Pr(B)$. Under which situation are the draws independent?
 >
->         A. You don't replace the draw.
+>       A. You don't replace the draw.
 >
->         B. You replace the draw.
+>       B. You replace the draw.
 >
->         C. Neither
+>       C. Neither
 >
->         D. Both
+>       D. Both
 
 Answer B.\
 After replacing the draw the state of the system is in its initial state and the number of possible draws stays the same.\
@@ -129,9 +129,9 @@ Threfore, you cannot distinguish if the event $4$ has taken place before or afte
 
 ### Qn
 
-> 6.  Say you've drawn 5 balls from the box, with replacement, and all have been yellow. What is the probability that the next one is yellow?
+> 6.  Say you've drawn 5 beads from the box, with replacement, and all have been yellow. What is the probability that the next one is yellow?
 
-Since we draw our balls with replacement the proportion of drawing any yellow colored ball is 7/15=0.47 or 47% no matter how often a yellow ball was drawn before, because the draw events are independent of each other. The conditions of each draw are the same.
+Since we draw our beads with replacement the proportion of drawing any yellow colored bead is 7/15=0.47 or 47% no matter how often a yellow bead was drawn before, because the draw events are independent of each other. The conditions of each draw are the same.
 
 ### Qn
 
@@ -151,6 +151,7 @@ die
 > 8.  Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win **at least** one game?
 
 The question is asking for the chances of the underdog team the Cavs winning at least one game. That means one has to find all probabilities for which the Cavs win exactly one game, exactly two games and so on: 
+
 $$
 P\mbox{(winning at least 1 game)}  =\mbox{Pr(1)} + \mbox{Pr(2)} + \mbox{Pr(3)} + \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
 $$ 
@@ -235,16 +236,17 @@ In numbers it means, that adding up all probabilites results in the total of 1 a
 
 > 9.  Create a Monte Carlo simulation to confirm your answer to the previous problem. Use `B <- 10000` simulations. Hint: Use the following code to generate the results of the first four games:
 >
-> ```{r, eval=FALSE}
-> celtic_wins <- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))
-> ```
+>     ```{r, eval=FALSE}
+>     celtic_wins <- sample(c(0,1), 4, replace = TRUE, prob = c(0.6, 0.4))
+>     ```
 >
-> The Celtics must win one of these 4 games.
+>     The Celtics must win one of these 4 games.
 
 Another valuable point from the book is the following, which is worth remembering:\
 "*This line of code produces one random outcome. We want to repeat this experiment an infinite number of times, but it is impossible to repeat forever. Instead, we repeat the experiment a large enough number of times to make the results practically equivalent to repeating forever. This is an example of a Monte Carlo simulation.*"\
 \
 Again, the mentioned condition in the question, that the Celtics mus win one of the first four games is due to the fact that the series(tournament) will be over, if the Celtics lose all first four games. 
+
 $$
 P\mbox{(winning at least 1 game after 4 games)}  = p + pq + pq^2 + pq^3  
 $$
@@ -301,6 +303,7 @@ prop.table(table(result))
 > 10. Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?
 
 By looking at the previous equation, one can see that the relevant terms for this questions are those, which include the probabilities of winning at least 4 games.\
+
 $$
 \mbox{Pr(winning at least 4 games)} = \mbox{Pr(4)} + \mbox{Pr(5)} + \mbox{Pr(6)} + \mbox{Pr(7)}
 $$ 
@@ -370,10 +373,13 @@ $$
 
 However, it is possible to show that both equations can be reduced to the same term. By 
 substituting $q$ with $q:=(1-p)$ in each of the above terms, each term can be reduced to the following expression showing that both equations are the same.\
-For example, after subsituting the term of $P_1$ looks as follows. $$
-P_1 = p^4 (1+4(1-p)+10(1-p)^2+20(1-p)^3)
+For example, after subsituting the term of $P_1$ looks as follows. 
 
-$$ After wokring out the above equation, one finally yields the following term. 
+$$
+P_1 = p^4 (1+4(1-p)+10(1-p)^2+20(1-p)^3)
+$$ 
+After wokring out the above equation, one finally yields the following term. 
+
 $$
 P_1 = P_2 = p^4 (35-84p+70p^2-20p^3)
 $$
@@ -399,18 +405,18 @@ prop.table(table(result))
 
 > 12. Two teams, $A$ and $B$, are playing a seven game series. Team $A$ is better than team $B$ and has a $p>0.5$ chance of winning each game. Given a value $p$, the probability of winning the series for the underdog team $B$ can be computed with the following function based on a Monte Carlo simulation:
 >
-> ```{r, eval=FALSE}
-> prob_win <- function(p){
->    B <- 10000
->    result <- replicate(B, {
+>     ```{r, eval=FALSE}
+>     prob_win <- function(p){
+>     B <- 10000
+>     result <- replicate(B, {
 >       b_win <- sample(c(1,0), 7, replace = TRUE, prob = c(1-p, p))
->       sum(b_win)>=4
->    })
->    mean(result)
-> }
-> ```
+>         sum(b_win)>=4
+>       })
+>     mean(result)
+>     }
+>       ```
 >
-> Use the function `sapply` to compute the probability, call it `Pr`, of winning for `p <- seq(0.5, 0.95, 0.025)`. Then plot the result.
+>      Use the function `sapply` to compute the probability, call it `Pr`, of winning for `p <- seq(0.5, 0.95, 0.025)`. Then plot the result.
 
 Up until now the computed values in the previous questions showed only on point on a larger graph. Meaning that the probability of winning a game was kept constant. However, by varying the probability one can get a better understanding of meaning of the probability to win a game and therefore of the strenght of a team.\
 For the sake of comparison the number of games in the following simulation was changed from 7 to 6. Then just as in question 10 the assumption is that the first game was lost. Because now one can see the result of the calculatioin from the previous question. In the graph below for $p=0.5$ the probability of $Pr=0.34$ can be read.\
@@ -456,18 +462,18 @@ qplot(p,Pr,data=Pr12,color=k,geom=c("point","smooth"))
 
 > 13. Repeat the exercise above, but now keep the probability fixed at `p <- 0.75` and compute the probability for different series lengths: best of 1 game, 3 games, 5 games,... Specifically, `N <- seq(1, 25, 2)`. Hint: use this function:
 >
-> ```{r, eval = FALSE}
-> prob_win <- function(N, p=0.75){
->    B <- 10000
->    result <- replicate(B, {
+>     ```{r, eval = FALSE}
+>     prob_win <- function(N, p=0.75){
+>     B <- 10000
+>     result <- replicate(B, {
 >       b_win <- sample(c(1,0), N, replace = TRUE, prob = c(1-p, p))
->       sum(b_win)>=(N+1)/2
->    })
->    mean(result)
-> }
-> ```
+>         sum(b_win)>=(N+1)/2
+>       })
+>     mean(result)
+>     }
+>      ```
 
-Similary, in the following simulation the probability of $p=0.6$ is assumed in order to be able to compare the results with previous questions. For a weaker team the chances of winning a series with more games reduces strongly.
+Similarly, in the following simulation the probability of $p=0.6$ is assumed in order to be able to compare the results with previous questions. For a weaker team the chances of winning a series with more games reduces strongly.
 
 ```{r}
 prob_win <- function(N, p=0.6){
@@ -514,7 +520,7 @@ Next, the necessary function to compute the probabilities is defined in the book
 In the following chart there are several plots shown. The blue crosses mark the height values, which are crossed by the black lined distribution of their values.The area under the distribution function is separated by a thick red bar, that is located at a height value of 60 inches and yields a percentile of 9%. This red bar distinguishes the area into two part. All height values that are smaller than 60 inches are filled red and all values that are larger than 60 inches are filled green.\
 Now, the question is asking for the probability that a randomly picked female is 60 inches or shorter. Therefore, all possible values, which are smaller than 60 are located in the red area of the plot in the chart.
 
-```{r}
+```{r,message=FALSE}
 library(magrittr)
 library(ggplot2)
 library(dslabs)
@@ -631,7 +637,7 @@ ggplot(df,aes(height)) +
 
 For this question the same conditions apply as for the previous question with $m:=64$ and $s:=3$. Using the definition of 1 foot is 12 inches one gets for 6 feet 72 inches.\
 
-```{r}
+```{r,message=FALSE}
 library(tidyverse)
 library(dslabs)
 data(heights)
@@ -697,7 +703,7 @@ ggplot(df,aes(height)) +
   ylab("Density") + xlab("Heights in inches")
 ```
 
-```{r}
+```{r,message=FALSE}
 library(tidyverse)
 library(dslabs)
 data(heights)
@@ -717,9 +723,9 @@ pnorm(67, mean(x), sd(x))-pnorm(61, mean(x), sd(x))
 
 > 4.  Repeat the exercise above, but convert everything to centimeters. That is, multiply every height, including the standard deviation, by 2.54. What is the answer now?
 
-The unity of the values is just a scaling factor, which will not change the probabilities, because it is cancelled out by the substraction. That is why the answear is the same as in the question before.
+The unity of the values is just a scaling factor, which will not change the probabilities, because it is canceled out by the subtraction. That is why the answer is the same as in the question before.
 
-```{r}
+```{r,message=FALSE}
 library(tidyverse)
 library(dslabs)
 data(heights)
@@ -902,7 +908,7 @@ ggplot(df,aes(height)) +
   ylab("Density") + xlab("Heights in inches")
 ```
 
-```{r}
+```{r,message=FALSE}
 library(magrittr)
 library(ggplot2)
 library(dslabs)
