@@ -198,14 +198,27 @@ summary {
 <li><a href="#exercises-distributions-ggplot2"><span class="toc-section-number">7.1</span> Exercises Distributions: ggplot2</a>
 <ul>
 <li><a href="#qn"><span class="toc-section-number">7.1.1</span> Qn</a></li>
+<li><a href="#qn-1"><span class="toc-section-number">7.1.2</span> Qn</a></li>
+<li><a href="#qn-2"><span class="toc-section-number">7.1.3</span> Qn</a></li>
+<li><a href="#qn-3"><span class="toc-section-number">7.1.4</span> Qn</a></li>
+<li><a href="#qn-4"><span class="toc-section-number">7.1.5</span> Qn</a></li>
+<li><a href="#qn-5"><span class="toc-section-number">7.1.6</span> Qn</a></li>
+<li><a href="#qn-6"><span class="toc-section-number">7.1.7</span> Qn</a></li>
+<li><a href="#qn-7"><span class="toc-section-number">7.1.8</span> Qn</a></li>
+<li><a href="#qn-8"><span class="toc-section-number">7.1.9</span> Qn</a></li>
+<li><a href="#qn-9"><span class="toc-section-number">7.1.10</span> Qn</a></li>
+<li><a href="#qn-10"><span class="toc-section-number">7.1.11</span> Qn</a></li>
+<li><a href="#qn-11"><span class="toc-section-number">7.1.12</span> Qn</a></li>
+<li><a href="#qn-12"><span class="toc-section-number">7.1.13</span> Qn</a></li>
+<li><a href="#qn-13"><span class="toc-section-number">7.1.14</span> Qn</a></li>
+<li><a href="#qn-14"><span class="toc-section-number">7.1.15</span> Qn</a></li>
+<li><a href="#qn-15"><span class="toc-section-number">7.1.16</span> Qn</a></li>
 </ul></li>
 </ul>
 </div>
 
 <div id="exercises-distributions-ggplot2" class="section level2" number="0.1">
 <h2 number="7.1"><span class="header-section-number">7.1</span> Exercises Distributions: ggplot2</h2>
-<div id="qn" class="section level3" number="0.1.1">
-<h3 number="7.1.1"><span class="header-section-number">7.1.1</span> Qn</h3>
 <blockquote>
 <p>Start by loading the <strong>dplyr</strong> and <strong>ggplot2</strong> library as well as the <code>murders</code> and <code>heights</code> data.</p>
 <pre class="r"><code>library(dplyr)
@@ -213,6 +226,10 @@ library(ggplot2)
 library(dslabs)
 data(heights)
 data(murders)</code></pre>
+</blockquote>
+<div id="qn" class="section level3" number="0.1.1">
+<h3 number="7.1.1"><span class="header-section-number">7.1.1</span> Qn</h3>
+<blockquote>
 <p>1. With <strong>ggplot2</strong> plots can be saved as objects. For example we can associate a dataset with a plot object like this</p>
 <pre class="r"><code>p &lt;- ggplot(data = murders)</code></pre>
 <p>Because <code>data</code> is the first argument we don’t need to spell it out</p>
@@ -220,6 +237,11 @@ data(murders)</code></pre>
 <p>and we can also use the pipe:</p>
 <pre class="r"><code>p &lt;- murders %&gt;% ggplot()</code></pre>
 <p>What is class of the object <code>p</code>?</p>
+</blockquote>
+</div>
+<div id="qn-1" class="section level3" number="0.1.2">
+<h3 number="7.1.2"><span class="header-section-number">7.1.2</span> Qn</h3>
+<blockquote>
 <p>2. Remember that to print an object you can use the command <code>print</code> or simply type the object. Print the object <code>p</code> defined in exercise one and describe what you see.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Nothing happens.</li>
@@ -227,8 +249,23 @@ data(murders)</code></pre>
 <li>A scatterplot.</li>
 <li>A histogram.</li>
 </ol>
+</blockquote>
+</div>
+<div id="qn-2" class="section level3" number="0.1.3">
+<h3 number="7.1.3"><span class="header-section-number">7.1.3</span> Qn</h3>
+<blockquote>
 <p>3. Using the pipe <code>%&gt;%</code>, create an object <code>p</code> but this time associated with the <code>heights</code> dataset instead of the <code>murders</code> dataset.</p>
+</blockquote>
+</div>
+<div id="qn-3" class="section level3" number="0.1.4">
+<h3 number="7.1.4"><span class="header-section-number">7.1.4</span> Qn</h3>
+<blockquote>
 <p>4. What is the class of the object <code>p</code> you have just created?</p>
+</blockquote>
+</div>
+<div id="qn-4" class="section level3" number="0.1.5">
+<h3 number="7.1.5"><span class="header-section-number">7.1.5</span> Qn</h3>
+<blockquote>
 <p>5. Now we are going to add a layer and the corresponding aesthetic mappings. For the murders data we plotted total murders versus population sizes. Explore the <code>murders</code> data frame to remind yourself what are the names for these two variables and select the correct answer. <strong>Hint</strong>: Look at <code>?murders</code>.</p>
 <ol style="list-style-type: lower-alpha">
 <li><code>state</code> and <code>abb</code>.</li>
@@ -236,14 +273,29 @@ data(murders)</code></pre>
 <li><code>total</code> and <code>population</code>.</li>
 <li><code>murders</code> and <code>size</code>.</li>
 </ol>
+</blockquote>
+</div>
+<div id="qn-5" class="section level3" number="0.1.6">
+<h3 number="7.1.6"><span class="header-section-number">7.1.6</span> Qn</h3>
+<blockquote>
 <p>6. To create the scatterplot we add a layer with <code>geom_point</code>. The aesthetic mappings require us to define the x-axis and y-axis variables, respectively. So the code looks like this:</p>
 <pre class="r"><code>murders %&gt;% ggplot(aes(x = , y = )) +
  geom_point()</code></pre>
 <p>except we have to define the two variables <code>x</code> and <code>y</code>. Fill this out with the correct variable names.</p>
+</blockquote>
+</div>
+<div id="qn-6" class="section level3" number="0.1.7">
+<h3 number="7.1.7"><span class="header-section-number">7.1.7</span> Qn</h3>
+<blockquote>
 <p>7. Note that if we don’t use argument names, we can obtain the same plot by making sure we enter the variable names in the right order like this:</p>
 <pre class="r"><code>murders %&gt;% ggplot(aes(population, total)) +
  geom_point()</code></pre>
 <p>Remake the plot but now with total in the x-axis and population in the y-axis.</p>
+</blockquote>
+</div>
+<div id="qn-7" class="section level3" number="0.1.8">
+<h3 number="7.1.8"><span class="header-section-number">7.1.8</span> Qn</h3>
+<blockquote>
 <p>8. If instead of points we want to add text, we can use the <code>geom_text()</code> or <code>geom_label()</code> geometries. The following code</p>
 <pre class="r"><code>murders %&gt;% ggplot(aes(population, total)) + geom_label()</code></pre>
 <p>will give us the error message: <code>Error: geom_label requires the following missing aesthetics: label</code></p>
@@ -254,7 +306,17 @@ data(murders)</code></pre>
 <li>The <code>geom_label</code> geometry does not require x-axis and y-axis values.</li>
 <li><code>geom_label</code> is not a ggplot2 command.</li>
 </ol>
+</blockquote>
+</div>
+<div id="qn-8" class="section level3" number="0.1.9">
+<h3 number="7.1.9"><span class="header-section-number">7.1.9</span> Qn</h3>
+<blockquote>
 <p>9. Rewrite the code above to use abbreviation as the label through <code>aes</code></p>
+</blockquote>
+</div>
+<div id="qn-9" class="section level3" number="0.1.10">
+<h3 number="7.1.10"><span class="header-section-number">7.1.10</span> Qn</h3>
+<blockquote>
 <p>10. Change the color of the labels to blue. How will we do this?</p>
 <ol style="list-style-type: lower-alpha">
 <li>Adding a column called <code>blue</code> to <code>murders</code>.</li>
@@ -262,7 +324,17 @@ data(murders)</code></pre>
 <li>Use the <code>color</code> argument in <code>ggplot</code>.</li>
 <li>Because we want all colors to be blue, we do not need to map colors, just use the color argument in <code>geom_label</code>.</li>
 </ol>
+</blockquote>
+</div>
+<div id="qn-10" class="section level3" number="0.1.11">
+<h3 number="7.1.11"><span class="header-section-number">7.1.11</span> Qn</h3>
+<blockquote>
 <p>11. Rewrite the code above to make the labels blue.</p>
+</blockquote>
+</div>
+<div id="qn-11" class="section level3" number="0.1.12">
+<h3 number="7.1.12"><span class="header-section-number">7.1.12</span> Qn</h3>
+<blockquote>
 <p>12. Now suppose we want to use color to represent the different regions. In this case which of the following is most appropriate:</p>
 <ol style="list-style-type: lower-alpha">
 <li>Adding a column called <code>color</code> to <code>murders</code> with the color we want to use.</li>
@@ -270,13 +342,33 @@ data(murders)</code></pre>
 <li>Use the <code>color</code> argument in <code>ggplot</code>.</li>
 <li>Because we want all colors to be blue, we do not need to map colors, just use the color argument in <code>geom_label</code>.</li>
 </ol>
+</blockquote>
+</div>
+<div id="qn-12" class="section level3" number="0.1.13">
+<h3 number="7.1.13"><span class="header-section-number">7.1.13</span> Qn</h3>
+<blockquote>
 <p>13. Rewrite the code above to make the labels’ color be determined by the state’s region.</p>
+</blockquote>
+</div>
+<div id="qn-13" class="section level3" number="0.1.14">
+<h3 number="7.1.14"><span class="header-section-number">7.1.14</span> Qn</h3>
+<blockquote>
 <p>14. Now we are going to change the x-axis to a log scale to account for the fact the distribution of population is skewed. Let’s start by defining an object <code>p</code> holding the plot we have made up to now</p>
 <pre class="r"><code>p &lt;- murders %&gt;% 
  ggplot(aes(population, total, label = abb, color = region)) +
  geom_label() </code></pre>
 <p>To change the y-axis to a log scale we learned about the <code>scale_x_log10()</code> function. Add this layer to the object <code>p</code> to change the scale and render the plot.</p>
+</blockquote>
+</div>
+<div id="qn-14" class="section level3" number="0.1.15">
+<h3 number="7.1.15"><span class="header-section-number">7.1.15</span> Qn</h3>
+<blockquote>
 <p>15. Repeat the previous exercise but now change both axes to be in the log scale.</p>
+</blockquote>
+</div>
+<div id="qn-15" class="section level3" number="0.1.16">
+<h3 number="7.1.16"><span class="header-section-number">7.1.16</span> Qn</h3>
+<blockquote>
 <p>16. Now edit the code above to add the title “Gun murder data” to the plot. Hint: use the <code>ggtitle</code> function.</p>
 </blockquote>
 </div>

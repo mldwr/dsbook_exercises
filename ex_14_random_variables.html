@@ -195,28 +195,96 @@ summary {
 
 <div id="TOC">
 <ul>
-<li><a href="#exercises-discrete-probability"><span class="toc-section-number">14.1</span> Exercises Discrete Probability</a>
+<li><a href="#exercises-random-variables"><span class="toc-section-number">14.1</span> Exercises Random Variables</a>
 <ul>
 <li><a href="#qn"><span class="toc-section-number">14.1.1</span> Qn</a></li>
+<li><a href="#qn-1"><span class="toc-section-number">14.1.2</span> Qn</a></li>
+<li><a href="#qn-2"><span class="toc-section-number">14.1.3</span> Qn</a></li>
+<li><a href="#qn-3"><span class="toc-section-number">14.1.4</span> Qn</a></li>
+<li><a href="#qn-4"><span class="toc-section-number">14.1.5</span> Qn</a></li>
+<li><a href="#qn-5"><span class="toc-section-number">14.1.6</span> Qn</a></li>
+<li><a href="#qn-6"><span class="toc-section-number">14.1.7</span> Qn</a></li>
+<li><a href="#qn-7"><span class="toc-section-number">14.1.8</span> Qn</a></li>
+<li><a href="#qn-8"><span class="toc-section-number">14.1.9</span> Qn</a></li>
+<li><a href="#qn-9"><span class="toc-section-number">14.1.10</span> Qn</a></li>
+<li><a href="#qn-10"><span class="toc-section-number">14.1.11</span> Qn</a></li>
+<li><a href="#qn-11"><span class="toc-section-number">14.1.12</span> Qn</a></li>
+<li><a href="#qn-12"><span class="toc-section-number">14.1.13</span> Qn</a></li>
+<li><a href="#qn-13"><span class="toc-section-number">14.1.14</span> Qn</a></li>
+<li><a href="#qn-14"><span class="toc-section-number">14.1.15</span> Qn</a></li>
+<li><a href="#qn-15"><span class="toc-section-number">14.1.16</span> Qn</a></li>
+<li><a href="#qn-16"><span class="toc-section-number">14.1.17</span> Qn</a></li>
+<li><a href="#qn-17"><span class="toc-section-number">14.1.18</span> Qn</a></li>
 </ul></li>
 </ul>
 </div>
 
-<div id="exercises-discrete-probability" class="section level2" number="0.1">
-<h2 number="14.1"><span class="header-section-number">14.1</span> Exercises Discrete Probability</h2>
+<div id="exercises-random-variables" class="section level2" number="0.1">
+<h2 number="14.1"><span class="header-section-number">14.1</span> Exercises Random Variables</h2>
 <div id="qn" class="section level3" number="0.1.1">
 <h3 number="14.1.1"><span class="header-section-number">14.1.1</span> Qn</h3>
+<blockquote>
 <p>1. In American Roulette you can also bet on green. There are 18 reds, 18 blacks and 2 greens (0 and 00). What are the chances the green comes out?</p>
+</blockquote>
+</div>
+<div id="qn-1" class="section level3" number="0.1.2">
+<h3 number="14.1.2"><span class="header-section-number">14.1.2</span> Qn</h3>
+<blockquote>
 <p>2. The payout for winning on green is $17 dollars. This means that if you bet a dollar and it lands on green, you get $17. Create a sampling model using sample to simulate the random variable <span class="math inline">\(X\)</span> for your winnings. Hint: see the example below for how it should look like when betting on red.</p>
 <pre class="r"><code>x &lt;- sample(c(1,-1), 1, prob = c(9/19, 10/19))</code></pre>
+</blockquote>
+</div>
+<div id="qn-2" class="section level3" number="0.1.3">
+<h3 number="14.1.3"><span class="header-section-number">14.1.3</span> Qn</h3>
+<blockquote>
 <p>3. Compute the expected value of <span class="math inline">\(X\)</span>.</p>
+</blockquote>
+</div>
+<div id="qn-3" class="section level3" number="0.1.4">
+<h3 number="14.1.4"><span class="header-section-number">14.1.4</span> Qn</h3>
+<blockquote>
 <p>4. Compute the standard error of <span class="math inline">\(X\)</span>.</p>
+</blockquote>
+</div>
+<div id="qn-4" class="section level3" number="0.1.5">
+<h3 number="14.1.5"><span class="header-section-number">14.1.5</span> Qn</h3>
+<blockquote>
 <p>5. Now create a random variable <span class="math inline">\(S\)</span> that is the sum of your winnings after betting on green 1000 times. Hint: change the argument <code>size</code> and <code>replace</code> in your answer to question 2. Start your code by setting the seed to 1 with <code>set.seed(1)</code>.</p>
+</blockquote>
+</div>
+<div id="qn-5" class="section level3" number="0.1.6">
+<h3 number="14.1.6"><span class="header-section-number">14.1.6</span> Qn</h3>
+<blockquote>
 <p>6. What is the expected value of <span class="math inline">\(S\)</span>?</p>
+</blockquote>
+</div>
+<div id="qn-6" class="section level3" number="0.1.7">
+<h3 number="14.1.7"><span class="header-section-number">14.1.7</span> Qn</h3>
+<blockquote>
 <p>7. What is the standard error of <span class="math inline">\(S\)</span>?</p>
+</blockquote>
+</div>
+<div id="qn-7" class="section level3" number="0.1.8">
+<h3 number="14.1.8"><span class="header-section-number">14.1.8</span> Qn</h3>
+<blockquote>
 <p>8. What is the probability that you end up winning money? Hint: use the CLT.</p>
+</blockquote>
+</div>
+<div id="qn-8" class="section level3" number="0.1.9">
+<h3 number="14.1.9"><span class="header-section-number">14.1.9</span> Qn</h3>
+<blockquote>
 <p>9. Create a Monte Carlo simulation that generates 1,000 outcomes of <span class="math inline">\(S\)</span>. Compute the average and standard deviation of the resulting list to confirm the results of 6 and 7. Start your code by setting the seed to 1 with <code>set.seed(1)</code>.</p>
+</blockquote>
+</div>
+<div id="qn-9" class="section level3" number="0.1.10">
+<h3 number="14.1.10"><span class="header-section-number">14.1.10</span> Qn</h3>
+<blockquote>
 <p>10. Now check your answer to 8 using the Monte Carlo result.</p>
+</blockquote>
+</div>
+<div id="qn-10" class="section level3" number="0.1.11">
+<h3 number="14.1.11"><span class="header-section-number">14.1.11</span> Qn</h3>
+<blockquote>
 <p>11. The Monte Carlo result and the CLT approximation are close, but not that close. What could account for this?</p>
 <ol style="list-style-type: lower-alpha">
 <li>1,000 simulations is not enough. If we do more, they match.</li>
@@ -224,12 +292,47 @@ summary {
 <li>The difference is within rounding error.</li>
 <li>The CLT only works for averages.</li>
 </ol>
+</blockquote>
+</div>
+<div id="qn-11" class="section level3" number="0.1.12">
+<h3 number="14.1.12"><span class="header-section-number">14.1.12</span> Qn</h3>
+<blockquote>
 <p>12. Now create a random variable <span class="math inline">\(Y\)</span> that is your average winnings per bet after playing off your winnings after betting on green 1,000 times.</p>
+</blockquote>
+</div>
+<div id="qn-12" class="section level3" number="0.1.13">
+<h3 number="14.1.13"><span class="header-section-number">14.1.13</span> Qn</h3>
+<blockquote>
 <p>13. What is the expected value of <span class="math inline">\(Y\)</span>?</p>
+</blockquote>
+</div>
+<div id="qn-13" class="section level3" number="0.1.14">
+<h3 number="14.1.14"><span class="header-section-number">14.1.14</span> Qn</h3>
+<blockquote>
 <p>14. What is the standard error of <span class="math inline">\(Y\)</span>?</p>
+</blockquote>
+</div>
+<div id="qn-14" class="section level3" number="0.1.15">
+<h3 number="14.1.15"><span class="header-section-number">14.1.15</span> Qn</h3>
+<blockquote>
 <p>15. What is the probability that you end up with winnings per game that are positive? Hint: use the CLT.</p>
+</blockquote>
+</div>
+<div id="qn-15" class="section level3" number="0.1.16">
+<h3 number="14.1.16"><span class="header-section-number">14.1.16</span> Qn</h3>
+<blockquote>
 <p>16. Create a Monte Carlo simulation that generates 2,500 outcomes of <span class="math inline">\(Y\)</span>. Compute the average and standard deviation of the resulting list to confirm the results of 6 and 7. Start your code by setting the seed to 1 with <code>set.seed(1)</code>.</p>
+</blockquote>
+</div>
+<div id="qn-16" class="section level3" number="0.1.17">
+<h3 number="14.1.17"><span class="header-section-number">14.1.17</span> Qn</h3>
+<blockquote>
 <p>17. Now check your answer to 8 using the Monte Carlo result.</p>
+</blockquote>
+</div>
+<div id="qn-17" class="section level3" number="0.1.18">
+<h3 number="14.1.18"><span class="header-section-number">14.1.18</span> Qn</h3>
+<blockquote>
 <p>18. The Monte Carlo result and the CLT approximation are now much closer. What could account for this?</p>
 <ol style="list-style-type: lower-alpha">
 <li>We are now computing averages instead of sums.</li>
@@ -237,6 +340,7 @@ summary {
 <li>The CLT works better when the sample size is larger. We increased from 1,000 to 2,500.</li>
 <li>It is not closer. The difference is within rounding error.</li>
 </ol>
+</blockquote>
 </div>
 </div>
 
