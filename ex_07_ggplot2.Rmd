@@ -89,7 +89,7 @@ class(p)
 
 Unsure which new result is supposed to be seen here, comparing to question 1 and 2.
 For the solution of this question see answer of question 3.\
-In genera, the class of `ggplot` does not depend on the content of the data frame provided.
+In general, the class of `ggplot` does not depend on the content of the data frame provided.
 
 ```{r}
 class(murders)
@@ -182,7 +182,7 @@ murders %>% ggplot(aes(population/10^6, total,label = abb)) + geom_label()
 
 Answer d.\
 Applying answer a. will result in a change of data and has no effect on the plot itself. Then by applying the solution of answer b. will result in a different color for each label. Finally, the solution in answer c. has no effect, because there is no such argument.\
-In general, as pointed out in chapter 7.9, the arguments in the aesthetics function `aes` are required, if they apply directly to the content of data: "**is determined by a feature of each observation**" If the property is independent of the data or is applied to the data as a whole, the properties are outside of `aes`.
+In general, as pointed out in chapter 7.9, the arguments in the aesthetics function `aes` are required, if they apply directly to the content of data: "*is determined by a feature of each observation*" If the property is independent of the data or is applied to the data as a whole, the properties are outside of `aes`.
 
 ### Qn
 >11\. Rewrite the code above to make the labels blue.
