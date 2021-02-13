@@ -15,20 +15,20 @@ output:
 
 ### Qn
 >1\. In the `murders` dataset, the region is a categorical variable and the following is its distribution:
-
-```{r,message=FALSE}
-library(ggplot2)
-library(magrittr)
-library(dplyr)
-library(dslabs)
-ds_theme_set()
-data(murders)
-murders %>% group_by(region) %>% summarize(n = n()) %>% 
-    mutate(Proportion = n/sum(n),region = reorder(region, Proportion)) %>%
-    ggplot(aes(x=region, y=Proportion, fill=region)) + 
-    geom_bar(stat = "identity", show.legend = FALSE) + xlab("")
-```
-
+>
+>```{r,message=FALSE}
+>library(ggplot2)
+>library(magrittr)
+>library(dplyr)
+>library(dslabs)
+>ds_theme_set()
+>data(murders)
+>murders %>% group_by(region) %>% summarize(n = n()) %>% 
+>    mutate(Proportion = n/sum(n),region = reorder(region, Proportion)) %>%
+>    ggplot(aes(x=region, y=Proportion, fill=region)) + 
+>    geom_bar(stat = "identity", show.legend = FALSE) + xlab("")
+>```
+>
 >To the closest 5%, what proportion of the states are in the North Central region?
 
 ```{r}
