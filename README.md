@@ -19,7 +19,6 @@ Here, I provide my solutions on [this website](https://braunschweig.github.io/ds
 |   | [ch 11] | [17 Regression] | [25 Parsing dates and times](ex_25_parsing_dates_and_times.html)   | [ch 32] |
 |   |    | [18 Linear models] | [26 Text mining](ex_26_text_mining.html)  | [ch 33] |
 |   |    | [19 Association is not causation] |    | [ch 34] |
-|   |    |  |    | [ch 35] |
 
 
 
