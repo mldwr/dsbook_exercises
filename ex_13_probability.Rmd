@@ -81,8 +81,8 @@ second_draw <- perms[2,]
 sum(first_draw %in% cyan & !second_draw %in% cyan)/sum(first_draw %in% cyan)
 ```
 
-Here, the experimental result of 85,50% is slightly off of the predicted result, because the number of repititions of the random draw was not infinite but limited to a small number.\
-If we would increase the number of draws the value would convere to the predicted value.
+Here, the experimental result of 85,50% is slightly off of the predicted result, because the number of repetitions of the random draw was not infinite but limited to a small number.\
+If we would increase the number of draws the value would converge to the predicted value.
 
 ### Qn
 
@@ -581,6 +581,8 @@ In this calculation it is not necessary to subtract the probability of `1` i.e. 
 
 ```{r,message=FALSE}
 library(dslabs)
+library(magrittr)
+library(tibble)
 data(heights)
 x <- heights %>% filter(sex=="Female") %>% pull
 F <- function(a) mean(x<=a)
@@ -598,7 +600,7 @@ From a discrete perspective the function `F(a)` can also be reproduced by lookin
 > 2.  Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 6 feet or taller?
 
 ```{r,message=FALSE}
-library(magrittr)
+library(tidyverse)
 library(ggplot2)
 library(dslabs)
 data(heights)
@@ -758,7 +760,7 @@ pnorm(m+s, m, s) - pnorm(m-s, m, s)
 >     \mbox{Pr}(X \leq a)
 >     $$
 >
->     Now we subtract $\mu$ to both sides and then divide both sides by $\sigma$:
+>     Now we subtract $m$ to both sides and then divide both sides by $s$:
 >
 >     $$
 >     \mbox{Pr}\left(\frac{X-m}{s} \leq \frac{a-m}{s} \right)
@@ -770,7 +772,7 @@ pnorm(m+s, m, s) - pnorm(m-s, m, s)
 >     \mbox{Pr}\left(Z \leq \frac{a-m}{s} \right)
 >     $$
 >
->     So, no matter the units, the probability of $X\leq a$ is the same as the probability of a standard normal variable being less than $(a - m)/s$. If $\mu$ is the average and $\sigma$ the standard error, which of the following R code would give us the right answer in every situation:
+>     So, no matter the units, the probability of $X\leq a$ is the same as the probability of a standard normal variable being less than $(a - m)/s$. If $m$ is the average and $s$ the standard error, which of the following R code would give us the right answer in every situation:
 >
 >     A. `mean(X<=a)`
 >
@@ -780,6 +782,7 @@ pnorm(m+s, m, s) - pnorm(m-s, m, s)
 >
 >     D. `pnorm(a)`
 
+(replaced $\mu$ with $m$ and $\sigma$ with $s$)
 Answer: B.\
 The Theory behind is to understand the difference between normal distribution and standard normal distribution. The R code `pnorm((a-m)/s)` standardizes the value a. It removes the units and transforms the value from the normal distribution to the standard normal distribution.\
 $$

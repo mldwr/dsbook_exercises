@@ -17,6 +17,12 @@ output:
 
 >1\. In American Roulette you can also bet on green. There are 18 reds, 18 blacks and 2 greens (0 and 00). What are the chances the green comes out?
 
+Variant in Book: 
+Gambler can bet a dollar (1\$) on red or black to win a dollar, the payout is a dollar and the casino loses one dollar. If the gambler bets on red and the ball lands in a green or black pocket, the gambler loses, but the casino ("bank") wins.
+The chances are 18/38: lose for the casino, win for the gambler and 20/38: win for casino, lose for gambler.
+If the gambler is allowed to bet on green then he loses if the ball lands on red or black.
+Therefore the chances 2/38 to lose for the gambler and 36/38 to win for the casino. If the payout would stay at 1\$ this game is rather disadvantageous for the gambler.
+
 
 ### Qn
 >2\. The payout for winning on green is \$17 dollars. This means that if you bet a dollar and it lands on green, you get \$17. Create a sampling model using sample to simulate the random variable $X$ for your winnings. Hint: see the example below for how it should look like when betting on red.
@@ -24,6 +30,14 @@ output:
 >```{r, eval=FALSE}
 >x <- sample(c(1,-1), 1, prob = c(9/19, 10/19))
 >```
+
+In this variant the gambler is betting a dollar but can win 17\$ or lose a dollar. The casino, on the other hand, can win a dollar or lose 17\$. This variant is more attractive for the gambler but rises the risk of losing money for the casino.
+
+```{r}
+n<-10
+X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+X
+```
 
 ### Qn
 >3\. Compute the expected value of $X$.
@@ -36,6 +50,13 @@ output:
 ### Qn
 >5\. Now create a random variable $S$ that is the sum of your winnings after betting on green 1000 times. Hint: change the argument `size` and `replace` in your answer to question 2. Start your code by setting the seed to 1 with `set.seed(1)`.
 
+```{r}
+set.seed(1)
+n<-1000
+X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+S <- sum(X)
+S
+```
 
 ### Qn
 >6\. What is the expected value of $S$?
