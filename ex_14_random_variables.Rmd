@@ -18,10 +18,11 @@ output:
 >1\. In American Roulette you can also bet on green. There are 18 reds, 18 blacks and 2 greens (0 and 00). What are the chances the green comes out?
 
 Variant in Book: 
-Gambler can bet a dollar (1\$) on red or black to win a dollar, the payout is a dollar and the casino loses one dollar. If the gambler bets on red and the ball lands in a green or black pocket, the gambler loses, but the casino ("bank") wins.
-The chances are 18/38: lose for the casino, win for the gambler and 20/38: win for casino, lose for gambler.
-If the gambler is allowed to bet on green then he loses if the ball lands on red or black.
-Therefore the chances 2/38 to lose for the gambler and 36/38 to win for the casino. If the payout would stay at 1\$ this game is rather disadvantageous for the gambler.
+Gambler can bet a dollar ($1) on red or black to win a dollar, the payout is a dollar and the casino loses one dollar. If the gambler bets on red and the ball lands in a green or black pocket, the gambler loses, but the casino ("bank") wins.
+The chances are 18/38(=9/19): lose for the casino, win for the gambler and 20/38(=10/19): win for casino, lose for gambler.
+If the gambler is allowed to bet on green then he loses if the ball lands on red or black.\
+
+Therefore, the chances 2/38(=1/19) to lose for the gambler and 36/38(=18/19) to win for the casino. If the payout would stay at $1 this game is rather disadvantageous for the gambler.
 
 
 ### Qn
@@ -34,37 +35,82 @@ Therefore the chances 2/38 to lose for the gambler and 36/38 to win for the casi
 In this variant the gambler is betting a dollar but can win 17\$ or lose a dollar. The casino, on the other hand, can win a dollar or lose 17\$. This variant is more attractive for the gambler but rises the risk of losing money for the casino.
 
 ```{r}
-n<-10
-X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+X <- sample(c(-17,1), 1, replace = TRUE, prob=c(1/19, 18/19))
 X
 ```
 
 ### Qn
 >3\. Compute the expected value of $X$.
 
+Here $a=-17$ and $b=1$ with $p=1/19$ and $(1-p)=18/19$.
+$$
+\mbox{E}[X] = ap + b(1-p)
+$$ 
+Here the expected value would be 
+$$
+-17*1/19+1*18/19=1/19\approx0.05
+$$
+
+This is the same expected value as betting on red. 
+Therefore if 1000 people would bet on green the expected win for the casino stays at $50.
 
 ### Qn
 >4\. Compute the standard error of $X$.
 
-    
+$$
+\mbox{SE}[X]=\mid b - a \mid \sqrt{(1-p)p}
+$$
+In this case the standard error of $X$ is 
+$$
+\mid 1 - (-17) \mid \sqrt{18/19 \times 1/19}=17*\sqrt{\frac{18}{361}}=17*\frac{\sqrt{18}}{19}
+$$
+
+In numbers this results to $\approx4$.
+
+```{r}
+17 * sqrt(18)/19
+```
+
+If 1000 people would bet on green the casino is expected to loose about $120, which is not very advantageous for the casino.
+```{r}
+n<-1000
+sqrt(n) *17 * sqrt(18)/19
+```
+
+
 ### Qn
 >5\. Now create a random variable $S$ that is the sum of your winnings after betting on green 1000 times. Hint: change the argument `size` and `replace` in your answer to question 2. Start your code by setting the seed to 1 with `set.seed(1)`.
 
 ```{r}
 set.seed(1)
-n<-1000
+n<-10^6
 X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-S <- sum(X)
+S<-sum(X)
 S
 ```
 
 ### Qn
 >6\. What is the expected value of $S$?
 
+```{r}
+set.seed(1)
+n<-10^6
+X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+S<-sum(X)/length(X)
+S
+```
 
 ### Qn
 >7\. What is the standard error of $S$?
 
+```{r}
+set.seed(1)
+n<-10^6
+X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+S<-sum(X)/length(X)
+SE<-sqrt(sum((X - S)^2) / length(X))
+SE
+```
 
 ### Qn
 >8\. What is the probability that you end up winning money? Hint: use the CLT.
