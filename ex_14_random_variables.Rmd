@@ -32,10 +32,10 @@ Therefore, the chances 2/38(=1/19) to lose for the gambler and 36/38(=18/19) to 
 >x <- sample(c(1,-1), 1, prob = c(9/19, 10/19))
 >```
 
-In this variant the gambler is betting a dollar but can win 17\$ or lose a dollar. The casino, on the other hand, can win a dollar or lose 17\$. This variant is more attractive for the gambler but rises the risk of losing money for the casino.
+In this variant the gambler is betting a dollar but can win $17 or lose a dollar. The casino, on the other hand, can win a dollar or lose $17. This variant is more attractive for the gambler but rises the risk of losing money for the casino.
 
 ```{r}
-X <- sample(c(-17,1), 1, replace = TRUE, prob=c(1/19, 18/19))
+X <- sample(c(1,-17), 1, prob=c(18/19, 1/19))
 X
 ```
 
@@ -46,13 +46,15 @@ Here $a=-17$ and $b=1$ with $p=1/19$ and $(1-p)=18/19$.
 $$
 \mbox{E}[X] = ap + b(1-p)
 $$ 
-Here the expected value would be 
+Here the expected value would be 5 cent.
 $$
 -17*1/19+1*18/19=1/19\approx0.05
 $$
 
 This is the same expected value as betting on red. 
-Therefore if 1000 people would bet on green the expected win for the casino stays at $50.
+Therefore if 1000 people would bet on green the expected win for the casino stays at $50.\
+
+By the way, the probability of hitting green is also 1/19$\approx$0.05, where the probability of hitting red is about a hundred times larger 9/19$\approx$0.5.
 
 ### Qn
 >4\. Compute the standard error of $X$.
@@ -65,7 +67,7 @@ $$
 \mid 1 - (-17) \mid \sqrt{18/19 \times 1/19}=17*\sqrt{\frac{18}{361}}=17*\frac{\sqrt{18}}{19}
 $$
 
-In numbers this results to $\approx4$.
+In numbers this results to $\approx$$4.
 
 ```{r}
 17 * sqrt(18)/19
@@ -83,7 +85,7 @@ sqrt(n) *17 * sqrt(18)/19
 
 ```{r}
 set.seed(1)
-n<-10^6
+n<-10^3
 X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
 S<-sum(X)
 S
@@ -94,7 +96,7 @@ S
 
 ```{r}
 set.seed(1)
-n<-10^6
+n<-10^3
 X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
 S<-sum(X)/length(X)
 S
@@ -105,7 +107,7 @@ S
 
 ```{r}
 set.seed(1)
-n<-10^6
+n<-10^3
 X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
 S<-sum(X)/length(X)
 SE<-sqrt(sum((X - S)^2) / length(X))
