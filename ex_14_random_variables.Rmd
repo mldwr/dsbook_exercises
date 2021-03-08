@@ -32,7 +32,7 @@ Therefore, the chances 2/38(=1/19) to lose for the gambler and 36/38(=18/19) to 
 >x <- sample(c(1,-1), 1, prob = c(9/19, 10/19))
 >```
 
-In this variant the gambler is betting a dollar but can win $17 or lose a dollar. The casino, on the other hand, can win a dollar or lose $17. This variant is more attractive for the gambler but rises the risk of losing money for the casino.
+In this variant the gambler is betting a dollar but can win \$17 or lose a dollar. The casino, on the other hand, can win a dollar or lose $17. This variant is more attractive for the gambler but rises the risk of losing money for the casino.
 
 ```{r}
 X <- sample(c(1,-17), 1, prob=c(18/19, 1/19))
@@ -52,9 +52,9 @@ $$
 $$
 
 This is the same expected value as betting on red. 
-Therefore if 1000 people would bet on green the expected win for the casino stays at $50.\
+Therefore if 1000 people would bet on green the expected win for the casino stays at \$50.
 
-By the way, the probability of hitting green is also 1/19$\approx$0.05, where the probability of hitting red is about a hundred times larger 9/19$\approx$0.5.
+By the way, the probability of hitting green is also $1/19\approx0.05$, where the probability of hitting red is about a hundred times larger $9/19\approx0.5$.
 
 ### Qn
 >4\. Compute the standard error of $X$.
