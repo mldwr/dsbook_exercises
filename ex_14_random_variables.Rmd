@@ -64,18 +64,18 @@ $$
 $$
 In this case the standard error of $X$ is 
 $$
-\mid 1 - (-17) \mid \sqrt{18/19 \times 1/19}=17*\sqrt{\frac{18}{361}}=17*\frac{\sqrt{18}}{19}
+\mid 1 - (-17) \mid \sqrt{18/19 \times 1/19}=18*\sqrt{\frac{18}{361}}=18*\frac{\sqrt{18}}{19}\approx4
 $$
 
-In numbers this results to $\approx$$4.
+In numbers this results to $\approx$\$4.
 
 ```{r}
-17 * sqrt(18)/19
+18 * sqrt(18)/19
 ```
 
 If 1000 people would bet on green the casino is expected to loose about $120, which is not very advantageous for the casino.
 ```{r}
-n<-1000
+n<-10^3
 sqrt(n) *17 * sqrt(18)/19
 ```
 
@@ -117,7 +117,76 @@ SE
 ### Qn
 >8\. What is the probability that you end up winning money? Hint: use the CLT.
 
+```{r}
+set.seed(1)
+n<-10^3
+B <- 10^4
+roulette_winnings <- function(n){
+  X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+  sum(X)
+}
+C <- replicate(B, roulette_winnings(n))
 
+S<-sum(C)/length(C)
+SE<-sqrt(sum((C - S)^2) / length(c))
+S
+SE
+```
+```{r}
+n <- 1000
+B <- 10000
+roulette_winnings <- function(n){
+  X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+  sum(X)
+}
+S <- replicate(B, roulette_winnings(n))
+
+n * (2-36)/38 
+#> [1] 52.6
+sqrt(n) * 2 * sqrt(18)/19 
+#> [1] 31.6
+
+mean(S)
+#> [1] 52.2
+sd(S)
+#> [1] 31.7
+mean(S < 0)
+#> [1] 0.0458
+
+# CLT
+mu <- n * (2-36)/38
+se <-  sqrt(n) * 2 * sqrt(18)/19 
+pnorm(0, mu, se)
+#> [1] 0.0478
+```
+
+```{r}
+n <- 1000
+B <- 10000
+roulette_winnings <- function(n){
+  X <- sample(c(-1,1), n, replace = TRUE, prob=c(9/19, 10/19))
+  sum(X)
+}
+S <- replicate(B, roulette_winnings(n))
+
+n * (20-18)/38 
+#> [1] 52.6
+sqrt(n) * 2 * sqrt(90)/19 
+#> [1] 31.6
+
+mean(S)
+#> [1] 52.2
+sd(S)
+#> [1] 31.7
+mean(S < 0)
+#> [1] 0.0458
+
+# CLT
+mu <- n * (20-18)/38
+se <-  sqrt(n) * 2 * sqrt(90)/19 
+pnorm(0, mu, se)
+#> [1] 0.0478
+```
 ### Qn
 >9\. Create a Monte Carlo simulation that generates 1,000 outcomes of $S$. Compute the average and standard deviation of the resulting list to confirm the results of 6 and 7. Start your code by setting the seed to 1 with `set.seed(1)`.
 
