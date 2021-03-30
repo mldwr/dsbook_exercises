@@ -80,7 +80,7 @@ In numbers this results to $\approx$\$4.
 ```{r}
 set.seed(1)
 n<-10^3
-X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+X <- sample(c(-17,1), size = n, replace = TRUE, prob=c(1/19, 18/19))
 S<-sum(X)
 S
 ```
@@ -106,12 +106,6 @@ S
 >7\. What is the standard error of $S$?
 
 ```{r}
-n<-10^3
-n * (-34+36)/38
-sqrt(n) *18 * sqrt(18)/19
-```
-
-```{r}
 set.seed(1)
 n<-10^3
 X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
@@ -124,7 +118,9 @@ SE
 >8\. What is the probability that you end up winning money? Hint: use the CLT.
 
 This time the probability of loosing money is very high with about 34%, comparing to the probability of betting on red of about 5%.
+Therefor as a casino the probability of winning money is just 66% instead of 95% when betting on red or black. 
 ```{r}
+n<-1000
 mu <- n * (2)/38
 se <-  sqrt(n) * 18 * sqrt(18)/19 
 #> [1] 0.339
@@ -142,7 +138,7 @@ n<-10^3
 B <- 10^4
 roulette_winnings <- function(n){
   X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-  sum(X)
+  #sum(X)
 }
 XS <- replicate(B, roulette_winnings(n))
 S<-sum(XS)/length(XS)
@@ -205,33 +201,83 @@ mean(S < 0)
 >c. The difference is within rounding error.
 >d. The CLT only works for averages.
 
+Answer B.
 
 ### Qn
 >12\. Now create a random variable $Y$ that is your average winnings per bet after playing off your winnings after betting on green 1,000 times.
 
 ```{r}
 set.seed(1)
-n<-10^3
-Y <- sample(c(-1,1), n, replace = TRUE, prob=c(9/19, 10/19))
-S<-mean(Y)
+n<-2500
+Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+S<-sum(Y)
 S
 ```
 
 ### Qn
 >13\. What is the expected value of $Y$?
 
+```{r}
+set.seed(1)
+n<-2500
+Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+S<-sum(Y)/length(Y)
+S
+```
+
 ### Qn
 >14\. What is the standard error of $Y$?
+
+```{r}
+set.seed(1)
+n<-2500
+Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+S<-sum(Y)/length(Y)
+SE<-sqrt(sum((Y - S)^2) / length(Y))
+SE
+```
 
 ### Qn
 >15\. What is the probability that you end up with winnings per game that are positive? Hint: use the CLT.
 
+```{r}
+n<-2500
+mu <- n * (2)/38
+se <-  sqrt(n) * 18 * sqrt(18)/19 
+pnorm(0, mu, se)
+```
 
 ### Qn
 >16\. Create a Monte Carlo simulation that generates 2,500 outcomes of $Y$. Compute the average and standard deviation of the resulting list to confirm the results of 6 and 7. Start your code by setting the seed to 1 with `set.seed(1)`.
 
+```{r}
+set.seed(1)
+n <- 2500
+B <- 10000
+roulette_winnings <- function(n){
+  X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+  sum(X)
+}
+S <- replicate(B, roulette_winnings(n))
+mean(S<0)
+```
+
 ### Qn
 >17\. Now check your answer to 8 using the Monte Carlo result. 
+
+```{r}
+set.seed(1)
+n <- 2500
+B <- 10000
+roulette_winnings <- function(n){
+  X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+  sum(X)
+}
+S <- replicate(B, roulette_winnings(n))
+
+mean(S < 0)
+#> [1] 0.0458
+```
 
 ### Qn
 >18\. The Monte Carlo result and the CLT approximation are now much closer.  What could account for this?
@@ -240,3 +286,6 @@ S
 >b. 2,500 Monte Carlo simulations is not better than 1,000.
 >c. The CLT works better when the sample size is larger. We increased from 1,000 to 2,500.
 >d. It is not closer. The difference is within rounding error.
+
+Answer C.
+
