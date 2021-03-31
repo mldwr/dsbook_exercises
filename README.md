@@ -10,7 +10,7 @@ I worked through the dsbook and finished also the exercises.
 Here, I provide my solutions on [this website](https://braunschweig.github.io/dsbook_exercises/).
 
 | I R    |    II Data Visualization | III Statistics with R | IV Data Wrangling | V Machine Learning |
-| ------  | --------- | --- |  --- |
+| ------  | ------ | --- |  --- |
 | 01 Intro I  | 06 Intro II | 12 Intro III | 20 Intro IV | [27 Intro V] |
 | [02 R Basics](ex_02_r_basics.html) |  [07 ggplot2](ex_07_ggplot2.html) | [13 Probability](ex_13_probability.html) | [21 Reshaping data](ex_21_reshaping_data.html) | [ch 28] |
 | [03 Programming basics]  |  [08 Visualizing distributions](ex_08_visualizing_distributions.html) | [14 Random variables](ex_14_random_variables.html) | [22 Joining tables](ex_22_joining_tables.html)    | [ch 29] |
