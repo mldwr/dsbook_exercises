@@ -279,6 +279,38 @@ mean(S < 0)
 #> [1] 0.0458
 ```
 
+```{r}
+#set.seed(1)
+nn <- seq(1000,3000,100)
+B <- 10000
+roulette_winnings <- function(n){
+  Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+  sum(Y)
+}
+monte_carlo <- function(n) {
+  YR <- replicate(B, roulette_winnings(n))
+  #sum(YR)/length(YR)
+  #SE<-sqrt(sum((XR - S)^2) / length(XR))
+  mean(YR<0)
+}
+as<-sapply(nn, monte_carlo)
+#data.frame(nn,as)
+plot(nn,as)
+```
+```{r}
+nn <- seq(1000,3000,100)
+
+clt<-function(n) {
+  mu <- n * (2)/38
+  se <-  sqrt(n) * 18 * sqrt(18)/19 
+  pnorm(0, mu, se)
+}
+
+as<-sapply(nn, clt)
+#data.frame(nn,as)
+plot(nn,as)
+```
+
 ### Qn
 >18\. The Monte Carlo result and the CLT approximation are now much closer.  What could account for this?
 >
