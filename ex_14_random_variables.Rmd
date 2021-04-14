@@ -81,18 +81,12 @@ In numbers this results to $\approx$\$4.
 set.seed(1)
 n<-10^3
 X <- sample(c(-17,1), size = n, replace = TRUE, prob=c(1/19, 18/19))
-S<-sum(X)
+S<-sum(X<0)
 S
 ```
 
 ### Qn
 >6\. What is the expected value of $S$?
-
-```{r}
-n<-10^3
-n * (-34+36)/38
-sqrt(n) *18 * sqrt(18)/19
-```
 
 ```{r}
 set.seed(1)
@@ -157,17 +151,17 @@ roulette_winnings <- function(n){
 }
 S <- replicate(B, roulette_winnings(n))
 
-n * (2)/38 
-#> [1] 52.6
-sqrt(n) * 18 * sqrt(18)/19 
-#> [1] 127.1
-
 mean(S)
 #> [1] 53.5
 sd(S)
 #> [1] 126.2
 mean(S < 0)
 #> [1] 0.337
+
+n * (2)/38 
+#> [1] 52.6
+sqrt(n) * 18 * sqrt(18)/19 
+#> [1] 127.1
 
 # CLT
 mu <- n * (2)/38
@@ -202,15 +196,17 @@ mean(S < 0)
 >d. The CLT only works for averages.
 
 Answer B.
+14.7.1
+"Note, for example, that when the probability of success is very small, we need much larger sample sizes."
 
 ### Qn
 >12\. Now create a random variable $Y$ that is your average winnings per bet after playing off your winnings after betting on green 1,000 times.
 
 ```{r}
 set.seed(1)
-n<-2500
+n<-1000
 Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-S<-sum(Y)
+S<-mean(Y<0)
 S
 ```
 
@@ -240,6 +236,8 @@ SE
 ### Qn
 >15\. What is the probability that you end up with winnings per game that are positive? Hint: use the CLT.
 
+As the number of games increases it is more likely that the casino will win money by 75%, in line with the saying that the bank always wins.
+
 ```{r}
 n<-2500
 mu <- n * (2)/38
@@ -255,11 +253,14 @@ set.seed(1)
 n <- 2500
 B <- 10000
 roulette_winnings <- function(n){
-  X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-  sum(X)
+  Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+  #sum(Y)
 }
-S <- replicate(B, roulette_winnings(n))
-mean(S<0)
+YS <- replicate(B, roulette_winnings(n))
+S<-sum(YS)/length(YS)
+SE<-sqrt(sum((YS - S)^2) / length(YS))
+S
+SE
 ```
 
 ### Qn
@@ -270,8 +271,8 @@ set.seed(1)
 n <- 2500
 B <- 10000
 roulette_winnings <- function(n){
-  X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-  sum(X)
+  Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+  sum(Y)
 }
 S <- replicate(B, roulette_winnings(n))
 
@@ -279,37 +280,7 @@ mean(S < 0)
 #> [1] 0.0458
 ```
 
-```{r}
-#set.seed(1)
-nn <- seq(1000,3000,100)
-B <- 10000
-roulette_winnings <- function(n){
-  Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-  sum(Y)
-}
-monte_carlo <- function(n) {
-  YR <- replicate(B, roulette_winnings(n))
-  #sum(YR)/length(YR)
-  #SE<-sqrt(sum((XR - S)^2) / length(XR))
-  mean(YR<0)
-}
-as<-sapply(nn, monte_carlo)
-#data.frame(nn,as)
-plot(nn,as)
-```
-```{r}
-nn <- seq(1000,3000,100)
 
-clt<-function(n) {
-  mu <- n * (2)/38
-  se <-  sqrt(n) * 18 * sqrt(18)/19 
-  pnorm(0, mu, se)
-}
-
-as<-sapply(nn, clt)
-#data.frame(nn,as)
-plot(nn,as)
-```
 
 ### Qn
 >18\. The Monte Carlo result and the CLT approximation are now much closer.  What could account for this?
@@ -320,4 +291,43 @@ plot(nn,as)
 >d. It is not closer. The difference is within rounding error.
 
 Answer C.
+The increase of the sample from 1000 to 2500 should probably demonstrate the validity of the central limit theorem.
 
+
+14.9
+"An important implication of the final result is that the standard error of the average becomes smaller and smaller as $n$ grows larger. When $n$ is very large, then the standard error is practically 0 and the average of the draws converges to the average of the urn. This is known in statistical textbooks as the law of large numbers or the law of averages."
+14.9.1
+"The law of averages applies only when the number of draws is very large and not in small samples."
+```{r,message=FALSE}
+set.seed(1)
+library(tidyverse)
+nn <- seq(250,3000,250)
+B <- 10000
+roulette_winnings <- function(n){
+  Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+  sum(Y)
+}
+monte_carlo <- function(n) {
+  YR <- replicate(B, roulette_winnings(n))
+  mean(YR<0)
+}
+mc<-sapply(nn, monte_carlo)
+
+central_limit<-function(n) {
+  mu <- n * (2)/38
+  se <-  sqrt(n) * 18 * sqrt(18)/19 
+  pnorm(0, mu, se)
+}
+clt<-sapply(nn, central_limit)
+
+df_mc<-data.frame(samplesize=nn,probabilities=mc,kind="monte carlo")
+df_clt<-data.frame(samplesize=nn,probabilities=clt,kind="central limit")
+df<-bind_rows(df_mc, df_clt)
+
+ggplot(df,aes(samplesize,probabilities)) +
+  geom_point(aes(color=kind)) +
+  geom_line(aes(color=kind)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  annotate("rect", xmin = 900, xmax = 1100, ymin = 0.32, ymax = 0.36, alpha = .2, color="blue") +
+  annotate("rect", xmin = 2400, xmax = 2600, ymin = 0.24, ymax = 0.28, alpha = .2, color="blue")
+```
