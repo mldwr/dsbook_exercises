@@ -239,7 +239,7 @@ summary {
 <p>In this variant the gambler is betting a dollar but can win $17 or lose a dollar. The casino, on the other hand, can win a dollar or lose $17. This variant is more attractive for the gambler but rises the risk of losing money for the casino.</p>
 <pre class="r"><code>X &lt;- sample(c(1,-17), 1, prob=c(18/19, 1/19))
 X</code></pre>
-<pre><code>## [1] -17</code></pre>
+<pre><code>## [1] 1</code></pre>
 </div>
 <div id="qn-2" class="section level3" number="0.1.3">
 <h3 number="14.1.3"><span class="header-section-number">14.1.3</span> Qn</h3>
@@ -248,9 +248,11 @@ X</code></pre>
 </blockquote>
 <p>Here <span class="math inline">\(a=-17\)</span> and <span class="math inline">\(b=1\)</span> with <span class="math inline">\(p=1/19\)</span> and <span class="math inline">\((1-p)=18/19\)</span>. <span class="math display">\[
 \mbox{E}[X] = ap + b(1-p)
-\]</span> Here the expected value would be 5 cent. <span class="math display">\[
+\]</span> Here the expected value of a single game would be 5 cent. <span class="math display">\[
 -17*1/19+1*18/19=1/19\approx0.05263
 \]</span></p>
+<pre class="r"><code>-17*1/19 + 1 * 18/19</code></pre>
+<pre><code>## [1] 0.05263158</code></pre>
 <p>This is the same expected value as betting on red. Therefore if 1000 people would bet on green the expected win for the casino stays at $50.</p>
 <p>By the way, the probability of hitting green is also <span class="math inline">\(1/19\approx0.05\)</span>, where the probability of hitting red is about a hundred times larger <span class="math inline">\(9/19\approx0.5\)</span>.</p>
 </div>
@@ -267,6 +269,7 @@ X</code></pre>
 <p>In numbers this results to <span class="math inline">\(\approx\)</span>$4.</p>
 <pre class="r"><code>18 * sqrt(18)/19</code></pre>
 <pre><code>## [1] 4.019344</code></pre>
+<p>This is the standard error for any single game.</p>
 </div>
 <div id="qn-4" class="section level3" number="0.1.5">
 <h3 number="14.1.5"><span class="header-section-number">14.1.5</span> Qn</h3>
@@ -276,34 +279,29 @@ X</code></pre>
 <pre class="r"><code>set.seed(1)
 n&lt;-10^3
 X &lt;- sample(c(-17,1), size = n, replace = TRUE, prob=c(1/19, 18/19))
-S&lt;-sum(X&lt;0)
+S&lt;-sum(X)
 S</code></pre>
-<pre><code>## [1] 55</code></pre>
+<pre><code>## [1] 10</code></pre>
 </div>
 <div id="qn-5" class="section level3" number="0.1.6">
 <h3 number="14.1.6"><span class="header-section-number">14.1.6</span> Qn</h3>
 <blockquote>
 <p>6. What is the expected value of <span class="math inline">\(S\)</span>?</p>
 </blockquote>
-<pre class="r"><code>set.seed(1)
-n&lt;-10^3
-X &lt;- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-S&lt;-sum(X)/length(X)
-S</code></pre>
-<pre><code>## [1] 0.01</code></pre>
+<pre class="r"><code>n&lt;-10^3
+n * (-17*1/19 + 1 * 18/19)</code></pre>
+<pre><code>## [1] 52.63158</code></pre>
+<p>Here, the expectation value of thousand games yields to about 53 dollars. Therefore, the casino would win 53 dollars on average, if someone played 1000 games.</p>
 </div>
 <div id="qn-6" class="section level3" number="0.1.7">
 <h3 number="14.1.7"><span class="header-section-number">14.1.7</span> Qn</h3>
 <blockquote>
 <p>7. What is the standard error of <span class="math inline">\(S\)</span>?</p>
 </blockquote>
-<pre class="r"><code>set.seed(1)
-n&lt;-10^3
-X &lt;- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-S&lt;-sum(X)/length(X)
-SE&lt;-sqrt(sum((X - S)^2) / length(X))
-SE</code></pre>
-<pre><code>## [1] 4.103645</code></pre>
+<pre class="r"><code>n&lt;-10^3
+sqrt(n) * 18 * sqrt(18)/19 </code></pre>
+<pre><code>## [1] 127.1028</code></pre>
+<p>The value of the standard error tells us how large the variation might be around the expected value. Therefore, in the worst case we might add another 127 dollars to our wins or loose 127 from our average winnings.</p>
 </div>
 <div id="qn-7" class="section level3" number="0.1.8">
 <h3 number="14.1.8"><span class="header-section-number">14.1.8</span> Qn</h3>
@@ -312,7 +310,7 @@ SE</code></pre>
 </blockquote>
 <p>This time the probability of loosing money is very high with about 34%, comparing to the probability of betting on red of about 5%. Therefor as a casino the probability of winning money is just 66% instead of 95% when betting on red or black.</p>
 <pre class="r"><code>n&lt;-1000
-mu &lt;- n * (2)/38
+mu &lt;- n * (1)/19
 se &lt;-  sqrt(n) * 18 * sqrt(18)/19 
 #&gt; [1] 0.339
 pnorm(0, mu, se)</code></pre>
@@ -328,15 +326,15 @@ n&lt;-10^3
 B &lt;- 10^4
 roulette_winnings &lt;- function(n){
   X &lt;- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-  #sum(X)
+  sum(X)
 }
 XS &lt;- replicate(B, roulette_winnings(n))
 S&lt;-sum(XS)/length(XS)
 SE&lt;-sqrt(sum((XS - S)^2) / length(XS))
 S</code></pre>
-<pre><code>## [1] 0.0523324</code></pre>
+<pre><code>## [1] 52.3324</code></pre>
 <pre class="r"><code>SE</code></pre>
-<pre><code>## [1] 4.019943</code></pre>
+<pre><code>## [1] 126.9699</code></pre>
 <pre class="r"><code>set.seed(1)
 n &lt;- 1000
 B &lt;- 10000
@@ -407,11 +405,11 @@ mean(S &lt; 0)</code></pre>
 <p>12. Now create a random variable <span class="math inline">\(Y\)</span> that is your average winnings per bet after playing off your winnings after betting on green 1,000 times.</p>
 </blockquote>
 <pre class="r"><code>set.seed(1)
-n&lt;-1000
-Y &lt;- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-S&lt;-mean(Y&lt;0)
-S</code></pre>
-<pre><code>## [1] 0.055</code></pre>
+n&lt;-2500
+X &lt;- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+Y&lt;-mean(X)
+Y</code></pre>
+<pre><code>## [1] 0.0136</code></pre>
 </div>
 <div id="qn-12" class="section level3" number="0.1.13">
 <h3 number="14.1.13"><span class="header-section-number">14.1.13</span> Qn</h3>
@@ -420,10 +418,9 @@ S</code></pre>
 </blockquote>
 <pre class="r"><code>set.seed(1)
 n&lt;-2500
-Y &lt;- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-S&lt;-sum(Y)/length(Y)
-S</code></pre>
-<pre><code>## [1] 0.0136</code></pre>
+n * (2)/38 </code></pre>
+<pre><code>## [1] 131.5789</code></pre>
+<pre class="r"><code>#&gt; [1] 52.6</code></pre>
 </div>
 <div id="qn-13" class="section level3" number="0.1.14">
 <h3 number="14.1.14"><span class="header-section-number">14.1.14</span> Qn</h3>
@@ -432,11 +429,9 @@ S</code></pre>
 </blockquote>
 <pre class="r"><code>set.seed(1)
 n&lt;-2500
-Y &lt;- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-S&lt;-sum(Y)/length(Y)
-SE&lt;-sqrt(sum((Y - S)^2) / length(Y))
-SE</code></pre>
-<pre><code>## [1] 4.09661</code></pre>
+sqrt(n) * 18 * sqrt(18)/19 </code></pre>
+<pre><code>## [1] 200.9672</code></pre>
+<pre class="r"><code>#&gt; [1] 127.1</code></pre>
 </div>
 <div id="qn-14" class="section level3" number="0.1.15">
 <h3 number="14.1.15"><span class="header-section-number">14.1.15</span> Qn</h3>
@@ -445,7 +440,7 @@ SE</code></pre>
 </blockquote>
 <p>As the number of games increases it is more likely that the casino will win money by 75%, in line with the saying that the bank always wins.</p>
 <pre class="r"><code>n&lt;-2500
-mu &lt;- n * (2)/38
+mu &lt;- n * 1/19
 se &lt;-  sqrt(n) * 18 * sqrt(18)/19 
 pnorm(0, mu, se)</code></pre>
 <pre><code>## [1] 0.2563213</code></pre>
@@ -460,15 +455,15 @@ n &lt;- 2500
 B &lt;- 10000
 roulette_winnings &lt;- function(n){
   Y &lt;- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-  #sum(Y)
+  sum(Y)
 }
-YS &lt;- replicate(B, roulette_winnings(n))
-S&lt;-sum(YS)/length(YS)
-SE&lt;-sqrt(sum((YS - S)^2) / length(YS))
+Y &lt;- replicate(B, roulette_winnings(n))
+S&lt;-sum(Y)/length(Y)
+SE&lt;-sqrt(sum((Y - S)^2) / length(Y))
 S</code></pre>
-<pre><code>## [1] 0.05271544</code></pre>
+<pre><code>## [1] 131.7886</code></pre>
 <pre class="r"><code>SE</code></pre>
-<pre><code>## [1] 4.019176</code></pre>
+<pre><code>## [1] 199.4698</code></pre>
 </div>
 <div id="qn-16" class="section level3" number="0.1.17">
 <h3 number="14.1.17"><span class="header-section-number">14.1.17</span> Qn</h3>

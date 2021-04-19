@@ -46,10 +46,13 @@ Here $a=-17$ and $b=1$ with $p=1/19$ and $(1-p)=18/19$.
 $$
 \mbox{E}[X] = ap + b(1-p)
 $$ 
-Here the expected value would be 5 cent.
+Here the expected value of a single game would be 5 cent.
 $$
 -17*1/19+1*18/19=1/19\approx0.05263
 $$
+```{r}
+-17*1/19 + 1 * 18/19
+```
 
 This is the same expected value as betting on red. 
 Therefore if 1000 people would bet on green the expected win for the casino stays at \$50.
@@ -73,6 +76,7 @@ In numbers this results to $\approx$\$4.
 18 * sqrt(18)/19
 ```
 
+This is the standard error for any single game. 
 
 ### Qn
 >5\. Now create a random variable $S$ that is the sum of your winnings after betting on green 1000 times. Hint: change the argument `size` and `replace` in your answer to question 2. Start your code by setting the seed to 1 with `set.seed(1)`.
@@ -81,7 +85,7 @@ In numbers this results to $\approx$\$4.
 set.seed(1)
 n<-10^3
 X <- sample(c(-17,1), size = n, replace = TRUE, prob=c(1/19, 18/19))
-S<-sum(X<0)
+S<-sum(X)
 S
 ```
 
@@ -89,24 +93,23 @@ S
 >6\. What is the expected value of $S$?
 
 ```{r}
-set.seed(1)
 n<-10^3
-X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-S<-sum(X)/length(X)
-S
+n * (-17*1/19 + 1 * 18/19)
 ```
+
+Here, the expectation value of thousand games yields to about 53 dollars. 
+Therefore, the casino would win 53 dollars on average, if someone played 1000 games.
 
 ### Qn
 >7\. What is the standard error of $S$?
 
 ```{r}
-set.seed(1)
 n<-10^3
-X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-S<-sum(X)/length(X)
-SE<-sqrt(sum((X - S)^2) / length(X))
-SE
+sqrt(n) * 18 * sqrt(18)/19 
 ```
+
+The value of the standard error tells us how large the variation might be around the expected value. 
+Therefore, in the worst case we might add another 127 dollars to our wins or loose 127 from our average winnings. 
 
 ### Qn
 >8\. What is the probability that you end up winning money? Hint: use the CLT.
@@ -115,7 +118,7 @@ This time the probability of loosing money is very high with about 34%, comparin
 Therefor as a casino the probability of winning money is just 66% instead of 95% when betting on red or black. 
 ```{r}
 n<-1000
-mu <- n * (2)/38
+mu <- n * (1)/19
 se <-  sqrt(n) * 18 * sqrt(18)/19 
 #> [1] 0.339
 pnorm(0, mu, se)
@@ -132,7 +135,7 @@ n<-10^3
 B <- 10^4
 roulette_winnings <- function(n){
   X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-  #sum(X)
+  sum(X)
 }
 XS <- replicate(B, roulette_winnings(n))
 S<-sum(XS)/length(XS)
@@ -204,10 +207,10 @@ Answer B.
 
 ```{r}
 set.seed(1)
-n<-1000
-Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-S<-mean(Y<0)
-S
+n<-2500
+X <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
+Y<-mean(X)
+Y
 ```
 
 ### Qn
@@ -216,9 +219,8 @@ S
 ```{r}
 set.seed(1)
 n<-2500
-Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-S<-sum(Y)/length(Y)
-S
+n * (2)/38 
+#> [1] 52.6
 ```
 
 ### Qn
@@ -227,10 +229,8 @@ S
 ```{r}
 set.seed(1)
 n<-2500
-Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-S<-sum(Y)/length(Y)
-SE<-sqrt(sum((Y - S)^2) / length(Y))
-SE
+sqrt(n) * 18 * sqrt(18)/19 
+#> [1] 127.1
 ```
 
 ### Qn
@@ -240,7 +240,7 @@ As the number of games increases it is more likely that the casino will win mone
 
 ```{r}
 n<-2500
-mu <- n * (2)/38
+mu <- n * 1/19
 se <-  sqrt(n) * 18 * sqrt(18)/19 
 pnorm(0, mu, se)
 ```
@@ -254,11 +254,11 @@ n <- 2500
 B <- 10000
 roulette_winnings <- function(n){
   Y <- sample(c(-17,1), n, replace = TRUE, prob=c(1/19, 18/19))
-  #sum(Y)
+  sum(Y)
 }
-YS <- replicate(B, roulette_winnings(n))
-S<-sum(YS)/length(YS)
-SE<-sqrt(sum((YS - S)^2) / length(YS))
+Y <- replicate(B, roulette_winnings(n))
+S<-sum(Y)/length(Y)
+SE<-sqrt(sum((Y - S)^2) / length(Y))
 S
 SE
 ```
@@ -331,3 +331,9 @@ ggplot(df,aes(samplesize,probabilities)) +
   annotate("rect", xmin = 900, xmax = 1100, ymin = 0.32, ymax = 0.36, alpha = .2, color="blue") +
   annotate("rect", xmin = 2400, xmax = 2600, ymin = 0.24, ymax = 0.28, alpha = .2, color="blue")
 ```
+
+
+## Exercises The Big Short
+
+### Qn
+
