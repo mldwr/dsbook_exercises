@@ -11,7 +11,7 @@ output:
       ]
 ---
 
-## Exercises Random Variables
+## Exercises: Random Variables
 
 ### Qn
 
@@ -333,7 +333,55 @@ ggplot(df,aes(samplesize,probabilities)) +
 ```
 
 
-## Exercises The Big Short
+## Exercises: The Big Short
 
 ### Qn
 
+>1. Create a random variable $S$ with the earnings of your bank if you give out 10,000 loans, the default rate is 0.3, and you lose \$200,000 in each foreclosure. Hint: use the code we showed in the previous section, but change the parameters.
+
+```{r}
+B <- 100000
+loss_per_foreclosure <- -200000
+p <- 0.3
+l <- loss_per_foreclosure
+z <- qnorm(0.01)
+x <- -l*( n*p - z*sqrt(n*p*(1-p)))/ ( n*(1-p) + z*sqrt(n*p*(1-p)))
+profit <- replicate(B, {
+    draws <- sample( c(x, loss_per_foreclosure), n, prob=c(1-p, p), replace = TRUE) 
+    sum(draws)
+})
+mean(profit)
+mean(profit<0)
+```
+
+### Qn
+
+>2. Run a Monte Carlo simulation with 10,000 outcomes for $S$. Make a histogram of the results. 
+
+### Qn
+
+>3. What is the expected value of $S$?
+
+### Qn
+
+>4. What is the standard error of $S$?
+
+### Qn
+
+>5. Suppose we give out loans for \$180,000. What should the interest rate be so that our expected value is 0? 
+
+### Qn
+
+>6. (Harder) What should the interest rate be so that the chance of losing money is 1 in 20? In math notation, what should the interest rate be so that $\mbox{Pr}(S<0) = 0.05$ ?
+
+### Qn
+
+>7. If the bank wants to minimize the probabilities of losing money, which of the following does **not** make interest rates go up?  
+>    
+>    A. A smaller pool of loans.
+>    
+>    B. A larger probability of default.
+>    
+>    C. A smaller required probability of losing money.
+>    
+>    D. The number of Monte Carlo simulations.
