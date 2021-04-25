@@ -549,20 +549,23 @@ ggplot(df,aes(samplesize,probabilities)) +
 <li>Create a random variable <span class="math inline">\(S\)</span> with the earnings of your bank if you give out 10,000 loans, the default rate is 0.3, and you lose $200,000 in each foreclosure. Hint: use the code we showed in the previous section, but change the parameters.</li>
 </ol>
 </blockquote>
-<pre class="r"><code>B &lt;- 100000
+<p>The assumptions are that a bank will give out 10.000 loans, where each loan amount is $180.000, resulting in $1.800.000.000. From that loans the bank looses $200.000 per foreclosures including all operational costs. In the example in the book the default rate is 2% for 1.000 loans and the resulting loss is about $4 million. By increasing the number of loans by 10-fold to 10.000, the losses consequently also increase in an order of magnitude to $40 million. If the default rate is increased to 30% the losses increase to $600 million.</p>
+<p><span class="math display">\[
+E[X] = lp+x(1-p)=0 \Leftrightarrow x=-lp/(1-p) \Leftrightarrow x \approx 4082
+\]</span> The interest rate for this x would and for a loan of $180.000 would be <span class="math inline">\(4082/180000=0.023\)</span>, i.e. 2,3%. This interest rate is the minimum to result in break even on average. If the actual number of defaults is above average the bank will lose money and risks to get bankrupt.</p>
+<pre class="r"><code>n &lt;- 10000
 loss_per_foreclosure &lt;- -200000
 p &lt;- 0.3
-l &lt;- loss_per_foreclosure
-z &lt;- qnorm(0.01)
-x &lt;- -l*( n*p - z*sqrt(n*p*(1-p)))/ ( n*(1-p) + z*sqrt(n*p*(1-p)))
-profit &lt;- replicate(B, {
-    draws &lt;- sample( c(x, loss_per_foreclosure), n, prob=c(1-p, p), replace = TRUE) 
-    sum(draws)
-})
-mean(profit)</code></pre>
-<pre><code>## [1] 15737505</code></pre>
-<pre class="r"><code>mean(profit&lt;0)</code></pre>
-<pre><code>## [1] 0.00995</code></pre>
+S &lt;- sample( c(0,1), n, prob=c(1-p, p), replace = TRUE)
+sum(S * loss_per_foreclosure)</code></pre>
+<pre><code>## [1] -610800000</code></pre>
+<pre class="r"><code>#CLT: losses only, therefore x=0
+n*(p*loss_per_foreclosure+(1-p)*0)</code></pre>
+<pre><code>## [1] -6e+08</code></pre>
+<pre class="r"><code># including an interest rate of 2,3% interest rate
+n*(p*loss_per_foreclosure+(1-p)*4082)</code></pre>
+<pre><code>## [1] -571426000</code></pre>
+<p>In order to</p>
 </div>
 <div id="qn-19" class="section level3" number="0.2.2">
 <h3 number="14.2.2"><span class="header-section-number">14.2.2</span> Qn</h3>
@@ -571,6 +574,22 @@ mean(profit)</code></pre>
 <li>Run a Monte Carlo simulation with 10,000 outcomes for <span class="math inline">\(S\)</span>. Make a histogram of the results.</li>
 </ol>
 </blockquote>
+<pre class="r"><code>p &lt;- 0.3
+n&lt;-10000
+loss_per_foreclosure &lt;- -200000
+l &lt;- loss_per_foreclosure
+z &lt;- qnorm(0.01)
+x &lt;- -l*( n*p - z*sqrt(n*p*(1-p)))/ ( n*(1-p) + z*sqrt(n*p*(1-p)))
+
+B &lt;- 100000
+profit &lt;- replicate(B, {
+    draws &lt;- sample( c(x, loss_per_foreclosure), n, prob=c(1-p, p), replace = TRUE) 
+    sum(draws)
+})
+mean(profit)</code></pre>
+<pre><code>## [1] 30985988</code></pre>
+<pre class="r"><code>mean(profit&lt;0)</code></pre>
+<pre><code>## [1] 0.01056</code></pre>
 </div>
 <div id="qn-20" class="section level3" number="0.2.3">
 <h3 number="14.2.3"><span class="header-section-number">14.2.3</span> Qn</h3>
