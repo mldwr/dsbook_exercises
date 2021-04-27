@@ -358,12 +358,6 @@ loss_per_foreclosure <- -200000
 p <- 0.3
 S <- sample( c(0,1), n, prob=c(1-p, p), replace = TRUE)
 sum(S * loss_per_foreclosure)
-
-#CLT: losses only, therefore x=0
-n*(p*loss_per_foreclosure+(1-p)*0)
-# including an interest rate of 2,3% interest rate
-n*(p*loss_per_foreclosure+(1-p)*4082)
-
 ```
 
 In order to
@@ -400,9 +394,10 @@ p <- 0.3
 
 #CLT: losses only, therefore x=0
 n*(p*loss_per_foreclosure+(1-p)*0)
+# -600.000.000
 # including an interest rate of 2,3% interest rate
 n*(p*loss_per_foreclosure+(1-p)*4082)
-
+# -571.426.000
 ```
 
 ### Qn
@@ -414,10 +409,8 @@ n <- 10000
 loss_per_foreclosure <- -200000
 p <- 0.3
 
-#CLT: losses only, therefore x=0
-n*(p*loss_per_foreclosure+(1-p)*0)
-# including an interest rate of 2,3% interest rate
-n*(p*loss_per_foreclosure+(1-p)*4082)
+sqrt(n)*abs(loss_per_foreclosure)*sqrt(p*(1-p))
+#9.165.151
 
 ```
 

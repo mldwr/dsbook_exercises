@@ -249,7 +249,7 @@ summary {
 <p>In this variant the gambler is betting a dollar but can win $17 or lose a dollar. The casino, on the other hand, can win a dollar or lose $17. This variant is more attractive for the gambler but rises the risk of losing money for the casino.</p>
 <pre class="r"><code>X &lt;- sample(c(1,-17), 1, prob=c(18/19, 1/19))
 X</code></pre>
-<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] -17</code></pre>
 </div>
 <div id="qn-2" class="section level3" number="0.1.3">
 <h3 number="14.1.3"><span class="header-section-number">14.1.3</span> Qn</h3>
@@ -559,12 +559,6 @@ p &lt;- 0.3
 S &lt;- sample( c(0,1), n, prob=c(1-p, p), replace = TRUE)
 sum(S * loss_per_foreclosure)</code></pre>
 <pre><code>## [1] -610800000</code></pre>
-<pre class="r"><code>#CLT: losses only, therefore x=0
-n*(p*loss_per_foreclosure+(1-p)*0)</code></pre>
-<pre><code>## [1] -6e+08</code></pre>
-<pre class="r"><code># including an interest rate of 2,3% interest rate
-n*(p*loss_per_foreclosure+(1-p)*4082)</code></pre>
-<pre><code>## [1] -571426000</code></pre>
 <p>In order to</p>
 </div>
 <div id="qn-19" class="section level3" number="0.2.2">
@@ -598,6 +592,18 @@ mean(profit)</code></pre>
 <li>What is the expected value of <span class="math inline">\(S\)</span>?</li>
 </ol>
 </blockquote>
+<pre class="r"><code>n &lt;- 10000
+loss_per_foreclosure &lt;- -200000
+p &lt;- 0.3
+
+#CLT: losses only, therefore x=0
+n*(p*loss_per_foreclosure+(1-p)*0)</code></pre>
+<pre><code>## [1] -6e+08</code></pre>
+<pre class="r"><code># -600.000.000
+# including an interest rate of 2,3% interest rate
+n*(p*loss_per_foreclosure+(1-p)*4082)</code></pre>
+<pre><code>## [1] -571426000</code></pre>
+<pre class="r"><code># -571.426.000</code></pre>
 </div>
 <div id="qn-21" class="section level3" number="0.2.4">
 <h3 number="14.2.4"><span class="header-section-number">14.2.4</span> Qn</h3>
@@ -606,6 +612,13 @@ mean(profit)</code></pre>
 <li>What is the standard error of <span class="math inline">\(S\)</span>?</li>
 </ol>
 </blockquote>
+<pre class="r"><code>n &lt;- 10000
+loss_per_foreclosure &lt;- -200000
+p &lt;- 0.3
+
+sqrt(n)*abs(loss_per_foreclosure)*sqrt(p*(1-p))</code></pre>
+<pre><code>## [1] 9165151</code></pre>
+<pre class="r"><code>#9.165.151</code></pre>
 </div>
 <div id="qn-22" class="section level3" number="0.2.5">
 <h3 number="14.2.5"><span class="header-section-number">14.2.5</span> Qn</h3>
