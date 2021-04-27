@@ -366,6 +366,11 @@ In order to
 
 >2. Run a Monte Carlo simulation with 10,000 outcomes for $S$. Make a histogram of the results. 
 
+In the "Big Short" chapter 14.11.1 it was shown that
+$$
+\mbox{Pr}\left(S <  0\right) = \mbox{Pr}\left(\frac{S - \mbox{E}[S]}{\mbox{SE}[S]} < \frac{ - \mbox{E}[S]}{\mbox{SE}[S]}\right) = \mbox{Pr}\left(Z <  \frac{- \{ lp + x(1-p)\}n}{(x-l) \sqrt{np(1-p)}}\right) = \mbox{Pr}\left(Z <  z\right)
+$$
+where $\mbox{E}[S]$ is the expected value and $\mbox{SE}[S]$ the standard error of $S$.
 ```{r}
 p <- 0.3
 n<-10000

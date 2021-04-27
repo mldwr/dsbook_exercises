@@ -782,13 +782,12 @@ pnorm(m+s, m, s) - pnorm(m-s, m, s)
 >
 >     D. `pnorm(a)`
 
-(replaced $\mu$ with $m$ and $\sigma$ with $s$)
-Answer: B.\
+Answer: B. (replaced $\mu$ with $m$ and $\sigma$ with $s$)\
 The Theory behind is to understand the difference between normal distribution and standard normal distribution. The R code `pnorm((a-m)/s)` standardizes the value a. It removes the units and transforms the value from the normal distribution to the standard normal distribution.\
 $$
 \mbox{Pr}\left(Z \leq \frac{a-m}{s} \right) = \mbox{Pr}\left(Z \leq z \right)
 $$ 
-The lowercase letter z is defined as $z:=\frac{a-m}{s}$ and called the `z-transform`. The code of answer A is the normal distribution as used before `pnorm(x,m,s)`=$F(x)$.
+The lowercase letter z is defined as $z:=\frac{a-m}{s}$ and called the `z-transform`. The code from answer A is the definition of the empirical normal distribution function $F(a)=mean(X<=a)$.
 
 ```{r,message=FALSE}
 library(magrittr)
