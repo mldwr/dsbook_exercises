@@ -367,27 +367,21 @@ sum(S * loss_per_foreclosure)
 
 >2. Run a Monte Carlo simulation with 10,000 outcomes for $S$. Make a histogram of the results. 
 
-In the "Big Short" chapter 14.11.1 it was shown that
-$$
-\mbox{Pr}\left(S <  0\right) = \mbox{Pr}\left(\frac{S - \mbox{E}[S]}{\mbox{SE}[S]} < \frac{ - \mbox{E}[S]}{\mbox{SE}[S]}\right) = \mbox{Pr}\left(Z <  \frac{- \{ lp + x(1-p)\}n}{(x-l) \sqrt{np(1-p)}}\right) = \mbox{Pr}\left(Z <  z\right)
-$$
-where $\mbox{E}[S]$ is the expected value and $\mbox{SE}[S]$ the standard error of $S$. The uppercase letter $Z$ is the normalized random variable $S$ with values between 0 and 1. In chapter 13 question 6 it was found that the probability can be computed with the R function `pnorm(z)`$=\mbox{Pr}\left(Z <  z\right)$. Therefore the z-transform can be computed by the inverse `pnorm` function which is `qnorm`: `qnorm(p)`$=z$.
 
 ```{r}
-p <- 0.3
-n<-10000
+n <- 10000
 loss_per_foreclosure <- -200000
-l <- loss_per_foreclosure
-z <- qnorm(0.01)
-x <- -l*( n*p - z*sqrt(n*p*(1-p)))/ ( n*(1-p) + z*sqrt(n*p*(1-p)))
+p <- 0.03
+set.seed(1)
 
-B <- 100000
-profit <- replicate(B, {
-    draws <- sample( c(x, loss_per_foreclosure), n, prob=c(1-p, p), replace = TRUE) 
-    sum(draws)
+B <- 10000
+S <- replicate(B, {
+    defaults <- sample( c(0,1), n, prob=c(1-p, p), replace = TRUE)
+    sum(defaults * loss_per_foreclosure)
 })
-mean(profit)
-mean(profit<0)
+mean(S)
+
+hist(S)
 ```
 
 ### Qn
@@ -426,6 +420,23 @@ It follows that the bank earns 600 million dollars with an error of plus/minus 1
 ### Qn
 
 >5. Suppose we give out loans for \$180,000. What should the interest rate be so that our expected value is 0? 
+
+In the "Big Short" chapter 14.11.1 it was shown that
+$$
+\mbox{Pr}\left(S <  0\right) = \mbox{Pr}\left(\frac{S - \mbox{E}[S]}{\mbox{SE}[S]} < \frac{ - \mbox{E}[S]}{\mbox{SE}[S]}\right) = \mbox{Pr}\left(Z <  \frac{- \{ lp + x(1-p)\}n}{(x-l) \sqrt{np(1-p)}}\right) = \mbox{Pr}\left(Z <  z\right)
+$$
+where $\mbox{E}[S]$ is the expected value and $\mbox{SE}[S]$ the standard error of $S$. The uppercase letter $Z$ is the normalized random variable $S$ with values between 0 and 1. In chapter 13 question 6 it was found that the probability can be computed with the R function `pnorm(z)`$=\mbox{Pr}\left(Z <  z\right)$. Therefore the z-transform can be computed by the inverse `pnorm` function which is `qnorm`: `qnorm(p)`$=z$.
+
+```{r}
+p <- 0.3
+n<-10000
+loss_per_foreclosure <- -200000
+l <- loss_per_foreclosure
+z <- qnorm(0.01)
+x <- -l*( n*p - z*sqrt(n*p*(1-p)))/ ( n*(1-p) + z*sqrt(n*p*(1-p)))
+x
+```
+
 
 ### Qn
 
