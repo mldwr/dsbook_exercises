@@ -940,7 +940,7 @@ pnorm(m+s, m, s) - pnorm(m-s, m, s)</code></pre>
 The Theory behind is to understand the difference between normal distribution and standard normal distribution. The R code <code>pnorm((a-m)/s)</code> standardizes the value a. It removes the units and transforms the value from the normal distribution to the standard normal distribution.<br />
 <span class="math display">\[
 \mbox{Pr}\left(Z \leq \frac{a-m}{s} \right) = \mbox{Pr}\left(Z \leq z \right)
-\]</span> The lowercase letter z is defined as <span class="math inline">\(z:=\frac{a-m}{s}\)</span> and called the <code>z-transform</code>. The code from answer A is the definition of the empirical normal distribution function <span class="math inline">\(F(a)=mean(X&lt;=a)\)</span>.</p>
+\]</span> The lowercase letter z is defined as <span class="math inline">\(z:=\frac{a-m}{s}\)</span> and called the <code>z-transform</code>. The code from answer A is the definition of the empirical normal distribution function <span class="math inline">\(F(a)=\mbox{mean}(X&lt;=a)\)</span>.</p>
 <pre class="r"><code>library(magrittr)
 library(ggplot2)
 library(dslabs)

@@ -787,7 +787,7 @@ The Theory behind is to understand the difference between normal distribution an
 $$
 \mbox{Pr}\left(Z \leq \frac{a-m}{s} \right) = \mbox{Pr}\left(Z \leq z \right)
 $$ 
-The lowercase letter z is defined as $z:=\frac{a-m}{s}$ and called the `z-transform`. The code from answer A is the definition of the empirical normal distribution function $F(a)=mean(X<=a)$.
+The lowercase letter z is defined as $z:=\frac{a-m}{s}$ and called the `z-transform`. The code from answer A is the definition of the empirical normal distribution function $F(a)=\mbox{mean}(X<=a)$.
 
 ```{r,message=FALSE}
 library(magrittr)

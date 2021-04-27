@@ -356,11 +356,12 @@ If the actual number of defaults is above average the bank will lose money and r
 n <- 10000
 loss_per_foreclosure <- -200000
 p <- 0.3
+set.seed(1)
 S <- sample( c(0,1), n, prob=c(1-p, p), replace = TRUE)
 sum(S * loss_per_foreclosure)
 ```
 
-In order to
+
 
 ### Qn
 
@@ -370,7 +371,8 @@ In the "Big Short" chapter 14.11.1 it was shown that
 $$
 \mbox{Pr}\left(S <  0\right) = \mbox{Pr}\left(\frac{S - \mbox{E}[S]}{\mbox{SE}[S]} < \frac{ - \mbox{E}[S]}{\mbox{SE}[S]}\right) = \mbox{Pr}\left(Z <  \frac{- \{ lp + x(1-p)\}n}{(x-l) \sqrt{np(1-p)}}\right) = \mbox{Pr}\left(Z <  z\right)
 $$
-where $\mbox{E}[S]$ is the expected value and $\mbox{SE}[S]$ the standard error of $S$.
+where $\mbox{E}[S]$ is the expected value and $\mbox{SE}[S]$ the standard error of $S$. The uppercase letter $Z$ is the normalized random variable $S$ with values between 0 and 1. In chapter 13 question 6 it was found that the probability can be computed with the R function `pnorm(z)`$=\mbox{Pr}\left(Z <  z\right)$. Therefore the z-transform can be computed by the inverse `pnorm` function which is `qnorm`: `qnorm(p)`$=z$.
+
 ```{r}
 p <- 0.3
 n<-10000
@@ -418,6 +420,8 @@ sqrt(n)*abs(loss_per_foreclosure)*sqrt(p*(1-p))
 #9.165.151
 
 ```
+
+It follows that the bank earns 600 million dollars with an error of plus/minus 10 million dollars. 
 
 ### Qn
 
