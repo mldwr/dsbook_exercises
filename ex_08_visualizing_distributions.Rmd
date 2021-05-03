@@ -1,5 +1,5 @@
 ---
-title: "Ex 08 Data Visualization"
+title: "Ex 08 Visualizing Distributions"
 output:
   html_document:
     df_print: paged
@@ -31,15 +31,15 @@ output:
 >
 >To the closest 5%, what proportion of the states are in the North Central region?
 
-```{r}
+```{r, message=FALSE}
+library(tidyverse)
+library(dslabs)
 murders %>% group_by(region) %>%
   summarize(n = n()) %>%
-  mutate(Proportion = n/sum(n), 
-         region = reorder(region, Proportion)) %>%
-  ggplot(aes(x=region, y=Proportion, fill=region)) + 
-  geom_bar(stat = "identity", show.legend = FALSE) + 
-  xlab("")
+  mutate(Proportion = n/sum(n), region = reorder(region, Proportion))
 ```
+
+As can be seen from the table the proportion of the states in the North Central region are 25%.
 
 
 ### Qn
@@ -47,9 +47,11 @@ murders %>% group_by(region) %>%
 >
 >a. The graph above is a histogram.
 >b. The graph above shows only four numbers with a bar plot.
->c. Categories are not numbers, so it does not make sense to graph the >distribution.
+>c. Categories are not numbers, so it does not make sense to graph the distribution.
 >d. The colors, not the height of the bars, describe the distribution.
 
+Answer b. \
+The graph is a visualization of a vector in a bar plot. 
 
 ### Qn
 >3\. The plot below shows the eCDF for male heights:

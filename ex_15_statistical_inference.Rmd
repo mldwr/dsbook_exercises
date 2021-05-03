@@ -58,7 +58,7 @@ output:
 
 ### Qn
 >10\. Given the answer to 9, which of the following best describes your strategy of using a sample size of $N=25$?
-
+>
 >a. The expected value of our estimate $2\bar{X}-1$ is $d$, so our prediction will be right on.
 >b. Our standard error is larger than the difference, so the chances of $2\bar{X}-1$ being positive and throwing us off were not that small. We should pick a larger sample size.
 >c. The difference is 10% and the standard error is about 0.2, therefore much smaller than the difference.
