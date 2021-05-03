@@ -479,16 +479,30 @@ $$
 x = - l \frac{ np  - z \sqrt{np(1-p)}}{n(1-p) + z \sqrt{np(1-p)}}
 $$
 The interest rate needs to go up in order to compensate the increase probability of possible losses. \
-The probability of losing money goes up, if the pool of loans decreases (i.e. decreasing n in the calculation: $x\sim 1/n$), because then a default of a single loan results in larger impact to the total earnings (Answer A). Similar a larger probability of defaults results (i.e. increasing p in the calculation: $x\sim p$) in larger losses and has to be compensated by an increase of interest rates (Answer B). Also a smaller required probability of losing money (i.e. decreasing z: $x\sim 1/z$) means higher earnings. 
+The probability of losing money goes up, if the pool of loans decreases (i.e. decreasing n in the calculation: $x\sim 1/n$), because then a default of a single loan results in larger impact to the total earnings (Answer A). Similar a larger probability of defaults results (i.e. increasing p in the calculation: $x\sim p$) in larger losses and has to be compensated by an increase of interest rates (Answer B). Also a smaller required probability of losing money (i.e. decreasing z: $x\sim 1/z$) means higher earnings. \
 
 ```{r}
 loan<-180000
 p <- 0.02
+vp<- seq(0.005,0.1,0.005)
 n<-1000
+vn<-seq(100,10000,100)
+
 loss_per_foreclosure <- -200000
 l <- loss_per_foreclosure
 z <- qnorm(0.01)
-z
-x <- -l*( n*p - z*sqrt(n*p*(1-p)))/ ( n*(1-p) + z*sqrt(n*p*(1-p)))
-x/loan # interest rate
+vz<-qnorm(vp)
+
+int_rate<- function(n,p,z) {
+  x<- -l*( n*p - z*sqrt(n*p*(1-p)))/ ( n*(1-p) + z*sqrt(n*p*(1-p)))
+  x/loan # interest rate
+}
+# interest rate increases when number of loans decreases 
+plot(vn, int_rate(vn,p,z))
+# interest rate increases when default probability increases
+plot(vp, int_rate(n,vp,z))
+#interest rate increases when probability of loosing money decreases
+plot(vp, int_rate(n,p,vz))
 ```
+The described qualitative results are illustrated by the shown plots. Here the reciprocal behavior of $x\sim 1/n$ and $x\sim 1/z$ are shown, but also the proportional behavior of $x\sim p$. 
+
