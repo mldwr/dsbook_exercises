@@ -39,7 +39,7 @@ murders %>% group_by(region) %>%
   mutate(Proportion = n/sum(n), region = reorder(region, Proportion))
 ```
 
-As can be seen from the table the proportion of the states in the North Central region are 25%.
+As can be seen from the table the proportion of the states in the North Central region are round about 25%.
 
 
 ### Qn
@@ -51,13 +51,13 @@ As can be seen from the table the proportion of the states in the North Central 
 >d. The colors, not the height of the bars, describe the distribution.
 
 Answer b. \
-The graph is a visualization of a vector in a bar plot. 
+The graph is a visualization of a vector in a bar plot. The other possible answers simply do not make any sense. 
 
 ### Qn
 >3\. The plot below shows the eCDF for male heights:
 >
 >
->```{r ecdf-exercise, echo=FALSE, eval = FALSE}
+>```{r}
 >heights %>% filter(sex == "Male") %>% ggplot(aes(height)) + 
 >  stat_ecdf() +
 >  ylab("F(a)") + xlab("a")
@@ -70,6 +70,17 @@ The graph is a visualization of a vector in a bar plot.
 >c. 80%
 >d. 72 inches
 
+Answer b. \
+The tics of the x-axis are labeled in steps of 10 ranging from 50 to 80 inches. The tics of the y-axis are labeled in steps of 0.25 ranging from 0 to 1. \
+First, the value of 75 inches can be found on the x-axis labeled as "a".  Then at the crossing of the graph the value for the percentage "F(a)" is slightly below 1.00, which will be about at 0.95. This value corresponds to 95%. \
+The plot below illustrates the description.
+
+```{r}
+heights %>% filter(sex == "Male") %>% 
+  ggplot(aes(height)) + stat_ecdf() + ylab("F(a)") + xlab("a")+
+  geom_segment(aes(x = 75, y = 0.0, xend = 75, yend = 0.95), color="green",size=0.3) +
+  geom_segment(aes(x = 50, y = 0.95, xend = 75, yend = 0.95), color="green",size=0.3)
+```
 
 ### Qn
 >4\. To the closest inch, what height `m` has the property that 1/2 of the male students are taller than `m` and 1/2 are shorter?
@@ -79,11 +90,21 @@ The graph is a visualization of a vector in a bar plot.
 >c. 69 inches
 >d. 74 inches
 
+Answer c. \
+The question relates to the graph in the previous question. Here the graph is divided into equal parts at the percentage of 50% with $F(a)=0.5$. Therefore, the one half of the points is below the other half is above this value. By looking at the y-axis at 0.50 we cross the graph for a slightly below 70 inches, which will be 69 inches.  \
+The plot below illustrates the description.
+
+```{r}
+heights %>% filter(sex == "Male") %>% 
+  ggplot(aes(height)) + stat_ecdf() + ylab("F(a)") + xlab("a") +
+  geom_segment(aes(x = 69, y = 0.0, xend = 69, yend = 0.5), color="green",size=0.3) +
+  geom_segment(aes(x = 50, y = 0.5, xend = 69, yend = 0.5), color="green",size=0.3)
+```
 
 ### Qn
 >5\. Here is an eCDF of the murder rates across states:
 >
->```{r ecdf-exercise-2, echo=FALSE, eval = FALSE}
+>```{r}
 >murders %>% mutate(murder_rate = total/population * 10^5) %>%
 >  ggplot(aes(murder_rate)) + 
 >  stat_ecdf() +
@@ -110,7 +131,7 @@ The graph is a visualization of a vector in a bar plot.
 ### Qn
 >7\. Below is a histogram of male heights in our `heights` dataset: 
 >
->```{r height-histogram-exercise, echo=FALSE, eval = FALSE}
+>```{r}
 >heights %>% 
 >  filter(sex == "Male") %>% 
 >  ggplot(aes(height)) + 
@@ -137,7 +158,7 @@ The graph is a visualization of a vector in a bar plot.
 ### Qn
 >9\. Based on the density plot below, about what proportion of US states have populations larger than 10 million?
 >
->```{r density-exercise, echo=FALSE, eval = FALSE}
+>```{r}
 >murders %>% ggplot(aes(x=population/10^6)) + 
 >  geom_density(fill = "grey") + 
 >  scale_x_log10() +
@@ -153,7 +174,7 @@ The graph is a visualization of a vector in a bar plot.
 ### Qn
 >10\. Below are three density plots. Is it possible that they are from the same dataset? 
 >
->```{r density-exercise-2, echo=FALSE, warning=FALSE, message=FALSE, eval = FALSE}
+>```{r warning=FALSE, message=FALSE}
 >library(gridExtra)
 >p1 <- murders %>% ggplot(aes(x=population/10^6)) + 
 >  geom_density(fill = "grey", bw = 5) + xlab("Population in millions") + ggtitle("1")
@@ -194,7 +215,7 @@ The graph is a visualization of a vector in a bar plot.
 ### Qn
 >3\. Study the following boxplots showing population sizes by country:
 >
->```{r boxplot-exercise, echo=FALSE, message=FALSE, eval=FALSE}
+>```{r message=FALSE}
 >library(tidyverse)
 >library(dslabs)
 >ds_theme_set()
