@@ -118,6 +118,15 @@ heights %>% filter(sex == "Male") %>%
 >c. 10
 >d. 50
 
+Answer a, one state has a murder rate larger than 10 per 100.000 people. \
+The graph shows on the x-axis the murder rate $=a$.
+On the y-axis the fraction of the number of states is shown $=F(a)$.
+If 100% (or 1) corresponds to 51 states then one state corresponds to roughly 2% or 0,02 points. Therefore, the graph is shaped in small steps, which means that by increasing the murder rate the fraction of states encompassing these rates grows in steps of 0,02 points. At $a=10$ the graph is at about 0,98 points, therefore missing just one state. \
+The answer can be verified by looking at the actual data in the table below. 
+
+```{r}
+murders %>% mutate(murder_rate = total/population * 10^5) %>% arrange(desc(murder_rate))
+```
 
 ### Qn
 >6\. Based on the eCDF above, which of the following statements are true:
