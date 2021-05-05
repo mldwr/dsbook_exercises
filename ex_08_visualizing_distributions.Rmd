@@ -121,7 +121,7 @@ heights %>% filter(sex == "Male") %>%
 Answer a, one state has a murder rate larger than 10 per 100.000 people. \
 The graph shows on the x-axis the murder rate $=a$.
 On the y-axis the fraction of the number of states is shown $=F(a)$.
-If 100% (or 1) corresponds to 51 states then one state corresponds to roughly 2% or 0,02 points. Therefore, the graph is shaped in small steps, which means that by increasing the murder rate the fraction of states encompassing these rates grows in steps of 0,02 points. At $a=10$ the graph is at about 0,98 points, therefore missing just one state. \
+If 100% (or 1) corresponds to 51 states then one state corresponds to roughly 2% or 0,02 points. Therefore, the graph is shaped in small steps, which means that by increasing the murder rate the fraction of states encompassing these rates grows in steps of 0,02 points. At $a=10$ the graph is at about $F(10)=0,98$ points, therefore missing just one state. \
 The answer can be verified by looking at the actual data in the table below. 
 
 ```{r}
@@ -136,6 +136,10 @@ murders %>% mutate(murder_rate = total/population * 10^5) %>% arrange(desc(murde
 >c. All the states have murder rates above 2 per 100,000.
 >d. With the exception of 4 states, the murder rates are below 5 per 100,000.
 
+Answer d. \
+At $a=5$ the graph is at $F(5)=0,92$ points, therefore there are only 5 states, which have murder rates above 5 per 100.000 people.
+Answer a is wrong, because half the states have a murder rate at roughly about 3 per 100.000 people and the other half above.
+Answer b is wrong, the opposite is true, most states have murder rates above 2 per 100.000. Answer c is wrong, because there are many states with murder rates below 2 per 100.000.
 
 ### Qn
 >7\. Below is a histogram of male heights in our `heights` dataset: 
@@ -154,6 +158,7 @@ murders %>% mutate(murder_rate = total/population * 10^5) %>% arrange(desc(murde
 >c. 34
 >d. 100
 
+Answer c.
 
 ### Qn
 >8\. About what **percentage** are shorter than 60 inches?
@@ -163,6 +168,7 @@ murders %>% mutate(murder_rate = total/population * 10^5) %>% arrange(desc(murde
 >c. 25%
 >d. 50%
 
+Answer b.
 
 ### Qn
 >9\. Based on the density plot below, about what proportion of US states have populations larger than 10 million?
@@ -200,6 +206,8 @@ murders %>% mutate(murder_rate = total/population * 10^5) %>% arrange(desc(murde
 >b. They are from the same dataset, but the plots are different due to code errors.
 >c. They are the same dataset, but the first and second plot undersmooth and the third oversmooths.
 >d. They are the same dataset, but the first is not in the log scale, the second undersmooths, and the third oversmooths.
+
+Answer d.
 
 ## Exercises Distributions: Plots
 
