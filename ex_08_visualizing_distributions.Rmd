@@ -158,7 +158,15 @@ Answer b is wrong, the opposite is true, most states have murder rates above 2 p
 >c. 34
 >d. 100
 
-Answer c.
+Answer c. \
+```{r}
+heights %>% 
+  filter(sex == "Male") %>% 
+  ggplot(aes(height)) + 
+  geom_histogram(binwidth = 1, color = "black") +
+  geom_segment(aes(x = 63.5, y = 0.0, xend = 63.5, yend = 34), color="blue",size=0.3) +
+  geom_segment(aes(x = 65.5, y = 0.0, xend = 65.5, yend = 34), color="blue",size=0.3)
+```
 
 ### Qn
 >8\. About what **percentage** are shorter than 60 inches?
@@ -185,6 +193,26 @@ Answer b.
 >c. 0.50
 >d. 0.55
 
+Answer b.\
+The question asks about the size of the area at the right hand side of the blue line (beyond 10 million residents). The total are of the density plot is computed such that it adds up to unity. So a proportion of 0.5 means a division of the area into equally separated parts. The blue line does not divide the are into two equal parts, therefore answer c (0.5) and d (0.55) cannot be right. For answer a to be true the blue line must be located at in the far right or left area of the graph. So the proportion of answer b of 15% sounds about right.\
+
+```{r}
+murders %>% ggplot(aes(x=population/10^6)) + 
+  geom_density(fill = "grey") + 
+  scale_x_log10() +
+  xlab("Population in millions") +
+  geom_segment(aes(x = 10, y = 0.0, xend = 10, yend = 0.6), color="blue",size=0.3)
+```
+The answer b of 15% can be verified numerically by looking up the number of states with a population larger than 10 million, which are 7 states. Then by dividing this number of states by the total number of states results in the fraction of 0.14.
+
+```{r}
+library(dplyr)
+library(dslabs)
+p<-murders %>% mutate(tenmil = population>=10000000)  %>% group_by(tenmil) %>% summarise(num=n()) %>% .$num
+p
+p[1]+p[2]
+p[2]/(p[1]+p[2])
+```
 
 ### Qn
 >10\. Below are three density plots. Is it possible that they are from the same dataset? 
@@ -207,7 +235,9 @@ Answer b.
 >c. They are the same dataset, but the first and second plot undersmooth and the third oversmooths.
 >d. They are the same dataset, but the first is not in the log scale, the second undersmooths, and the third oversmooths.
 
-Answer d.
+Answer d. \
+The x-axis of the first plot is linear, because of the equal tick distances in steps of 10. The x-axis of the other charts are plotted with logarithmic distance, with increasing distances from 1, 3, 7, 20. The first plot is not undersmoothed, as suggested by answer c, due to the lack of multiple peaks. The curvature of plot one is smooth and shows only one peak. 
+
 
 ## Exercises Distributions: Plots
 
