@@ -158,14 +158,23 @@ Answer b is wrong, the opposite is true, most states have murder rates above 2 p
 >c. 34
 >d. 100
 
-Answer c. \
+Answer none (47). \
+This question seem to ask for values that has a deviation from the data set. First, the range of 63.5 to 65.5 contains two bins. One bin 63.5 to 64.5 contains 11 data points and the second bin from 64.5 to 65.5 contains 36 data points, which in total sums up to 47 data points. 
+
 ```{r}
 heights %>% 
   filter(sex == "Male") %>% 
   ggplot(aes(height)) + 
   geom_histogram(binwidth = 1, color = "black") +
-  geom_segment(aes(x = 63.5, y = 0.0, xend = 63.5, yend = 34), color="blue",size=0.3) +
-  geom_segment(aes(x = 65.5, y = 0.0, xend = 65.5, yend = 34), color="blue",size=0.3)
+  geom_segment(aes(x = 63.5, y = 0.0, xend = 63.5, yend = 35), color="blue",size=0.3) +
+  geom_segment(aes(x = 65.5, y = 0.0, xend = 65.5, yend = 35), color="blue",size=0.3) +
+  geom_segment(aes(x = 50, y = 35, xend = 65.5, yend = 35), color="blue",size=0.1) +
+  geom_segment(aes(x = 50, y = 12, xend = 64.5, yend = 12), color="blue",size=0.3) +
+  annotate("text", x = 51, y =15 , label = paste(c(12,""), collapse = " "),color="blue")+
+  annotate("text", x = 51, y =38 , label = paste(c(35,""), collapse = " "),color="blue")
+```
+```{r}
+heights %>%  filter(sex == "Male" & height>63.5 & height<=65.5) %>% summarise(n=n())
 ```
 
 ### Qn
@@ -197,11 +206,47 @@ Answer b.\
 The question asks about the size of the area at the right hand side of the blue line (beyond 10 million residents). The total are of the density plot is computed such that it adds up to unity. So a proportion of 0.5 means a division of the area into equally separated parts. The blue line does not divide the are into two equal parts, therefore answer c (0.5) and d (0.55) cannot be right. For answer a to be true the blue line must be located at in the far right or left area of the graph. So the proportion of answer b of 15% sounds about right.\
 
 ```{r}
+library(ggplot2)
+library(ggplot2movies)
+
+m <- ggplot(movies, aes(x = rating))
+m <- m + geom_density()
+p <- ggplot_build(m)  # <---- INSTEAD OF `p <- print(m)`
+head(p$data[[1]], 3)
+#             y        x     density     scaled    count     n PANEL group ymin
+# 1 0.007376115 1.000000 0.007376115 0.02591684 433.6271 58788     1    -1    0
+# 2 0.007652653 1.017613 0.007652653 0.02688849 449.8842 58788     1    -1    0
+# 3 0.007872571 1.035225 0.007872571 0.02766120 462.8127 58788     1    -1    0
+
+
+# Just to show that those are the points you are after, extract and use them 
+# to create a lattice xyplot 
+library(lattice)
+m2 <- xyplot(y ~x, data=p$data[[1]], type="l")
+
+library(gridExtra)
+grid.arrange(m, m2, nrow=1)
+```
+
+```{r}
+m <- ggplot(murders, aes(x = population/10^6))
+m <- m + geom_density()
+p <- ggplot_build(m)
+pdat<- p$data[[1]] %>% select(x,y) %>% mutate(xlog10=log10(x))
+pdat
+#head(p$data[[1]], 3)
+#p$data[[1]]
+#str(p$data)
+
+pdat %>% ggplot(aes(x=x,y=y)) + scale_x_log10() +
+                  geom_line()
+```
+
+```{r}
 murders %>% ggplot(aes(x=population/10^6)) + 
-  geom_density(fill = "grey") + 
-  scale_x_log10() +
-  xlab("Population in millions") +
-  geom_segment(aes(x = 10, y = 0.0, xend = 10, yend = 0.6), color="blue",size=0.3)
+  geom_density() + scale_x_log10() #+
+  #xlab("Population in millions") +
+  #geom_segment(aes(x = 10, y = 0.0, xend = 10, yend = 0.6), color="blue",size=0.3)
 ```
 The answer b of 15% can be verified numerically by looking up the number of states with a population larger than 10 million, which are 7 states. Then by dividing this number of states by the total number of states results in the fraction of 0.14.
 
