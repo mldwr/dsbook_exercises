@@ -230,15 +230,15 @@ grid.arrange(m, m2, nrow=1)
 
 ```{r}
 m <- ggplot(murders, aes(x = population/10^6))
-m <- m + geom_density()
+m <- m + geom_density() + scale_x_log10()
 p <- ggplot_build(m)
-pdat<- p$data[[1]] %>% select(x,y) %>% mutate(xlog10=log10(x))
+pdat<- p$data[[1]] %>% select(x,y) 
 pdat
 #head(p$data[[1]], 3)
 #p$data[[1]]
 #str(p$data)
 
-pdat %>% ggplot(aes(x=x,y=y)) + scale_x_log10() +
+pdat %>% ggplot(aes(x=x,y=y)) + #scale_x_log10() +
                   geom_line()
 ```
 
