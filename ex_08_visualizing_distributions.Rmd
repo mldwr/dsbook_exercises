@@ -31,6 +31,11 @@ output:
 >
 >To the closest 5%, what proportion of the states are in the North Central region?
 
+Answer: 0.25 or 25%. \
+The question asks for the value of the height of the green bar of North Central. The values of the y-axis are plotted in steps of 0.1 for the major ticks and in steps of 0.05 for the minor ticks. It can be seen that the green bar passes the value of 0.2 but not quite the value of 0.25, but comes very close to it.
+
+Numerically the value can verified with the table of proportion of the states in the North Central region to be indeed round about 25%.
+
 ```{r, message=FALSE}
 library(tidyverse)
 library(dslabs)
@@ -39,7 +44,7 @@ murders %>% group_by(region) %>%
   mutate(Proportion = n/sum(n), region = reorder(region, Proportion))
 ```
 
-As can be seen from the table the proportion of the states in the North Central region are round about 25%.
+
 
 
 ### Qn
@@ -161,14 +166,15 @@ Answer b is wrong, the opposite is true, most states have murder rates above 2 p
 Answer none (47). \
 This question seem to ask for values that has a deviation from the data set. First, the range of 63.5 to 65.5 contains two bins. One bin 63.5 to 64.5 contains 11 data points and the second bin from 64.5 to 65.5 contains 36 data points, which in total sums up to 47 data points. 
 
-```{r}
+```{r, message=FALSE}
+library(tidyverse)
 heights %>% 
   filter(sex == "Male") %>% 
   ggplot(aes(height)) + 
   geom_histogram(binwidth = 1, color = "black") +
   geom_segment(aes(x = 63.5, y = 0.0, xend = 63.5, yend = 35), color="blue",size=0.3) +
   geom_segment(aes(x = 65.5, y = 0.0, xend = 65.5, yend = 35), color="blue",size=0.3) +
-  geom_segment(aes(x = 50, y = 35, xend = 65.5, yend = 35), color="blue",size=0.1) +
+  geom_segment(aes(x = 50, y = 35, xend = 65.5, yend = 35), color="blue",size=0.3) +
   geom_segment(aes(x = 50, y = 12, xend = 64.5, yend = 12), color="blue",size=0.3) +
   annotate("text", x = 51, y =15 , label = paste(c(12,""), collapse = " "),color="blue")+
   annotate("text", x = 51, y =38 , label = paste(c(35,""), collapse = " "),color="blue")
@@ -229,24 +235,27 @@ grid.arrange(m, m2, nrow=1)
 ```
 
 ```{r}
-m <- ggplot(murders, aes(x = population/10^6))
-m <- m + geom_density() + scale_x_log10()
+m <- ggplot(murders, aes(x = population/10^6)) + geom_density() + scale_x_continuous(trans="log2")
 p <- ggplot_build(m)
-pdat<- p$data[[1]] %>% select(x,y) 
+pdat<- p$data[[1]] %>% select(x,y) #%>% mutate(x=x+12) %>% mutate(x=x/16)
 pdat
 #head(p$data[[1]], 3)
 #p$data[[1]]
-#str(p$data)
+#str(p)
 
 pdat %>% ggplot(aes(x=x,y=y)) + #scale_x_log10() +
-                  geom_line()
+                  geom_line() #+
+  #xlab("Population in millions") +
+  #geom_segment(aes(x = 10, y = 0.0, xend = 10, yend = 0.6), color="blue",size=0.3)
 ```
 
 ```{r}
-murders %>% ggplot(aes(x=population/10^6)) + 
-  geom_density() + scale_x_log10() #+
+murders %>% ggplot(aes(x=population/10^6)) + geom_density() + scale_x_continuous(trans="log2") #+
   #xlab("Population in millions") +
   #geom_segment(aes(x = 10, y = 0.0, xend = 10, yend = 0.6), color="blue",size=0.3)
+a<- seq(1,30,1)
+b<-log2(a)
+data.frame(a,b)
 ```
 The answer b of 15% can be verified numerically by looking up the number of states with a population larger than 10 million, which are 7 states. Then by dividing this number of states by the total number of states results in the fraction of 0.14.
 
