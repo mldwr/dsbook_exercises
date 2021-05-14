@@ -209,54 +209,23 @@ Answer b.
 >d. 0.55
 
 Answer b.\
-The question asks about the size of the area at the right hand side of the blue line (beyond 10 million residents). The total are of the density plot is computed such that it adds up to unity. So a proportion of 0.5 means a division of the area into equally separated parts. The blue line does not divide the are into two equal parts, therefore answer c (0.5) and d (0.55) cannot be right. For answer a to be true the blue line must be located at in the far right or left area of the graph. So the proportion of answer b of 15% sounds about right.\
+The question asks about the size of the area at the right hand side of the blue line (beyond 10 million residents). The total are of the density plot is computed such that it adds up to unity. So a proportion of 0.5 means a division of the area into equally separated parts. The blue line does not divide the are into two equal parts, therefore answer c (0.5) and d (0.55) cannot be right. For answer a to be true the blue line must be located at in the far right or left area of the graph. So the proportion of answer b of 15% sounds about right. This area is shown in light blue in the plot below. \
 
 ```{r}
-library(ggplot2)
-library(ggplot2movies)
+m <- ggplot(murders, aes(x = population/10^6)) + geom_density() + scale_x_continuous(trans="log10") 
+#p <- ggplot_build(m)
+pdat<-layer_data(m) %>% select(x,y) 
 
-m <- ggplot(movies, aes(x = rating))
-m <- m + geom_density()
-p <- ggplot_build(m)  # <---- INSTEAD OF `p <- print(m)`
-head(p$data[[1]], 3)
-#             y        x     density     scaled    count     n PANEL group ymin
-# 1 0.007376115 1.000000 0.007376115 0.02591684 433.6271 58788     1    -1    0
-# 2 0.007652653 1.017613 0.007652653 0.02688849 449.8842 58788     1    -1    0
-# 3 0.007872571 1.035225 0.007872571 0.02766120 462.8127 58788     1    -1    0
-
-
-# Just to show that those are the points you are after, extract and use them 
-# to create a lattice xyplot 
-library(lattice)
-m2 <- xyplot(y ~x, data=p$data[[1]], type="l")
-
-library(gridExtra)
-grid.arrange(m, m2, nrow=1)
+pdat %>% ggplot(aes(x=x,y=y))  + 
+  geom_line() + 
+  scale_x_continuous(label= function(x) round(10^{x-0.02},0)) + 
+  ylim(0,0.87) + 
+  geom_ribbon(data=subset(pdat,x>=1), aes(ymin=0,ymax=y),fill="lightblue") +
+  geom_ribbon(data=subset(pdat,x<1), aes(ymin=0,ymax=y),fill="gray") + 
+  xlab("Population in millions") + 
+  ylab("density")
 ```
 
-```{r}
-m <- ggplot(murders, aes(x = population/10^6)) + geom_density() + scale_x_continuous(trans="log2")
-p <- ggplot_build(m)
-pdat<- p$data[[1]] %>% select(x,y) #%>% mutate(x=x+12) %>% mutate(x=x/16)
-pdat
-#head(p$data[[1]], 3)
-#p$data[[1]]
-#str(p)
-
-pdat %>% ggplot(aes(x=x,y=y)) + #scale_x_log10() +
-                  geom_line() #+
-  #xlab("Population in millions") +
-  #geom_segment(aes(x = 10, y = 0.0, xend = 10, yend = 0.6), color="blue",size=0.3)
-```
-
-```{r}
-murders %>% ggplot(aes(x=population/10^6)) + geom_density() + scale_x_continuous(trans="log2") #+
-  #xlab("Population in millions") +
-  #geom_segment(aes(x = 10, y = 0.0, xend = 10, yend = 0.6), color="blue",size=0.3)
-a<- seq(1,30,1)
-b<-log2(a)
-data.frame(a,b)
-```
 The answer b of 15% can be verified numerically by looking up the number of states with a population larger than 10 million, which are 7 states. Then by dividing this number of states by the total number of states results in the fraction of 0.14.
 
 ```{r}
