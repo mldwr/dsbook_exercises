@@ -218,7 +218,7 @@ pdat<-layer_data(m) %>% select(x,y)
 
 pdat %>% ggplot(aes(x=x,y=y))  + 
   geom_line() + 
-  scale_x_continuous(label= function(x) round(10^{x-0.02},0)) + 
+  scale_x_continuous(label= function(x) round(10^{x},0), breaks=c(0.0,0.5,1.0,1.48)) +
   ylim(0,0.87) + 
   geom_ribbon(data=subset(pdat,x>=1), aes(ymin=0,ymax=y),fill="lightblue") +
   geom_ribbon(data=subset(pdat,x<1), aes(ymin=0,ymax=y),fill="gray") + 
@@ -259,7 +259,7 @@ p[2]/(p[1]+p[2])
 >d. They are the same dataset, but the first is not in the log scale, the second undersmooths, and the third oversmooths.
 
 Answer d. \
-The x-axis of the first plot is linear, because of the equal tick distances in steps of 10. The x-axis of the other charts are plotted with logarithmic distance, with increasing distances from 1, 3, 7, 20. The first plot is not undersmoothed, as suggested by answer c, due to the lack of multiple peaks. The curvature of plot one is smooth and shows only one peak. 
+The x-axis of the first plot is linear, because of the equal tick distances in steps of 10. The x-axis of the other charts are plotted with logarithmic distance, with increasing distances from 1, 3, 7, 20. The first plot is not under smoothed, as suggested by answer c, due to the lack of multiple peaks. The curvature of plot one is smooth and shows only one peak. 
 
 
 ## Exercises Distributions: Plots
@@ -276,11 +276,32 @@ The x-axis of the first plot is linear, because of the equal tick distances in s
 >
 >How many measurements do we have for each?
 
+The number of measurements equals the number of elements in each vector of `male` and `female`. Therefore, by measuring the number of elements in the vectors provides the number of measurements. In this case it is 812 for males and 238 for females. \
+
+```{r}
+library(dslabs)
+data(heights)
+male <- heights$height[heights$sex == "Male"]
+length(male)
+female <- heights$height[heights$sex == "Female"]
+length(female)
+```
 
 
 ### Qn
 >2\. Suppose we can't make a plot and want to compare the distributions side by side. We can't just list all the numbers. Instead, we will look at the percentiles. Create a five row table showing `female_percentiles` and `male_percentiles` with the 10th, 30th, 50th, 70th, & 90th percentiles for each sex. Then create a data frame with these two as columns.
->
+
+```{r}
+library(dslabs)
+data(heights)
+male <- heights$height[heights$sex == "Male"]
+percentiles<-c(0.1,0.3,0.5,0.7,0.9)
+male_percentiles<-quantile(male, percentiles)
+female <- heights$height[heights$sex == "Female"]
+female_percentiles<-quantile(female, percentiles)
+data.frame(male_percentiles,female_percentiles)
+```
+
 
 ### Qn
 >3\. Study the following boxplots showing population sizes by country:
