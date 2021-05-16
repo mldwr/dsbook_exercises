@@ -291,6 +291,8 @@ length(female)
 ### Qn
 >2\. Suppose we can't make a plot and want to compare the distributions side by side. We can't just list all the numbers. Instead, we will look at the percentiles. Create a five row table showing `female_percentiles` and `male_percentiles` with the 10th, 30th, 50th, 70th, & 90th percentiles for each sex. Then create a data frame with these two as columns.
 
+The function `quantile` receives a data vector and a vector of percentiles and returns the corresponding quantities. A percentile is a special case of a quantile, as mentioned in chapter 8.11 in the book. \
+
 ```{r}
 library(dslabs)
 data(heights)
@@ -319,10 +321,13 @@ data.frame(male_percentiles,female_percentiles)
 >
 >Which continent has the country with the biggest population size?
 
+The continent that has the country with the biggest population size according to the data of the shown *boxplot* is **Asia**. This information can be extracted from the plot by comparing the vertical lines ("whiskers") of each continent. The line indicates the range of the population size, where the box crossing the line shows the 25th, 50th (median) and 75th percentile. The length of the line is called the *interquartile* range. The dots above and below the lines mark the outliers. \
+
 
 ### Qn
 >4\. What continent has the largest median population size?
->    
+
+
 
 ### Qn 
 >5\. What is median population size for Africa to the nearest million? 
