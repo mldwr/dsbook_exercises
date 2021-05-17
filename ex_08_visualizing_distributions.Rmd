@@ -321,17 +321,18 @@ data.frame(male_percentiles,female_percentiles)
 >
 >Which continent has the country with the biggest population size?
 
-The continent that has the country with the biggest population size according to the data of the shown *boxplot* is **Asia**. This information can be extracted from the plot by comparing the vertical lines ("whiskers") of each continent. The line indicates the range of the population size, where the box crossing the line shows the 25th, 50th (median) and 75th percentile. The length of the line is called the *interquartile* range. The dots above and below the lines mark the outliers. \
+The continent that has the country with the biggest population size according to the data of the shown *boxplot* is **Asia**. This information can be extracted from the plot by comparing the vertical lines ("whiskers") of each continent. The line indicates the range of the population size, where the box crossing the line shows the 25th, 50th (median) and 75th percentile. The length of the line is called the *interquartile* range. The dots above and below the lines mark the outliers . \
 
 
 ### Qn
 >4\. What continent has the largest median population size?
 
-
+The median in the boxplot is indicated my a horizontal bold line withing the box. By comparing all median values for every continent, it is obvious that the largest one is for **Africa**.
 
 ### Qn 
 >5\. What is median population size for Africa to the nearest million? 
->    
+
+The median population size for Africa is nearest to 10 million people. 
 
 ### Qn
 >6\. What proportion of countries in Europe have populations below 14 million?
@@ -341,9 +342,26 @@ The continent that has the country with the biggest population size according to
 >c. 0.50
 >d. 0.25
 
+Answer b. \
+By inspecting the box of Europa in the plot one sees that the 75th percentile is slightly above the border of the population size of 10 million people. The median (50th percentile) is slightly below 10 million and the 25th percentile is slightly above the border of 5 million people. Although, it is hard to image where the value of 14 million is supposed to be, one can still reason that the percentile, that is nearest to this value is the 75th percentile. 
 
 ### Qn
 >7\. If we use a log transformation, which continent shown above has the largest interquartile range?
+
+The interquartile range is the distance from the smallest to the largest country regarding the population size. Just by looking at the range of the largest lines (whiskers) of the plot, which are Americas and Asia one could conclude falsely that because the whisker of Americas is slightly larger than the whisker of Asia also the range of Americas is larger than that of Asia. \ 
+However, since the y-axis is plotted in log scale the magnitude of the top part of the whiskers is larger than the same size of the whisker at the bottom part. \ 
+Therefore,  comparing the top areas of the whiskers of Americas and Asia, the part of Asia towers above the part of Americas significantly. From visual inspection the actual range of Americas is roughly 300 million and the range of Asia is more than 1000 million. \
+
+Numerically, it can be seen from the table below, that the actual largest range is indeed that of Asia with a value of 1340 million.
+
+```{r message=FALSE}
+library(tidyverse)
+library(dslabs)
+ds_theme_set()
+data(gapminder)
+tab <- gapminder %>% filter(year == 2010) %>% group_by(continent) %>% select(continent, population)  
+tab %>% summarise((max(population)-min(population))/10^6)
+```
 
 ### Qn
 >8\. Load the height data set and create a vector `x` with just the male heights:
