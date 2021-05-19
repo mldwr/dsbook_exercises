@@ -500,8 +500,32 @@ round(p*men)
 ### Qn
 >13\. There are about 10 National Basketball Association (NBA) players that are 7 feet tall or higher. Using the answer to the previous two questions, what proportion of the world's 18-to-40-year-old _seven footers_ are in the NBA?
 
+```{r}
+a<-7*12
+m <- 69
+s <- 3
+p <- 1-pnorm(a,m,s)
+men<-10^9
+sevenfooter<-round(p*men)
+sevenfooter
+nba<-10
+nba/sevenfooter
+```
+
 ### Qn
 >14\. Repeat the calculations performed in the previous question for Lebron James' height: 6 feet 8 inches. There are about 150 players that are at least that tall.
+
+```{r}
+a<-6*12+8
+m <- 69
+s <- 3
+p <- 1-pnorm(a,m,s)
+men<-10^9
+sixfooter<-round(p*men)
+sixfooter
+nba<-150
+nba/sixfooter
+```
 
 ### Qn
 >15\. In answering the previous questions, we found that it is not at all rare for a seven footer to become an NBA player. What would be a fair critique of our calculations:
@@ -511,6 +535,10 @@ round(p*men)
 >c. As seen in question 10, the normal approximation tends to underestimate the extreme values. It's possible that there are more seven footers than we predicted.
 >d. As seen in question 10, the normal approximation tends to overestimate the extreme values. It's possible that there are fewer seven footers than we predicted.
 
+Answer c. \
+The calculations of the answer in question 10, shows that the approximated value using the normal distribution underestimates the actual values. 
+Also, comparing the calculation of the actual values from answer 8 to the calculation using the normal distribution approximation from answer 9, the normal distribution approximation shows a smaller value than the actual results. Therefore, the approximation underestimates the actual values as well. Underestimation means, that the actual value is larger than expected from the approximation. \
+Considering the results from question 13, there are presumably more seven footer than suggested by the approximation. 
 
 ## Exercises Distributions: Geometries
 

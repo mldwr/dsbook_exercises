@@ -740,12 +740,34 @@ round(p*men)</code></pre>
 <blockquote>
 <p>13. There are about 10 National Basketball Association (NBA) players that are 7 feet tall or higher. Using the answer to the previous two questions, what proportion of the world’s 18-to-40-year-old <em>seven footers</em> are in the NBA?</p>
 </blockquote>
+<pre class="r"><code>a&lt;-7*12
+m &lt;- 69
+s &lt;- 3
+p &lt;- 1-pnorm(a,m,s)
+men&lt;-10^9
+sevenfooter&lt;-round(p*men)
+sevenfooter</code></pre>
+<pre><code>## [1] 287</code></pre>
+<pre class="r"><code>nba&lt;-10
+nba/sevenfooter</code></pre>
+<pre><code>## [1] 0.03484321</code></pre>
 </div>
 <div id="qn-23" class="section level3" number="0.2.14">
 <h3 number="8.2.14"><span class="header-section-number">8.2.14</span> Qn</h3>
 <blockquote>
 <p>14. Repeat the calculations performed in the previous question for Lebron James’ height: 6 feet 8 inches. There are about 150 players that are at least that tall.</p>
 </blockquote>
+<pre class="r"><code>a&lt;-6*12+8
+m &lt;- 69
+s &lt;- 3
+p &lt;- 1-pnorm(a,m,s)
+men&lt;-10^9
+sixfooter&lt;-round(p*men)
+sixfooter</code></pre>
+<pre><code>## [1] 122866</code></pre>
+<pre class="r"><code>nba&lt;-150
+nba/sixfooter</code></pre>
+<pre><code>## [1] 0.001220842</code></pre>
 </div>
 <div id="qn-24" class="section level3" number="0.2.15">
 <h3 number="8.2.15"><span class="header-section-number">8.2.15</span> Qn</h3>
@@ -758,6 +780,9 @@ round(p*men)</code></pre>
 <li>As seen in question 10, the normal approximation tends to overestimate the extreme values. It’s possible that there are fewer seven footers than we predicted.</li>
 </ol>
 </blockquote>
+<p>Answer c. <br />
+The calculations of the answer in question 10, shows that the approximated value using the normal distribution underestimates the actual values. Also, comparing the calculation of the actual values from answer 8 to the calculation using the normal distribution approximation from answer 9, the normal distribution approximation shows a smaller value than the actual results. Therefore, the approximation underestimates the actual values as well. Underestimation means, that the actual value is larger than expected from the approximation.<br />
+Considering the results from question 13, there are presumably more seven footer than suggested by the approximation.</p>
 </div>
 </div>
 <div id="exercises-distributions-geometries" class="section level2" number="0.3">
