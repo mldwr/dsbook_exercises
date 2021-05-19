@@ -536,7 +536,7 @@ nba/sixfooter
 >d. As seen in question 10, the normal approximation tends to overestimate the extreme values. It's possible that there are fewer seven footers than we predicted.
 
 Answer c. \
-The calculations of the answer in question 10, shows that the approximated value using the normal distribution underestimates the actual values. 
+The calculations of the answer in question 10, show that the approximated value using the normal distribution underestimates the actual values. 
 Also, comparing the calculation of the actual values from answer 8 to the calculation using the normal distribution approximation from answer 9, the normal distribution approximation shows a smaller value than the actual results. Therefore, the approximation underestimates the actual values as well. Underestimation means, that the actual value is larger than expected from the approximation. \
 Considering the results from question 13, there are presumably more seven footer than suggested by the approximation. 
 
