@@ -350,7 +350,7 @@ By inspecting the box of Europa in the plot one sees that the 75th percentile is
 
 The interquartile range is the distance from the smallest to the largest country regarding the population size. Just by looking at the range of the largest lines (whiskers) of the plot, which are Americas and Asia one could conclude falsely that because the whisker of Americas is slightly larger than the whisker of Asia also the range of Americas is larger than that of Asia. \ 
 However, since the y-axis is plotted in log scale the magnitude of the top part of the whiskers is larger than the same size of the whisker at the bottom part. \ 
-Therefore,  comparing the top areas of the whiskers of Americas and Asia, the part of Asia towers above the part of Americas significantly. From visual inspection the actual range of Americas is roughly 300 million and the range of Asia is more than 1000 million. \
+Therefore, comparing the top areas of the whiskers of Americas and Asia, the part of Asia towers above the part of Americas significantly. From visual inspection the actual range of Americas is roughly 300 million and the range of Asia is more than 1000 million. Essentially, the  maximum value of the whisker determines its range, because due to the log scale the minimum value is so small in magnitude that it can be neglected. \
 
 Numerically, it can be seen from the table below, that the actual largest range is indeed that of Asia with a value of 1340 million.
 
@@ -360,7 +360,7 @@ library(dslabs)
 ds_theme_set()
 data(gapminder)
 tab <- gapminder %>% filter(year == 2010) %>% group_by(continent) %>% select(continent, population)  
-tab %>% summarise((max(population)-min(population))/10^6)
+tab %>% summarise(range=(max(population)-min(population))/10^6)
 ```
 
 ### Qn
@@ -373,6 +373,53 @@ tab %>% summarise((max(population)-min(population))/10^6)
 >```
 >
 >What proportion of the data is between 69 and 72 inches (taller than 69, but shorter or equal to 72)? Hint: use a logical operator and `mean`.
+
+The proportion of the data between 69 and 72 inches is 33%. In other words the probability that a male person is between 69 and 72 inches tall is 33%. 
+
+```{r}
+library(dslabs)
+data(heights)
+x <- heights$height[heights$sex=="Male"]
+a<-69
+b<-72
+mean(a < x & x <= b)
+F <- function(a) mean(x<=a)
+F(b) - F(a)
+```
+
+Visually, the probability can be illustrated with a density plot shown below. 
+
+```{r,message=FALSE}
+library(magrittr)
+library(ggplot2)
+library(dslabs)
+data(heights)
+df <- heights %>% filter(sex == "Male")
+x <- df %>% pull(height)
+a <- 72
+b <- 69
+F <- function(a) mean(x<=a)
+fb<-round(F(b),2)*100
+fa<-round(F(a),2)*100
+m <- mean(x)
+s <- sd(x)
+d <- dnorm(a,m,s)
+p <- pnorm(a,m,s)
+db <- dnorm(b,m,s)
+pb <- pnorm(b,m,s)
+xm <- seq(min(x),max(x),.1)
+ym <- dnorm(xm,m,s)
+dfm <- tibble(height=xm, density=ym)
+ggplot(df,aes(height)) +
+  stat_function(fun = dnorm, args = list(mean = m, sd = s), color="blue") +
+  geom_point(aes(y=dnorm(x,m,s)),shape=3, color="black", size=1.2) +
+  geom_segment(aes(x = a, y = 0.0, xend = a, yend = d), color="blue",size=0.5) +
+  geom_segment(aes(x = b, y = 0.0, xend = b, yend = db), color="blue",size=0.5) +
+  annotate("text", x = a+2, y = d, label = paste(c(fa,"%"), collapse = " "),color="blue") +
+  annotate("text", x = b-2, y = db, label = paste(c(fb,"%"), collapse = " "),color="blue") +
+  geom_ribbon(data=subset(dfm,height<=a & height>=b), aes(ymin=0,ymax=dnorm(height,m,s)),fill="blue", alpha=0.2)+
+  ylab("Density") + xlab("Heights in inches")
+```
 
 ### Qn
 >9\. Suppose all you know about the data is the average and the standard deviation. Use the normal approximation to estimate the proportion you just calculated. Hint: start by computing the average and standard deviation. Then use the `pnorm` function to predict the proportions.
