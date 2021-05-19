@@ -423,7 +423,16 @@ heights %&gt;%
 <li>50%</li>
 </ol>
 </blockquote>
-<p>Answer b.</p>
+<p>Answer a.<br />
+There are about 1.2% man who are shorter than 60 inches.</p>
+<pre class="r"><code>n60&lt;-heights %&gt;%  filter(sex == &quot;Male&quot; &amp; height&lt;60) %&gt;% summarise(n=n())
+n&lt;-heights %&gt;%  filter(sex == &quot;Male&quot;) %&gt;% summarise(n=n())
+n60/n*100</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["n"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"1.231527"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <div id="qn-8" class="section level3" number="0.1.9">
 <h3 number="8.1.9"><span class="header-section-number">8.1.9</span> Qn</h3>
@@ -660,24 +669,71 @@ ggplot(df,aes(height)) +
 <blockquote>
 <p>9. Suppose all you know about the data is the average and the standard deviation. Use the normal approximation to estimate the proportion you just calculated. Hint: start by computing the average and standard deviation. Then use the <code>pnorm</code> function to predict the proportions.</p>
 </blockquote>
+<p>Using the normal approximation the proportion is slightly underestimated by 2% being at 31%.</p>
+<pre class="r"><code>library(dslabs)
+data(heights)
+x &lt;- heights$height[heights$sex==&quot;Male&quot;]
+a&lt;-69
+b&lt;-72
+m &lt;- mean(x)
+s &lt;- sd(x)
+p &lt;- pnorm(a,m,s)
+pb &lt;- pnorm(b,m,s)
+pb-p</code></pre>
+<pre><code>## [1] 0.3061779</code></pre>
 </div>
 <div id="qn-19" class="section level3" number="0.2.10">
 <h3 number="8.2.10"><span class="header-section-number">8.2.10</span> Qn</h3>
 <blockquote>
 <p>10. Notice that the approximation calculated in question nine is very close to the exact calculation in the first question. Now perform the same task for more extreme values. Compare the exact calculation and the normal approximation for the interval (79,81]. How many times bigger is the actual proportion than the approximation?</p>
 </blockquote>
+<p>As can be seen from the calculations below, the actual proportion of 0.5 % is about 1.6 times bigger as the approximated value of 0.3%.</p>
+<pre class="r"><code>library(dslabs)
+data(heights)
+x &lt;- heights$height[heights$sex==&quot;Male&quot;]
+a&lt;-79
+b&lt;-81
+F &lt;- function(a) mean(x&lt;=a)
+fba&lt;-F(b) - F(a)
+m &lt;- mean(x)
+s &lt;- sd(x)
+p &lt;- pnorm(a,m,s)
+pb &lt;- pnorm(b,m,s)
+pba&lt;-pb-p
+fba*100</code></pre>
+<pre><code>## [1] 0.4926108</code></pre>
+<pre class="r"><code>pba*100</code></pre>
+<pre><code>## [1] 0.3051617</code></pre>
+<pre class="r"><code>fba/pba</code></pre>
+<pre><code>## [1] 1.614261</code></pre>
 </div>
 <div id="qn-20" class="section level3" number="0.2.11">
 <h3 number="8.2.11"><span class="header-section-number">8.2.11</span> Qn</h3>
 <blockquote>
 <p>11. Approximate the distribution of adult men in the world as normally distributed with an average of 69 inches and a standard deviation of 3 inches. Using this approximation, estimate the proportion of adult men that are 7 feet tall or taller, referred to as <em>seven footers</em>. Hint: use the <code>pnorm</code> function.</p>
 </blockquote>
+<p>Recall that 1 foot is 12 inches, therefore 7 feet is 84 inches.<br />
+In fact, there is a small fraction of just 0.00003% of men, who are considered to bee seven footers.</p>
+<pre class="r"><code>a&lt;-7*12
+m &lt;- 69
+s &lt;- 3
+p &lt;- pnorm(a,m,s)
+1-p</code></pre>
+<pre><code>## [1] 2.866516e-07</code></pre>
 </div>
 <div id="qn-21" class="section level3" number="0.2.12">
 <h3 number="8.2.12"><span class="header-section-number">8.2.12</span> Qn</h3>
 <blockquote>
 <p>12. There are about 1 billion men between the ages of 18 and 40 in the world. Use your answer to the previous question to estimate how many of these men (18-40 year olds) are seven feet tall or taller in the world?</p>
 </blockquote>
+<p>To put it in perspective, if there were 1.000.000.000 man in the world, there would be just about 287 guys seven foot tall.</p>
+<pre class="r"><code>a&lt;-7*12
+m &lt;- 69
+s &lt;- 3
+p &lt;- 1-pnorm(a,m,s)
+men&lt;-10^9
+round(p*men)</code></pre>
+<pre><code>## [1] 287</code></pre>
 </div>
 <div id="qn-22" class="section level3" number="0.2.13">
 <h3 number="8.2.13"><span class="header-section-number">8.2.13</span> Qn</h3>

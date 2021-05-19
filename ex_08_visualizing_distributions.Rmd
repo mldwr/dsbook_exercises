@@ -191,7 +191,14 @@ heights %>%  filter(sex == "Male" & height>63.5 & height<=65.5) %>% summarise(n=
 >c. 25%
 >d. 50%
 
-Answer b.
+Answer a. \
+There are about 1.2% man who are shorter than 60 inches. 
+
+```{r}
+n60<-heights %>%  filter(sex == "Male" & height<60) %>% summarise(n=n())
+n<-heights %>%  filter(sex == "Male") %>% summarise(n=n())
+n60/n*100
+```
 
 ### Qn
 >9\. Based on the density plot below, about what proportion of US states have populations larger than 10 million?
@@ -424,14 +431,71 @@ ggplot(df,aes(height)) +
 ### Qn
 >9\. Suppose all you know about the data is the average and the standard deviation. Use the normal approximation to estimate the proportion you just calculated. Hint: start by computing the average and standard deviation. Then use the `pnorm` function to predict the proportions.
 
+Using the normal approximation the proportion is slightly underestimated by 2% being at 31%.
+
+```{r}
+library(dslabs)
+data(heights)
+x <- heights$height[heights$sex=="Male"]
+a<-69
+b<-72
+m <- mean(x)
+s <- sd(x)
+p <- pnorm(a,m,s)
+pb <- pnorm(b,m,s)
+pb-p
+```
+
 ### Qn
 >10\. Notice that the approximation calculated in question nine is very close to the exact calculation in the first question. Now perform the same task for more extreme values. Compare the exact calculation and the normal approximation for the interval (79,81]. How many times bigger is the actual proportion than the approximation?
+
+As can be seen from the calculations below, the actual proportion of 0.5 % is about 1.6 times bigger as the approximated value of 0.3%. 
+
+```{r}
+library(dslabs)
+data(heights)
+x <- heights$height[heights$sex=="Male"]
+a<-79
+b<-81
+F <- function(a) mean(x<=a)
+fba<-F(b) - F(a)
+m <- mean(x)
+s <- sd(x)
+p <- pnorm(a,m,s)
+pb <- pnorm(b,m,s)
+pba<-pb-p
+fba*100
+pba*100
+fba/pba
+```
 
 ### Qn
 >11\. Approximate the distribution of adult men in the world as normally distributed with an average of 69 inches and a standard deviation of 3 inches. Using this approximation, estimate the proportion of adult men that are 7 feet tall or taller, referred to as _seven footers_. Hint: use the `pnorm` function.
 
+Recall that 1 foot is 12 inches, therefore 7 feet is 84 inches. \
+In fact, there is a small fraction of just 0.00003% of men, who are considered to bee seven footers. 
+
+```{r}
+a<-7*12
+m <- 69
+s <- 3
+p <- pnorm(a,m,s)
+1-p
+```
+
 ### Qn
 >12\. There are about 1 billion men between the ages of 18 and 40 in the world. Use your answer to the previous question to estimate how many of these men (18-40 year olds) are seven feet tall or taller in the world?
+
+To put it in perspective, if there were 1.000.000.000 man in the world, there would be just about 287 guys seven foot tall. 
+
+```{r}
+a<-7*12
+m <- 69
+s <- 3
+p <- 1-pnorm(a,m,s)
+men<-10^9
+round(p*men)
+```
 
 ### Qn
 >13\. There are about 10 National Basketball Association (NBA) players that are 7 feet tall or higher. Using the answer to the previous two questions, what proportion of the world's 18-to-40-year-old _seven footers_ are in the NBA?
