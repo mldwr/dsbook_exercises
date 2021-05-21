@@ -1,5 +1,5 @@
 ---
-title: "Ch 06 Importing Data"
+title: "Ex 05 Importing Data"
 output:
   html_document:
     df_print: paged
@@ -7,16 +7,13 @@ output:
     toc: true
     pandoc_args: [
       "--number-sections",
-      "--number-offset=5"
-    ]
+      "--number-offset=05"
+      ]
 ---
 
 ## Exercises
 
-```{r}
-library(tidyverse)
-```
-
+### Qn
 >1. Use the `read_csv` function to read each of the files that the following code saves in the `files` object: 
 >
 >```{r, eval=FALSE}
@@ -25,7 +22,8 @@ library(tidyverse)
 >files
 >```
 
-```{r}
+```{r, message=FALSE}
+library(tidyverse)
 path <- system.file("extdata", package="dslabs")
 files <- list.files(path)
 files
@@ -45,6 +43,7 @@ read_csv(murders)
 read_csv(olive)
 ```
 
+### Qn
 >2. Note that the last one, the `olive` file, gives us a warning. This is because the first line of the file is missing the header for the first column. 
 >
 >    Read the help file for `read_csv` to figure out how to read in the file without reading this header. If you skip the header, you should not get this warning. Save the result to an object called `dat`.
@@ -54,6 +53,7 @@ olive_dat <- read.csv(olive,header=FALSE)
 olive_dat %>% head
 ```
 
+### Qn
 >3. A problem with the previous approach is that we don't know what the columns represent. Type:
 >
 >```{r, eval=FALSE}
