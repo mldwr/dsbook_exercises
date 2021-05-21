@@ -38,7 +38,7 @@ fertility <- paste(path,'/',files[2]) %>% str_replace_all(" ","")
 life <- paste(path,'/',files[3]) %>% str_replace_all(" ","")
 murders <- paste(path,'/',files[4]) %>% str_replace_all(" ","")
 olive <- paste(path,'/',files[5]) %>% str_replace_all(" ","")
-read_csv(mortality)
+#read_csv(mortality)
 read_csv(fertility)
 read_csv(life)
 read_csv(murders)
@@ -65,13 +65,15 @@ olive_dat %>% head
 >    Use the `readLines` function to read in just the first line (we later learn how to extract values from the output). 
 
 ```{r}
+olive_dat <- read.csv(olive,header=FALSE)
+olive_dat %>% head
 names(olive_dat)
 olive_header <- readLines(olive,1) %>% str_split(',') %>% .[[1]]
 olive_header[1] = 'Num'
 olive_header[length(olive_header)+1] = 'sambalolic'
 olive_header
-olive_dat <- setNames(olive_dat,olive_header)
-olive_dat %>% filter(Num!='NA')
+#olive_dat <- setNames(olive_dat,olive_header)
+#olive_dat %>% filter(Num!='NA')
 ```
 
 

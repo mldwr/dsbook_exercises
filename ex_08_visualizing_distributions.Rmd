@@ -500,6 +500,8 @@ round(p*men)
 ### Qn
 >13\. There are about 10 National Basketball Association (NBA) players that are 7 feet tall or higher. Using the answer to the previous two questions, what proportion of the world's 18-to-40-year-old _seven footers_ are in the NBA?
 
+The proportion of world's population in the NBA is about 3.5%, which can be considered to be a rather high value.
+
 ```{r}
 a<-7*12
 m <- 69
@@ -514,6 +516,8 @@ nba/sevenfooter
 
 ### Qn
 >14\. Repeat the calculations performed in the previous question for Lebron James' height: 6 feet 8 inches. There are about 150 players that are at least that tall.
+
+Regarding the "six feeter", there are just 0.1% in the NBA, which is surprisingly low comparing with the proportion of "seven feeter" of 3.5%. It follows that for a person that is seven foot tall it is not that unlikely to play in the NBA.
 
 ```{r}
 a<-6*12+8
@@ -551,6 +555,21 @@ Considering the results from question 13, there are presumably more seven footer
 >b. `heights`
 >c. `height`
 >d. `heights$height`
+
+Answer d. \
+The data frame `heights` contains the variables `sex`and `heights`. The data with the actual height values can be accessed via the command `heights$height`.
+
+```{r, message=FALSE}
+library(tidyverse)
+heights %>% 
+  filter(sex == "Male") %>% 
+  ggplot(aes(height)) + 
+  geom_histogram(binwidth = 1, color = "black")
+heights %>% 
+  filter(sex == "Female") %>% 
+  ggplot(aes(height)) + 
+  geom_histogram(binwidth = 1, color = "black")
+```
 
 ### Qn
 >2\. Now create a ggplot object using the pipe to assign the heights data to a ggplot object. Assign `height` to the x values through the `aes` function.
