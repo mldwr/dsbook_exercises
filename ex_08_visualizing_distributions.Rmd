@@ -556,26 +556,28 @@ Considering the results from question 13, there are presumably more seven footer
 >c. `height`
 >d. `heights$height`
 
-Answer d. \
-The data frame `heights` contains the variables `sex`and `heights`. The data with the actual height values can be accessed via the command `heights$height`.
+Answer b. \
+The data frame `heights` contains the variables `sex`and `heights`. The data with the actual height values is stored in the variable `heights` and can be accessed via the command `heights$height`.
+
+### Qn
+>2\. Now create a ggplot object using the pipe to assign the heights data to a ggplot object. Assign `height` to the x values through the `aes` function.
 
 ```{r, message=FALSE}
 library(tidyverse)
 heights %>% 
   filter(sex == "Male") %>% 
-  ggplot(aes(height)) + 
-  geom_histogram(binwidth = 1, color = "black")
-heights %>% 
-  filter(sex == "Female") %>% 
-  ggplot(aes(height)) + 
-  geom_histogram(binwidth = 1, color = "black")
+  ggplot(aes(x=height))
 ```
 
 ### Qn
->2\. Now create a ggplot object using the pipe to assign the heights data to a ggplot object. Assign `height` to the x values through the `aes` function.
-
-### Qn
 >3\. Now we are ready to add a layer to actually make the histogram. Use the object created in the previous exercise and the `geom_histogram` function to make the histogram.
+
+```{r, message=FALSE}
+library(tidyverse)
+heights %>% 
+  ggplot(aes(x=height)) + 
+  geom_histogram()
+```
 
 ### Qn
 >4\. Note that when we run the code in the previous exercise we get the warning:
@@ -583,14 +585,42 @@ heights %>%
 >
 >Use the `binwidth` argument to change the histogram made in the previous exercise to use bins of size 1 inch. 
 
+```{r, message=FALSE}
+library(tidyverse)
+heights %>% 
+  ggplot(aes(height)) + 
+  geom_histogram(binwidth = 1, color = "black")
+```
+
 ### Qn
 >5\. Instead of a histogram, we are going to make a smooth density plot. In this case we will not make an object, but instead render the plot with one line of code. Change the geometry in the code previously used to make a smooth density instead of a histogram.
+
+```{r, message=FALSE}
+library(tidyverse)
+heights %>% 
+  ggplot(aes(height)) + 
+  geom_density()
+```
 
 ### Qn
 >6\. Now we are going to make a density plot for males and females separately. We can do this using the `group` argument. We assign groups via the aesthetic mapping as each point needs to a group before making the calculations needed to estimate a density.
 
+```{r, message=FALSE}
+library(tidyverse)
+heights %>% 
+  ggplot(aes(x=height,group=sex)) + 
+  geom_density()
+```
+
 ### Qn
 >7\. We can also assign groups through the `color` argument. This has the added benefit that it uses color to distinguish the groups. Change the code above to use color.
+
+```{r, message=FALSE}
+library(tidyverse)
+heights %>% 
+  ggplot(aes(x=height,group=sex, color=sex)) + 
+  geom_density()
+```
 
 ### Qn
 >8\. We can also assign groups through the `fill` argument. This has the added benefit that it uses colors to distinguish the groups, like this:
@@ -604,3 +634,9 @@ heights %>%
 >
 >However, here the second density is drawn over the other. We can make the curves more visible by using alpha blending to add transparency. Set the alpha parameter to 0.2 in the `geom_density` function to make this change.
 
+```{r, message=FALSE}
+library(tidyverse)
+heights %>% 
+  ggplot(aes(height, fill = sex)) + 
+  geom_density(alpha=0.2) 
+```
