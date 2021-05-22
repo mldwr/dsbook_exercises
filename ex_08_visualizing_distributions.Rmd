@@ -355,9 +355,12 @@ By inspecting the box of Europa in the plot one sees that the 75th percentile is
 ### Qn
 >7\. If we use a log transformation, which continent shown above has the largest interquartile range?
 
-The interquartile range is the distance from the smallest to the largest country regarding the population size. Just by looking at the range of the largest lines (whiskers) of the plot, which are Americas and Asia one could conclude falsely that because the whisker of Americas is slightly larger than the whisker of Asia also the range of Americas is larger than that of Asia. \ 
+The interquartile range is the distance from the smallest to the largest country regarding the population size. \
+
+Just by looking at the range of the largest lines (whiskers) of the plot, which are Americas and Asia one could conclude that because the whisker of Americas is slightly larger than the whisker of Asia also the range of Americas is larger than that of Asia. Therefore, **Americas** has the largest interquartile range on the log plot. \ 
+
 However, since the y-axis is plotted in log scale the magnitude of the top part of the whiskers is larger than the same size of the whisker at the bottom part. \ 
-Therefore, comparing the top areas of the whiskers of Americas and Asia, the part of Asia towers above the part of Americas significantly. From visual inspection the actual range of Americas is roughly 300 million and the range of Asia is more than 1000 million. Essentially, the  maximum value of the whisker determines its range, because due to the log scale the minimum value is so small in magnitude that it can be neglected. \
+Therefore, comparing the top areas of the whiskers of Americas and Asia, the part of Asia towers above the part of Americas significantly. From visual inspection the actual range of Americas is roughly 300 million and the range of Asia is more than 1000 million. Essentially, the  maximum value of the whisker determines its range, because due to the log scale the minimum value is so small in magnitude that it can be neglected. In fact, the interquartile range of **Asia** is larger than that of America.\
 
 Numerically, it can be seen from the table below, that the actual largest range is indeed that of Asia with a value of 1340 million.
 
