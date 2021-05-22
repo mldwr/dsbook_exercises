@@ -269,9 +269,7 @@ summary {
 <div id="qn" class="section level3" number="0.1.1">
 <h3 number="2.1.1"><span class="header-section-number">2.1.1</span> Qn</h3>
 <blockquote>
-<ol style="list-style-type: decimal">
-<li>What is the sum of the first 100 positive integers? The formula for the sum of integers <span class="math inline">\(1\)</span> through <span class="math inline">\(n\)</span> is <span class="math inline">\(n(n+1)/2\)</span>. Define <span class="math inline">\(n=100\)</span> and then use R to compute the sum of <span class="math inline">\(1\)</span> through <span class="math inline">\(100\)</span> using the formula. What is the sum?</li>
-</ol>
+<p>1. What is the sum of the first 100 positive integers? The formula for the sum of integers <span class="math inline">\(1\)</span> through <span class="math inline">\(n\)</span> is <span class="math inline">\(n(n+1)/2\)</span>. Define <span class="math inline">\(n=100\)</span> and then use R to compute the sum of <span class="math inline">\(1\)</span> through <span class="math inline">\(100\)</span> using the formula. What is the sum?</p>
 </blockquote>
 <pre class="r"><code>n&lt;-100
 sum(n*(n+1)/2)</code></pre>
@@ -280,9 +278,7 @@ sum(n*(n+1)/2)</code></pre>
 <div id="qn-1" class="section level3" number="0.1.2">
 <h3 number="2.1.2"><span class="header-section-number">2.1.2</span> Qn</h3>
 <blockquote>
-<ol start="2" style="list-style-type: decimal">
-<li>Now use the same formula to compute the sum of the integers from 1 through 1,000.</li>
-</ol>
+<p>2. Now use the same formula to compute the sum of the integers from 1 through 1,000.</p>
 </blockquote>
 <pre class="r"><code>n&lt;-1000
 sum(n*(n+1)/2)</code></pre>
@@ -291,22 +287,20 @@ sum(n*(n+1)/2)</code></pre>
 <div id="qn-2" class="section level3" number="0.1.3">
 <h3 number="2.1.3"><span class="header-section-number">2.1.3</span> Qn</h3>
 <blockquote>
-<ol start="3" style="list-style-type: decimal">
-<li>Look at the result of typing the following code into R:</li>
-</ol>
+<p>3. Look at the result of typing the following code into R:</p>
 <pre class="r"><code>n &lt;- 1000
 x &lt;- seq(1, n)
 sum(x)</code></pre>
 <p>Based on the result, what do you think the functions <code>seq</code> and <code>sum</code> do? You can use the <code>help</code> system:</p>
 <ol style="list-style-type: lower-alpha">
-<li><code>sum</code> creates a list of numbers and <code>seq</code> adds them up.</li>
-</ol>
-<p>–&gt;b. <code>seq</code> creates a list of numbers and <code>sum</code> adds them up.</p>
-<ol start="3" style="list-style-type: lower-alpha">
+<li><p><code>sum</code> creates a list of numbers and <code>seq</code> adds them up.</p></li>
+<li><p><code>seq</code> creates a list of numbers and <code>sum</code> adds them up.</p></li>
 <li><p><code>seq</code> computes the difference between two arguments and <code>sum</code> computes the sum of 1 through 1000.</p></li>
 <li><p><code>sum</code> always returns the same number.</p></li>
 </ol>
 </blockquote>
+<p>Answer b.<br />
+</p>
 <pre class="r"><code>n&lt;-1000
 x&lt;-seq(1,n)
 sum(x)</code></pre>
@@ -315,9 +309,7 @@ sum(x)</code></pre>
 <div id="qn-3" class="section level3" number="0.1.4">
 <h3 number="2.1.4"><span class="header-section-number">2.1.4</span> Qn</h3>
 <blockquote>
-<ol start="4" style="list-style-type: decimal">
-<li>In math and programming, we say that we evaluate a function when we replace the argument with a given number. So if we type <code>sqrt(4)</code>, we evaluate the <code>sqrt</code> function. In R, you can evaluate a function inside another function. The evaluations happen from the inside out. Use one line of code to compute the log, in base 10, of the square root of 100.</li>
-</ol>
+<p>4. In math and programming, we say that we evaluate a function when we replace the argument with a given number. So if we type <code>sqrt(4)</code>, we evaluate the <code>sqrt</code> function. In R, you can evaluate a function inside another function. The evaluations happen from the inside out. Use one line of code to compute the log, in base 10, of the square root of 100.</p>
 </blockquote>
 <pre class="r"><code>log10(sqrt(100))</code></pre>
 <pre><code>## [1] 1</code></pre>
@@ -325,18 +317,16 @@ sum(x)</code></pre>
 <div id="qn-4" class="section level3" number="0.1.5">
 <h3 number="2.1.5"><span class="header-section-number">2.1.5</span> Qn</h3>
 <blockquote>
-<ol start="5" style="list-style-type: decimal">
-<li><p>Which of the following will always return the numeric value stored in <code>x</code>? You can try out examples and use the help system if you want.</p>
+<p>5. Which of the following will always return the numeric value stored in <code>x</code>? You can try out examples and use the help system if you want.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p><span class="math inline">\(log(10^x)\)</span></p></li>
 <li><p><span class="math inline">\(log10(x^10)\)</span></p></li>
-</ol></li>
-</ol>
-<p>–&gt;c. <span class="math inline">\(log(exp(x))\)</span></p>
-<ol start="4" style="list-style-type: lower-alpha">
-<li><span class="math inline">\(exp(log(x, base = 2))\)</span></li>
+<li><p><span class="math inline">\(log(exp(x))\)</span></p></li>
+<li><p><span class="math inline">\(exp(log(x, base = 2))\)</span></p></li>
 </ol>
 </blockquote>
+<p>Answer c. <br />
+</p>
 <pre class="r"><code>log(10^2)</code></pre>
 <pre><code>## [1] 4.60517</code></pre>
 <pre class="r"><code>log10(2^10)</code></pre>
@@ -352,9 +342,7 @@ sum(x)</code></pre>
 <div id="qn-5" class="section level3" number="0.2.1">
 <h3 number="2.2.1"><span class="header-section-number">2.2.1</span> Qn</h3>
 <blockquote>
-<ol style="list-style-type: decimal">
-<li>Load the US murders dataset.</li>
-</ol>
+<p>1. Load the US murders dataset.</p>
 <pre class="r"><code>library(dslabs)
 data(murders)</code></pre>
 <p>Use the function <code>str</code> to examine the structure of the <code>murders</code> object. We can see that this object is a data frame with 51 rows and five columns. Which of the following best describes the variables represented in this data frame?</p>
@@ -369,33 +357,25 @@ data(murders)</code></pre>
 <div id="qn-6" class="section level3" number="0.2.2">
 <h3 number="2.2.2"><span class="header-section-number">2.2.2</span> Qn</h3>
 <blockquote>
-<ol start="2" style="list-style-type: decimal">
-<li>What are the column names used by the data frame for these five variables?</li>
-</ol>
+<p>2. What are the column names used by the data frame for these five variables?</p>
 </blockquote>
 </div>
 <div id="qn-7" class="section level3" number="0.2.3">
 <h3 number="2.2.3"><span class="header-section-number">2.2.3</span> Qn</h3>
 <blockquote>
-<ol start="3" style="list-style-type: decimal">
-<li>Use the accessor <code>$</code> to extract the state abbreviations and assign them to the object <code>a</code>. What is the class of this object?</li>
-</ol>
+<p>3. Use the accessor <code>$</code> to extract the state abbreviations and assign them to the object <code>a</code>. What is the class of this object?</p>
 </blockquote>
 </div>
 <div id="qn-8" class="section level3" number="0.2.4">
 <h3 number="2.2.4"><span class="header-section-number">2.2.4</span> Qn</h3>
 <blockquote>
-<ol start="4" style="list-style-type: decimal">
-<li>Now use the square brackets to extract the state abbreviations and assign them to the object <code>b</code>. Use the <code>identical</code> function to determine if <code>a</code> and <code>b</code> are the same.</li>
-</ol>
+<p>4. Now use the square brackets to extract the state abbreviations and assign them to the object <code>b</code>. Use the <code>identical</code> function to determine if <code>a</code> and <code>b</code> are the same.</p>
 </blockquote>
 </div>
 <div id="qn-9" class="section level3" number="0.2.5">
 <h3 number="2.2.5"><span class="header-section-number">2.2.5</span> Qn</h3>
 <blockquote>
-<ol start="5" style="list-style-type: decimal">
-<li>We saw that the <code>region</code> column stores a factor. You can corroborate this by typing:</li>
-</ol>
+<p>5. We saw that the <code>region</code> column stores a factor. You can corroborate this by typing:</p>
 <pre class="r"><code>class(murders$region)</code></pre>
 <p>With one line of code, use the function <code>levels</code> and <code>length</code> to determine the number of regions defined by this dataset.</p>
 </blockquote>
@@ -403,9 +383,7 @@ data(murders)</code></pre>
 <div id="qn-10" class="section level3" number="0.2.6">
 <h3 number="2.2.6"><span class="header-section-number">2.2.6</span> Qn</h3>
 <blockquote>
-<ol start="6" style="list-style-type: decimal">
-<li>The function <code>table</code> takes a vector and returns the frequency of each element. You can quickly see how many states are in each region by applying this function. Use this function in one line of code to create a table of states per region.</li>
-</ol>
+<p>6. The function <code>table</code> takes a vector and returns the frequency of each element. You can quickly see how many states are in each region by applying this function. Use this function in one line of code to create a table of states per region.</p>
 </blockquote>
 </div>
 </div>
@@ -414,97 +392,73 @@ data(murders)</code></pre>
 <div id="qn-11" class="section level3" number="0.3.1">
 <h3 number="2.3.1"><span class="header-section-number">2.3.1</span> Qn</h3>
 <blockquote>
-<ol style="list-style-type: decimal">
-<li>Use the function <code>c</code> to create a vector with the average high temperatures in January for Beijing, Lagos, Paris, Rio de Janeiro, San Juan and Toronto, which are 35, 88, 42, 84, 81, and 30 degrees Fahrenheit. Call the object <code>temp</code>.</li>
-</ol>
+<p>1. Use the function <code>c</code> to create a vector with the average high temperatures in January for Beijing, Lagos, Paris, Rio de Janeiro, San Juan and Toronto, which are 35, 88, 42, 84, 81, and 30 degrees Fahrenheit. Call the object <code>temp</code>.</p>
 </blockquote>
 </div>
 <div id="qn-12" class="section level3" number="0.3.2">
 <h3 number="2.3.2"><span class="header-section-number">2.3.2</span> Qn</h3>
 <blockquote>
-<ol start="2" style="list-style-type: decimal">
-<li>Now create a vector with the city names and call the object <code>city</code>.</li>
-</ol>
+<p>2. Now create a vector with the city names and call the object <code>city</code>.</p>
 </blockquote>
 </div>
 <div id="qn-13" class="section level3" number="0.3.3">
 <h3 number="2.3.3"><span class="header-section-number">2.3.3</span> Qn</h3>
 <blockquote>
-<ol start="3" style="list-style-type: decimal">
-<li>Use the <code>names</code> function and the objects defined in the previous exercises to associate the temperature data with its corresponding city.</li>
-</ol>
+<p>3. Use the <code>names</code> function and the objects defined in the previous exercises to associate the temperature data with its corresponding city.</p>
 </blockquote>
 </div>
 <div id="qn-14" class="section level3" number="0.3.4">
 <h3 number="2.3.4"><span class="header-section-number">2.3.4</span> Qn</h3>
 <blockquote>
-<ol start="4" style="list-style-type: decimal">
-<li>Use the <code>[</code> and <code>:</code> operators to access the temperature of the first three cities on the list.</li>
-</ol>
+<p>4. Use the <code>[</code> and <code>:</code> operators to access the temperature of the first three cities on the list.</p>
 </blockquote>
 </div>
 <div id="qn-15" class="section level3" number="0.3.5">
 <h3 number="2.3.5"><span class="header-section-number">2.3.5</span> Qn</h3>
 <blockquote>
-<ol start="5" style="list-style-type: decimal">
-<li>Use the <code>[</code> operator to access the temperature of Paris and San Juan.</li>
-</ol>
+<p>5. Use the <code>[</code> operator to access the temperature of Paris and San Juan.</p>
 </blockquote>
 </div>
 <div id="qn-16" class="section level3" number="0.3.6">
 <h3 number="2.3.6"><span class="header-section-number">2.3.6</span> Qn</h3>
 <blockquote>
-<ol start="6" style="list-style-type: decimal">
-<li>Use the <code>:</code> operator to create a sequence of numbers <span class="math inline">\(12,13,14,\dots,73\)</span>.</li>
-</ol>
+<p>6. Use the <code>:</code> operator to create a sequence of numbers <span class="math inline">\(12,13,14,\dots,73\)</span>.</p>
 </blockquote>
 </div>
 <div id="qn-17" class="section level3" number="0.3.7">
 <h3 number="2.3.7"><span class="header-section-number">2.3.7</span> Qn</h3>
 <blockquote>
-<ol start="7" style="list-style-type: decimal">
-<li>Create a vector containing all the positive odd numbers smaller than 100.</li>
-</ol>
+<p>7. Create a vector containing all the positive odd numbers smaller than 100.</p>
 </blockquote>
 </div>
 <div id="qn-18" class="section level3" number="0.3.8">
 <h3 number="2.3.8"><span class="header-section-number">2.3.8</span> Qn</h3>
 <blockquote>
-<ol start="8" style="list-style-type: decimal">
-<li>Create a vector of numbers that starts at 6, does not pass 55, and adds numbers in increments of 4/7: 6, 6+4/7, 6+8/7, etc.. How many numbers does the list have? Hint: use <code>seq</code> and <code>length</code>.</li>
-</ol>
+<p>8. Create a vector of numbers that starts at 6, does not pass 55, and adds numbers in increments of 4/7: 6, 6+4/7, 6+8/7, etc.. How many numbers does the list have? Hint: use <code>seq</code> and <code>length</code>.</p>
 </blockquote>
 </div>
 <div id="qn-19" class="section level3" number="0.3.9">
 <h3 number="2.3.9"><span class="header-section-number">2.3.9</span> Qn</h3>
 <blockquote>
-<ol start="9" style="list-style-type: decimal">
-<li>What is the class of the following object <code>a &lt;- seq(1, 10, 0.5)</code>?</li>
-</ol>
+<p>9. What is the class of the following object <code>a &lt;- seq(1, 10, 0.5)</code>?</p>
 </blockquote>
 </div>
 <div id="qn-20" class="section level3" number="0.3.10">
 <h3 number="2.3.10"><span class="header-section-number">2.3.10</span> Qn</h3>
 <blockquote>
-<ol start="10" style="list-style-type: decimal">
-<li>What is the class of the following object <code>a &lt;- seq(1, 10)</code>?</li>
-</ol>
+<p>10. What is the class of the following object <code>a &lt;- seq(1, 10)</code>?</p>
 </blockquote>
 </div>
 <div id="qn-21" class="section level3" number="0.3.11">
 <h3 number="2.3.11"><span class="header-section-number">2.3.11</span> Qn</h3>
 <blockquote>
-<ol start="11" style="list-style-type: decimal">
-<li>The class of <code>class(a&lt;-1)</code> is numeric, not integer. R defaults to numeric and to force an integer, you need to add the letter <code>L</code>. Confirm that the class of <code>1L</code> is integer.</li>
-</ol>
+<p>11. The class of <code>class(a&lt;-1)</code> is numeric, not integer. R defaults to numeric and to force an integer, you need to add the letter <code>L</code>. Confirm that the class of <code>1L</code> is integer.</p>
 </blockquote>
 </div>
 <div id="qn-22" class="section level3" number="0.3.12">
 <h3 number="2.3.12"><span class="header-section-number">2.3.12</span> Qn</h3>
 <blockquote>
-<ol start="12" style="list-style-type: decimal">
-<li>Define the following vector:</li>
-</ol>
+<p>12. Define the following vector:</p>
 <pre class="r"><code>x &lt;- c(&quot;1&quot;, &quot;3&quot;, &quot;5&quot;)</code></pre>
 <p>and coerce it to get integers.</p>
 </blockquote>
@@ -520,41 +474,31 @@ data(&quot;murders&quot;)</code></pre>
 <div id="qn-23" class="section level3" number="0.4.1">
 <h3 number="2.4.1"><span class="header-section-number">2.4.1</span> Qn</h3>
 <blockquote>
-<ol style="list-style-type: decimal">
-<li>Use the <code>$</code> operator to access the population size data and store it as the object <code>pop</code>. Then use the <code>sort</code> function to redefine <code>pop</code> so that it is sorted. Finally, use the <code>[</code> operator to report the smallest population size.</li>
-</ol>
+<p>1. Use the <code>$</code> operator to access the population size data and store it as the object <code>pop</code>. Then use the <code>sort</code> function to redefine <code>pop</code> so that it is sorted. Finally, use the <code>[</code> operator to report the smallest population size.</p>
 </blockquote>
 </div>
 <div id="qn-24" class="section level3" number="0.4.2">
 <h3 number="2.4.2"><span class="header-section-number">2.4.2</span> Qn</h3>
 <blockquote>
-<ol start="2" style="list-style-type: decimal">
-<li>Now instead of the smallest population size, find the index of the entry with the smallest population size. Hint: use <code>order</code> instead of <code>sort</code>.</li>
-</ol>
+<p>2. Now instead of the smallest population size, find the index of the entry with the smallest population size. Hint: use <code>order</code> instead of <code>sort</code>.</p>
 </blockquote>
 </div>
 <div id="qn-25" class="section level3" number="0.4.3">
 <h3 number="2.4.3"><span class="header-section-number">2.4.3</span> Qn</h3>
 <blockquote>
-<ol start="3" style="list-style-type: decimal">
-<li>We can actually perform the same operation as in the previous exercise using the function <code>which.min</code>. Write one line of code that does this.</li>
-</ol>
+<p>3. We can actually perform the same operation as in the previous exercise using the function <code>which.min</code>. Write one line of code that does this.</p>
 </blockquote>
 </div>
 <div id="qn-26" class="section level3" number="0.4.4">
 <h3 number="2.4.4"><span class="header-section-number">2.4.4</span> Qn</h3>
 <blockquote>
-<ol start="4" style="list-style-type: decimal">
-<li>Now we know how small the smallest state is and we know which row represents it. Which state is it? Define a variable <code>states</code> to be the state names from the <code>murders</code> data frame. Report the name of the state with the smallest population.</li>
-</ol>
+<p>4. Now we know how small the smallest state is and we know which row represents it. Which state is it? Define a variable <code>states</code> to be the state names from the <code>murders</code> data frame. Report the name of the state with the smallest population.</p>
 </blockquote>
 </div>
 <div id="qn-27" class="section level3" number="0.4.5">
 <h3 number="2.4.5"><span class="header-section-number">2.4.5</span> Qn</h3>
 <blockquote>
-<ol start="5" style="list-style-type: decimal">
-<li>You can create a data frame using the <code>data.frame</code> function. Here is a quick example:</li>
-</ol>
+<p>5. You can create a data frame using the <code>data.frame</code> function. Here is a quick example:</p>
 <pre class="r"><code>temp &lt;- c(35, 88, 42, 84, 81, 30)
 city &lt;- c(&quot;Beijing&quot;, &quot;Lagos&quot;, &quot;Paris&quot;, &quot;Rio de Janeiro&quot;, &quot;San Juan&quot;, &quot;Toronto&quot;)
 city_temps &lt;- data.frame(name = city, temperature = temp)</code></pre>
@@ -564,17 +508,13 @@ city_temps &lt;- data.frame(name = city, temperature = temp)</code></pre>
 <div id="qn-28" class="section level3" number="0.4.6">
 <h3 number="2.4.6"><span class="header-section-number">2.4.6</span> Qn</h3>
 <blockquote>
-<ol start="6" style="list-style-type: decimal">
-<li>Repeat the previous exercise, but this time order <code>my_df</code> so that the states are ordered from least populous to most populous. Hint: create an object <code>ind</code> that stores the indexes needed to order the population values. Then use the bracket operator <code>[</code> to re-order each column in the data frame.</li>
-</ol>
+<p>6. Repeat the previous exercise, but this time order <code>my_df</code> so that the states are ordered from least populous to most populous. Hint: create an object <code>ind</code> that stores the indexes needed to order the population values. Then use the bracket operator <code>[</code> to re-order each column in the data frame.</p>
 </blockquote>
 </div>
 <div id="qn-29" class="section level3" number="0.4.7">
 <h3 number="2.4.7"><span class="header-section-number">2.4.7</span> Qn</h3>
 <blockquote>
-<ol start="7" style="list-style-type: decimal">
-<li>The <code>na_example</code> vector represents a series of counts. You can quickly examine the object using:</li>
-</ol>
+<p>7. The <code>na_example</code> vector represents a series of counts. You can quickly examine the object using:</p>
 <pre class="r"><code>data(&quot;na_example&quot;)  
 str(na_example)</code></pre>
 <pre><code>##  int [1:1000] 2 1 3 2 1 3 1 4 3 2 ...</code></pre>
@@ -587,9 +527,7 @@ str(na_example)</code></pre>
 <div id="qn-30" class="section level3" number="0.4.8">
 <h3 number="2.4.8"><span class="header-section-number">2.4.8</span> Qn</h3>
 <blockquote>
-<ol start="8" style="list-style-type: decimal">
-<li>Now compute the average again, but only for the entries that are not <code>NA</code>. Hint: remember the <code>!</code> operator.</li>
-</ol>
+<p>8. Now compute the average again, but only for the entries that are not <code>NA</code>. Hint: remember the <code>!</code> operator.</p>
 </blockquote>
 </div>
 </div>
@@ -598,9 +536,7 @@ str(na_example)</code></pre>
 <div id="qn-31" class="section level3" number="0.5.1">
 <h3 number="2.5.1"><span class="header-section-number">2.5.1</span> Qn</h3>
 <blockquote>
-<ol style="list-style-type: decimal">
-<li>Previously we created this data frame:</li>
-</ol>
+<p>1. Previously we created this data frame:</p>
 <pre class="r"><code>temp &lt;- c(35, 88, 42, 84, 81, 30)
 city &lt;- c(&quot;Beijing&quot;, &quot;Lagos&quot;, &quot;Paris&quot;, &quot;Rio de Janeiro&quot;, &quot;San Juan&quot;, &quot;Toronto&quot;)
 city_temps &lt;- data.frame(name = city, temperature = temp)</code></pre>
@@ -610,17 +546,13 @@ city_temps &lt;- data.frame(name = city, temperature = temp)</code></pre>
 <div id="qn-32" class="section level3" number="0.5.2">
 <h3 number="2.5.2"><span class="header-section-number">2.5.2</span> Qn</h3>
 <blockquote>
-<ol start="2" style="list-style-type: decimal">
-<li>What is the following sum <span class="math inline">\(1+1/2^2 + 1/3^2 + \dots 1/100^2\)</span>? Hint: thanks to Euler, we know it should be close to <span class="math inline">\(\pi^2/6\)</span>.</li>
-</ol>
+<p>2. What is the following sum <span class="math inline">\(1+1/2^2 + 1/3^2 + \dots 1/100^2\)</span>? Hint: thanks to Euler, we know it should be close to <span class="math inline">\(\pi^2/6\)</span>.</p>
 </blockquote>
 </div>
 <div id="qn-33" class="section level3" number="0.5.3">
 <h3 number="2.5.3"><span class="header-section-number">2.5.3</span> Qn</h3>
 <blockquote>
-<ol start="3" style="list-style-type: decimal">
-<li>Compute the per 100,000 murder rate for each state and store it in the object <code>murder_rate</code>. Then compute the average murder rate for the US using the function <code>mean</code>. What is the average?</li>
-</ol>
+<p>3. Compute the per 100,000 murder rate for each state and store it in the object <code>murder_rate</code>. Then compute the average murder rate for the US using the function <code>mean</code>. What is the average?</p>
 </blockquote>
 </div>
 </div>
@@ -634,65 +566,49 @@ data(murders)</code></pre>
 <div id="qn-34" class="section level3" number="0.6.1">
 <h3 number="2.6.1"><span class="header-section-number">2.6.1</span> Qn</h3>
 <blockquote>
-<ol style="list-style-type: decimal">
-<li>Compute the per 100,000 murder rate for each state and store it in an object called <code>murder_rate</code>. Then use logical operators to create a logical vector named <code>low</code> that tells us which entries of <code>murder_rate</code> are lower than 1.</li>
-</ol>
+<p>1. Compute the per 100,000 murder rate for each state and store it in an object called <code>murder_rate</code>. Then use logical operators to create a logical vector named <code>low</code> that tells us which entries of <code>murder_rate</code> are lower than 1.</p>
 </blockquote>
 </div>
 <div id="qn-35" class="section level3" number="0.6.2">
 <h3 number="2.6.2"><span class="header-section-number">2.6.2</span> Qn</h3>
 <blockquote>
-<ol start="2" style="list-style-type: decimal">
-<li>Now use the results from the previous exercise and the function <code>which</code> to determine the indices of <code>murder_rate</code> associated with values lower than 1.</li>
-</ol>
+<p>2. Now use the results from the previous exercise and the function <code>which</code> to determine the indices of <code>murder_rate</code> associated with values lower than 1.</p>
 </blockquote>
 </div>
 <div id="qn-36" class="section level3" number="0.6.3">
 <h3 number="2.6.3"><span class="header-section-number">2.6.3</span> Qn</h3>
 <blockquote>
-<ol start="3" style="list-style-type: decimal">
-<li>Use the results from the previous exercise to report the names of the states with murder rates lower than 1.</li>
-</ol>
+<p>3. Use the results from the previous exercise to report the names of the states with murder rates lower than 1.</p>
 </blockquote>
 </div>
 <div id="qn-37" class="section level3" number="0.6.4">
 <h3 number="2.6.4"><span class="header-section-number">2.6.4</span> Qn</h3>
 <blockquote>
-<ol start="4" style="list-style-type: decimal">
-<li>Now extend the code from exercise 2 and 3 to report the states in the Northeast with murder rates lower than 1. Hint: use the previously defined logical vector <code>low</code> and the logical operator <code>&amp;</code>.</li>
-</ol>
+<p>4. Now extend the code from exercise 2 and 3 to report the states in the Northeast with murder rates lower than 1. Hint: use the previously defined logical vector <code>low</code> and the logical operator <code>&amp;</code>.</p>
 </blockquote>
 </div>
 <div id="qn-38" class="section level3" number="0.6.5">
 <h3 number="2.6.5"><span class="header-section-number">2.6.5</span> Qn</h3>
 <blockquote>
-<ol start="5" style="list-style-type: decimal">
-<li>In a previous exercise we computed the murder rate for each state and the average of these numbers. How many states are below the average?</li>
-</ol>
+<p>5. In a previous exercise we computed the murder rate for each state and the average of these numbers. How many states are below the average?</p>
 </blockquote>
 </div>
 <div id="qn-39" class="section level3" number="0.6.6">
 <h3 number="2.6.6"><span class="header-section-number">2.6.6</span> Qn</h3>
 <blockquote>
-<ol start="6" style="list-style-type: decimal">
-<li>Use the match function to identify the states with abbreviations AK, MI, and IA. Hint: start by defining an index of the entries of <code>murders$abb</code> that match the three abbreviations, then use the <code>[</code> operator to extract the states.</li>
-</ol>
+<p>6. Use the match function to identify the states with abbreviations AK, MI, and IA. Hint: start by defining an index of the entries of <code>murders$abb</code> that match the three abbreviations, then use the <code>[</code> operator to extract the states.</p>
 </blockquote>
 </div>
 <div id="qn-40" class="section level3" number="0.6.7">
 <h3 number="2.6.7"><span class="header-section-number">2.6.7</span> Qn</h3>
 <blockquote>
-<ol start="7" style="list-style-type: decimal">
-<li>Use the <code>%in%</code> operator to create a logical vector that answers the question: which of the following are actual abbreviations: MA, ME, MI, MO, MU ?</li>
-</ol>
+<p>7. Use the <code>%in%</code> operator to create a logical vector that answers the question: which of the following are actual abbreviations: MA, ME, MI, MO, MU ?</p>
 </blockquote>
 </div>
 <div id="qn-41" class="section level3" number="0.6.8">
 <h3 number="2.6.8"><span class="header-section-number">2.6.8</span> Qn</h3>
 <blockquote>
-<ol start="8" style="list-style-type: decimal">
-<li>Extend the code you used in exercise 7 to report the one entry that is <strong>not</strong> an actual abbreviation. Hint: use the <code>!</code> operator, which turns <code>FALSE</code> into <code>TRUE</code> and vice versa, then <code>which</code> to obtain an index.</li>
-</ol>
+<p>8. Extend the code you used in exercise 7 to report the one entry that is <strong>not</strong> an actual abbreviation. Hint: use the <code>!</code> operator, which turns <code>FALSE</code> into <code>TRUE</code> and vice versa, then <code>which</code> to obtain an index.</p>
 </blockquote>
 </div>
 </div>
@@ -701,9 +617,7 @@ data(murders)</code></pre>
 <div id="qn-42" class="section level3" number="0.7.1">
 <h3 number="2.7.1"><span class="header-section-number">2.7.1</span> Qn</h3>
 <blockquote>
-<ol style="list-style-type: decimal">
-<li>We made a plot of total murders versus population and noted a strong relationship. Not surprisingly, states with larger populations had more murders.</li>
-</ol>
+<p>1. We made a plot of total murders versus population and noted a strong relationship. Not surprisingly, states with larger populations had more murders.</p>
 <pre class="r"><code>library(dslabs)
 data(murders)
 population_in_millions &lt;- murders$population/10^6
@@ -715,17 +629,13 @@ plot(population_in_millions, total_gun_murders)</code></pre>
 <div id="qn-43" class="section level3" number="0.7.2">
 <h3 number="2.7.2"><span class="header-section-number">2.7.2</span> Qn</h3>
 <blockquote>
-<ol start="2" style="list-style-type: decimal">
-<li>Create a histogram of the state populations.</li>
-</ol>
+<p>2. Create a histogram of the state populations.</p>
 </blockquote>
 </div>
 <div id="qn-44" class="section level3" number="0.7.3">
 <h3 number="2.7.3"><span class="header-section-number">2.7.3</span> Qn</h3>
 <blockquote>
-<ol start="3" style="list-style-type: decimal">
-<li>Generate boxplots of the state populations by region.</li>
-</ol>
+<p>3. Generate boxplots of the state populations by region.</p>
 </blockquote>
 </div>
 </div>
