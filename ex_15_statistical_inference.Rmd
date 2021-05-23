@@ -39,7 +39,7 @@ $$
 $$
 
 $$
-\mbox{SE}(S) = N\ \mbox{SE}(\bar{S}) = N \sqrt{p(1-p)/N} = \sqrt{Np(1-p)}
+\mbox{SE}(S) = N\ \mbox{SE}(\bar{S}) = N \sqrt{p(1-p)/N} = \sqrt{Np(1-p)} = \sqrt{25p(1-p)}
 $$
 
 ### Qn
@@ -59,21 +59,43 @@ $$
 ### Qn
 >5\. Write a line of code that gives you the standard error `se` for the problem above for several values of $p$, specifically for `p <- seq(0, 1, length = 100)`. Make a plot of `se` versus `p`. 
 
+```{r,message=FALSE}
+library(tidyverse)
+N <- 25
+p<-seq(0,1,length=100)
+se<-sqrt(p*(1-p)/N)
+qplot(p,se)
+````
 
 
 ### Qn
 >6\. Copy the code above and put it inside a for-loop to make the plot for $N=25$, $N=100$, and $N=1000$. 
 
+```{r,message=FALSE}
+library(tidyverse)
+vN<-c(25,100,1000)
+p<-seq(0,1,length=100)
+for(N in vN){
+se<-sqrt(p*(1-p)/N)
+plot(p,se)
+}
+````
 
 
 ### Qn
 >7\. If we are interested in the difference in proportions, $p - (1-p)$, our estimate is $d = \bar{X} - (1-\bar{X})$. Use the rules we learned about sums of random variables and scaled random variables to derive the expected value of $d$.
 
-
+$$
+\mbox{E}(d) = \mbox{E}(\bar{X}) - (\mbox{E}(1)-\mbox{E}(\bar{X})) = p-(1-p) = 2p-1
+$$
 
 ### Qn
 >8\. What is the standard error of $d$?
 
+
+$$
+\mbox{SE}(d) = \mbox{SE}(\bar{X}) - (\mbox{SE}(1)-\mbox{SE}(\bar{X})) = \sqrt{p(1-p)/N}-(0-\sqrt{p(1-p)/N}) = 2\sqrt{p(1-p)/N}
+$$
 
 
 ### Qn
