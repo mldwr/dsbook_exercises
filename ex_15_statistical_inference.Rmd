@@ -21,29 +21,40 @@ $$
 \bar{X} = \frac{1}{N} \times \sum_{i=1}^N x_i = \frac{1}{N} X_N \Leftrightarrow N \bar{X} = X_N
 $$
 $$
-\mbox{E}(X) = N\bar{X} = Np
+\mbox{E}(\bar{X}) = p
+$$
+
+$$
+\mbox{E}(X) = N\ \mbox{E}(\bar{X}) = Np
 $$
 $$
-\mbox{E}(S) = N\bar{S} = Np = 25p
+\mbox{E}(S) = N\ \mbox{E}(\bar{S}) = Np = 25p
 $$
 
 ### Qn
 >2\. What is the standard error of $S$ ? Hint: it's a function of $p$.
 
 $$
-\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N} = \sqrt{p(1-p)/25}
+\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N}
+$$
+
+$$
+\mbox{SE}(S) = N\ \mbox{SE}(\bar{S}) = N \sqrt{p(1-p)/N} = \sqrt{Np(1-p)}
 $$
 
 ### Qn
 >3\. Consider the random variable $S/N$. This is equivalent to the sample average, which we have been denoting as $\bar{X}$. What is the expected value of the $\bar{X}$? Hint: it's a function of $p$.
 
 $$
-\mbox{E}(S) = N \frac{\bar{S}}{N} = \bar{S} = p
+\mbox{E}(S) = N \frac{\mbox{E}(\bar{S})}{N} = \mbox{E}(\bar{S}) = p
 $$
 
 ### Qn
 >4\. What is the standard error of $\bar{X}$? Hint: it's a function of $p$.
 
+$$
+\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N}
+$$
 
 ### Qn
 >5\. Write a line of code that gives you the standard error `se` for the problem above for several values of $p$, specifically for `p <- seq(0, 1, length = 100)`. Make a plot of `se` versus `p`. 

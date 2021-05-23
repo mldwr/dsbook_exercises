@@ -258,9 +258,12 @@ summary {
 <p><span class="math display">\[
 \bar{X} = \frac{1}{N} \times \sum_{i=1}^N x_i = \frac{1}{N} X_N \Leftrightarrow N \bar{X} = X_N
 \]</span> <span class="math display">\[
-\mbox{E}(X) = N\bar{X} = Np
+\mbox{E}(\bar{X}) = p
+\]</span></p>
+<p><span class="math display">\[
+\mbox{E}(X) = N\ \mbox{E}(\bar{X}) = Np
 \]</span> <span class="math display">\[
-\mbox{E}(S) = N\bar{S} = Np = 25p
+\mbox{E}(S) = N\ \mbox{E}(\bar{S}) = Np = 25p
 \]</span></p>
 </div>
 <div id="qn-1" class="section level3" number="0.1.2">
@@ -269,7 +272,10 @@ summary {
 <p>2. What is the standard error of <span class="math inline">\(S\)</span> ? Hint: it’s a function of <span class="math inline">\(p\)</span>.</p>
 </blockquote>
 <p><span class="math display">\[
-\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N} = \sqrt{p(1-p)/25}
+\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N}
+\]</span></p>
+<p><span class="math display">\[
+\mbox{SE}(S) = N\ \mbox{SE}(\bar{S}) = N \sqrt{p(1-p)/N} = \sqrt{Np(1-p)}
 \]</span></p>
 </div>
 <div id="qn-2" class="section level3" number="0.1.3">
@@ -278,7 +284,7 @@ summary {
 <p>3. Consider the random variable <span class="math inline">\(S/N\)</span>. This is equivalent to the sample average, which we have been denoting as <span class="math inline">\(\bar{X}\)</span>. What is the expected value of the <span class="math inline">\(\bar{X}\)</span>? Hint: it’s a function of <span class="math inline">\(p\)</span>.</p>
 </blockquote>
 <p><span class="math display">\[
-\mbox{E}(S) = N \frac{\bar{S}}{N} = \bar{S} = p
+\mbox{E}(S) = N \frac{\mbox{E}(\bar{S})}{N} = \mbox{E}(\bar{S}) = p
 \]</span></p>
 </div>
 <div id="qn-3" class="section level3" number="0.1.4">
@@ -286,6 +292,9 @@ summary {
 <blockquote>
 <p>4. What is the standard error of <span class="math inline">\(\bar{X}\)</span>? Hint: it’s a function of <span class="math inline">\(p\)</span>.</p>
 </blockquote>
+<p><span class="math display">\[
+\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N}
+\]</span></p>
 </div>
 <div id="qn-4" class="section level3" number="0.1.5">
 <h3 number="15.1.5"><span class="header-section-number">15.1.5</span> Qn</h3>
