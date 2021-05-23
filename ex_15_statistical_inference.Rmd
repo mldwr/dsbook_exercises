@@ -18,22 +18,28 @@ output:
 >1\. Suppose you poll a population in which a proportion $p$ of voters are Democrats and $1-p$ are Republicans. Your sample size is $N=25$. Consider the random variable $S$ which is the **total** number of Democrats in your sample. What is the expected value of this random variable? Hint: it's a function of $p$.
 
 $$
-\bar{X} = 1/N \times \sum_{i=1}^N X_i
+\bar{X} = \frac{1}{N} \times \sum_{i=1}^N x_i = \frac{1}{N} X_N \Leftrightarrow N \bar{X} = X_N
 $$
 $$
-\mbox{E}(\bar{X}) = p
+\mbox{E}(X) = N\bar{X} = Np
+$$
+$$
+\mbox{E}(S) = N\bar{S} = Np = 25p
 $$
 
 ### Qn
 >2\. What is the standard error of $S$ ? Hint: it's a function of $p$.
 
 $$
-\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N}
+\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N} = \sqrt{p(1-p)/25}
 $$
 
 ### Qn
 >3\. Consider the random variable $S/N$. This is equivalent to the sample average, which we have been denoting as $\bar{X}$. What is the expected value of the $\bar{X}$? Hint: it's a function of $p$.
 
+$$
+\mbox{E}(S) = N \frac{\bar{S}}{N} = \bar{S} = p
+$$
 
 ### Qn
 >4\. What is the standard error of $\bar{X}$? Hint: it's a function of $p$.
