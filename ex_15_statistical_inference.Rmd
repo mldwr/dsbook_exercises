@@ -101,6 +101,14 @@ $$
 ### Qn
 >9\. If the actual $p=.45$, it means the Republicans are winning by a relatively large margin since $d= -.1$, which is a 10% margin of victory. In this case, what is the standard error of $2\hat{X}-1$ if we take a sample of $N=25$? 
 
+```{r,message=FALSE}
+N<-25
+p<-0.45
+Ed<-2*p-1
+SEd<-2*sqrt(p*(1-p)/N)
+Ed
+SEd
+````
 
 
 ### Qn
@@ -110,6 +118,8 @@ $$
 >b. Our standard error is larger than the difference, so the chances of $2\bar{X}-1$ being positive and throwing us off were not that small. We should pick a larger sample size.
 >c. The difference is 10% and the standard error is about 0.2, therefore much smaller than the difference.
 >d. Because we don't know $p$, we have no way of knowing that making $N$ larger would actually improve our standard error.
+
+Answer b. \
 
 ## Exercises: CLT
 

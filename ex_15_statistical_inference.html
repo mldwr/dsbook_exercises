@@ -345,6 +345,16 @@ plot(p,se)
 <blockquote>
 <p>9. If the actual <span class="math inline">\(p=.45\)</span>, it means the Republicans are winning by a relatively large margin since <span class="math inline">\(d= -.1\)</span>, which is a 10% margin of victory. In this case, what is the standard error of <span class="math inline">\(2\hat{X}-1\)</span> if we take a sample of <span class="math inline">\(N=25\)</span>?</p>
 </blockquote>
+<pre class="r"><code>N&lt;-25
+p&lt;-0.45
+Ed&lt;-2*p-1
+SEd&lt;-2*sqrt(p*(1-p)/N)
+p</code></pre>
+<pre><code>## [1] 0.45</code></pre>
+<pre class="r"><code>Ed</code></pre>
+<pre><code>## [1] -0.1</code></pre>
+<pre class="r"><code>SEd</code></pre>
+<pre><code>## [1] 0.1989975</code></pre>
 </div>
 <div id="qn-9" class="section level3" number="0.1.10">
 <h3 number="15.1.10"><span class="header-section-number">15.1.10</span> Qn</h3>
@@ -357,6 +367,8 @@ plot(p,se)
 <li>Because we don’t know <span class="math inline">\(p\)</span>, we have no way of knowing that making <span class="math inline">\(N\)</span> larger would actually improve our standard error.</li>
 </ol>
 </blockquote>
+<p>Answer b.<br />
+</p>
 </div>
 </div>
 <div id="exercises-clt" class="section level2" number="0.2">
