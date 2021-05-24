@@ -77,7 +77,7 @@ vN<-c(25,100,1000)
 p<-seq(0,1,length=100)
 for(N in vN){
 se<-sqrt(p*(1-p)/N)
-plot(p,se)
+qplot(p,se,ylim = c(0,0.5/sqrt(25)))
 }
 ````
 
@@ -85,6 +85,7 @@ plot(p,se)
 ### Qn
 >7\. If we are interested in the difference in proportions, $p - (1-p)$, our estimate is $d = \bar{X} - (1-\bar{X})$. Use the rules we learned about sums of random variables and scaled random variables to derive the expected value of $d$.
 
+Here, the lower case letter $d$ denotes the Spread.
 $$
 \mbox{E}(d) = \mbox{E}(\bar{X}) - (\mbox{E}(1)-\mbox{E}(\bar{X})) = p-(1-p) = 2p-1
 $$
