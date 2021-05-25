@@ -326,7 +326,7 @@ qplot(p,se,ylim = c(0,0.5/sqrt(25)))
 <blockquote>
 <p>7. If we are interested in the difference in proportions, <span class="math inline">\(p - (1-p)\)</span>, our estimate is <span class="math inline">\(d = \bar{X} - (1-\bar{X})\)</span>. Use the rules we learned about sums of random variables and scaled random variables to derive the expected value of <span class="math inline">\(d\)</span>.</p>
 </blockquote>
-<p><span class="math display">\[
+<p>Here, the lower case letter <span class="math inline">\(d\)</span> denotes the Spread. <span class="math display">\[
 \mbox{E}(d) = \mbox{E}(\bar{X}) - (\mbox{E}(1)-\mbox{E}(\bar{X})) = p-(1-p) = 2p-1
 \]</span></p>
 </div>
@@ -335,7 +335,7 @@ qplot(p,se,ylim = c(0,0.5/sqrt(25)))
 <blockquote>
 <p>8. What is the standard error of <span class="math inline">\(d\)</span>?</p>
 </blockquote>
-<p>Here, the lower case letter <span class="math inline">\(d\)</span> denotes the Spread.</p>
+<p>The result from <span class="math inline">\(\mbox{SE}(\bar{X})\)</span> follows directly from the previous definition in the answer of question 4. However, the standard error of a constant value, here <span class="math inline">\(\mbox{SE}(1)=0\)</span> always equals to be 0, because there cannot be any deviation from a sample size of one element (the mean of the constant itself). In terms of equations the standard error can be defined utilizing the expectation value as <span class="math inline">\(\mbox{SE}(\bar{X})^2=\mbox{E}(\bar{X^2})-\mbox{E}(\bar{X})^2\)</span>. For a constant if follows <span class="math inline">\(\mbox{SE}(1)^2=\mbox{E}(1^2)-\mbox{E}(1)^2 = 1-1=0\)</span>.</p>
 <p><span class="math display">\[
 \mbox{SE}(d) = \mbox{SE}(\bar{X}) - (\mbox{SE}(1)-\mbox{SE}(\bar{X})) = \sqrt{p(1-p)/N}-(0-\sqrt{p(1-p)/N}) = 2\sqrt{p(1-p)/N}
 \]</span></p>
@@ -345,6 +345,7 @@ qplot(p,se,ylim = c(0,0.5/sqrt(25)))
 <blockquote>
 <p>9. If the actual <span class="math inline">\(p=.45\)</span>, it means the Republicans are winning by a relatively large margin since <span class="math inline">\(d= -.1\)</span>, which is a 10% margin of victory. In this case, what is the standard error of <span class="math inline">\(2\hat{X}-1\)</span> if we take a sample of <span class="math inline">\(N=25\)</span>?</p>
 </blockquote>
+<p>The expectation value of the spread <span class="math inline">\(d\)</span> is 10%, where the standard error is about 20%. Therefore, the estimated error is double in size than the actual measurement.</p>
 <pre class="r"><code>N&lt;-25
 p&lt;-0.45
 Ed&lt;-2*p-1
@@ -366,7 +367,7 @@ Ed</code></pre>
 </ol>
 </blockquote>
 <p>Answer b.<br />
-</p>
+This is the direct consequence of the answer from the last question. The standard error is inversely proportional <span class="math inline">\(\mbox{SE} \sim 1/N\)</span> to the sample size, as stated in the answer of question 8. Therefore, the larger the sample size the smaller the standard error will be.</p>
 </div>
 </div>
 <div id="exercises-clt" class="section level2" number="0.2">

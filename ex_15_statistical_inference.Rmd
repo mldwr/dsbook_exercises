@@ -93,6 +93,7 @@ $$
 ### Qn
 >8\. What is the standard error of $d$?
 
+The result from $\mbox{SE}(\bar{X})$ follows directly from the previous definition in the answer of question 4. However, the standard error of a constant value, here $\mbox{SE}(1)=0$ always equals to be 0, because there cannot be any deviation from a sample size of one element (the mean of the constant itself). In terms of equations the standard error can be defined utilizing the expectation value as $\mbox{SE}(\bar{X})^2=\mbox{E}(\bar{X^2})-\mbox{E}(\bar{X})^2$. For a constant if follows $\mbox{SE}(1)^2=\mbox{E}(1^2)-\mbox{E}(1)^2 = 1-1=0$. 
 
 $$
 \mbox{SE}(d) = \mbox{SE}(\bar{X}) - (\mbox{SE}(1)-\mbox{SE}(\bar{X})) = \sqrt{p(1-p)/N}-(0-\sqrt{p(1-p)/N}) = 2\sqrt{p(1-p)/N}
@@ -101,6 +102,8 @@ $$
 
 ### Qn
 >9\. If the actual $p=.45$, it means the Republicans are winning by a relatively large margin since $d= -.1$, which is a 10% margin of victory. In this case, what is the standard error of $2\hat{X}-1$ if we take a sample of $N=25$? 
+
+The expectation value of the spread $d$ is 10%, where the standard error is about 20%. Therefore, the estimated error is double in size than the actual measurement. 
 
 ```{r,message=FALSE}
 N<-25
@@ -121,6 +124,7 @@ SEd
 >d. Because we don't know $p$, we have no way of knowing that making $N$ larger would actually improve our standard error.
 
 Answer b. \
+This is the direct consequence of the answer from the last question. The standard error is inversely proportional $\mbox{SE} \sim 1/N$ to the sample size, as stated in the answer of question 8. Therefore, the larger the sample size the smaller the standard error will be. 
 
 ## Exercises: CLT
 
