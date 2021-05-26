@@ -17,16 +17,17 @@ output:
 
 >1\. Suppose you poll a population in which a proportion $p$ of voters are Democrats and $1-p$ are Republicans. Your sample size is $N=25$. Consider the random variable $S$ which is the **total** number of Democrats in your sample. What is the expected value of this random variable? Hint: it's a function of $p$.
 
+The definition of the average is defined as the sum of its elements devided by the number of its elements. 
+
 $$
 \bar{X} = \frac{1}{N} \times \sum_{i=1}^N x_i = \frac{1}{N} X_N \Leftrightarrow N \bar{X} = X_N
 $$
-$$
-\mbox{E}(\bar{X}) = p
-$$
+The expectation value is defined in the book as $\mbox{E}(\bar{X}) = p$. inserting the value $X=N\bar{X}$ into the standard Error one yields the following relation. 
 
 $$
 \mbox{E}(X) = N\ \mbox{E}(\bar{X}) = Np
 $$
+Similarly, for $S=N\bar{S}$ and $N=25$ one can write the following expression, where expected value is $25p$ denoting the number of Democrats for the sample size of 25 people. 
 $$
 \mbox{E}(S) = N\ \mbox{E}(\bar{S}) = Np = 25p
 $$
@@ -34,9 +35,7 @@ $$
 ### Qn
 >2\. What is the standard error of $S$ ? Hint: it's a function of $p$.
 
-$$
-\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N}
-$$
+Using the definition of the standard error of $\bar{X}$ as $\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N}$ and the definition $S=N\ \bar{S}$ one can write the following equation.
 
 $$
 \mbox{SE}(S) = N\ \mbox{SE}(\bar{S}) = N \sqrt{p(1-p)/N} = \sqrt{Np(1-p)} = \sqrt{25p(1-p)}
@@ -45,19 +44,24 @@ $$
 ### Qn
 >3\. Consider the random variable $S/N$. This is equivalent to the sample average, which we have been denoting as $\bar{X}$. What is the expected value of the $\bar{X}$? Hint: it's a function of $p$.
 
+Defining the random variable as $\bar{X} = S/N$ and utilizing the definition $\mbox{E}(S) = Np$ one can write the following equation.
+
 $$
-\mbox{E}(S) = N \frac{\mbox{E}(\bar{S})}{N} = \mbox{E}(\bar{S}) = p
+\mbox{E}(\bar{X}) = \mbox{E}(S/N) = \mbox{E}(S)\ \frac{1}{N} =  Np\ \frac{1}{N}= p
 $$
 
 ### Qn
 >4\. What is the standard error of $\bar{X}$? Hint: it's a function of $p$.
 
+The standard error as a function of $\bar{X}$ is also provided in the book in chapter 15.2.4 "Properties of our estimate: expected value and standard error".
 $$
 \mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N}
 $$
 
 ### Qn
 >5\. Write a line of code that gives you the standard error `se` for the problem above for several values of $p$, specifically for `p <- seq(0, 1, length = 100)`. Make a plot of `se` versus `p`. 
+
+From this plot one can see the function $\mbox{SE[X(p)]}$ evolving by varying the parameter $p$. The function we see is symmetric. For probabilities p=0 and p=1 the standard error is zero, therefore for events with absolute certainty of occurring =1 or not occurring =0 there is no room for deviations. For the probability of p=0.5 the standard error is at its maximum, meaning that this point marks the biggest uncertainty for the probability. The standard error and therefore the uncertainty is falling off as p moves towards one of the certain points. 
 
 ```{r,message=FALSE}
 library(tidyverse)
