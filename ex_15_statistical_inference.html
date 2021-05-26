@@ -312,6 +312,7 @@ qplot(p,se)</code></pre>
 <blockquote>
 <p>6. Copy the code above and put it inside a for-loop to make the plot for <span class="math inline">\(N=25\)</span>, <span class="math inline">\(N=100\)</span>, and <span class="math inline">\(N=1000\)</span>.</p>
 </blockquote>
+<p>In the following plots it can be noticed that the standard error “se” gets smaller for increasing population size of N (from red to blue in the bottom plot).</p>
 <pre class="r"><code>vN&lt;-c(25,100,1000)
 p&lt;-seq(0,1,length=100)
 for(N in vN){

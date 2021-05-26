@@ -75,6 +75,8 @@ qplot(p,se)
 ### Qn
 >6\. Copy the code above and put it inside a for-loop to make the plot for $N=25$, $N=100$, and $N=1000$. 
 
+In the following plots it can be noticed that the standard error "se" gets smaller for increasing population size of N (from red to blue in the bottom plot).
+
 ```{r,message=FALSE}
 vN<-c(25,100,1000)
 p<-seq(0,1,length=100)
