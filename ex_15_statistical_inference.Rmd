@@ -72,20 +72,29 @@ qplot(p,se)
 >6\. Copy the code above and put it inside a for-loop to make the plot for $N=25$, $N=100$, and $N=1000$. 
 
 ```{r,message=FALSE}
-library(tidyverse)
 vN<-c(25,100,1000)
 p<-seq(0,1,length=100)
 for(N in vN){
 se<-sqrt(p*(1-p)/N)
-qplot(p,se,ylim = c(0,0.5/sqrt(25)))
+plot(p,se,ylim = c(0,0.5/sqrt(25)))
 }
 ````
-
+```{r,message=FALSE}
+library(tidyverse)
+N25<-replicate(90,25)
+N1000<-replicate(90,1000)
+N100<-replicate(90,100)
+N<-c(N25,N100,N1000)
+p<-seq(0,1,length=90)
+se<-sqrt(p*(1-p)/N)
+df <- data.frame(p,se,N) %>% mutate(N=as.factor(N))
+df %>% ggplot(aes(p,se,color=N)) + geom_point()
+````
 
 ### Qn
 >7\. If we are interested in the difference in proportions, $p - (1-p)$, our estimate is $d = \bar{X} - (1-\bar{X})$. Use the rules we learned about sums of random variables and scaled random variables to derive the expected value of $d$.
 
-Here, the lower case letter $d$ denotes the Spread.
+Here, the lower case letter $d$ denotes the spread.
 $$
 \mbox{E}(d) = \mbox{E}(\bar{X}) - (\mbox{E}(1)-\mbox{E}(\bar{X})) = p-(1-p) = 2p-1
 $$
@@ -93,7 +102,7 @@ $$
 ### Qn
 >8\. What is the standard error of $d$?
 
-The result from $\mbox{SE}(\bar{X})$ follows directly from the previous definition in the answer of question 4. However, the standard error of a constant value, here $\mbox{SE}(1)=0$ always equals to be 0, because there cannot be any deviation from a sample size of one element (the mean of the constant itself). In terms of equations the standard error can be defined utilizing the expectation value as $\mbox{SE}(\bar{X})^2=\mbox{E}(\bar{X^2})-\mbox{E}(\bar{X})^2$. For a constant if follows $\mbox{SE}(1)^2=\mbox{E}(1^2)-\mbox{E}(1)^2 = 1-1=0$. 
+The result from $\mbox{SE}(\bar{X})$ follows directly from the previous definition in the answer of question 4. However, the standard error of a constant value, here $\mbox{SE}(1)=0$ always equals to be 0, because there cannot be any deviation from a sample size of one element (the mean of the constant itself). In terms of equations the standard error can be defined utilizing the expectation value as $\mbox{SE}(\bar{X})^2=\mbox{E}(\bar{X^2})-\mbox{E}(\bar{X})^2$. For a constant value if follows $\mbox{SE}(1)^2=\mbox{E}(1^2)-\mbox{E}(1)^2 = 1-1=0$. 
 
 $$
 \mbox{SE}(d) = \mbox{SE}(\bar{X}) - (\mbox{SE}(1)-\mbox{SE}(\bar{X})) = \sqrt{p(1-p)/N}-(0-\sqrt{p(1-p)/N}) = 2\sqrt{p(1-p)/N}
