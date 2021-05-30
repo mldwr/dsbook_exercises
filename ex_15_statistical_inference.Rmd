@@ -168,10 +168,9 @@ B<-10000
 
 errors <- replicate(B, {
   X <- take_sample(N,p)
-  mean(X)-p
+  p-mean(X)
 })
 qplot(errors,bins=10)
-
 ```
 
 ### Qn
@@ -196,6 +195,18 @@ hist(errors)
 
 ### Qn
 >4\. The error $\bar{X}-p$ is a random variable. In practice, the error is not observed because we do not know $p$. Here we observe it because we constructed the simulation.  What is the average size of the error if we define the size by taking the absolute value $\mid \bar{X} - p \mid$ ?
+
+```{r}
+N<-100
+p<-0.45
+B<-10000
+
+errors <- replicate(B, {
+  X <- take_sample(N,p)
+  p-mean(X)
+})
+mean(abs(errors))
+```
 
 
 ### Qn
