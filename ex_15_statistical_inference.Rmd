@@ -212,13 +212,45 @@ mean(abs(errors))
 ### Qn
 >5\. The standard error is related to the typical **size** of the error we make when predicting. We say **size** because we just saw that the errors are centered around 0, so thus the average error value is 0. For mathematical reasons related to the Central Limit Theorem, we actually use the standard deviation of `errors` rather than the average of the absolute values to quantify the typical size. What is this standard deviation of the errors?
 
+```{r}
+N<-100
+p<-0.45
+B<-10000
+set.seed(1)
+
+errors <- replicate(B, {
+  X <- take_sample(N,p)
+  p-mean(X)
+})
+sqrt(mean(errors^2))
+```
+
+
 ### Qn
 >6\. The theory we just learned tells us what this standard deviation is going to be because it is the standard error of $\bar{X}$. What does theory tell us is the standard error of $\bar{X}$ for a sample size of 100?
+
+```{r}
+N<-100
+p<-0.45
+set.seed(1)
+
+se <- sqrt(p*(1-p)/N)
+se
+```
 
 
 ### Qn
 >7\. In practice, we don't know $p$, so we construct an estimate of the theoretical prediction based by plugging in $\bar{X}$ for $p$. Compute this estimate. Set the seed at 1 with `set.seed(1)`.
 
+```{r}
+N<-100
+p<-0.45
+set.seed(1)
+
+X <- take_sample(N,p)
+se <- sqrt(X*(1-X)/N)
+se
+```
 
 ### Qn
 >8\. Note how close the standard error estimates obtained from the Monte Carlo simulation (exercise 5), the theoretical prediction (exercise 6), and the estimate of the theoretical prediction (exercise 7) are. The theory is working and it gives us a practical approach to knowing the typical error we will make if we predict $p$ with $\bar{X}$. Another advantage that the theoretical result provides is that it gives an idea of how large a sample size is required to obtain the precision we need. Earlier we learned that the largest standard errors occur for $p=0.5$. Create a plot of the largest standard error for $N$ ranging from 100 to 5,000. Based on this plot, how large does the sample size have to be to have a standard error of about 1%?
@@ -228,6 +260,35 @@ mean(abs(errors))
 >c. 2,500
 >d. 4,000
 
+Answer c. \
+In the plot below there is a black horizontal line highlighting the 1% error border. The highest error at p=0.5 is only reached by the N values below a sample size of 2,500.
+
+Results so far from past exercises. \
+Q5 Monte Carlo simulation: 0.04949939 \
+Q6 theoretical prediction: 0.04974937 \
+Q7 estimate of theoretical prediction: 0.04983974 \
+
+```{r,message=FALSE}
+library(tidyverse)
+N25<-replicate(100,25)
+N100<-replicate(100,100)
+N500<-replicate(100,500)
+N1000<-replicate(100,1000)
+N2500<-replicate(100,2500)
+N4000<-replicate(100,4000)
+N5000<-replicate(100,5000)
+
+N<-c(N25,N100,N500,N1000,N2500,N4000,N5000)
+p<-seq(0,1,length=100)
+se<-sqrt(p*(1-p)/N)
+df <- data.frame(p,se,N) %>% mutate(N=as.factor(N))
+df %>% ggplot(aes(p,se,color=N)) + geom_point() + scale_y_continuous(breaks = seq(0, 0.1, by = 0.01)) + geom_segment(aes(x = 0, y = 0.01, xend = 1, yend = 0.01), color="black",size=0.3)
+
+N <- seq(100, 5000, len = 100)
+p <- 0.5
+se <- sqrt(p*(1-p)/N)
+plot(se)
+````
 
 ### Qn
 >9\. For sample size $N=100$, the central limit theorem tells us that the distribution of $\bar{X}$ is:
