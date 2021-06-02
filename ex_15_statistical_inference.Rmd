@@ -263,7 +263,7 @@ se
 Answer c. \
 In the plot below there is a black horizontal line highlighting the 1% error border. The highest error at p=0.5 is only reached by the N values below a sample size of 2,500.
 
-Results so far from past exercises. \
+Results so far from past exercises for different calculations of the standard error. \
 Q5 Monte Carlo simulation: 0.04949939 \
 Q6 theoretical prediction: 0.04974937 \
 Q7 estimate of theoretical prediction: 0.04983974 \
@@ -302,6 +302,8 @@ df %>% ggplot(aes(N,se)) + geom_point() + scale_y_continuous(breaks = seq(0, 0.1
 >c. approximately normal with expected value $\bar{X}$ and standard error $\sqrt{\bar{X}(1-\bar{X})/N}$.
 >d. not a random variable.
 
+Answer b. \
+This result is deduced in the book in chapter 15.4 "Central Limit Theorem in practice": *In summary, we have that $\bar{X}$ has an approximately normal distribution with expected value $p$ and standard error $\sqrt{p(1-p)/N}$.*
 
 ### Qn
 >10\. Based on the answer from exercise 8, the error $\bar{X} - p$ is:
@@ -311,9 +313,23 @@ df %>% ggplot(aes(N,se)) + geom_point() + scale_y_continuous(breaks = seq(0, 0.1
 >c. approximately normal with expected value $p$ and standard error $\sqrt{p(1-p)/N}$.
 >d. not a random variable.
 
+Answer c.\
+This is best seen in the answers of questions 2 and 3, where plots show a normal distribution around 0.
+
 ### Qn
 >11\. To corroborate your answer to exercise 9, make a qq-plot of the `errors` you generated in exercise 2 to see if they follow a normal distribution. 
 
+```{r}
+N<-100
+p<-0.45
+B<-10000
+
+errors <- replicate(B, {
+  X <- take_sample(N,p)
+  p-mean(X)
+})
+qplot(errors,bins=10)
+```
 
 
 ### Qn
