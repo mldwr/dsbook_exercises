@@ -138,7 +138,7 @@ SEd
 >c. The difference is 10% and the standard error is about 0.2, therefore much smaller than the difference.
 >d. Because we don't know $p$, we have no way of knowing that making $N$ larger would actually improve our standard error.
 
-Answer b. \
+Answer b, our standard error is larger than the difference, so the chances of $2\bar{X}-1$ being positive and throwing us off were not that small. We should pick a larger sample size. \
 This is the direct consequence of the answer from the last question. The standard error is inversely proportional $\mbox{SE} \sim 1/N$ to the sample size, as stated in the answer of question 8. Therefore, the larger the sample size the smaller the standard error will be. 
 
 ## Exercises: CLT
@@ -186,7 +186,7 @@ qplot(errors,bins=10)
 >c. The errors are symmetrically distributed around 0.
 >d. The errors range from -1 to 1.
 
-Answer c. \
+Answer c, the errors are symmetrically distributed around 0. \
 
 ```{r}
 mean(errors)
@@ -260,7 +260,7 @@ se
 >c. 2,500
 >d. 4,000
 
-Answer c. \
+Answer c: 2,500 \
 In the plot below there is a black horizontal line highlighting the 1% error border. The highest error at p=0.5 is only reached by the N values below a sample size of 2,500.
 
 Results so far from past exercises for different calculations of the standard error. \
@@ -285,7 +285,8 @@ df <- data.frame(p,se,N) %>% mutate(N=as.factor(N))
 df %>% ggplot(aes(p,se,color=N)) + geom_point() + scale_y_continuous(breaks = seq(0, 0.1, by = 0.01)) + geom_segment(aes(x = 0, y = 0.01, xend = 1, yend = 0.01), color="black",size=0.3) + geom_segment(aes(x = 0.5, y = 0, xend = 0.5, yend = 0.1), color="black",size=0.3)
 ````
 
-```{r}
+```{r,message=FALSE}
+library(tidyverse)
 N <- seq(100, 5000, len = 50)
 p <- 0.5
 se <- sqrt(p*(1-p)/N)
@@ -302,7 +303,7 @@ df %>% ggplot(aes(N,se)) + geom_point() + scale_y_continuous(breaks = seq(0, 0.1
 >c. approximately normal with expected value $\bar{X}$ and standard error $\sqrt{\bar{X}(1-\bar{X})/N}$.
 >d. not a random variable.
 
-Answer b. \
+Answer b, approximately normal with expected value $p$ and standard error $\sqrt{p(1-p)/N}$.\
 This result is deduced in the book in chapter 15.4 "Central Limit Theorem in practice": *In summary, we have that $\bar{X}$ has an approximately normal distribution with expected value $p$ and standard error $\sqrt{p(1-p)/N}$.*
 
 ### Qn
@@ -313,11 +314,29 @@ This result is deduced in the book in chapter 15.4 "Central Limit Theorem in pra
 >c. approximately normal with expected value $p$ and standard error $\sqrt{p(1-p)/N}$.
 >d. not a random variable.
 
-Answer c.\
-This is best seen in the answers of questions 2 and 3, where plots show a normal distribution around 0.
+Answer b, approximately normal with expected value $0$ and standard error $\sqrt{p(1-p)/N}$.\
+This is best seen in the answers of questions 2 and 3, where plots show a normal distribution around 0. This is because it was found in answer to question 1, that the mean of $\bar{X}$ is approximately p.
 
 ### Qn
 >11\. To corroborate your answer to exercise 9, make a qq-plot of the `errors` you generated in exercise 2 to see if they follow a normal distribution. 
+
+```{r,message=FALSE}
+library(tidyverse)
+N<-100
+p<-0.45
+B<-10000
+
+errors <- replicate(B, {
+  X <- take_sample(N,p)
+  p-mean(X)
+})
+df<-data.frame(sz=seq(1,B),errors)
+ggplot(df,aes(sample=scale(errors))) + geom_qq() + geom_abline()
+```
+
+
+### Qn
+>12\. If $p=0.45$ and $N=100$ as in exercise 2, use the CLT to estimate the probability that $\bar{X}>0.5$. You can assume you know $p=0.45$ for this calculation.
 
 ```{r}
 N<-100
@@ -328,13 +347,7 @@ errors <- replicate(B, {
   X <- take_sample(N,p)
   p-mean(X)
 })
-qplot(errors,bins=10)
 ```
-
-
-### Qn
->12\. If $p=0.45$ and $N=100$ as in exercise 2, use the CLT to estimate the probability that $\bar{X}>0.5$. You can assume you know $p=0.45$ for this calculation.
-
 
 ### Qn
 >13\. Assume you are in a practical situation and you don't know $p$. Take a sample of size $N=100$ and obtain a sample average of $\bar{X} = 0.51$. What is the CLT approximation for the probability that your error is equal to or larger than 0.01?
