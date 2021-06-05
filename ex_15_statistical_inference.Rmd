@@ -148,7 +148,7 @@ This is the direct consequence of the answer from the last question. The standar
 >1\. Write an _urn model_ function that takes the proportion of Democrats $p$ and the sample size $N$ as arguments and returns the sample average if Democrats are 1s and Republicans are 0s. Call the function `take_sample`. 
 
 ```{r}
-N<-25
+N<-100
 p<-0.45
 
 take_sample <- function(N,p) {
@@ -338,15 +338,43 @@ ggplot(df,aes(sample=scale(errors))) + geom_qq() + geom_abline()
 ### Qn
 >12\. If $p=0.45$ and $N=100$ as in exercise 2, use the CLT to estimate the probability that $\bar{X}>0.5$. You can assume you know $p=0.45$ for this calculation.
 
+What is the probability that $\bar{X}>0.5$: $Pr(\bar{X}>0.5)$?
+
+
+
+```{r}
+N<-100
+p<-0.45
+xbar<-0.5
+vxbar<-seq(0,1,len=100)
+
+se <- sqrt(p*(1-p)/N)
+
+pnorm(xbar,p,se)
+
+hist(pnorm(vxbar,p,se))
+
+```
+
+
 ```{r}
 N<-100
 p<-0.45
 B<-10000
 
+take_sample <- function(N,p) {
+  x <- sample(c(0,1), size = N, replace = TRUE, prob = c(1-p, p))
+  mean(x)
+}
+
 errors <- replicate(B, {
   X <- take_sample(N,p)
-  p-mean(X)
+  mean(X)
 })
+mean(errors)
+hist(errors)
+#pnorm(errors)
+plot(pnorm(errors))
 ```
 
 ### Qn
