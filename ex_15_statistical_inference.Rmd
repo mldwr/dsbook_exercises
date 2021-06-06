@@ -338,8 +338,11 @@ ggplot(df,aes(sample=scale(errors))) + geom_qq() + geom_abline()
 ### Qn
 >12\. If $p=0.45$ and $N=100$ as in exercise 2, use the CLT to estimate the probability that $\bar{X}>0.5$. You can assume you know $p=0.45$ for this calculation.
 
-What is the probability that $\bar{X}>0.5$: $Pr(\bar{X}>0.5)$?
-
+In other words the question is: \
+What is the probability that $\bar{X}>0.5$: $Pr(\bar{X}>0.5)$? \
+According to the definition (in ch. 13.10 "Continuous probability") of the probability distribution $Pr(\bar{X}>0.5)$ can be written as $Pr(\bar{X}>0.5)=1-Pr(\bar{X}\leq 0.5)$. 
+Assuming the mean equals to $p$, the standard deviation to the standard error and the measured quantity $\bar{X}$ one can utilize the `pnorm` function to compute the probability. \
+The calculation results in a probability of 16% that is $\bar{X}>0.5$.
 
 
 ```{r}
@@ -350,9 +353,9 @@ vxbar<-seq(0,1,len=100)
 
 se <- sqrt(p*(1-p)/N)
 
-pnorm(xbar,p,se)
+1-pnorm(xbar,p,se)
 
-hist(pnorm(vxbar,p,se))
+#hist(pnorm(vxbar,p,se))
 
 ```
 
