@@ -338,7 +338,7 @@ ggplot(df,aes(sample=scale(errors))) + geom_qq() + geom_abline()
 ### Qn
 >12\. If $p=0.45$ and $N=100$ as in exercise 2, use the CLT to estimate the probability that $\bar{X}>0.5$. You can assume you know $p=0.45$ for this calculation.
 
-In other words the question is: \
+In other words the question is asking: \
 What is the probability that $\bar{X}>0.5$: $Pr(\bar{X}>0.5)$? \
 According to the definition (in ch. 13.10 "Continuous probability") of the probability distribution $Pr(\bar{X}>0.5)$ can be written as $Pr(\bar{X}>0.5)=1-Pr(\bar{X}\leq 0.5)$. 
 Assuming the mean equals to $p$, the standard deviation to the standard error and the measured quantity $\bar{X}$ one can utilize the `pnorm` function to compute the probability. \
@@ -349,41 +349,51 @@ The calculation results in a probability of 16% that is $\bar{X}>0.5$.
 N<-100
 p<-0.45
 xbar<-0.5
-vxbar<-seq(0,1,len=100)
 
 se <- sqrt(p*(1-p)/N)
 
 1-pnorm(xbar,p,se)
-
-#hist(pnorm(vxbar,p,se))
-
 ```
-
-
 ```{r}
 N<-100
 p<-0.45
-B<-10000
+xbar<-0.5
+vxbar<-seq(0,1,len=100)
 
-take_sample <- function(N,p) {
-  x <- sample(c(0,1), size = N, replace = TRUE, prob = c(1-p, p))
-  mean(x)
-}
+se <- sqrt(p*(1-p)/N)
 
-errors <- replicate(B, {
-  X <- take_sample(N,p)
-  mean(X)
-})
-mean(errors)
-hist(errors)
-#pnorm(errors)
-plot(pnorm(errors))
+vpnorm<-1-pnorm(vxbar,p,se)
+vdnorm<-dnorm(vxbar,p,se)
+
+qplot(vxbar,vpnorm,geom=c("point","line"))
+
+df<-data.frame(vxbar,vdnorm)
+
+ggplot(df,aes(vxbar,vdnorm)) +
+  stat_function(fun = dnorm, args = list(mean = p, sd = se), color="blue") +
+  geom_point(aes(x=vxbar,y=vdnorm),shape=3, color="black", size=0.2) +
+  geom_ribbon(data=subset(df,vxbar>=xbar),aes(ymin=0,ymax=vdnorm),fill="green", alpha=0.5)
+
 ```
 
 ### Qn
 >13\. Assume you are in a practical situation and you don't know $p$. Take a sample of size $N=100$ and obtain a sample average of $\bar{X} = 0.51$. What is the CLT approximation for the probability that your error is equal to or larger than 0.01?
 
 
+This topic is explained in the book chapter **15.4 "Central Limit Theorem in practice"**. \
+In other words the question is asking: \
+What is the probability that the difference of the true $p$-value to the estimate $\bar{X}$ i.e. the error $| \bar{X} - p|$, is smaller than 0.01, i.e. within an error range of 1%.
+$$
+\mbox{Pr}(| \bar{X} - p| \leq .01)
+$$
+```{r}
+N<-100
+x_hat <- 0.51
+se <- sqrt(x_hat*(1-x_hat)/N)
+se
+pnorm(0.01/se) - pnorm(-0.01/se)
+1.96*se
+```
 
 
 ## Exercises: Confidence Intervals p-values
