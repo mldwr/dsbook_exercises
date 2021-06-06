@@ -341,8 +341,8 @@ ggplot(df,aes(sample=scale(errors))) + geom_qq() + geom_abline()
 In other words the question is asking: \
 What is the probability that $\bar{X}>0.5$: $Pr(\bar{X}>0.5)$? \
 According to the definition (in ch. 13.10 "Continuous probability") of the probability distribution $Pr(\bar{X}>0.5)$ can be written as $Pr(\bar{X}>0.5)=1-Pr(\bar{X}\leq 0.5)$. 
-Assuming the mean equals to $p$, the standard deviation to the standard error and the measured quantity $\bar{X}$ one can utilize the `pnorm` function to compute the probability. \
-The calculation results in a probability of 16% that is $\bar{X}>0.5$.
+Assuming the mean equals to $p$ ($m = p$), the standard deviation to the standard error ($\mbox{sd}=\mbox{se}$)  and the measured quantity to $\bar{X}$ ($x=\bar{X}$). One can utilize the `pnorm(x,m,sd)` function to compute the probability as $\mbox{pnorm}(\bar{X},p,\mbox{se})$. \
+The calculation results in a probability of 16% that $\bar{X}$ is $\bar{X}>0.5$.
 
 
 ```{r}
@@ -382,10 +382,8 @@ ggplot(df,aes(vxbar,vdnorm)) +
 
 This topic is explained in the book chapter **15.4 "Central Limit Theorem in practice"**. \
 In other words the question is asking: \
-What is the probability that the difference of the true $p$-value to the estimate $\bar{X}$ i.e. the error $| \bar{X} - p|$, is smaller than 0.01, i.e. within an error range of 1%.
-$$
-\mbox{Pr}(| \bar{X} - p| \leq .01)
-$$
+What is the probability that the difference of the true $p$-value to the estimate $\bar{X}$ i.e. the error $| \bar{X} - p|$, is smaller than 0.01, i.e. within an error range of 1%: $\mbox{Pr}(| \bar{X} - p| \leq .01)$.
+
 ```{r}
 N<-100
 x_hat <- 0.51
