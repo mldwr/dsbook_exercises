@@ -382,15 +382,16 @@ ggplot(df,aes(vxbar,vdnorm)) +
 
 This topic is explained in the book chapter **15.4 "Central Limit Theorem in practice"**. \
 In other words the question is asking: \
-What is the probability that the difference of the true $p$-value to the estimate $\bar{X}$ i.e. the error $| \bar{X} - p|$, is smaller than 0.01, i.e. within an error range of 1%: $\mbox{Pr}(| \bar{X} - p| \leq .01)$.
+What is the probability that the difference of the true $p$-value to the estimate $\bar{X}$ i.e. the error $| \bar{X} - p|$, is smaller than 0.01, i.e. within an error range of 1%: $\mbox{Pr}(| \bar{X} - p| \ge .01) = 1- \mbox{Pr}(| \bar{X} - p| \le .01)$. \
+A similar task was already computed in the mentioned chapter: $\mbox{Pr}(| \bar{X} - p| \le .01)$. Here, the answer to the question is 84% is the probability that the error is equal or larger than 0.01.
 
 ```{r}
 N<-100
 x_hat <- 0.51
 se <- sqrt(x_hat*(1-x_hat)/N)
 se
-pnorm(0.01/se) - pnorm(-0.01/se)
-1.96*se
+error<-pnorm(0.01/se) - pnorm(-0.01/se)
+1-error
 ```
 
 
