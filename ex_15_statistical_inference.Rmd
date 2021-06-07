@@ -389,7 +389,6 @@ A similar task was already computed in the mentioned chapter: $\mbox{Pr}(| \bar{
 N<-100
 x_hat <- 0.51
 se <- sqrt(x_hat*(1-x_hat)/N)
-se
 error<-pnorm(0.01/se) - pnorm(-0.01/se)
 1-error
 ```
