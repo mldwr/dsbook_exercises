@@ -320,6 +320,8 @@ This is best seen in the answers of questions 2 and 3, where plots show a normal
 ### Qn
 >11\. To corroborate your answer to exercise 9, make a qq-plot of the `errors` you generated in exercise 2 to see if they follow a normal distribution. 
 
+The qq-plot tells that the data from the `errors` vector indeed follows a normal distribution, because the plotted values follow a straight line (blue). 
+
 ```{r,message=FALSE}
 library(tidyverse)
 N<-100
@@ -331,7 +333,7 @@ errors <- replicate(B, {
   p-mean(X)
 })
 df<-data.frame(sz=seq(1,B),errors)
-ggplot(df,aes(sample=scale(errors))) + geom_qq() + geom_abline()
+ggplot(df,aes(sample=scale(errors))) + geom_qq() + geom_abline(color="blue")
 ```
 
 
@@ -387,8 +389,8 @@ A similar task was already computed in the mentioned chapter: $\mbox{Pr}(| \bar{
 
 ```{r}
 N<-100
-x_hat <- 0.51
-se <- sqrt(x_hat*(1-x_hat)/N)
+X <- 0.51
+se <- sqrt(X*(1-X)/N)
 error<-pnorm(0.01/se) - pnorm(-0.01/se)
 1-error
 ```
@@ -422,6 +424,16 @@ error<-pnorm(0.01/se) - pnorm(-0.01/se)
 >
 >Assume there are only two candidates and construct a 95% confidence interval for the election night proportion $p$. 
 
+```{r, message=FALSE}
+library(tidyverse)
+library(dslabs)
+data("polls_us_election_2016")
+polls <- polls_us_election_2016 %>% 
+  filter(enddate >= "2016-10-31" & state == "U.S.") 
+N <- polls$samplesize[1]
+x_hat <- polls$rawpoll_clinton[1]/100
+x_hat
+```
 
 ### Qn
 >2\. Now use `dplyr` to add a confidence interval as two columns, call them `lower` and `upper`, to the object `poll`. Then use `select` to show the `pollster`, `enddate`, `x_hat`,`lower`, `upper` variables. Hint: define temporary columns `x_hat` and `se_hat`. 
