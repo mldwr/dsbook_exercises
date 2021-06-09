@@ -470,11 +470,13 @@ poll<-polls %>% select(pollster,enddate,samplesize,rawpoll_clinton) %>% mutate(x
 poll<-poll %>% mutate(se_hat=sqrt(x_hat * (1 - x_hat) / samplesize))
 poll<-poll %>% mutate(lower=x_hat - 1.96 * se_hat, upper=x_hat + 1.96 * se_hat)
 poll<-poll %>% select(-rawpoll_clinton,-samplesize)
-poll %>% mutate(hit=ifelse(lower<= p & upper >= p,1,0))
+poll %>% mutate(hit=ifelse(lower<= p & upper >= p,1,0)) %>% select(pollster,lower,upper,hit)
 ```
 
 ### Qn
 >4\. For the table you just created, what proportion of confidence intervals included $p$?
+
+31%
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -487,17 +489,20 @@ poll<-polls %>% select(pollster,enddate,samplesize,rawpoll_clinton) %>% mutate(x
 poll<-poll %>% mutate(se_hat=sqrt(x_hat * (1 - x_hat) / samplesize))
 poll<-poll %>% mutate(lower=x_hat - 1.96 * se_hat, upper=x_hat + 1.96 * se_hat)
 poll<-poll %>% select(-rawpoll_clinton,-samplesize)
-poll<-poll %>% mutate(hit=ifelse(lower<= p & upper >= p,1,0))
-included<-poll$hit %>% sum()
-total<-length(poll$hit)
-included
-total
-included/total
+poll<-poll %>% mutate(hit=ifelse(lower<= p & upper >= p,1,0)) %>%  mutate(pollnr=1:nrow(poll))
+poll <- mutate(poll, p_inside = ifelse(hit, "Yes", "No") )
+mean(poll$hit)
+ggplot(poll, aes(pollnr, p, ymin=lower, ymax=upper, col = p_inside)) + 
+  #geom_point()+
+  geom_errorbar() + 
+  coord_flip() + 
+  geom_hline(yintercept = p)
 ```
 
 ### Qn
 >5\. If these confidence intervals are constructed correctly, and the theory holds up, what proportion should include $p$?
 
+95%
 
 ### Qn
 >6\. A much smaller proportion of the polls than expected produce confidence intervals containing $p$. If you look closely at the table, you will see that most polls that fail to include $p$ are underestimating. The reason for this is undecided voters, individuals polled that do not yet know who they will vote for or do not want to say. 
@@ -511,7 +516,11 @@ included/total
 >  mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100)
 >```
 
-
+```{r, message=FALSE, comment=FALSE}
+polls <- polls_us_election_2016 %>% 
+  filter(enddate >= "2016-10-31" & state == "U.S.")  %>%
+  mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100)
+```
 
 ### Qn
 >7\. Now repeat exercise 3, but for the difference.
