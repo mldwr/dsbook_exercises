@@ -462,18 +462,38 @@ poll %>% select(-rawpoll_clinton,-samplesize)
 ```{r, message=FALSE}
 library(tidyverse)
 library(dslabs)
+p<-0.482
 data("polls_us_election_2016")
 polls <- polls_us_election_2016 %>% 
   filter(enddate >= "2016-10-31" & state == "U.S.") 
 poll<-polls %>% select(pollster,enddate,samplesize,rawpoll_clinton) %>% mutate(x_hat=rawpoll_clinton/100)
 poll<-poll %>% mutate(se_hat=sqrt(x_hat * (1 - x_hat) / samplesize))
 poll<-poll %>% mutate(lower=x_hat - 1.96 * se_hat, upper=x_hat + 1.96 * se_hat)
-poll %>% select(-rawpoll_clinton,-samplesize)
+poll<-poll %>% select(-rawpoll_clinton,-samplesize)
+poll %>% mutate(hit=ifelse(lower<= p & upper >= p,1,0))
 ```
 
 ### Qn
 >4\. For the table you just created, what proportion of confidence intervals included $p$?
 
+```{r, message=FALSE}
+library(tidyverse)
+library(dslabs)
+p<-0.482
+data("polls_us_election_2016")
+polls <- polls_us_election_2016 %>% 
+  filter(enddate >= "2016-10-31" & state == "U.S.") 
+poll<-polls %>% select(pollster,enddate,samplesize,rawpoll_clinton) %>% mutate(x_hat=rawpoll_clinton/100)
+poll<-poll %>% mutate(se_hat=sqrt(x_hat * (1 - x_hat) / samplesize))
+poll<-poll %>% mutate(lower=x_hat - 1.96 * se_hat, upper=x_hat + 1.96 * se_hat)
+poll<-poll %>% select(-rawpoll_clinton,-samplesize)
+poll<-poll %>% mutate(hit=ifelse(lower<= p & upper >= p,1,0))
+included<-poll$hit %>% sum()
+total<-length(poll$hit)
+included
+total
+included/total
+```
 
 ### Qn
 >5\. If these confidence intervals are constructed correctly, and the theory holds up, what proportion should include $p$?
