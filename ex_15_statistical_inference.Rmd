@@ -516,6 +516,7 @@ ggplot(poll, aes(pollnr, p, ymin=lower, ymax=upper, col = p_inside)) +
 >  mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100)
 >```
 
+Recall the standard error of the spread from exercise 8: $\mbox{SE}(d)= 2\sqrt{p(1-p)/N}$. Where $p$ is calculated by rearranging the definition of the spread to $p=(d-1)/2$.
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -525,9 +526,13 @@ polls <- polls_us_election_2016 %>%
   filter(enddate >= "2016-10-31" & state == "U.S.")  %>%
   mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100)
 N <- polls$samplesize[1]
-x_hat <- polls$d_hat[1]
-se_hat <- sqrt(x_hat * (1 - x_hat) / N)
-c(x_hat - 1.96 * se_hat, x_hat + 1.96 * se_hat)
+d_hat <- polls$d_hat[1]
+x_hat<-(d_hat+1)/2
+se_hat <- 2*sqrt(x_hat * (1 - x_hat) / N)
+d_hat
+x_hat
+se_hat
+c(d_hat - 1.96 * se_hat, d_hat + 1.96 * se_hat)
 ```
 
 ### Qn
@@ -542,32 +547,55 @@ polls <- polls_us_election_2016 %>%
   filter(enddate >= "2016-10-31" & state == "U.S.") %>%
   mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100)
 poll<-polls %>% select(pollster,enddate,samplesize,d_hat) 
-poll<-poll %>% mutate(se_hat=sqrt(d_hat * (1 - d_hat) / samplesize))
+poll<-poll %>% mutate(x_hat=(d_hat+1)/2)
+poll<-poll %>% mutate(se_hat=2*sqrt(x_hat * (1 - x_hat) / samplesize))
 poll<-poll %>% mutate(lower=d_hat - 1.96 * se_hat, upper=d_hat + 1.96 * se_hat)
 poll<-poll %>% select(-samplesize)
-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) #%>% #select(pollster,lower,upper,hit)
+poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>% select(pollster,lower,upper,hit)
+poll
 ```
 
 ### Qn
 >8\. Now repeat exercise 4, but for the difference.
 
+77%
+
 ```{r, message=FALSE}
 library(tidyverse)
 library(dslabs)
-p<-0.482
-d<-2*p-1
+d<-0.021
 data("polls_us_election_2016")
 polls <- polls_us_election_2016 %>% 
   filter(enddate >= "2016-10-31" & state == "U.S.") %>%
   mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100)
-polls
 poll<-polls %>% select(pollster,enddate,samplesize,d_hat) 
-poll<-poll %>% mutate(se_hat=sqrt(d_hat * (1 - d_hat) / samplesize))
+poll<-poll %>% mutate(x_hat=(d_hat+1)/2)
+poll<-poll %>% mutate(se_hat=2*sqrt(x_hat * (1 - x_hat) / samplesize))
 poll<-poll %>% mutate(lower=d_hat - 1.96 * se_hat, upper=d_hat + 1.96 * se_hat)
-poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>%  mutate(pollnr=1:nrow(poll))
-poll <- mutate(poll, d_inside = ifelse(hit, "Yes", "No") )
+poll<-poll %>% select(-samplesize)
+poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>% select(pollster,lower,upper,hit)
 mean(poll$hit)
-ggplot(poll, aes(pollnr, d, ymin=lower, ymax=upper, col = d_inside)) + 
+```
+
+### Qn
+>9\. Although the proportion of confidence intervals goes up substantially, it is still lower than 0.95. In the next chapter, we learn the reason for this. To motivate this, make a plot of the error, the difference between each poll's estimate and the actual $d=0.021$. Stratify by pollster.
+
+```{r, message=FALSE}
+library(tidyverse)
+library(dslabs)
+d<-0.021
+data("polls_us_election_2016")
+polls <- polls_us_election_2016 %>% 
+  filter(enddate >= "2016-10-31" & state == "U.S.") %>%
+  mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100)
+poll<-polls %>% select(pollster,enddate,samplesize,d_hat) 
+poll<-poll %>% mutate(x_hat=(d_hat+1)/2)
+poll<-poll %>% mutate(se_hat=2*sqrt(x_hat * (1 - x_hat) / samplesize))
+poll<-poll %>% mutate(lower=d_hat - 1.96 * se_hat, upper=d_hat + 1.96 * se_hat)
+poll<-poll %>% select(-samplesize)
+poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>% select(pollster,lower,upper,hit) %>%  mutate(pollnr=1:nrow(poll))
+poll <- mutate(poll, d_inside = ifelse(hit, "Yes", "No") )
+ggplot(poll, aes(pollnr, d_hat, ymin=lower, ymax=upper, col = d_inside)) + 
   #geom_point()+
   geom_errorbar() + 
   coord_flip() + 
@@ -575,12 +603,33 @@ ggplot(poll, aes(pollnr, d, ymin=lower, ymax=upper, col = d_inside)) +
 ```
 
 ### Qn
->9\. Although the proportion of confidence intervals goes up substantially, it is still lower than 0.95. In the next chapter, we learn the reason for this. To motivate this, make a plot of the error, the difference between each poll's estimate and the actual $d=0.021$. Stratify by pollster.
-
-### Qn
 >10\. Redo the plot that you made for exercise 9, but only for pollsters that took five or more polls.
 
-
+```{r, message=FALSE}
+library(tidyverse)
+library(dslabs)
+d<-0.021
+data("polls_us_election_2016")
+polls <- polls_us_election_2016 %>% 
+  filter(enddate >= "2016-10-31" & state == "U.S.") %>%
+  mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100) #%>% 
+  #mutate(pollnr=1:nrow(poll))
+pollsters <- polls %>% select(pollster) %>% group_by(pollster) %>% summarise(n=n()) %>% arrange(desc(n)) %>% filter(n>=5)
+polls<-left_join(pollsters,polls) %>% select(pollnr,pollster,n,samplesize,rawpoll_clinton,rawpoll_trump,d_hat)
+poll<-polls %>% select(pollster,samplesize,d_hat) 
+poll<-poll %>% mutate(x_hat=(d_hat+1)/2)
+poll<-poll %>% mutate(se_hat=2*sqrt(x_hat * (1 - x_hat) / samplesize))
+poll<-poll %>% mutate(lower=d_hat - 1.96 * se_hat, upper=d_hat + 1.96 * se_hat)
+poll<-poll %>% select(-samplesize)
+poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>% select(pollster,lower,upper,hit) %>%  mutate(pollnr=1:nrow(poll))
+poll <- mutate(poll, d_inside = ifelse(hit, "Yes", "No") )
+mean(poll$hit)
+ggplot(poll, aes(pollnr, d_hat, ymin=lower, ymax=upper, col = d_inside)) + 
+  #geom_point()+
+  geom_errorbar() + 
+  coord_flip() + 
+  geom_hline(yintercept = d)
+```
 
 ## Exercises: Assosiation Tests
 
