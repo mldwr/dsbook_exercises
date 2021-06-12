@@ -516,7 +516,7 @@ ggplot(poll, aes(pollnr, p, ymin=lower, ymax=upper, col = p_inside)) +
 >  mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100)
 >```
 
-Recall the standard error of the spread from exercise 8: $\mbox{SE}(d)= 2\sqrt{p(1-p)/N}$. Where $p$ is calculated by rearranging the definition of the spread to $p=(d-1)/2$.
+Recall the standard error of the spread from exercise 15.1.8: $\mbox{SE}(d)= 2\sqrt{p(1-p)/N}$. Where $p$ is calculated by rearranging the definition of the spread to $p=(d-1)/2$.
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -615,15 +615,14 @@ polls <- polls_us_election_2016 %>%
   mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100) #%>% 
   #mutate(pollnr=1:nrow(poll))
 pollsters <- polls %>% select(pollster) %>% group_by(pollster) %>% summarise(n=n()) %>% arrange(desc(n)) %>% filter(n>=5)
-polls<-left_join(pollsters,polls) %>% select(pollnr,pollster,n,samplesize,rawpoll_clinton,rawpoll_trump,d_hat)
+polls<-left_join(pollsters,polls) %>% select(pollster,n,samplesize,rawpoll_clinton,rawpoll_trump,d_hat)
 poll<-polls %>% select(pollster,samplesize,d_hat) 
 poll<-poll %>% mutate(x_hat=(d_hat+1)/2)
 poll<-poll %>% mutate(se_hat=2*sqrt(x_hat * (1 - x_hat) / samplesize))
 poll<-poll %>% mutate(lower=d_hat - 1.96 * se_hat, upper=d_hat + 1.96 * se_hat)
 poll<-poll %>% select(-samplesize)
-poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>% select(pollster,lower,upper,hit) %>%  mutate(pollnr=1:nrow(poll))
+poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>% select(pollster,d_hat,lower,upper,hit) %>%  mutate(pollnr=1:nrow(poll))
 poll <- mutate(poll, d_inside = ifelse(hit, "Yes", "No") )
-mean(poll$hit)
 ggplot(poll, aes(pollnr, d_hat, ymin=lower, ymax=upper, col = d_inside)) + 
   #geom_point()+
   geom_errorbar() + 
@@ -637,7 +636,43 @@ ggplot(poll, aes(pollnr, d_hat, ymin=lower, ymax=upper, col = d_inside)) +
 
 >1\. A famous athlete has an impressive career, winning 70% of her 500 career matches. However, this athlete gets criticized because in important events, such as the Olympics, she has a losing record of 8 wins and 9 losses. Perform a Chi-square test to determine if this losing record can be simply due to chance as opposed to not performing well under pressure.
 
-  
+```{r}
+reg_event_win<-500*0.7
+reg_event_lose<-500*0.3
+imp_event_win<-8/(17)
+imp_event_lose<-9/(17)
+````
+
+```{r, message=FALSE}
+library(tidyverse)
+library(dslabs)
+data("research_funding_rates")
+research_funding_rates %>% select(discipline, applications_total, success_rates_total) 
+totals <- research_funding_rates %>% 
+  select(-discipline) %>% 
+  summarize_all(sum) %>%
+  summarize(yes_men = awards_men, 
+            no_men = applications_men - awards_men, 
+            yes_women = awards_women, 
+            no_women = applications_women - awards_women) 
+totals %>% summarize(percent_men = yes_men/(yes_men+no_men),
+                     percent_women = yes_women/(yes_women+no_women))
+rate <- totals %>%
+  summarize(percent_total = 
+              (yes_men + yes_women)/
+              (yes_men + no_men +yes_women + no_women)) %>%
+  pull(percent_total)
+two_by_two <- data.frame(awarded = c("no", "yes"), 
+                     men = c(totals$no_men, totals$yes_men),
+                     women = c(totals$no_women, totals$yes_women))
+two_by_two
+data.frame(awarded = c("no", "yes"), 
+       men = (totals$no_men + totals$yes_men) * c(1 - rate, rate),
+       women = (totals$no_women + totals$yes_women) * c(1 - rate, rate))
+chisq_test <- two_by_two %>% select(-awarded) %>% chisq.test()
+chisq_test$p.value
+chisq_test
+```
 
 ### Qn
 >2\. Why did we use the Chi-square test instead of Fisher's exact test in the previous exercise?
