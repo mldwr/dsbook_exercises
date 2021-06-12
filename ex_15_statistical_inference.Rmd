@@ -639,8 +639,13 @@ ggplot(poll, aes(pollnr, d_hat, ymin=lower, ymax=upper, col = d_inside)) +
 ```{r}
 reg_event_win<-500*0.7
 reg_event_lose<-500*0.3
-imp_event_win<-8/(17)
-imp_event_lose<-9/(17)
+imp_event_win<-8
+imp_event_lose<-9
+two_by_two<-data.frame(reg=c(reg_event_win,reg_event_lose),imp=c(imp_event_win,imp_event_lose))
+two_by_two
+chisq_test <- two_by_two  %>% chisq.test()
+chisq_test$p.value
+chisq_test
 ````
 
 ```{r, message=FALSE}
