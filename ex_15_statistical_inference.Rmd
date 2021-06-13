@@ -687,6 +687,27 @@ chisq_test
 >c. Because the sum of the rows and columns of the two-by-two table are not fixed so the hypergeometric distribution is not an appropriate assumption for the null hypothesis. For this reason, Fisher's exact test is rarely applicable with observational data.
 >d. Because the Chi-square test runs faster.
 
+Answer c, as stated in chapter *15.10.3 "Chi-square Test"*, the constrained that the values of rows and columns have to sum up to the same value. In the example of the "Lady Tasting Tea" it is always 4, where for the "Research Funding Rates" example this is not the case, as shown in the calculation below. Therefore, the hypergeometric distribution (random draws of $k$ successes in $n$ draws *without* replacement) cannot be applied to the "Research Funding Rates" example.
+
+```{r, message=FALSE}
+library(tidyverse)
+library(dslabs)
+data("research_funding_rates")
+totals <- research_funding_rates %>% 
+  select(-discipline) %>% 
+  summarize_all(sum) %>%
+  summarize(yes_men = awards_men, 
+            no_men = applications_men - awards_men, 
+            yes_women = awards_women, 
+            no_women = applications_women - awards_women) 
+two_by_two <- data.frame(awarded = c("no", "yes"), 
+                     men = c(totals$no_men, totals$yes_men),
+                     women = c(totals$no_women, totals$yes_women))
+two_by_two<- two_by_two %>% select(-awarded)
+two_by_two<-rbind(two_by_two, total=colSums(two_by_two)) 
+two_by_two<-cbind(two_by_two, total=rowSums(two_by_two))  
+data.frame(awarded =c("yes","no","total"),two_by_two)
+```
 
 ### Qn
 >3\. Compute the odds ratio of "losing under pressure" along with a confidence interval.
