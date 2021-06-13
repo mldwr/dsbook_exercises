@@ -600,6 +600,11 @@ ggplot(poll, aes(pollnr, d_hat, ymin=lower, ymax=upper, col = d_inside)) +
   geom_errorbar() + 
   coord_flip() + 
   geom_hline(yintercept = d)
+ggplot(poll, aes(pollster, d_hat, ymin=lower, ymax=upper, col = d_inside)) + 
+  geom_point()+
+  #geom_errorbar() + 
+  coord_flip() + 
+  geom_hline(yintercept = d)
 ```
 
 ### Qn
@@ -626,6 +631,11 @@ poll <- mutate(poll, d_inside = ifelse(hit, "Yes", "No") )
 ggplot(poll, aes(pollnr, d_hat, ymin=lower, ymax=upper, col = d_inside)) + 
   #geom_point()+
   geom_errorbar() + 
+  coord_flip() + 
+  geom_hline(yintercept = d)
+ggplot(poll, aes(pollster, d_hat, ymin=lower, ymax=upper, col = d_inside)) + 
+  geom_point()+
+  #geom_errorbar() + 
   coord_flip() + 
   geom_hline(yintercept = d)
 ```
@@ -712,6 +722,28 @@ data.frame(awarded =c("yes","no","total"),two_by_two)
 ### Qn
 >3\. Compute the odds ratio of "losing under pressure" along with a confidence interval.
 
+```{r}
+reg_event_win<-500*0.7
+reg_event_lose<-500*0.3
+imp_event_win<-8
+imp_event_lose<-9
+two_by_two<-data.frame(result=c("win","lose"),reg=c(reg_event_win,reg_event_lose),imp=c(imp_event_win,imp_event_lose))
+two_by_two
+odds_reg <- with(two_by_two, (reg[1]/sum(reg)) / (reg[2]/sum(reg)))
+odds_reg
+odds_imp <- with(two_by_two, (imp[1]/sum(imp)) / (imp[2]/sum(imp)))
+odds_imp
+odds_reg/odds_imp
+
+log_or <- log(odds_reg / odds_imp)
+se <- two_by_two %>% select(-result) %>%
+  summarize(se = sqrt(sum(1/reg) + sum(1/imp))) %>%
+  pull(se)
+ci <- log_or + c(-1,1) * qnorm(0.975) * se
+exp(ci)
+2*(1 - pnorm(log_or, 0, se))
+````
+
   
 ### Qn
 >4\. Notice that the p-value is larger than 0.05 but the 95% confidence interval does not include 1. What explains this?
@@ -721,8 +753,30 @@ data.frame(awarded =c("yes","no","total"),two_by_two)
 >c. Different approximations are used for the p-value and the confidence interval calculation. If we had a larger sample size the match would be better.
 >d. We should use the Fisher exact test to get confidence intervals.
 
+Answer c.
 
 ### Qn
 >5\. Multiply the two-by-two table by 2 and see if the p-value and confidence retrieval are a better match.
 
+```{r}
+reg_event_win<-500*0.7
+reg_event_lose<-500*0.3
+imp_event_win<-8
+imp_event_lose<-9
+two_by_two<-data.frame(result=c("win","lose"),reg=2*c(reg_event_win,reg_event_lose),imp=2*c(imp_event_win,imp_event_lose))
+two_by_two
+odds_reg <- with(two_by_two, (reg[1]/sum(reg)) / (reg[2]/sum(reg)))
+odds_reg
+odds_imp <- with(two_by_two, (imp[1]/sum(imp)) / (imp[2]/sum(imp)))
+odds_imp
+odds_reg/odds_imp
+
+log_or <- log(odds_reg / odds_imp)
+se <- two_by_two %>% select(-result) %>%
+  summarize(se = sqrt(sum(1/reg) + sum(1/imp))) %>%
+  pull(se)
+ci <- log_or + c(-1,1) * qnorm(0.975) * se
+exp(ci)
+2*(1 - pnorm(log_or, 0, se))
+````
 
