@@ -753,7 +753,7 @@ exp(ci)
 >c. Different approximations are used for the p-value and the confidence interval calculation. If we had a larger sample size the match would be better.
 >d. We should use the Fisher exact test to get confidence intervals.
 
-Answer c, because here the estimated p-value is 0.052 with a confidence interval of 0.9937118 to 6.9342286. As stated in the question, the confidence interval does not include the "null value", therefore the value, which is formulated by the "Null Hypothesis". \
+Answer c, because here the estimated p-value is 0.052 with a confidence interval of 0.9937118 to 6.9342286. As stated in the question, the confidence interval does not include the "null value" 1, therefore the value, which is formulated by the "Null Hypothesis" the odds ratio. \
 *"Keep in mind that there is a close connection between p-values and confidence intervals. If a 95% confidence interval of the spread does not include 0, we know that the p-value must be smaller than 0.05."*
 
 ### Qn

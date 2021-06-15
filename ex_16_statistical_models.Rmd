@@ -28,6 +28,16 @@ output:
 
 >1\. Mathematically speaking, `x` is our population. Using the urn analogy, we have an urn with the values of  `x` in it. What are the average and standard deviation of our population?
 
+```{r, message=FALSE}
+library(magrittr)
+library(dplyr)
+library(dslabs)
+data(heights)
+x <- heights %>% filter(sex == "Male") %>% pull(height)
+mean(x)
+sd(x)
+```
+
 
 ### Qn
 >2\.  Call the population average computed above $\mu$ and the standard deviation $\sigma$. Now take a sample of size 50, with replacement, and construct an estimate for $\mu$ and $\sigma$. 

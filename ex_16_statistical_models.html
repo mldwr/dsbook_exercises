@@ -264,6 +264,15 @@ x &lt;- heights %&gt;% filter(sex == &quot;Male&quot;) %&gt;%
 <blockquote>
 <p>1. Mathematically speaking, <code>x</code> is our population. Using the urn analogy, we have an urn with the values of <code>x</code> in it. What are the average and standard deviation of our population?</p>
 </blockquote>
+<pre class="r"><code>library(magrittr)
+library(dplyr)
+library(dslabs)
+data(heights)
+x &lt;- heights %&gt;% filter(sex == &quot;Male&quot;) %&gt;% pull(height)
+mean(x)</code></pre>
+<pre><code>## [1] 69.31475</code></pre>
+<pre class="r"><code>sd(x)</code></pre>
+<pre><code>## [1] 3.611024</code></pre>
 </div>
 <div id="qn-1" class="section level3" number="0.1.2">
 <h3 number="16.1.2"><span class="header-section-number">16.1.2</span> Qn</h3>
@@ -543,12 +552,14 @@ polls &lt;- polls_us_election_2016 %&gt;%
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.6     ✓ dplyr   1.0.4
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+## ✓ tibble  3.0.6     ✓ stringr 1.4.0
+## ✓ tidyr   1.1.2     ✓ forcats 0.5.1
+## ✓ readr   1.4.0</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
+## x tidyr::extract()   masks magrittr::extract()
+## x dplyr::filter()    masks stats::filter()
+## x dplyr::lag()       masks stats::lag()
+## x purrr::set_names() masks magrittr::set_names()</code></pre>
 <pre class="r"><code>library(dslabs)
 data(&quot;polls_us_election_2016&quot;)
 polls &lt;- polls_us_election_2016 %&gt;% 
