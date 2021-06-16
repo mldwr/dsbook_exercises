@@ -593,8 +593,9 @@ poll<-poll %>% mutate(x_hat=(d_hat+1)/2)
 poll<-poll %>% mutate(se_hat=2*sqrt(x_hat * (1 - x_hat) / samplesize))
 poll<-poll %>% mutate(lower=d_hat - 1.96 * se_hat, upper=d_hat + 1.96 * se_hat)
 poll<-poll %>% select(-samplesize)
-poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>% select(pollster,lower,upper,hit) %>%  mutate(pollnr=1:nrow(poll))
+poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>% select(pollster,lower,upper,hit,d_hat) %>%  arrange(pollster) %>% mutate(pollnr=1:nrow(poll))
 poll <- mutate(poll, d_inside = ifelse(hit, "Yes", "No") )
+poll<-mutate(poll,pollsternr=paste(pollnr,pollster,sep="_"))
 ggplot(poll, aes(pollnr, d_hat, ymin=lower, ymax=upper, col = d_inside)) + 
   #geom_point()+
   geom_errorbar() + 
