@@ -279,6 +279,19 @@ mean(x)</code></pre>
 <blockquote>
 <p>2. Call the population average computed above <span class="math inline">\(\mu\)</span> and the standard deviation <span class="math inline">\(\sigma\)</span>. Now take a sample of size 50, with replacement, and construct an estimate for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>.</p>
 </blockquote>
+<pre class="r"><code>library(tidyverse)
+library(dslabs)
+data(heights)
+set.seed(1)
+x &lt;- heights %&gt;% filter(sex == &quot;Male&quot;) %&gt;% pull(height)
+mu&lt;-mean(x)
+sigma&lt;-sd(x)
+N&lt;-50
+x_N&lt;-sample(heights$height,size=N,replace=TRUE)
+mu_bar&lt;-mean(x_N)
+sigma_bar&lt;-sd(x_N)
+c(mu,mu_bar,sigma,sigma_bar)</code></pre>
+<pre><code>## [1] 69.314755 67.811643  3.611024  4.748513</code></pre>
 </div>
 <div id="qn-2" class="section level3" number="0.1.3">
 <h3 number="16.1.3"><span class="header-section-number">16.1.3</span> Qn</h3>
@@ -300,18 +313,54 @@ It means that the error of sample means will decrease by <span class="math inlin
 <blockquote>
 <p>4. So how is this useful? We are going to use an oversimplified yet illustrative example. Suppose we want to know the average height of our male students, but we only get to measure 50 of the 708. We will use <span class="math inline">\(\bar{X}\)</span> as our estimate. We know from the answer to exercise 3 that the standard estimate of our error <span class="math inline">\(\bar{X}-\mu\)</span> is <span class="math inline">\(\sigma/\sqrt{N}\)</span>. We want to compute this, but we don’t know <span class="math inline">\(\sigma\)</span>. Based on what is described in this section, show your estimate of <span class="math inline">\(\sigma\)</span>.</p>
 </blockquote>
+<p>In this section 16.2 “<em>Data-driven models</em>” it is described that:<br />
+“<em>A problem is that we don’t know <span class="math inline">\(\sigma\)</span>. But theory tells us that we can estimate the urn model <span class="math inline">\(\sigma\)</span> with the <strong>sample standard deviation</strong> defined as <span class="math inline">\(s = \sqrt{ \sum_{i=1}^N (X_i - \bar{X})^2 / (N-1)}\)</span>.</em>”</p>
+<pre class="r"><code>library(tidyverse)
+library(dslabs)
+data(heights)
+set.seed(1)
+x &lt;- heights %&gt;% filter(sex == &quot;Male&quot;) %&gt;% pull(height)
+mu&lt;-mean(x)
+sigma&lt;-sd(x)
+N&lt;-50
+x_N&lt;-sample(heights$height,size=N,replace=TRUE)
+s&lt;-sqrt(sum((x_N-mu)^2)/(N-1))
+s</code></pre>
+<pre><code>## [1] 4.985362</code></pre>
+<pre class="r"><code>s_bar&lt;-sqrt(sum((x_N-mean(x_N))^2)/(N-1))
+s_bar</code></pre>
+<pre><code>## [1] 4.748513</code></pre>
+<pre class="r"><code>sd(x_N)</code></pre>
+<pre><code>## [1] 4.748513</code></pre>
 </div>
 <div id="qn-4" class="section level3" number="0.1.5">
 <h3 number="16.1.5"><span class="header-section-number">16.1.5</span> Qn</h3>
 <blockquote>
 <p>5. Now that we have an estimate of <span class="math inline">\(\sigma\)</span>, let’s call our estimate <span class="math inline">\(s\)</span>. Construct a 95% confidence interval for <span class="math inline">\(\mu\)</span>.</p>
 </blockquote>
+<pre class="r"><code>library(tidyverse)
+library(dslabs)
+data(heights)
+set.seed(1)
+x &lt;- heights %&gt;% filter(sex == &quot;Male&quot;) %&gt;% pull(height)
+mu&lt;-mean(x)
+sigma&lt;-sd(x)
+N&lt;-50
+x_N&lt;-sample(heights$height,size=N,replace=TRUE)
+s&lt;-sqrt(sum((x_N-mu)^2)/(N-1))
+s</code></pre>
+<pre><code>## [1] 4.985362</code></pre>
+<pre class="r"><code>lower&lt;-mu-1.96*s
+upper&lt;-mu+1.96*s
+c(mu,s,lower,upper)</code></pre>
+<pre><code>## [1] 69.314755  4.985362 59.543445 79.086065</code></pre>
 </div>
 <div id="qn-5" class="section level3" number="0.1.6">
 <h3 number="16.1.6"><span class="header-section-number">16.1.6</span> Qn</h3>
 <blockquote>
 <p>6. Now run a Monte Carlo simulation in which you compute 10,000 confidence intervals as you have just done. What proportion of these intervals include <span class="math inline">\(\mu\)</span>?</p>
 </blockquote>
+<p>Hopefully 95%.</p>
 </div>
 <div id="qn-6" class="section level3" number="0.1.7">
 <h3 number="16.1.7"><span class="header-section-number">16.1.7</span> Qn</h3>
@@ -552,18 +601,8 @@ polls &lt;- polls_us_election_2016 %&gt;%
 <h3 number="16.3.1"><span class="header-section-number">16.3.1</span> Qn</h3>
 <blockquote>
 <p>1. Create this table:</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.6     ✓ stringr 1.4.0
-## ✓ tidyr   1.1.2     ✓ forcats 0.5.1
-## ✓ readr   1.4.0</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x tidyr::extract()   masks magrittr::extract()
-## x dplyr::filter()    masks stats::filter()
-## x dplyr::lag()       masks stats::lag()
-## x purrr::set_names() masks magrittr::set_names()</code></pre>
-<pre class="r"><code>library(dslabs)
+<pre class="r"><code>library(tidyverse)
+library(dslabs)
 data(&quot;polls_us_election_2016&quot;)
 polls &lt;- polls_us_election_2016 %&gt;% 
  filter(state != &quot;U.S.&quot; &amp; enddate &gt;= &quot;2016-10-31&quot;) %&gt;% 
