@@ -51,7 +51,7 @@ x <- heights %>% filter(sex == "Male") %>% pull(height)
 mu<-mean(x)
 sigma<-sd(x)
 N<-50
-x_N<-sample(heights$height,size=N,replace=TRUE)
+x_N<-sample(x,size=N,replace=TRUE)
 mu_bar<-mean(x_N)
 sigma_bar<-sd(x_N)
 c(mu,mu_bar,sigma,sigma_bar)
@@ -74,7 +74,11 @@ It means that the error of sample means will decrease by $1/\sqrt{N}$ if the num
 
 In this section 16.2 "*Data-driven models*" it is described that: \
 "*A problem is that we don't know $\sigma$. But theory tells us that we can estimate the urn model $\sigma$ with the **sample standard deviation** defined as
-$s = \sqrt{ \sum_{i=1}^N (X_i - \bar{X})^2 / (N-1)}$.*"
+$s = \sqrt{ \sum_{i=1}^N (X_i - \bar{X})^2 / (N-1)}$.*" \
+Based on this equation the error can be written as 
+$$
+s_{\mu} = \sqrt{ \sum_{i=1}^N (X_i - \mu)^2 / (N-1)}.
+$$
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -85,13 +89,14 @@ x <- heights %>% filter(sex == "Male") %>% pull(height)
 mu<-mean(x)
 sigma<-sd(x)
 N<-50
-x_N<-sample(heights$height,size=N,replace=TRUE)
-s<-sqrt(sum((x_N-mu)^2)/(N-1))
+x_N<-sample(x,size=N,replace=TRUE)
+s_mu<-sqrt(sum((x_N-mu)^2)/(N-1))
+s_mu
+s<-sqrt(sum((x_N-mean(x_N))^2)/(N-1))
 s
-s_bar<-sqrt(sum((x_N-mean(x_N))^2)/(N-1))
-s_bar
 sd(x_N)
 ```
+
 
 ### Qn
 >5\. Now that we have an estimate of $\sigma$, let's call our estimate $s$. Construct a 95% confidence interval for $\mu$.
@@ -105,7 +110,7 @@ x <- heights %>% filter(sex == "Male") %>% pull(height)
 mu<-mean(x)
 sigma<-sd(x)
 N<-50
-x_N<-sample(heights$height,size=N,replace=TRUE)
+x_N<-sample(x,size=N,replace=TRUE)
 s<-sqrt(sum((x_N-mu)^2)/(N-1))
 s
 lower<-mu-1.96*s
@@ -118,6 +123,35 @@ c(mu,s,lower,upper)
 >6\. Now run a Monte Carlo simulation in which you compute 10,000 confidence intervals as you have just done. What proportion of these intervals include $\mu$? 
 
 Hopefully 95%.
+
+```{r, message=FALSE}
+library(tidyverse)
+library(dslabs)
+data(heights)
+
+set.seed(1)
+
+x <- heights %>% filter(sex == "Male") %>% pull(height)
+mu<-mean(x)
+sigma<-sd(x)
+
+N<-50
+B<-5
+
+take_sample <- function(N,x) {
+  x_N<-sample(x,size=N,replace=TRUE)
+  s<-sqrt(sum((x_N-mu)^2)/(N-1))
+  c(mu-1.96*s,mu+1.96*s)
+}
+#take_sample(N,x)
+
+mu
+
+interval <- replicate(B, {
+  take_sample(N,x)
+})
+data.frame(interval)
+```
 
 ### Qn
 >7\. In this section, we talked about pollster bias. We used visualization to motivate the presence of such bias. Here we will give it a more rigorous treatment. We will consider two pollsters that conducted daily polls. We will look at national polls for the month before the election. 
