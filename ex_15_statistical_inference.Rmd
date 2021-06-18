@@ -436,8 +436,11 @@ data("polls_us_election_2016")
 polls <- polls_us_election_2016 %>% 
   filter(enddate >= "2016-10-31" & state == "U.S.") 
 N <- polls$samplesize[1]
+N
 x_hat <- polls$rawpoll_clinton[1]/100
+x_hat
 se_hat <- sqrt(x_hat * (1 - x_hat) / N)
+se_hat
 c(x_hat - 1.96 * se_hat, x_hat + 1.96 * se_hat)
 ```
 

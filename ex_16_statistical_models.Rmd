@@ -136,7 +136,7 @@ mu<-mean(x)
 sigma<-sd(x)
 
 N<-50
-B<-5
+B<-10000
 
 take_sample <- function(N,x) {
   x_N<-sample(x,size=N,replace=TRUE)
@@ -150,7 +150,10 @@ mu
 interval <- replicate(B, {
   take_sample(N,x)
 })
-data.frame(interval)
+
+df<-data.frame(t(interval),mu=replicate(B,mu))
+df<-df %>% mutate(hit=ifelse(mu >= X1 & mu <=X2,1,0))
+sum(df$hit)
 ```
 
 ### Qn

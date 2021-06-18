@@ -287,11 +287,11 @@ x &lt;- heights %&gt;% filter(sex == &quot;Male&quot;) %&gt;% pull(height)
 mu&lt;-mean(x)
 sigma&lt;-sd(x)
 N&lt;-50
-x_N&lt;-sample(heights$height,size=N,replace=TRUE)
+x_N&lt;-sample(x,size=N,replace=TRUE)
 mu_bar&lt;-mean(x_N)
 sigma_bar&lt;-sd(x_N)
 c(mu,mu_bar,sigma,sigma_bar)</code></pre>
-<pre><code>## [1] 69.314755 67.811643  3.611024  4.748513</code></pre>
+<pre><code>## [1] 69.314755 70.472932  3.611024  3.426742</code></pre>
 </div>
 <div id="qn-2" class="section level3" number="0.1.3">
 <h3 number="16.1.3"><span class="header-section-number">16.1.3</span> Qn</h3>
@@ -316,8 +316,8 @@ It means that the error of sample means will decrease by <span class="math inlin
 <p>In this section 16.2 “<em>Data-driven models</em>” it is described that:<br />
 “<em>A problem is that we don’t know <span class="math inline">\(\sigma\)</span>. But theory tells us that we can estimate the urn model <span class="math inline">\(\sigma\)</span> with the <strong>sample standard deviation</strong> defined as <span class="math inline">\(s = \sqrt{ \sum_{i=1}^N (X_i - \bar{X})^2 / (N-1)}\)</span>.</em>”<br />
 Based on this equation the error can be written as <span class="math display">\[
-s_{\mu} = \sqrt{ \sum_{i=1}^N (X_i - \mu)^2 / (N-1)}
-\]</span> .</p>
+s_{\mu} = \sqrt{ \sum_{i=1}^N (X_i - \mu)^2 / (N-1)}.
+\]</span></p>
 <pre class="r"><code>library(tidyverse)
 library(dslabs)
 data(heights)
@@ -326,15 +326,15 @@ x &lt;- heights %&gt;% filter(sex == &quot;Male&quot;) %&gt;% pull(height)
 mu&lt;-mean(x)
 sigma&lt;-sd(x)
 N&lt;-50
-x_N&lt;-sample(heights$height,size=N,replace=TRUE)
+x_N&lt;-sample(x,size=N,replace=TRUE)
 s_mu&lt;-sqrt(sum((x_N-mu)^2)/(N-1))
 s_mu</code></pre>
-<pre><code>## [1] 4.985362</code></pre>
+<pre><code>## [1] 3.620954</code></pre>
 <pre class="r"><code>s&lt;-sqrt(sum((x_N-mean(x_N))^2)/(N-1))
 s</code></pre>
-<pre><code>## [1] 4.748513</code></pre>
+<pre><code>## [1] 3.426742</code></pre>
 <pre class="r"><code>sd(x_N)</code></pre>
-<pre><code>## [1] 4.748513</code></pre>
+<pre><code>## [1] 3.426742</code></pre>
 </div>
 <div id="qn-4" class="section level3" number="0.1.5">
 <h3 number="16.1.5"><span class="header-section-number">16.1.5</span> Qn</h3>
@@ -349,14 +349,14 @@ x &lt;- heights %&gt;% filter(sex == &quot;Male&quot;) %&gt;% pull(height)
 mu&lt;-mean(x)
 sigma&lt;-sd(x)
 N&lt;-50
-x_N&lt;-sample(heights$height,size=N,replace=TRUE)
+x_N&lt;-sample(x,size=N,replace=TRUE)
 s&lt;-sqrt(sum((x_N-mu)^2)/(N-1))
 s</code></pre>
-<pre><code>## [1] 4.985362</code></pre>
+<pre><code>## [1] 3.620954</code></pre>
 <pre class="r"><code>lower&lt;-mu-1.96*s
 upper&lt;-mu+1.96*s
 c(mu,s,lower,upper)</code></pre>
-<pre><code>## [1] 69.314755  4.985362 59.543445 79.086065</code></pre>
+<pre><code>## [1] 69.314755  3.620954 62.217684 76.411826</code></pre>
 </div>
 <div id="qn-5" class="section level3" number="0.1.6">
 <h3 number="16.1.6"><span class="header-section-number">16.1.6</span> Qn</h3>
@@ -364,6 +364,36 @@ c(mu,s,lower,upper)</code></pre>
 <p>6. Now run a Monte Carlo simulation in which you compute 10,000 confidence intervals as you have just done. What proportion of these intervals include <span class="math inline">\(\mu\)</span>?</p>
 </blockquote>
 <p>Hopefully 95%.</p>
+<pre class="r"><code>library(tidyverse)
+library(dslabs)
+data(heights)
+
+set.seed(1)
+
+x &lt;- heights %&gt;% filter(sex == &quot;Male&quot;) %&gt;% pull(height)
+mu&lt;-mean(x)
+sigma&lt;-sd(x)
+
+N&lt;-50
+B&lt;-10000
+
+take_sample &lt;- function(N,x) {
+  x_N&lt;-sample(x,size=N,replace=TRUE)
+  s&lt;-sqrt(sum((x_N-mu)^2)/(N-1))
+  c(mu-1.96*s,mu+1.96*s)
+}
+#take_sample(N,x)
+
+mu</code></pre>
+<pre><code>## [1] 69.31475</code></pre>
+<pre class="r"><code>interval &lt;- replicate(B, {
+  take_sample(N,x)
+})
+
+df&lt;-data.frame(t(interval),mu=replicate(B,mu))
+df&lt;-df %&gt;% mutate(hit=ifelse(mu &gt;= X1 &amp; mu &lt;=X2,1,0))
+sum(df$hit)</code></pre>
+<pre><code>## [1] 10000</code></pre>
 </div>
 <div id="qn-6" class="section level3" number="0.1.7">
 <h3 number="16.1.7"><span class="header-section-number">16.1.7</span> Qn</h3>
