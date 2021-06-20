@@ -34,8 +34,7 @@ library(dplyr)
 library(dslabs)
 data(heights)
 x <- heights %>% filter(sex == "Male") %>% pull(height)
-mean(x)
-sd(x)
+c(mean(x),sd(x))
 ```
 
 
@@ -54,7 +53,8 @@ N<-50
 x_N<-sample(x,size=N,replace=TRUE)
 mu_bar<-mean(x_N)
 sigma_bar<-sd(x_N)
-c(mu,mu_bar,sigma,sigma_bar)
+c(mu,sigma)
+c(mu_bar,sigma_bar)
 ```
 
 ### Qn
@@ -75,10 +75,7 @@ It means that the error of sample means will decrease by $1/\sqrt{N}$ if the num
 In this section 16.2 "*Data-driven models*" it is described that: \
 "*A problem is that we don't know $\sigma$. But theory tells us that we can estimate the urn model $\sigma$ with the **sample standard deviation** defined as
 $s = \sqrt{ \sum_{i=1}^N (X_i - \bar{X})^2 / (N-1)}$.*" \
-Based on this equation the error can be written as 
-$$
-s_{\mu} = \sqrt{ \sum_{i=1}^N (X_i - \mu)^2 / (N-1)}.
-$$
+
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -87,14 +84,15 @@ data(heights)
 set.seed(1)
 x <- heights %>% filter(sex == "Male") %>% pull(height)
 mu<-mean(x)
-sigma<-sd(x)
+
 N<-50
 x_N<-sample(x,size=N,replace=TRUE)
-s_mu<-sqrt(sum((x_N-mu)^2)/(N-1))
-s_mu
-s<-sqrt(sum((x_N-mean(x_N))^2)/(N-1))
-s
+mu_N<-mean(x_N)
+sqrt(sum((x_N-mu_N)^2)/(N-1))
 sd(x_N)
+se_N<-sd(x_N)/sqrt(N)
+se_N
+
 ```
 
 
@@ -105,17 +103,21 @@ sd(x_N)
 library(tidyverse)
 library(dslabs)
 data(heights)
+
 set.seed(1)
+
 x <- heights %>% filter(sex == "Male") %>% pull(height)
 mu<-mean(x)
-sigma<-sd(x)
+
 N<-50
 x_N<-sample(x,size=N,replace=TRUE)
-s<-sqrt(sum((x_N-mu)^2)/(N-1))
-s
-lower<-mu-1.96*s
-upper<-mu+1.96*s
-c(mu,s,lower,upper)
+mu_N<-mean(x_N)
+se_N<-sd(x_N)/sqrt(N)
+
+lower_N<-mu_N-1.96*se_N
+upper_N<-mu_N+1.96*se_N
+
+data.frame(names=c("mu","mu_N","se_N","lower_N","upper_N"),values=c(mu,mu_N,se_N,lower_N,upper_N))
 ```
 
 
@@ -133,19 +135,17 @@ set.seed(1)
 
 x <- heights %>% filter(sex == "Male") %>% pull(height)
 mu<-mean(x)
-sigma<-sd(x)
 
 N<-50
 B<-10000
 
 take_sample <- function(N,x) {
   x_N<-sample(x,size=N,replace=TRUE)
-  s<-sqrt(sum((x_N-mu)^2)/(N-1))
-  c(mu-1.96*s,mu+1.96*s)
+  mu_N<-mean(x_N)
+  se_N<-sd(x_N)/sqrt(N)
+  c(mu_N-1.96*se_N,mu_N+1.96*se_N)
 }
 #take_sample(N,x)
-
-mu
 
 interval <- replicate(B, {
   take_sample(N,x)
@@ -153,7 +153,7 @@ interval <- replicate(B, {
 
 df<-data.frame(t(interval),mu=replicate(B,mu))
 df<-df %>% mutate(hit=ifelse(mu >= X1 & mu <=X2,1,0))
-sum(df$hit)
+mean(df$hit)
 ```
 
 ### Qn
