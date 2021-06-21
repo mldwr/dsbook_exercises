@@ -153,6 +153,7 @@ interval <- replicate(B, {
 
 df<-data.frame(t(interval),mu=replicate(B,mu))
 df<-df %>% mutate(hit=ifelse(mu >= X1 & mu <=X2,1,0))
+head(df)
 mean(df$hit)
 ```
 
@@ -171,6 +172,26 @@ mean(df$hit)
 >
 >We want to answer the question: is there a poll bias? Make a plot showing the spreads for each poll.
 
+```{r, eval=FALSE}
+data(polls_us_election_2016)
+polls <- polls_us_election_2016 %>% 
+  filter(pollster %in% c("Rasmussen Reports/Pulse Opinion Research","The Times-Picayune/Lucid") &
+           enddate >= "2016-10-15" &
+           state == "U.S.") %>% 
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) 
+polls %>% ggplot(aes(pollster, spread)) + 
+  geom_point() +
+  coord_flip() +
+  scale_y_continuous(breaks = c(-0.02,0,0.02,0.04,0.06,0.08,0.10,0.12))
+d_hat <- polls %>% 
+  summarize(d_hat = sum(spread * samplesize) / sum(samplesize)) %>% 
+  pull(d_hat)
+p_hat <- (d_hat+1)/2
+polls %>% group_by(pollster) %>% 
+  summarize(se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize)))
+0.02580378-0.01961447
+0.0333-0.0183
+```
 
 ### Qn
 >8\. The data does seem to suggest there is a difference. However, these
