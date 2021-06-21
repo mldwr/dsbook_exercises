@@ -395,7 +395,13 @@ interval &lt;- replicate(B, {
 
 df&lt;-data.frame(t(interval),mu=replicate(B,mu))
 df&lt;-df %&gt;% mutate(hit=ifelse(mu &gt;= X1 &amp; mu &lt;=X2,1,0))
-mean(df$hit)</code></pre>
+head(df)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["X1"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["X2"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["mu"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["hit"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"69.52309","2":"71.42278","3":"69.31475","4":"0","_rn_":"1"},{"1":"67.43039","2":"69.72855","3":"69.31475","4":"1","_rn_":"2"},{"1":"68.22288","2":"70.38177","3":"69.31475","4":"1","_rn_":"3"},{"1":"68.12279","2":"70.02888","3":"69.31475","4":"1","_rn_":"4"},{"1":"68.04150","2":"69.53244","3":"69.31475","4":"1","_rn_":"5"},{"1":"67.28336","2":"69.61944","3":"69.31475","4":"1","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>mean(df$hit)</code></pre>
 <pre><code>## [1] 0.948</code></pre>
 </div>
 <div id="qn-6" class="section level3" number="0.1.7">
@@ -411,6 +417,24 @@ polls &lt;- polls_us_election_2016 %&gt;%
  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) </code></pre>
 <p>We want to answer the question: is there a poll bias? Make a plot showing the spreads for each poll.</p>
 </blockquote>
+<pre class="r"><code>data(polls_us_election_2016)
+polls &lt;- polls_us_election_2016 %&gt;% 
+  filter(pollster %in% c(&quot;Rasmussen Reports/Pulse Opinion Research&quot;,&quot;The Times-Picayune/Lucid&quot;) &amp;
+           enddate &gt;= &quot;2016-10-15&quot; &amp;
+           state == &quot;U.S.&quot;) %&gt;% 
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) 
+polls %&gt;% ggplot(aes(pollster, spread)) + 
+  geom_point() +
+  coord_flip() +
+  scale_y_continuous(breaks = c(-0.02,0,0.02,0.04,0.06,0.08,0.10,0.12))
+d_hat &lt;- polls %&gt;% 
+  summarize(d_hat = sum(spread * samplesize) / sum(samplesize)) %&gt;% 
+  pull(d_hat)
+p_hat &lt;- (d_hat+1)/2
+polls %&gt;% group_by(pollster) %&gt;% 
+  summarize(se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize)))
+0.02580378-0.01961447
+0.0333-0.0183</code></pre>
 </div>
 <div id="qn-7" class="section level3" number="0.1.8">
 <h3 number="16.1.8"><span class="header-section-number">16.1.8</span> Qn</h3>
