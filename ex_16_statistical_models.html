@@ -432,17 +432,27 @@ polls %&gt;% ggplot(aes(pollster, spread)) +
   summarize(d_hat = sum(spread * samplesize) / sum(samplesize)) %&gt;% 
   pull(d_hat)
 p_hat &lt;- (d_hat+1)/2
-polls %&gt;% group_by(pollster) %&gt;% 
-  summarize(se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize)))</code></pre>
+polls_sum&lt;-polls %&gt;% group_by(pollster) %&gt;% summarize(se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize)))
+polls_sum</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["pollster"],"name":[1],"type":["fct"],"align":["left"]},{"label":["se"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Rasmussen Reports/Pulse Opinion Research","2":"0.02580378","_rn_":"1"},{"1":"The Times-Picayune/Lucid","2":"0.01961447","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<pre class="r"><code>0.02580378-0.01961447</code></pre>
-<pre><code>## [1] 0.00618931</code></pre>
-<pre class="r"><code>0.0333-0.0183</code></pre>
-<pre><code>## [1] 0.015</code></pre>
+<pre class="r"><code>polls_sum$se[1]-polls_sum$se[2]</code></pre>
+<pre><code>## [1] 0.006189308</code></pre>
+<p>Is the found bias large or not?</p>
+<pre class="r"><code>data(polls_us_election_2016)
+polls&lt;-polls_us_election_2016 %&gt;% 
+  filter(enddate &gt;= &quot;2016-10-15&quot; &amp;
+           state == &quot;U.S.&quot;) %&gt;% 
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) %&gt;% group_by(pollster) %&gt;% 
+  filter(n() &gt;= 6) %&gt;%
+  summarize(se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize))) %&gt;% arrange(se)
+se_max &lt;-polls$se %&gt;% max()
+se_min&lt;-polls$se %&gt;% min()
+se_max-se_min</code></pre>
+<pre><code>## [1] 0.01516862</code></pre>
 </div>
 <div id="qn-7" class="section level3" number="0.1.8">
 <h3 number="16.1.8"><span class="header-section-number">16.1.8</span> Qn</h3>
@@ -453,7 +463,7 @@ polls %&gt;% group_by(pollster) %&gt;%
 <p><span class="math display">\[
 Y_{i,j} = d + b_i + \varepsilon_{i,j}
 \]</span></p>
-<p>with <span class="math inline">\(i=1,2\)</span> indexing the two pollsters, <span class="math inline">\(b_i\)</span> the bias for pollster <span class="math inline">\(i\)</span> and <span class="math inline">\(\varepsilon_ij\)</span> poll to poll chance variability. We assume the <span class="math inline">\(\varepsilon\)</span> are independent from each other, have expected value <span class="math inline">\(0\)</span> and standard deviation <span class="math inline">\(\sigma_i\)</span> regardless of <span class="math inline">\(j\)</span>.</p>
+<p>with <span class="math inline">\(i=1,2\)</span> indexing the two pollsters, <span class="math inline">\(b_i\)</span> the bias for pollster <span class="math inline">\(i\)</span> and <span class="math inline">\(\varepsilon_{i,j}\)</span> poll to poll chance variability. We assume the <span class="math inline">\(\varepsilon\)</span> are independent from each other, have expected value <span class="math inline">\(0\)</span> and standard deviation <span class="math inline">\(\sigma_i\)</span> regardless of <span class="math inline">\(j\)</span>.</p>
 <p>Which of the following best represents our question?</p>
 <ol style="list-style-type: lower-alpha">
 <li>Is <span class="math inline">\(\varepsilon_{i,j}\)</span> = 0?</li>
@@ -462,12 +472,19 @@ Y_{i,j} = d + b_i + \varepsilon_{i,j}
 <li>Are <span class="math inline">\(b_1 = 0\)</span> and <span class="math inline">\(b_2 = 0\)</span> ?</li>
 </ol>
 </blockquote>
+<p>Answer d, because <span class="math inline">\(b_i\)</span> defines the bias for pollster <span class="math inline">\(i\)</span> the question in regard if there is a pollster bias. Only for the last option the appropriate question is asked.</p>
 </div>
 <div id="qn-8" class="section level3" number="0.1.9">
 <h3 number="16.1.9"><span class="header-section-number">16.1.9</span> Qn</h3>
 <blockquote>
 <p>9. In the right side of this model only <span class="math inline">\(\varepsilon_{i,j}\)</span> is a random variable. The other two are constants. What is the expected value of <span class="math inline">\(Y_{1,j}\)</span>?</p>
 </blockquote>
+<p><span class="math display">\[
+Y_{1,2} = d + b_1 + \varepsilon_{1,2}
+\]</span></p>
+<p><span class="math display">\[
+Y_{2,1} = d + b_2 + \varepsilon_{2,1}
+\]</span></p>
 </div>
 <div id="qn-9" class="section level3" number="0.1.10">
 <h3 number="16.1.10"><span class="header-section-number">16.1.10</span> Qn</h3>
@@ -478,6 +495,19 @@ Y_{i,j} = d + b_i + \varepsilon_{i,j}
  summarize(N_1 = n())</code></pre>
 <p>What is the expected values <span class="math inline">\(\bar{Y}_1\)</span>?</p>
 </blockquote>
+<pre class="r"><code>data(polls_us_election_2016)
+polls &lt;- polls_us_election_2016 %&gt;% 
+  filter(enddate &gt;= &quot;2016-10-15&quot; &amp;
+           state == &quot;U.S.&quot;) %&gt;% 
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100)
+polls %&gt;% 
+  filter(pollster==&quot;Rasmussen Reports/Pulse Opinion Research&quot;) %&gt;% 
+  summarize(N_1 = n())</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["N_1"],"name":[1],"type":["int"],"align":["right"]}],"data":[{"1":"16"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <div id="qn-10" class="section level3" number="0.1.11">
 <h3 number="16.1.11"><span class="header-section-number">16.1.11</span> Qn</h3>
