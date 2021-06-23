@@ -172,7 +172,7 @@ mean(df$hit)
 >
 >We want to answer the question: is there a poll bias? Make a plot showing the spreads for each poll.
 
-```{r, eval=FALSE}
+```{r, message=FALSE}
 data(polls_us_election_2016)
 polls <- polls_us_election_2016 %>% 
   filter(pollster %in% c("Rasmussen Reports/Pulse Opinion Research","The Times-Picayune/Lucid") &
