@@ -495,18 +495,22 @@ Y_{i,j} = d + b_i + \varepsilon_{i,j}
 <li>Are <span class="math inline">\(b_1 = 0\)</span> and <span class="math inline">\(b_2 = 0\)</span> ?</li>
 </ol>
 </blockquote>
-<p>Answer d, because <span class="math inline">\(b_i\)</span> defines the bias for pollster <span class="math inline">\(i\)</span> the question in regard if there is a pollster bias. Only for the last option the appropriate question is asked.</p>
+<p>Answer c, because <span class="math inline">\(b_i\)</span> defines the bias for pollster <span class="math inline">\(i\)</span> towards a candidate of a poll compared to the real expectation value.<br />
+If the bias were zero, it means that the poll predicted the outcome of an election spot on. In other words it predicted the real expectation value of the population.<br />
+The variable <span class="math inline">\(\varepsilon_{i,j}\)</span> defines how large the difference in the pollster bias is. This is referred to “house effect”.</p>
 </div>
 <div id="qn-8" class="section level3" number="0.1.9">
 <h3 number="16.1.9"><span class="header-section-number">16.1.9</span> Qn</h3>
 <blockquote>
 <p>9. In the right side of this model only <span class="math inline">\(\varepsilon_{i,j}\)</span> is a random variable. The other two are constants. What is the expected value of <span class="math inline">\(Y_{1,j}\)</span>?</p>
 </blockquote>
+<p>To solve this question two assumptions are used:<br />
+<strong>First</strong>: The elements <span class="math inline">\(d\)</span> and <span class="math inline">\(b_i\)</span> are constants and therefore do not depend on the expectation value.<br />
+<strong>Second</strong>: <em>We assume the <span class="math inline">\(\varepsilon\)</span> are independent from each other, have expected value <span class="math inline">\(0\)</span> and standard deviation <span class="math inline">\(\sigma_i\)</span> regardless of <span class="math inline">\(j\)</span>.</em>&quot;.</p>
 <p><span class="math display">\[
-Y_{1,2} = d + b_1 + \varepsilon_{1,2}
-\]</span></p>
-<p><span class="math display">\[
-Y_{2,1} = d + b_2 + \varepsilon_{2,1}
+E[Y_{1,j}] = \frac{1}{2}( Y_{1,1} + Y_{1,2} ) = \frac{1}{2}( d + b_1 + \varepsilon_{1,1} +d + b_1 + \varepsilon_{1,2}) = d + b_1 + \frac{1}{2}(\varepsilon_{1,1} + \varepsilon_{1,2} ) 
+\]</span> From this assumption it follows that <span class="math inline">\(E[\varepsilon_{1,1}] = E[\varepsilon_{1,2}] = 0\)</span>. Therefore, the expectation value is <span class="math display">\[
+E[Y_{1,j}] =  d + b_1. 
 \]</span></p>
 </div>
 <div id="qn-9" class="section level3" number="0.1.10">

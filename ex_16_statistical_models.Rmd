@@ -238,18 +238,24 @@ polls_mx$se[2]-polls_mx$se[1]
 >c. Is $b_1 \neq b_2$?
 >d. Are $b_1 = 0$ and $b_2 = 0$ ?
 
-Answer d, because $b_i$ defines the bias for pollster $i$ the question in regard if there is a pollster bias. Only for the last option the appropriate question is asked.
+Answer c, because $b_i$ defines the bias for pollster $i$ towards a candidate of a poll compared to the real expectation value.\
+If the bias were zero, it means that the poll predicted the outcome of an election spot on. In other words it predicted the real expectation value of the population. \
+The variable $\varepsilon_{i,j}$ defines how large the difference in the pollster bias is. This is referred to "house effect". 
+
 
 ### Qn
 >9\. In the right side of this model only $\varepsilon_{i,j}$ is a random variable. The other two are constants. What is the expected value of $Y_{1,j}$?
 
+To solve this question two assumptions are used: \
+**First**: The elements $d$ and $b_i$ are constants and therefore do not depend on the expectation value. \
+**Second**: *We assume the $\varepsilon$ are independent from each other, have expected value $0$ and standard deviation $\sigma_i$ regardless of $j$.*".
 
 $$
-Y_{1,2} = d + b_1 + \varepsilon_{1,2}
+E[Y_{1,j}] = \frac{1}{2}( Y_{1,1} + Y_{1,2} ) = \frac{1}{2}( d + b_1 + \varepsilon_{1,1} +d + b_1 + \varepsilon_{1,2}) = d + b_1 + \frac{1}{2}(\varepsilon_{1,1} + \varepsilon_{1,2} ) 
 $$
-  
+ From this assumption it follows that $E[\varepsilon_{1,1}] = E[\varepsilon_{1,2}] = 0$. Therefore, the expectation value is
 $$
-Y_{2,1} = d + b_2 + \varepsilon_{2,1}
+E[Y_{1,j}] =  d + b_1. 
 $$
 
 ### Qn
