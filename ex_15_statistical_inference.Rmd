@@ -108,7 +108,17 @@ $$
 ### Qn
 >8\. What is the standard error of $d$?
 
-The result from $\mbox{SE}(\bar{X})$ follows directly from the previous definition in the answer of question 4. However, the standard error of a constant value, here $\mbox{SE}(1)=0$ always equals to be 0, because there cannot be any deviation from a sample size of one element (the mean of the constant itself). In terms of equations the standard error can be defined utilizing the expectation value as $\mbox{SE}(\bar{X})^2=\mbox{E}(\bar{X^2})-\mbox{E}(\bar{X})^2$. For a constant value if follows $\mbox{SE}(1)^2=\mbox{E}(1^2)-\mbox{E}(1)^2 = 1-1=0$. 
+First, a few auxiliary formulas should be recalled. The variance of a random variable is defined as the expected value of the squared deviation from the mean: $\mbox{Var}(X) = \sigma^2=\mbox{E}[(X-\mbox{E}[X])^2]=\mbox{E}[X^2]-\mbox{E}[X]^2$. \
+Second, the connection between standard deviation and variance is $\mbox{SD}(X) = +\sqrt{\mbox{Var}(X)}$. \
+
+The result from $\mbox{SE}(\bar{X})$ follows directly from the previous definition in the answer of question 4. However, the standard error of a constant value, here $\mbox{SE}(1)=0$ always equals to be 0, because there cannot be any deviation from a sample size of one element (the mean of the constant itself). \
+
+In terms of equations the standard error can be approximated by utilizing the definition of the variance in terms of the expectation value as 
+
+$$
+\mbox{SE}(\bar{X}) \approx \mbox{SD}(\bar{X}) = \sqrt{\mbox{Var}(\bar{X})}=\sqrt{\mbox{E}(\bar{X^2})-\mbox{E}(\bar{X})^2}.
+$$ 
+For a constant value if follows $\mbox{SE}(1)^2=\mbox{E}(1^2)-\mbox{E}(1)^2 = 1-1=0$. 
 
 $$
 \mbox{SE}(d) = \mbox{SE}(\bar{X}) - (\mbox{SE}(1)-\mbox{SE}(\bar{X})) = \sqrt{p(1-p)/N}-(0-\sqrt{p(1-p)/N}) = 2\sqrt{p(1-p)/N}

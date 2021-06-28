@@ -516,9 +516,6 @@ E[Y_{1,j}] = \frac{1}{2}( E[Y_{1,1}] + E[Y_{1,2}] ) = \frac{1}{2}( d + b_1 + E[\
 \]</span> From this assumption it follows that <span class="math inline">\(E[\varepsilon_{1,1}] = E[\varepsilon_{1,2}] = 0\)</span>. Therefore, the expectation value is <span class="math display">\[
 E[Y_{1,j}] =  d + b_1. 
 \]</span></p>
-<p><span class="math display">\[
-SE[Y_{1,j}] =  \sigma_1. 
-\]</span></p>
 </div>
 <div id="qn-9" class="section level3" number="0.1.10">
 <h3 number="16.1.10"><span class="header-section-number">16.1.10</span> Qn</h3>
@@ -529,8 +526,9 @@ SE[Y_{1,j}] =  \sigma_1.
  summarize(N_1 = n())</code></pre>
 <p>What is the expected values <span class="math inline">\(\bar{Y}_1\)</span>?</p>
 </blockquote>
+<p>From the previous question it follows that:</p>
 <p><span class="math display">\[
-E[\bar{Y}_1] =  d + b_1
+E[Y_{1,j}] \rightarrow E[\bar{Y}_1] =  d + b_1
 \]</span></p>
 </div>
 <div id="qn-10" class="section level3" number="0.1.11">
@@ -538,6 +536,7 @@ E[\bar{Y}_1] =  d + b_1
 <blockquote>
 <p>11. What is the standard error of <span class="math inline">\(\bar{Y}_1\)</span> ?</p>
 </blockquote>
+<p>From question 3 and 4 one can conclude that using the approximation of the variance <span class="math inline">\(V(\bar{Y}_1) = \sigma^2\)</span> for the standard error by dividing with the square root of the number of polls.</p>
 <p><span class="math display">\[
 SE[\bar{Y}_1] =  \sigma_1/\sqrt{N}_1
 \]</span></p>
@@ -547,6 +546,7 @@ SE[\bar{Y}_1] =  \sigma_1/\sqrt{N}_1
 <blockquote>
 <p>12. Suppose we define <span class="math inline">\(\bar{Y}_2\)</span> as the average of poll results from the first poll, <span class="math inline">\(Y_{2,1},\dots,Y_{2,N_2}\)</span> with <span class="math inline">\(N_2\)</span> the number of polls conducted by the first pollster. What is the expected value <span class="math inline">\(\bar{Y}_2\)</span>?</p>
 </blockquote>
+<p>Equivalent to question 10.</p>
 <p><span class="math display">\[
 E[\bar{Y}_2] =  d + b_2
 \]</span></p>
@@ -556,6 +556,7 @@ E[\bar{Y}_2] =  d + b_2
 <blockquote>
 <p>13. What is the standard error of <span class="math inline">\(\bar{Y}_2\)</span> ?</p>
 </blockquote>
+<p>Equivalent to question 11.</p>
 <p><span class="math display">\[
 SE[\bar{Y}_1] =  \sigma_2/\sqrt{N}_2
 \]</span></p>
@@ -565,12 +566,19 @@ SE[\bar{Y}_1] =  \sigma_2/\sqrt{N}_2
 <blockquote>
 <p>14. Using what we learned by answering the questions above, what is the expected value of <span class="math inline">\(\bar{Y}_{2} - \bar{Y}_1\)</span>?</p>
 </blockquote>
+<p><span class="math display">\[
+E[\bar{Y}_{2} - \bar{Y}_1] = (d+b_2)-(d+b_1) = b_2-b_1
+\]</span></p>
 </div>
 <div id="qn-14" class="section level3" number="0.1.15">
 <h3 number="16.1.15"><span class="header-section-number">16.1.15</span> Qn</h3>
 <blockquote>
 <p>15. Using what we learned by answering the questions above, what is the standard error of <span class="math inline">\(\bar{Y}_{2} - \bar{Y}_1\)</span>?</p>
 </blockquote>
+<p>Opposite to the expectation value the standard error does not obey the xxx law. The following auxiliary equation will be used.</p>
+<p><span class="math display">\[
+SE[\bar{Y}_{2} - \bar{Y}_1] = \sqrt{SE[\bar{Y}_2]+SE[\bar{Y}_1]} = \sqrt{\frac{\sigma_2^2}{\sqrt{N_2}}+\frac{\sigma_1^2}{\sqrt{N_1}}}
+\]</span></p>
 </div>
 <div id="qn-15" class="section level3" number="0.1.16">
 <h3 number="16.1.16"><span class="header-section-number">16.1.16</span> Qn</h3>
