@@ -566,6 +566,7 @@ SE[\bar{Y}_1] =  \sigma_2/\sqrt{N}_2
 <blockquote>
 <p>14. Using what we learned by answering the questions above, what is the expected value of <span class="math inline">\(\bar{Y}_{2} - \bar{Y}_1\)</span>?</p>
 </blockquote>
+<p>The property of linear transformation of the expectation value is used here <span class="math inline">\(E[\bar{Y}_{2} - \bar{Y}_1] = E[\bar{Y}_{2}] - E[\bar{Y}_1]\)</span>.</p>
 <p><span class="math display">\[
 E[\bar{Y}_{2} - \bar{Y}_1] = (d+b_2)-(d+b_1) = b_2-b_1
 \]</span></p>
@@ -575,9 +576,10 @@ E[\bar{Y}_{2} - \bar{Y}_1] = (d+b_2)-(d+b_1) = b_2-b_1
 <blockquote>
 <p>15. Using what we learned by answering the questions above, what is the standard error of <span class="math inline">\(\bar{Y}_{2} - \bar{Y}_1\)</span>?</p>
 </blockquote>
-<p>Opposite to the expectation value the standard error does not obey the xxx law. The following auxiliary equation will be used.</p>
+<p>Opposite to the expectation value the standard error does not obey linear transformations. The following auxiliary equation will be used, first <span class="math inline">\(\mbox{SD}[X] = +\sqrt{\mbox{Var}(X)}\)</span> and second <span class="math inline">\(\mbox{Var}(X-Y) = \mbox{Var}(X)+\mbox{Var}(Y)\)</span>. In addition, it is used that <span class="math inline">\(\mbox{SE}[X] = \mbox{SD}[X]/\sqrt{N}\)</span> the standard error can be approximated by the standard deviation.<br />
+Putting it all together, the previous formulas can be written as <span class="math inline">\(\mbox{Var}(X)=\sigma^2\)</span> for variance, <span class="math inline">\(\mbox{SD}[X]=\sigma\)</span> for standard deviation and <span class="math inline">\(\mbox{SE}[X]=\sigma/\sqrt{N}\)</span> for standard error.</p>
 <p><span class="math display">\[
-SE[\bar{Y}_{2} - \bar{Y}_1] = \sqrt{SE[\bar{Y}_2]+SE[\bar{Y}_1]} = \sqrt{\frac{\sigma_2^2}{\sqrt{N_2}}+\frac{\sigma_1^2}{\sqrt{N_1}}}
+SE[\bar{Y}_{2} - \bar{Y}_1] = \sqrt{SE[\bar{Y}_2]^2+SE[\bar{Y}_1]^2} = \sqrt{\frac{\sigma_2^2}{N_2}+\frac{\sigma_1^2}{N_1}}
 \]</span></p>
 </div>
 <div id="qn-15" class="section level3" number="0.1.16">

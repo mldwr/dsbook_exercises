@@ -309,6 +309,8 @@ $$
 ### Qn
 >14\. Using what we learned by answering the questions above, what is the expected value of $\bar{Y}_{2} - \bar{Y}_1$?
 
+The property of linear transformation of the expectation value is used here $E[\bar{Y}_{2} - \bar{Y}_1] = E[\bar{Y}_{2}] - E[\bar{Y}_1]$.
+
 $$
 E[\bar{Y}_{2} - \bar{Y}_1] = (d+b_2)-(d+b_1) = b_2-b_1
 $$
@@ -316,17 +318,15 @@ $$
 ### Qn
 >15\. Using what we learned by answering the questions above, what is the standard error of $\bar{Y}_{2} - \bar{Y}_1$?
 
-Opposite to the expectation value the standard error does not obey the xxx law. The following auxiliary equation will be used. First $\mbox{SD}[X] = +\sqrt{\mbox{Var}(X)}$ and second $\mbox{Var}(X-Y) = \mbox{Var}(X)+\mbox{Var}(Y)$.
+Opposite to the expectation value the standard error does not obey linear transformations. The following auxiliary equation will be used, first $\mbox{SD}[X] = +\sqrt{\mbox{Var}(X)}$ and second $\mbox{Var}(X-Y) = \mbox{Var}(X)+\mbox{Var}(Y)$. In addition, it is used that $\mbox{SE}[X] = \mbox{SD}[X]/\sqrt{N}$ the standard error can be approximated by the standard deviation.\
+Putting it all together, the previous formulas can be written as $\mbox{Var}(X)=\sigma^2$ for variance, $\mbox{SD}[X]=\sigma$ for standard deviation and $\mbox{SE}[X]=\sigma/\sqrt{N}$ for standard error.  
 
 $$
-SE[\bar{Y}_{2} - \bar{Y}_1] = \sqrt{SE[\bar{Y}_2]+SE[\bar{Y}_1]} = \sqrt{\frac{\sigma_2^2}{\sqrt{N_2}}+\frac{\sigma_1^2}{\sqrt{N_1}}}
+SE[\bar{Y}_{2} - \bar{Y}_1] = \sqrt{SE[\bar{Y}_2]^2+SE[\bar{Y}_1]^2} = \sqrt{\frac{\sigma_2^2}{N_2}+\frac{\sigma_1^2}{N_1}}
 $$
 
 ### Qn
 >16\. The answer to the question above depends on $\sigma_1$ and $\sigma_2$, which we don't know. We learned that we can estimate these with the sample standard deviation. Write code that computes these two estimates.
-
-
-
 
 ```{r, message=FALSE}
 data(polls_us_election_2016)
