@@ -100,28 +100,26 @@ df %>% ggplot(aes(p,se,color=N)) + geom_point()
 ### Qn
 >7\. If we are interested in the difference in proportions, $p - (1-p)$, our estimate is $d = \bar{X} - (1-\bar{X})$. Use the rules we learned about sums of random variables and scaled random variables to derive the expected value of $d$.
 
-Here, the lower case letter $d$ denotes the spread.
+Here, the lower case letter $d$ denotes the spread and is defined as $d = \bar{X} - (1-\bar{X})$. \ The following auxiliary equation from previous exercise is used $E[\bar{X}]=p$. \
+In addition the following holds true that the expectation value of a constant is the constant itself $E[a]=a$. \
+Finally the expectation value obeys linear transformation such as $E[aX]=aE[X]$.
+
 $$
-\mbox{E}(d) = \mbox{E}(\bar{X}) - (\mbox{E}(1)-\mbox{E}(\bar{X})) = p-(1-p) = 2p-1
+\mbox{E}[d] = \mbox{E}[\bar{X} - (1-\bar{X})] =  \mbox{E}[\bar{X} - (1-\bar{X})] = \mbox{E}[2\bar{X} - 1] = \mbox{E}[2\bar{X}] - E[1] = 2 \mbox{E}[\bar{X}] - E[1] = 2p-1
 $$
 
 ### Qn
 >8\. What is the standard error of $d$?
 
-First, a few auxiliary formulas should be recalled. The variance of a random variable is defined as the expected value of the squared deviation from the mean: $\mbox{Var}(X) = \sigma^2=\mbox{E}[(X-\mbox{E}[X])^2]=\mbox{E}[X^2]-\mbox{E}[X]^2$. \
-Second, the connection between standard deviation and variance is $\mbox{SD}(X) = +\sqrt{\mbox{Var}(X)} = \sigma$. \
-
-The result from $\mbox{SE}(\bar{X})$ follows directly from the previous definition in the answer of question 4. However, the standard error of a constant value, here $\mbox{SE}(1)=0$ always equals to be 0, because there cannot be any deviation from a sample size of one element (the mean of the constant itself). \
-
-In terms of equations the standard error $\mbox{SE}[X] = \mbox{SD}[X]/\sqrt{N}$ can be computed by utilizing the definition of the variance in terms of the expectation value as 
-
-$$
-\mbox{SE}(\bar{X}) = \mbox{SD}(\bar{X}) = \sqrt{\mbox{Var}(\bar{X})}=\sqrt{\mbox{E}(\bar{X^2})-\mbox{E}(\bar{X})^2}.
-$$ 
-For a constant value if follows $\mbox{SE}(1)^2=\mbox{E}(1^2)-\mbox{E}(1)^2 = 1-1=0$. 
+First, a few auxiliary formulas should be recalled. \
+Again, the spread is defined as $d = \bar{X} - (1-\bar{X})$. \
+Then, the standard error does obey linear transformation, which means that $\mbox{SE}[aX]=a\mbox{SE}[X]$. \
+Also, the standard error of a constant is zero $\mbox{SE}[a]=0$. \
+Recall from a previous exercise that $\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N}$ holds true. 
+ 
 
 $$
-\mbox{SE}(d) = \mbox{SE}(\bar{X}) - (\mbox{SE}(1)-\mbox{SE}(\bar{X})) = \sqrt{p(1-p)/N}-(0-\sqrt{p(1-p)/N}) = 2\sqrt{p(1-p)/N}
+\mbox{SE}[d] = \mbox{SE}[\bar{X} - (1-\bar{X})] = \mbox{SE}[2\bar{X} - 1] = \mbox{SE}[2\bar{X}] - \mbox{SE}[1] = 2\mbox{SE}[\bar{X}] - \mbox{SE}[1] =2\sqrt{p(1-p)/N}
 $$
 
 
