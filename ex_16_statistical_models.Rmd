@@ -318,10 +318,10 @@ $$
 ### Qn
 >15\. Using what we learned by answering the questions above, what is the standard error of $\bar{Y}_{2} - \bar{Y}_1$?
 
-Opposite to the expectation value the standard error does not obey linear transformations. The following auxiliary equation will be used, first $\mbox{SD}[X] = +\sqrt{\mbox{Var}(X)}$ and second $\mbox{Var}(X-Y) = \mbox{Var}(X)+\mbox{Var}(Y)$, which follows from the variance of the sum of independent random variables \ 
-It also holds true that $\mbox{Var}(\bar{X}) = \sqrt{\mbox{SE}[X]}= \sigma/\sqrt{N}$.
-In addition, it is used that $\mbox{SE}[X] = \mbox{SD}[X]/\sqrt{N}$ the standard error can be approximated by the standard deviation.\
-Putting it all together, the previous formulas can be written as $\mbox{Var}(X)=\sigma^2$ for variance, $\mbox{SD}[X]=\sigma$ for standard deviation and $\mbox{SE}[X]=\sigma/\sqrt{N}$ for standard error.  
+Opposite to the expectation value the standard error does not obey linear transformations. The following auxiliary equation will be used, first $\mbox{SD}[\bar{X}] = +\sqrt{\mbox{Var}(\bar{X})}$ and second $\mbox{Var}(\bar{X}-\bar{Y}) = \mbox{Var}(\bar{X})+\mbox{Var}(\bar{Y})$, which follows from the variance of the sum of independent random variables \ 
+It also holds true that $\mbox{Var}(\bar{X}) = \sqrt{\mbox{SE}[\bar{X}]}= \sigma/\sqrt{N}$.
+In addition, it is used that $\mbox{SE}[\bar{X}] = \mbox{SD}[\bar{X}]/\sqrt{N}$ the standard error can be approximated by the standard deviation.\
+Putting it all together, the previous formulas can be written as $\mbox{Var}(\bar{X})=\sigma^2$ for variance, $\mbox{SD}[\bar{X}]=\sigma$ for standard deviation and $\mbox{SE}[\bar{X}]=\sigma/\sqrt{N}$ for standard error.  
 
 $$
 SE[\bar{Y}_{2} - \bar{Y}_1] = \sqrt{SE[\bar{Y}_2]^2+SE[\bar{Y}_1]^2} = \sqrt{\frac{\sigma_2^2}{N_2}+\frac{\sigma_1^2}{N_1}}
@@ -330,17 +330,11 @@ $$
 ### Qn
 >16\. The answer to the question above depends on $\sigma_1$ and $\sigma_2$, which we don't know. We learned that we can estimate these with the sample standard deviation. Write code that computes these two estimates.
 
-```{r, message=FALSE}
+```{r, message=FALSE, rows.print = 25}
 data(polls_us_election_2016)
-polls <- polls_us_election_2016 %>% filter(enddate >= "2016-10-15" & state == "U.S.") %>% mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) %>% filter(pollster=="Rasmussen Reports/Pulse Opinion Research")
-real<-48.2
-b1<-polls$rawpoll_clinton %>% mean()-real
-d<-polls$spread %>% mean()
-d
-b1
-d+b1
-s<-polls$spread %>% sd()/16
-s
+polls <- polls_us_election_2016 %>% filter(enddate >= "2016-10-15" & state == "U.S.") %>% mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100)  %>% select(pollster, samplesize,spread)
+sigma <-polls %>% group_by(pollster) %>% summarise(sdev=round(sd(spread),4),n=n()) %>% drop_na()
+sigma %>% mutate(se=round(sdev/n,4)) %>% select(pollster,sdev,n,se) %>% arrange(sdev)
 ```
 
 ### Qn
