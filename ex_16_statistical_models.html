@@ -576,7 +576,7 @@ E[\bar{Y}_{2} - \bar{Y}_1] = (d+b_2)-(d+b_1) = b_2-b_1
 <blockquote>
 <p>15. Using what we learned by answering the questions above, what is the standard error of <span class="math inline">\(\bar{Y}_{2} - \bar{Y}_1\)</span>?</p>
 </blockquote>
-<p>Opposite to the expectation value the standard error does not obey linear transformations. The following auxiliary equation will be used, first <span class="math inline">\(\mbox{SD}[X] = +\sqrt{\mbox{Var}(X)}\)</span> and second <span class="math inline">\(\mbox{Var}(\bar{X}-\bar{Y}) = \mbox{Var}(\bar{X})+\mbox{Var}(\bar{Y})\)</span>, which follows from the variance of the sum of independent random variables   It also holds true that <span class="math inline">\(\mbox{Var}(\bar{X}) = \sqrt{\mbox{SE}[\bar{X}]}= \sigma/\sqrt{N}\)</span>. In addition, it is used that <span class="math inline">\(\mbox{SE}[\bar{X}] = \mbox{SD}[\bar{X}]/\sqrt{N}\)</span> the standard error can be approximated by the standard deviation.<br />
+<p>Opposite to the expectation value the standard error does not obey linear transformations. The following auxiliary equation will be used, first <span class="math inline">\(\mbox{SD}[\bar{X}] = +\sqrt{\mbox{Var}(\bar{X})}\)</span> and second <span class="math inline">\(\mbox{Var}(\bar{X}-\bar{Y}) = \mbox{Var}(\bar{X})+\mbox{Var}(\bar{Y})\)</span>, which follows from the variance of the sum of independent random variables   It also holds true that <span class="math inline">\(\mbox{Var}(\bar{X}) = \sqrt{\mbox{SE}[\bar{X}]}= \sigma/\sqrt{N}\)</span>. In addition, it is used that <span class="math inline">\(\mbox{SE}[\bar{X}] = \mbox{SD}[\bar{X}]/\sqrt{N}\)</span> the standard error can be approximated by the standard deviation.<br />
 Putting it all together, the previous formulas can be written as <span class="math inline">\(\mbox{Var}(\bar{X})=\sigma^2\)</span> for variance, <span class="math inline">\(\mbox{SD}[\bar{X}]=\sigma\)</span> for standard deviation and <span class="math inline">\(\mbox{SE}[\bar{X}]=\sigma/\sqrt{N}\)</span> for standard error.</p>
 <p><span class="math display">\[
 SE[\bar{Y}_{2} - \bar{Y}_1] = \sqrt{SE[\bar{Y}_2]^2+SE[\bar{Y}_1]^2} = \sqrt{\frac{\sigma_2^2}{N_2}+\frac{\sigma_1^2}{N_1}}
@@ -588,19 +588,14 @@ SE[\bar{Y}_{2} - \bar{Y}_1] = \sqrt{SE[\bar{Y}_2]^2+SE[\bar{Y}_1]^2} = \sqrt{\fr
 <p>16. The answer to the question above depends on <span class="math inline">\(\sigma_1\)</span> and <span class="math inline">\(\sigma_2\)</span>, which we don’t know. We learned that we can estimate these with the sample standard deviation. Write code that computes these two estimates.</p>
 </blockquote>
 <pre class="r"><code>data(polls_us_election_2016)
-polls &lt;- polls_us_election_2016 %&gt;% filter(enddate &gt;= &quot;2016-10-15&quot; &amp; state == &quot;U.S.&quot;) %&gt;% mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) %&gt;% filter(pollster==&quot;Rasmussen Reports/Pulse Opinion Research&quot;)
-real&lt;-48.2
-b1&lt;-polls$rawpoll_clinton %&gt;% mean()-real
-d&lt;-polls$spread %&gt;% mean()
-d</code></pre>
-<pre><code>## [1] 0.000625</code></pre>
-<pre class="r"><code>b1</code></pre>
-<pre><code>## [1] -5.075</code></pre>
-<pre class="r"><code>d+b1</code></pre>
-<pre><code>## [1] -5.074375</code></pre>
-<pre class="r"><code>s&lt;-polls$spread %&gt;% sd()/16
-s</code></pre>
-<pre><code>## [1] 0.001105591</code></pre>
+polls &lt;- polls_us_election_2016 %&gt;% filter(enddate &gt;= &quot;2016-10-15&quot; &amp; state == &quot;U.S.&quot;) %&gt;% mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100)  %&gt;% select(pollster, samplesize,spread)
+sigma &lt;-polls %&gt;% group_by(pollster) %&gt;% summarise(sdev=round(sd(spread),4),n=n()) %&gt;% drop_na()
+sigma %&gt;% mutate(se=round(sdev/n,4)) %&gt;% select(pollster,sdev,n,se) %&gt;% arrange(sdev)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["pollster"],"name":[1],"type":["fct"],"align":["left"]},{"label":["sdev"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["se"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"SurveyMonkey","2":"0.0050","3":"4","4":"0.0013"},{"1":"YouGov","2":"0.0071","3":"5","4":"0.0014"},{"1":"Morning Consult","2":"0.0146","3":"7","4":"0.0021"},{"1":"Gravis Marketing","2":"0.0152","3":"5","4":"0.0030"},{"1":"IBD/TIPP","2":"0.0168","3":"21","4":"0.0008"},{"1":"Rasmussen Reports/Pulse Opinion Research","2":"0.0177","3":"16","4":"0.0011"},{"1":"CVOTER International","2":"0.0180","3":"22","4":"0.0008"},{"1":"Google Consumer Surveys","2":"0.0185","3":"5","4":"0.0037"},{"1":"Fox News/Anderson Robbins Research/Shaw & Company Research","2":"0.0189","3":"4","4":"0.0047"},{"1":"Ipsos","2":"0.0195","3":"22","4":"0.0009"},{"1":"USC Dornsife/LA Times","2":"0.0207","3":"24","4":"0.0009"},{"1":"The Times-Picayune/Lucid","2":"0.0268","3":"24","4":"0.0011"},{"1":"CBS News/New York Times","2":"0.0321","3":"3","4":"0.0107"},{"1":"ABC News/Washington Post","2":"0.0339","3":"15","4":"0.0023"},{"1":"NBC News/Wall Street Journal","2":"0.0354","3":"2","4":"0.0177"},{"1":"Monmouth University","2":"0.0424","3":"2","4":"0.0212"},{"1":"Selzer & Company","2":"0.0424","3":"2","4":"0.0212"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[25],"max":[25]},"pages":{}}}
+  </script>
+</div>
 </div>
 <div id="qn-16" class="section level3" number="0.1.17">
 <h3 number="16.1.17"><span class="header-section-number">16.1.17</span> Qn</h3>
