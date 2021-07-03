@@ -216,7 +216,6 @@ polls %>% ggplot(aes(pollster, spread)) +
   coord_flip() +
   geom_boxplot() +
   scale_y_continuous(breaks = c(-0.06,-0.04,-0.02,0,0.02,0.04,0.06,0.08,0.10,0.12))
-polls %>% arrange(spread)
 polls_mx$se[2]-polls_mx$se[1]
 ```
 
@@ -273,6 +272,22 @@ $$
 >
 >What is the expected values $\bar{Y}_1$?
 
+```{r}
+data(polls_us_election_2016)
+polls <- polls_us_election_2016 %>% 
+  filter(pollster %in% c("Rasmussen Reports/Pulse Opinion Research",
+                         "The Times-Picayune/Lucid") &
+           enddate >= "2016-10-15" &
+           state == "U.S.") %>% 
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) 
+polls %>% 
+  filter(pollster=="Rasmussen Reports/Pulse Opinion Research") %>% 
+  summarize(N_1 = n())
+polls %>% 
+  filter(pollster=="Rasmussen Reports/Pulse Opinion Research") %>% 
+  summarize(Y_1 = mean(spread))
+```
+
 From the previous question it follows that:
 
 $$
@@ -290,6 +305,22 @@ $$
 
 ### Qn
 >12\. Suppose we define $\bar{Y}_2$ as the average of poll results from the first poll, $Y_{2,1},\dots,Y_{2,N_2}$ with $N_2$ the number of polls conducted by the first pollster. What is the expected value $\bar{Y}_2$?
+
+```{r}
+data(polls_us_election_2016)
+polls <- polls_us_election_2016 %>% 
+  filter(pollster %in% c("Rasmussen Reports/Pulse Opinion Research",
+                         "The Times-Picayune/Lucid") &
+           enddate >= "2016-10-15" &
+           state == "U.S.") %>% 
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) 
+polls %>% 
+  filter(pollster=="The Times-Picayune/Lucid") %>% 
+  summarize(N_1 = n())
+polls %>% 
+  filter(pollster=="The Times-Picayune/Lucid") %>% 
+  summarize(Y_1 = mean(spread))
+```
 
 Equivalent to question 10.
 
@@ -332,9 +363,13 @@ $$
 
 ```{r, message=FALSE, rows.print = 25}
 data(polls_us_election_2016)
-polls <- polls_us_election_2016 %>% filter(enddate >= "2016-10-15" & state == "U.S.") %>% mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100)  %>% select(pollster, samplesize,spread)
-sigma <-polls %>% group_by(pollster) %>% summarise(sdev=round(sd(spread),4),n=n()) %>% drop_na()
-sigma %>% mutate(se=round(sdev/n,4)) %>% select(pollster,sdev,n,se) %>% arrange(sdev)
+polls <- polls_us_election_2016 %>% 
+  filter(pollster %in% c("Rasmussen Reports/Pulse Opinion Research","The Times-Picayune/Lucid") &
+           enddate >= "2016-10-15" &
+           state == "U.S.") %>% 
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) 
+polls <- polls %>%  select(pollster, samplesize,spread)
+polls %>% group_by(pollster) %>% summarise(sigma=sd(spread))
 ```
 
 ### Qn
@@ -345,10 +380,58 @@ sigma %>% mutate(se=round(sdev/n,4)) %>% select(pollster,sdev,n,se) %>% arrange(
 >c. Note that $\bar{Y}_2$ and $\bar{Y}_1$ are sample averages, so if we assume $N_2$ and $N_1$ are large enough, each is approximately normal. The difference of normals is also normal.
 >d. The data are not 0 or 1, so CLT does not apply.
 
-Answer c, 
+Answer c. \
+For the first assumption, that the averages are normally distributed if the sample $N_m$ is large enough the following holds true: chapter 15.4 "Central Limit Theorem in practice": *The CLT tells us that the distribution function for a sum of draws is approximately normal. We also learned that dividing a normally distributed random variable by a constant is also a normally distributed variable. This implies that the distribution of $\bar{X}$ is approximately normal.*" \
+From this it can be surely followed that the CLT obeys linear transformation rules. 
+Therefore, the second statement for the difference can be assumed to be true as well. 
 
 ### Qn
 >18\. We have constructed a random variable that has expected value $b_2 - b_1$, the pollster bias difference. If our model holds, then this random variable has an approximately normal distribution and we know its standard error. The standard error depends on $\sigma_1$ and $\sigma_2$, but we can plug the sample standard deviations we computed above. We started off by asking: is $b_2 - b_1$ different from 0? Use all the information we have learned above to construct a 95% confidence interval for the difference $b_2$ and $b_1$.
+
+Recall the necessary equations: the expectation value $E[\bar{Y}_{2} - \bar{Y}_1] = b_2-b_1$ and the standard error $SE[\bar{Y}_{2} - \bar{Y}_1] = \sqrt{\frac{\sigma_2^2}{N_2}+\frac{\sigma_1^2}{N_1}}$. \
+The question "*[...] is $b_2-b_1$ different from 0? [...]*" refers to exercise 8, where it is asked if $b_2 \neq b_1$ for the urn model to hold true.
+
+```{r, message=FALSE}
+library(tidyverse)
+library(dslabs)
+data(heights)
+
+set.seed(1)
+
+x <- heights %>% filter(sex == "Male") %>% pull(height)
+mu<-mean(x)
+
+N<-50
+x_N<-sample(x,size=N,replace=TRUE)
+mu_N<-mean(x_N)
+se_N<-sd(x_N)/sqrt(N)
+
+lower_N<-mu_N-1.96*se_N
+upper_N<-mu_N+1.96*se_N
+
+data.frame(names=c("mu","mu_N","se_N","lower_N","upper_N"),values=c(mu,mu_N,se_N,lower_N,upper_N))
+```
+
+```{r, message=FALSE}
+data(polls_us_election_2016)
+polls <- polls_us_election_2016 %>% 
+  filter(pollster %in% c("Rasmussen Reports/Pulse Opinion Research","The Times-Picayune/Lucid") &
+           enddate >= "2016-10-15" &
+           state == "U.S.") %>% 
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) 
+polls %>% ggplot(aes(pollster, spread)) + 
+  geom_point() +
+  coord_flip() +
+  geom_boxplot() +
+  scale_y_continuous(breaks = c(-0.02,0,0.02,0.04,0.06,0.08,0.10,0.12))
+d_hat <- polls %>% 
+  summarize(d_hat = sum(spread * samplesize) / sum(samplesize)) %>% 
+  pull(d_hat)
+p_hat <- (d_hat+1)/2
+polls_sum<-polls %>% group_by(pollster) %>% summarize(se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize)))
+polls_sum
+polls_sum$se[1]-polls_sum$se[2]
+```
 
 ### Qn
 >19\. The confidence interval tells us there is relatively strong pollster effect resulting in a difference of about 5%. Random variability does not seem to explain it. We can compute a p-value to relay the fact that chance does not explain it. What is the p-value?
