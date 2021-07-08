@@ -508,13 +508,49 @@ EY2Y1<-meanY2-meanY1
 ci1<-EY2Y1-1.96*SE
 ci2<-EY2Y1+1.96*SE
 
-data.frame(values=c("ci1","ci2","EY2Y1","SE"), values=c(ci1,ci2,EY2Y1,SE))
+data.frame(names=c("ci2-ci1","ci1","ci2","EY2Y1","SE"), values=c(ci2-ci1,ci1,ci2,EY2Y1,SE))
 ```
 
 ### Qn
 >19\. The confidence interval tells us there is relatively strong pollster effect resulting in a difference of about 5%. Random variability does not seem to explain it. We can compute a p-value to relay the fact that chance does not explain it. What is the p-value?
 
 
+
+```{r}
+data(polls_us_election_2016)
+polls <- polls_us_election_2016 %>% 
+  filter(pollster %in% c("Rasmussen Reports/Pulse Opinion Research",
+                         "The Times-Picayune/Lucid") &
+           enddate >= "2016-10-15" &
+           state == "U.S.") %>% 
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) 
+meanY1<-polls %>% 
+  filter(pollster=="Rasmussen Reports/Pulse Opinion Research") %>% 
+  summarize(Y_1 = mean(spread)) %>% pull()
+meanY2<-polls %>% 
+  filter(pollster=="The Times-Picayune/Lucid") %>% 
+  summarize(Y_2 = mean(spread))%>% pull()
+nY1<-polls %>% 
+  filter(pollster=="Rasmussen Reports/Pulse Opinion Research") %>% 
+  summarize(N_1 = n()) %>% pull()
+sigmaY1<-polls %>% 
+  filter(pollster=="Rasmussen Reports/Pulse Opinion Research") %>% 
+  summarize(Y_1 = sd(spread)) %>% pull() 
+nY2<-polls %>% 
+  filter(pollster=="The Times-Picayune/Lucid") %>% 
+  summarize(N_1 = n()) %>% pull()
+sigmaY2<-polls %>% 
+  filter(pollster=="The Times-Picayune/Lucid") %>% 
+  summarize(Y_1 = sd(spread)) %>% pull()
+SE<-sqrt(sigmaY1^2/nY1+sigmaY2^2/nY2)
+EY2Y1<-meanY2-meanY1
+ci1<-EY2Y1-1.96*SE
+ci2<-EY2Y1+1.96*SE
+
+ratio<-EY2Y1/SE
+p<-round(2*(1-pnorm(ratio)),8)
+data.frame(names=c("p","ratio","ci1","ci2","EY2Y1","SE"), values=c(p,ratio,ci1,ci2,EY2Y1,SE))
+```
 ### Qn
 >20\. The statistic formed by dividing our estimate of $b_2-b_1$ by its estimated standard error:
 >
@@ -538,7 +574,16 @@ data.frame(values=c("ci1","ci2","EY2Y1","SE"), values=c(ci1,ci2,EY2Y1,SE))
 >
 >Compute the average and standard deviation for each pollster and examine the variability across the averages and how it compares to the variability within the pollsters, summarized by the standard deviation.
 
-
+```{r}
+polls <- polls_us_election_2016 %>% 
+  filter(enddate >= "2016-10-15" &
+           state == "U.S.") %>%
+  group_by(pollster) %>%
+  filter(n() >= 5) %>% 
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) %>%
+  ungroup()
+polls
+```
 
 ## Exercises: Bayes
 
