@@ -157,7 +157,7 @@ head(df)
 mean(df$hit)
 ```
 
-### Qn
+### Qn (polls election 2016)
 >7\. In this section, we talked about pollster bias. We used visualization to motivate the presence of such bias. Here we will give it a more rigorous treatment. We will consider two pollsters that conducted daily polls. We will look at national polls for the month before the election. 
 >
 >```{r, eval=FALSE}
@@ -182,15 +182,15 @@ polls <- polls_us_election_2016 %>%
 polls %>% ggplot(aes(pollster, spread)) + 
   geom_point() +
   coord_flip() +
-  geom_boxplot() +
+  #geom_boxplot() +
   scale_y_continuous(breaks = c(-0.02,0,0.02,0.04,0.06,0.08,0.10,0.12))
 d_hat <- polls %>% 
   summarize(d_hat = sum(spread * samplesize) / sum(samplesize)) %>% 
   pull(d_hat)
 p_hat <- (d_hat+1)/2
-polls_sum<-polls %>% group_by(pollster) %>% summarize(se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize)))
+polls_sum<-polls %>% group_by(pollster) %>% summarize(p_hat, ev=mean(spread), se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize)))
+polls_sum<- polls_sum %>% mutate(diff_se=se[1]-se[2], diff_ev=ev[2]-ev[1])
 polls_sum
-polls_sum$se[1]-polls_sum$se[2]
 ```
 Is the found bias large or not?
 
@@ -203,20 +203,20 @@ polls<-polls_us_election_2016 %>%
 polls %>% ggplot(aes(pollster, spread)) + 
   geom_point() +
   coord_flip() +
-  geom_boxplot() +
+  #geom_boxplot() +
   scale_y_continuous(breaks = c(-0.02,0,0.02,0.04,0.06,0.08,0.10,0.12))
 polls_sum<-polls %>% group_by(pollster) %>% 
   filter(n() >= 6) %>%
-  summarize(se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize))) %>% arrange(se)
+  summarize(ev=mean(spread), se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize))) %>% arrange(se)
 polls_mx<-union(polls_sum %>% head(1),polls_sum %>% tail(1))
+polls_mx<- polls_mx %>% mutate(diff_se=se[2]-se[1], diff_ev=ev[2]-ev[1])
 polls_mx
 polls<-polls %>% filter(pollster %in% polls_mx$pollster)
 polls %>% ggplot(aes(pollster, spread)) + 
   geom_point() +
   coord_flip() +
-  geom_boxplot() +
+  #geom_boxplot() +
   scale_y_continuous(breaks = c(-0.06,-0.04,-0.02,0,0.02,0.04,0.06,0.08,0.10,0.12))
-polls_mx$se[2]-polls_mx$se[1]
 ```
 
 ### Qn
@@ -472,9 +472,16 @@ Therefore, the second statement for the difference can be assumed to be true as 
 ### Qn
 >18\. We have constructed a random variable that has expected value $b_2 - b_1$, the pollster bias difference. If our model holds, then this random variable has an approximately normal distribution and we know its standard error. The standard error depends on $\sigma_1$ and $\sigma_2$, but we can plug the sample standard deviations we computed above. We started off by asking: is $b_2 - b_1$ different from 0? Use all the information we have learned above to construct a 95% confidence interval for the difference $b_2$ and $b_1$.
 
-Recall the necessary equations: the expectation value $E[\bar{Y}_{2} - \bar{Y}_1] = b_2-b_1$ from question 14 and the standard error $SE[\bar{Y}_{2} - \bar{Y}_1] = \sqrt{\frac{\sigma_2^2}{N_2}+\frac{\sigma_1^2}{N_1}}$ from question 15. \
+Recall the necessary equations: the expectation value for the difference of the pollster bias $E[\bar{Y}_{2} - \bar{Y}_1] = b_2-b_1$ from question 14 and the corresponding standard error $SE[\bar{Y}_{2} - \bar{Y}_1] = \sqrt{\frac{\sigma_2^2}{N_2}+\frac{\sigma_1^2}{N_1}}$ from question 15. \
 Furthermore, the equation for confidence interval is $Pr(E[\bar{Y}_{2} - \bar{Y}_1]-1,96*SE[\bar{Y}_{2} - \bar{Y}_1] \leq p \leq E[\bar{Y}_{2} - \bar{Y}_1]+1,96*SE[\bar{Y}_{2} - \bar{Y}_1]) = 0,95$
 The question "*[...] is $b_2-b_1$ different from 0? [...]*" refers to exercise 8, where it is asked if $b_2 \neq b_1$ for the urn model to hold true.
+
+
+In chapter 16.1.2 "*Pollster bias*" it is stated that: \
+"*The theory we learned says nothing about different pollsters producing polls with different expected values. All the polls should have the same expected value.*" \
+Therefore, the value from the difference of the expected values $E[\bar{Y_2}-\bar{Y_1}] = b_2-b_1=0.05 = 5$% is the amount of the pollster effect considering the two pollsters in this example. \
+
+The confidence interval has a narrow mean of error of 2.8% ($=ci_2-ci_1$) and with a range of 4% to 6% certainty. This means that with a certainty of 95% the p-value for the probability that the pollster bias is just by chance about 4%-6%, therefore, very low chances that this effect is caused just randomly.
 
 
 ```{r}
@@ -515,7 +522,6 @@ data.frame(names=c("ci2-ci1","ci1","ci2","EY2Y1","SE"), values=c(ci2-ci1,ci1,ci2
 >19\. The confidence interval tells us there is relatively strong pollster effect resulting in a difference of about 5%. Random variability does not seem to explain it. We can compute a p-value to relay the fact that chance does not explain it. What is the p-value?
 
 
-
 ```{r}
 data(polls_us_election_2016)
 polls <- polls_us_election_2016 %>% 
@@ -547,9 +553,15 @@ EY2Y1<-meanY2-meanY1
 ci1<-EY2Y1-1.96*SE
 ci2<-EY2Y1+1.96*SE
 
-ratio<-EY2Y1/SE
-p<-round(2*(1-pnorm(ratio)),8)
-data.frame(names=c("p","ratio","ci1","ci2","EY2Y1","SE"), values=c(p,ratio,ci1,ci2,EY2Y1,SE))
+
+ratio<- EY2Y1/SE
+p_val<-round(2*(1-pnorm(ratio)),8)
+data.frame(names=c("p_val","ratio","ci1","ci2","EY1","EY2","EY2Y1","SE"), values=c(p_val,ratio,ci1,ci2,meanY1,meanY2,EY2Y1,SE))
+ci2-ci1 #0.02756322
+0.006563217/5*100
+
+48.2/100-46.1/100 # reference spread of 0.021
+0.021-0.027563217
 ```
 ### Qn
 >20\. The statistic formed by dividing our estimate of $b_2-b_1$ by its estimated standard error:
