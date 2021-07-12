@@ -481,7 +481,7 @@ In chapter 16.1.2 "*Pollster bias*" it is stated that: \
 "*The theory we learned says nothing about different pollsters producing polls with different expected values. All the polls should have the same expected value.*" \
 Therefore, the value from the difference of the expected values $E[\bar{Y_2}-\bar{Y_1}] = b_2-b_1=0.05 = 5$% is the amount of the pollster effect considering the two pollsters in this example. \
 
-The confidence interval has a narrow mean of error of 2.8% ($=ci_2-ci_1$) and with a range of 4% to 6% certainty. This means that with a certainty of 95% the p-value for the probability that the pollster bias is just by chance about 4%-6%, therefore, very low chances that this effect is caused just randomly.
+The confidence interval has a narrow mean of error of 2.8% ($=\mbox{ci}_2-\mbox{ci}_1$) and with a range of 4% to 6% certainty. This means that with a certainty of 95% the p-value for the probability that the pollster bias is just by chance about 4%-6%, therefore, very low chances that this effect is caused just randomly.
 
 
 ```{r}
@@ -521,6 +521,8 @@ data.frame(names=c("ci2-ci1","ci1","ci2","EY2Y1","SE"), values=c(ci2-ci1,ci1,ci2
 ### Qn
 >19\. The confidence interval tells us there is relatively strong pollster effect resulting in a difference of about 5%. Random variability does not seem to explain it. We can compute a p-value to relay the fact that chance does not explain it. What is the p-value?
 
+First recall how many ways were presented in the book to compute a p-value. \
+By using the spread $d=2p-1$, then there is the odds ratio and the t-statistics. 
 
 ```{r}
 data(polls_us_election_2016)

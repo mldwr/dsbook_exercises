@@ -53,7 +53,7 @@ $$
 ### Qn
 >4\. What is the standard error of $\bar{X}$? Hint: it's a function of $p$.
 
-The standard error as a function of $\bar{X}$ is also provided in the book in chapter 15.2.4 "Properties of our estimate: expected value and standard error".
+The standard error as a function of $\bar{X}$ is also provided in the book in chapter 15.2.4 "*Properties of our estimate: expected value and standard error*".
 $$
 \mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N}
 $$
@@ -100,7 +100,7 @@ df %>% ggplot(aes(p,se,color=N)) + geom_point()
 ### Qn
 >7\. If we are interested in the difference in proportions, $p - (1-p)$, our estimate is $d = \bar{X} - (1-\bar{X})$. Use the rules we learned about sums of random variables and scaled random variables to derive the expected value of $d$.
 
-Here, the lower case letter $d$ denotes the spread and is defined as $d = \bar{X} - (1-\bar{X})$. \ The following auxiliary equation from previous exercise is used $E[\bar{X}]=p$. \
+Here, the lower case letter $d$ denotes the spread and is defined as $d = \bar{X} - (1-\bar{X}) = 2\bar{X}-1$. \ The following auxiliary equation from previous exercise is used $E[\bar{X}]=p$. \
 In addition the following holds true that the expectation value of a constant is the constant itself $E[a]=a$. \
 Finally the expectation value obeys linear transformation such as $E[aX]=aE[X]$.
 
@@ -112,7 +112,7 @@ $$
 >8\. What is the standard error of $d$?
 
 First, a few auxiliary formulas should be recalled. \
-Again, the spread is defined as $d = \bar{X} - (1-\bar{X})$. \
+Again, the spread is defined as $d = 2\bar{X}-1$. \
 Then, the standard error does obey linear transformation, which means that $\mbox{SE}[aX]=a\mbox{SE}[X]$. \
 Also, the standard error of a constant is zero $\mbox{SE}[a]=0$. \
 Recall from a previous exercise that $\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N}$ holds true. 
@@ -126,7 +126,7 @@ $$
 ### Qn
 >9\. If the actual $p=.45$, it means the Republicans are winning by a relatively large margin since $d= -.1$, which is a 10% margin of victory. In this case, what is the standard error of $2\hat{X}-1$ if we take a sample of $N=25$? 
 
-The expectation value of the spread $d$ is 10%, where the standard error is about 20%. Therefore, the estimated error is double in size than the actual measurement. 
+The expectation value of the spread $d$ is 10% (E[d]=0.1), where the standard error is about 20% (SE[d]=0.199). Therefore, the estimated error is double in size than the actual measurement. 
 
 ```{r,message=FALSE}
 N<-25

@@ -746,7 +746,7 @@ Furthermore, the equation for confidence interval is <span class="math inline">\
 “<em>The theory we learned says nothing about different pollsters producing polls with different expected values. All the polls should have the same expected value.</em>”<br />
 Therefore, the value from the difference of the expected values <span class="math inline">\(E[\bar{Y_2}-\bar{Y_1}] = b_2-b_1=0.05 = 5\)</span>% is the amount of the pollster effect considering the two pollsters in this example.<br />
 </p>
-<p>The confidence interval has a narrow mean of error of 2.8% (<span class="math inline">\(=ci_2-ci_1\)</span>) and with a range of 4% to 6% certainty. This means that with a certainty of 95% the p-value for the probability that the pollster bias is just by chance about 4%-6%, therefore, very low chances that this effect is caused just randomly.</p>
+<p>The confidence interval has a narrow mean of error of 2.8% (<span class="math inline">\(=\mbox{ci}_2-\mbox{ci}_1\)</span>) and with a range of 4% to 6% certainty. This means that with a certainty of 95% the p-value for the probability that the pollster bias is just by chance about 4%-6%, therefore, very low chances that this effect is caused just randomly.</p>
 <pre class="r"><code>data(polls_us_election_2016)
 polls &lt;- polls_us_election_2016 %&gt;% 
   filter(pollster %in% c(&quot;Rasmussen Reports/Pulse Opinion Research&quot;,
@@ -789,6 +789,8 @@ data.frame(names=c(&quot;ci2-ci1&quot;,&quot;ci1&quot;,&quot;ci2&quot;,&quot;EY2
 <blockquote>
 <p>19. The confidence interval tells us there is relatively strong pollster effect resulting in a difference of about 5%. Random variability does not seem to explain it. We can compute a p-value to relay the fact that chance does not explain it. What is the p-value?</p>
 </blockquote>
+<p>First recall how many ways were presented in the book to compute a p-value.<br />
+By using the spread <span class="math inline">\(d=2p-1\)</span>, then there is the odds ratio and the t-statistics.</p>
 <pre class="r"><code>data(polls_us_election_2016)
 polls &lt;- polls_us_election_2016 %&gt;% 
   filter(pollster %in% c(&quot;Rasmussen Reports/Pulse Opinion Research&quot;,
