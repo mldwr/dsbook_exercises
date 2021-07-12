@@ -155,28 +155,36 @@ This is the direct consequence of the answer from the last question. The standar
 
 >1\. Write an _urn model_ function that takes the proportion of Democrats $p$ and the sample size $N$ as arguments and returns the sample average if Democrats are 1s and Republicans are 0s. Call the function `take_sample`. 
 
+The used function is `sample()`, which is already utilized multiple times in past questions.
+For demonstration purposes the parameters used here are $N=100$ for the population size and $p=0.45$ for the probability, as suggested in the next question. In order to gain the same value for all runs the function `set.seed(1)` is implemented. The expectation value results in 0.46.
+
 ```{r}
 N<-100
 p<-0.45
 
-take_sample <- function(N,p) {
+set.seed(1)
+
+take_sample <- function(p,N) {
   x <- sample(c(0,1), size = N, replace = TRUE, prob = c(1-p, p))
   mean(x)
 }
-take_sample(N,p)
+take_sample(p,N)
 ```
 
 ### Qn
 >2\. Now assume `p <- 0.45` and that your sample size is $N=100$. Take a sample 10,000 times and save the vector of `mean(X) - p` into an object called `errors`. Hint: use the function you wrote for exercise 1 to write this in one line of code.
+
+The question is asking to construct a Monte Carlo simulation. The function `replicate()` is used for this purpose. The plot resembles nicely a normal like distribution of the random variables. 
 
 ```{r}
 N<-100
 p<-0.45
 B<-10000
 
+set.seed(1)
 errors <- replicate(B, {
-  X <- take_sample(N,p)
-  p-mean(X)
+  X <- take_sample(p,N)
+  mean(X)-p
 })
 qplot(errors,bins=10)
 ```
@@ -195,6 +203,7 @@ qplot(errors,bins=10)
 >d. The errors range from -1 to 1.
 
 Answer c, the errors are symmetrically distributed around 0. \
+This can be seed by computing the average and plotting a histogram. 
 
 ```{r}
 mean(errors)
@@ -204,16 +213,20 @@ hist(errors)
 ### Qn
 >4\. The error $\bar{X}-p$ is a random variable. In practice, the error is not observed because we do not know $p$. Here we observe it because we constructed the simulation.  What is the average size of the error if we define the size by taking the absolute value $\mid \bar{X} - p \mid$ ?
 
+The average size of the error $\mid \bar{X} - p \mid$ is 0.04. What happens here can be illustrated by a histogram plot. It shows that the values no longer accumulate around zero, but are moved to the positive values and are amplified by its previously negative counterparts. 
+
 ```{r}
 N<-100
 p<-0.45
 B<-10000
 
+set.seed(1)
 errors <- replicate(B, {
-  X <- take_sample(N,p)
+  X <- take_sample(p,N)
   p-mean(X)
 })
 mean(abs(errors))
+hist(abs(errors))
 ```
 
 
@@ -227,7 +240,7 @@ B<-10000
 set.seed(1)
 
 errors <- replicate(B, {
-  X <- take_sample(N,p)
+  X <- take_sample(p,N)
   p-mean(X)
 })
 sqrt(mean(errors^2))
@@ -255,7 +268,7 @@ N<-100
 p<-0.45
 set.seed(1)
 
-X <- take_sample(N,p)
+X <- take_sample(p,N)
 se <- sqrt(X*(1-X)/N)
 se
 ```
@@ -337,7 +350,7 @@ p<-0.45
 B<-10000
 
 errors <- replicate(B, {
-  X <- take_sample(N,p)
+  X <- take_sample(p,N)
   p-mean(X)
 })
 df<-data.frame(sz=seq(1,B),errors)
@@ -349,8 +362,8 @@ ggplot(df,aes(sample=scale(errors))) + geom_qq() + geom_abline(color="blue")
 >12\. If $p=0.45$ and $N=100$ as in exercise 2, use the CLT to estimate the probability that $\bar{X}>0.5$. You can assume you know $p=0.45$ for this calculation.
 
 In other words the question is asking: \
-What is the probability that $\bar{X}>0.5$: $Pr(\bar{X}>0.5)$? \
-According to the definition (in ch. 13.10 "Continuous probability") of the probability distribution $Pr(\bar{X}>0.5)$ can be written as $Pr(\bar{X}>0.5)=1-Pr(\bar{X}\leq 0.5)$. 
+What is the probability that $\bar{X}>0.5$ in mathematical terms $Pr(\bar{X}>0.5)=p$? \
+According to the definition (in ch. 13.10 "*Continuous probability*") of the probability distribution $Pr(\bar{X}>0.5)$ can be written as $Pr(\bar{X}>0.5)=1-Pr(\bar{X}\leq 0.5)$. 
 Assuming the mean equals to $p$ ($m = p$), the standard deviation to the standard error ($\mbox{sd}=\mbox{se}$)  and the measured quantity to $\bar{X}$ ($x=\bar{X}$). One can utilize the `pnorm(x,m,sd)` function to compute the probability as $\mbox{pnorm}(\bar{X},p,\mbox{se})$. \
 The calculation results in a probability of 16% that $\bar{X}$ is $\bar{X}>0.5$.
 
@@ -390,7 +403,7 @@ ggplot(df,aes(vxbar,vdnorm)) +
 >13\. Assume you are in a practical situation and you don't know $p$. Take a sample of size $N=100$ and obtain a sample average of $\bar{X} = 0.51$. What is the CLT approximation for the probability that your error is equal to or larger than 0.01?
 
 
-This topic is explained in the book chapter **15.4 "Central Limit Theorem in practice"**. \
+This topic is explained in the book chapter 15.4 "*Central Limit Theorem in practice*". \
 In other words the question is asking: \
 What is the probability that the difference of the true $p$-value to the estimate $\bar{X}$ i.e. the error $| \bar{X} - p|$, is smaller than 0.01, i.e. within an error range of 1%: $\mbox{Pr}(| \bar{X} - p| \ge .01) = 1- \mbox{Pr}(| \bar{X} - p| \le .01)$. \
 A similar task was already computed in the mentioned chapter: $\mbox{Pr}(| \bar{X} - p| \le .01)$. Here, the answer to the question is 84% is the probability that the error is equal or larger than 0.01.
