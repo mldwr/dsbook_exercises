@@ -233,6 +233,8 @@ hist(abs(errors))
 ### Qn
 >5\. The standard error is related to the typical **size** of the error we make when predicting. We say **size** because we just saw that the errors are centered around 0, so thus the average error value is 0. For mathematical reasons related to the Central Limit Theorem, we actually use the standard deviation of `errors` rather than the average of the absolute values to quantify the typical size. What is this standard deviation of the errors?
 
+The standard deviation can be written as the square root of the expectation value of the error as follows: $\mbox{SD}[p-\bar{X}] = \sqrt{E[(p-\bar{X})^2]}$. The resulting standard deviation is about 0.05 in magnitude.
+
 ```{r}
 N<-100
 p<-0.45
@@ -250,6 +252,8 @@ sqrt(mean(errors^2))
 ### Qn
 >6\. The theory we just learned tells us what this standard deviation is going to be because it is the standard error of $\bar{X}$. What does theory tell us is the standard error of $\bar{X}$ for a sample size of 100?
 
+The standard error is defined as figured in question 1.4: $\mbox{SE}(p) = \sqrt{p(1-p)/N}$. The value results in a magnitude of 0.05. The same value is yielded in previous question, when a Monte Carlo simulation was used. 
+
 ```{r}
 N<-100
 p<-0.45
@@ -262,6 +266,8 @@ se
 
 ### Qn
 >7\. In practice, we don't know $p$, so we construct an estimate of the theoretical prediction based by plugging in $\bar{X}$ for $p$. Compute this estimate. Set the seed at 1 with `set.seed(1)`.
+
+Swapping the p-value with the average $\bar{X}$ in the equation from the standard error the following expression is gained $\mbox{SE}(\bar{X}) = \sqrt{\bar{X}(1-\bar{X})/N}$. Again, the same value is yielded as in the past two question in the magnitude of 0.05.
 
 ```{r}
 N<-100
@@ -445,10 +451,12 @@ error<-pnorm(0.01/se) - pnorm(-0.01/se)
 >
 >Assume there are only two candidates and construct a 95% confidence interval for the election night proportion $p$. 
 
-As stated in the book in chapter 15.6 "Confidence intervals", in order to compute the probability that p is within the 95% confidence interval one needs to compute the probability: 
+As stated in the book in chapter 15.6 "*Confidence intervals*", in order to compute the probability that p is within the 95% confidence interval one needs to compute the probability: 
+
 $$
 \mbox{Pr}\left(\bar{X} - 1.96\hat{\mbox{SE}}(\bar{X}) \leq p \leq \bar{X} + 1.96\hat{\mbox{SE}}(\bar{X})\right)
 $$
+The resulting confidence interval for p is has the margin error of 0.04 for the interval between 0.49 and 0.45.
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -457,16 +465,15 @@ data("polls_us_election_2016")
 polls <- polls_us_election_2016 %>% 
   filter(enddate >= "2016-10-31" & state == "U.S.") 
 N <- polls$samplesize[1]
-N
 x_hat <- polls$rawpoll_clinton[1]/100
-x_hat
 se_hat <- sqrt(x_hat * (1 - x_hat) / N)
-se_hat
 c(x_hat - 1.96 * se_hat, x_hat + 1.96 * se_hat)
 ```
 
 ### Qn
 >2\. Now use `dplyr` to add a confidence interval as two columns, call them `lower` and `upper`, to the object `poll`. Then use `select` to show the `pollster`, `enddate`, `x_hat`,`lower`, `upper` variables. Hint: define temporary columns `x_hat` and `se_hat`. 
+
+The resulting table contains the confidence intervals for each pollster based on the average and standard error of their polls after the 31st of October 2016. The used equations are $\hat{X} = \hat{p}/100$, $\hat{\mbox{SE}}[\hat{X}] = \sqrt{\hat{X} (1-\hat{X})/N}$ and for the confidence interval $\hat{X} - 1.96\hat{\mbox{SE}}(\hat{X}) \leq p \leq \bar{X} + 1.96\hat{\mbox{SE}}(\hat{X})$.
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -477,7 +484,7 @@ polls <- polls_us_election_2016 %>%
 poll<-polls %>% select(pollster,enddate,samplesize,rawpoll_clinton) %>% mutate(x_hat=rawpoll_clinton/100)
 poll<-poll %>% mutate(se_hat=sqrt(x_hat * (1 - x_hat) / samplesize))
 poll<-poll %>% mutate(lower=x_hat - 1.96 * se_hat, upper=x_hat + 1.96 * se_hat)
-poll %>% select(-rawpoll_clinton,-samplesize)
+poll %>% select(-rawpoll_clinton,-samplesize,-x_hat,-se_hat)
 ```
 
 ### Qn
