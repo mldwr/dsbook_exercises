@@ -924,6 +924,9 @@ ggplot(poll, aes(pollster, d_error, ymin=lower, ymax=upper, col = d_inside)) +
 <blockquote>
 <p>1. A famous athlete has an impressive career, winning 70% of her 500 career matches. However, this athlete gets criticized because in important events, such as the Olympics, she has a losing record of 8 wins and 9 losses. Perform a Chi-square test to determine if this losing record can be simply due to chance as opposed to not performing well under pressure.</p>
 </blockquote>
+<p>The Null-Hypothesis says then that the high loss rate is just due to chance.<br />
+In order to perform the Chi-square (<span class="math inline">\(\chi^2\)</span>) test, first a 2x2 table has to be constructed from the given information in the question. In regular tournaments there were 350 wins and 150 losses and in important tournaments there were 8 wins an 9 losses.<br />
+With this data the function <code>chisq.test()</code> is fed. As a result three parameters are returned: the actual <span class="math inline">\(\chi^2=3.0573\)</span>, df=1 and the p-value =0.08038.</p>
 <pre class="r"><code>reg_event_win&lt;-500*0.7
 reg_event_lose&lt;-500*0.3
 imp_event_win&lt;-8
