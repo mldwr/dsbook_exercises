@@ -490,6 +490,8 @@ poll %>% select(-rawpoll_clinton,-samplesize,-x_hat,-se_hat)
 ### Qn
 >3\. The final tally for the popular vote was Clinton 48.2%	and Trump 46.1%. Add a column, call it `hit`, to the previous table stating if the confidence interval included the true proportion $p=0.482$ or not. 
 
+Starting with the code of the previous exercise the task can be easily accomplished by using an `ifelse()` function.
+
 ```{r, message=FALSE}
 library(tidyverse)
 library(dslabs)
@@ -501,13 +503,14 @@ poll<-polls %>% select(pollster,enddate,samplesize,rawpoll_clinton) %>% mutate(x
 poll<-poll %>% mutate(se_hat=sqrt(x_hat * (1 - x_hat) / samplesize))
 poll<-poll %>% mutate(lower=x_hat - 1.96 * se_hat, upper=x_hat + 1.96 * se_hat)
 poll<-poll %>% select(-rawpoll_clinton,-samplesize)
-poll %>% mutate(hit=ifelse(lower<= p & upper >= p,1,0)) %>% select(pollster,lower,upper,hit)
+poll %>% mutate(hit=ifelse(lower< p & upper > p,1,0)) %>% select(pollster,lower,upper,hit)
 ```
 
 ### Qn
 >4\. For the table you just created, what proportion of confidence intervals included $p$?
 
-31%
+To compute the proportion of confidence intervals that included p, one can simply use the `mean()` function for the `hit` column. The resulting value is 31% (0.3142857), that is the proportion of pollsters who managed to predict the final value with their polls. \
+To illustrate this finding the following plot shows the poll number versus the predicted and final p-value (vertical black line). The predicted values are depicted with a small dot within the corresponding confidence interval. Only the green marked confidence intervals include the final p-value, which make up the 31% of the polls. The other 69% polls missed to predict the final p-value within the confidence interval.
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -520,11 +523,11 @@ poll<-polls %>% select(pollster,enddate,samplesize,rawpoll_clinton) %>% mutate(x
 poll<-poll %>% mutate(se_hat=sqrt(x_hat * (1 - x_hat) / samplesize))
 poll<-poll %>% mutate(lower=x_hat - 1.96 * se_hat, upper=x_hat + 1.96 * se_hat)
 poll<-poll %>% select(-rawpoll_clinton,-samplesize)
-poll<-poll %>% mutate(hit=ifelse(lower<= p & upper >= p,1,0)) %>%  mutate(pollnr=1:nrow(poll))
+poll<-poll %>% mutate(hit=ifelse(lower< p & upper > p,1,0)) %>%  mutate(pollnr=1:nrow(poll))
 poll <- mutate(poll, p_inside = ifelse(hit, "Yes", "No") )
 mean(poll$hit)
-ggplot(poll, aes(pollnr, p, ymin=lower, ymax=upper, col = p_inside)) + 
-  #geom_point()+
+ggplot(poll, aes(pollnr, x_hat, ymin=lower, ymax=upper, col = p_inside)) + 
+  geom_point(size=0.5)+
   geom_errorbar() + 
   coord_flip() + 
   geom_hline(yintercept = p)
@@ -533,7 +536,12 @@ ggplot(poll, aes(pollnr, p, ymin=lower, ymax=upper, col = p_inside)) +
 ### Qn
 >5\. If these confidence intervals are constructed correctly, and the theory holds up, what proportion should include $p$?
 
-95%
+If the computations and theory work as designed then the proportion of poll, which should include the predicted p-value is 95%. \
+The basic assumption is that the random values are normally distributed. Then the confidence intervals are constructed in the way that it includes 95% of the values $X - 1.96\ \mbox{SE}(X) < p \leq X + 1.96\ \mbox{SE}(X)$. The value of 95% results from the factor 1.96, as described in chapter 15.6 "*Confidence intervals*":
+
+```{r}
+pnorm(1.96) - pnorm(-1.96)
+```
 
 ### Qn
 >6\. A much smaller proportion of the polls than expected produce confidence intervals containing $p$. If you look closely at the table, you will see that most polls that fail to include $p$ are underestimating. The reason for this is undecided voters, individuals polled that do not yet know who they will vote for or do not want to say. 
@@ -547,7 +555,8 @@ ggplot(poll, aes(pollnr, p, ymin=lower, ymax=upper, col = p_inside)) +
 >  mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100)
 >```
 
-Recall the standard error of the spread from exercise 15.1.8: $\mbox{SE}(d)= 2\sqrt{p(1-p)/N}$. Where $p$ is calculated by rearranging the definition of the spread to $p=(d-1)/2$.
+Recall the standard error of the spread from exercise 15.1.8: $\mbox{SE}(d)= 2\sqrt{p(1-p)/N}$. Where $p$ is calculated by rearranging the definition of the spread to $p=(d-1)/2$. In exercise 1 it was asked to compute the confidence interval $\bar{X} - 1.96\hat{\mbox{SE}}(\bar{X}) < d \leq \bar{X} + 1.96\hat{\mbox{SE}}(\bar{X})$.\
+Now, the confidence interval for the difference is between -0.16% and 8.2% with a margin of error of 8%.
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -560,14 +569,13 @@ N <- polls$samplesize[1]
 d_hat <- polls$d_hat[1]
 x_hat<-(d_hat+1)/2
 se_hat <- 2*sqrt(x_hat * (1 - x_hat) / N)
-d_hat
-x_hat
-se_hat
 c(d_hat - 1.96 * se_hat, d_hat + 1.96 * se_hat)
 ```
 
 ### Qn
 >7\. Now repeat exercise 3, but for the difference.
+
+Back in exercise 3 it was asked to compute a parameter `hit`, which indicates weather the final p-value is within the estimated confidence interval of the poll. Now, in this exercise the computation is performed for the spread value d. 
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -589,27 +597,9 @@ poll
 ### Qn
 >8\. Now repeat exercise 4, but for the difference.
 
-77%
-
-```{r, message=FALSE}
-library(tidyverse)
-library(dslabs)
-d<-0.021
-data("polls_us_election_2016")
-polls <- polls_us_election_2016 %>% 
-  filter(enddate >= "2016-10-31" & state == "U.S.") %>%
-  mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100)
-poll<-polls %>% select(pollster,enddate,samplesize,d_hat) 
-poll<-poll %>% mutate(x_hat=(d_hat+1)/2)
-poll<-poll %>% mutate(se_hat=2*sqrt(x_hat * (1 - x_hat) / samplesize))
-poll<-poll %>% mutate(lower=d_hat - 1.96 * se_hat, upper=d_hat + 1.96 * se_hat)
-poll<-poll %>% select(-samplesize)
-poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>% select(pollster,lower,upper,hit)
-mean(poll$hit)
-```
-
-### Qn
->9\. Although the proportion of confidence intervals goes up substantially, it is still lower than 0.95. In the next chapter, we learn the reason for this. To motivate this, make a plot of the error, the difference between each poll's estimate and the actual $d=0.021$. Stratify by pollster.
+The equivalent question from exercise 4 would be "*What proportion of confidence intervals included $d$?*". \
+The resulting value is 77% (0.7714286), which is the proportion of pollsters who managed to predict the final value with their polls. \
+This result is also illustrated in the following plot. 
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -626,21 +616,48 @@ poll<-poll %>% mutate(lower=d_hat - 1.96 * se_hat, upper=d_hat + 1.96 * se_hat)
 poll<-poll %>% select(-samplesize)
 poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>% select(pollster,lower,upper,hit,d_hat) %>%  arrange(pollster) %>% mutate(pollnr=1:nrow(poll))
 poll <- mutate(poll, d_inside = ifelse(hit, "Yes", "No") )
-poll<-mutate(poll,pollsternr=paste(pollnr,pollster,sep="_"))
+mean(poll$hit)
 ggplot(poll, aes(pollnr, d_hat, ymin=lower, ymax=upper, col = d_inside)) + 
-  #geom_point()+
+  geom_point(size=0.5)+
   geom_errorbar() + 
-  coord_flip() + 
-  geom_hline(yintercept = d)
-ggplot(poll, aes(pollster, d_hat, ymin=lower, ymax=upper, col = d_inside)) + 
-  geom_point()+
-  #geom_errorbar() + 
   coord_flip() + 
   geom_hline(yintercept = d)
 ```
 
 ### Qn
+>9\. Although the proportion of confidence intervals goes up substantially, it is still lower than 0.95. In the next chapter, we learn the reason for this. To motivate this, make a plot of the error, the difference between each poll's estimate and the actual $d=0.021$. Stratify by pollster.
+
+In the plot the color (green and red) indicate, if the confidence interval of each poll was able to capture the final spread of $d=0.021$. \ 
+The hint in this exercise that in the next chapter the reason for the large amount of pollsters missing to cover the final p- and d-value is called the *pollster bias*.
+
+```{r, message=FALSE}
+library(tidyverse)
+library(dslabs)
+d<-0.021
+data("polls_us_election_2016")
+polls <- polls_us_election_2016 %>% 
+  filter(enddate >= "2016-10-31" & state == "U.S.") %>%
+  mutate(d_hat = rawpoll_clinton / 100 - rawpoll_trump / 100)
+poll<-polls %>% select(pollster,enddate,samplesize,d_hat) 
+poll<-poll %>% mutate(x_hat=(d_hat+1)/2)
+poll<-poll %>% mutate(se_hat=2*sqrt(x_hat * (1 - x_hat) / samplesize))
+poll<-poll %>% mutate(lower=d_hat - 1.96 * se_hat, upper=d_hat + 1.96 * se_hat)
+poll<-poll %>% select(-samplesize)
+poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>% select(pollster,lower,upper,hit,d_hat) %>%  arrange(pollster) %>% mutate(pollnr=1:nrow(poll))
+poll<-mutate(poll, d_inside = ifelse(hit, "Yes", "No") )
+poll<-mutate(poll,pollsternr=paste(pollnr,pollster,sep="_"))
+poll$d_error<-poll$d_hat-0.02
+ggplot(poll, aes(pollster, d_error, ymin=lower, ymax=upper, col = d_inside)) + 
+  geom_point()+
+  #geom_errorbar() + 
+  coord_flip() + 
+  geom_hline(yintercept = 0)
+```
+
+### Qn
 >10\. Redo the plot that you made for exercise 9, but only for pollsters that took five or more polls.
+
+Except for one pollster "USC Dornsife/LA Times" all other pollsters manage to get close to the true d-value of the spread. 
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -660,16 +677,12 @@ poll<-poll %>% mutate(lower=d_hat - 1.96 * se_hat, upper=d_hat + 1.96 * se_hat)
 poll<-poll %>% select(-samplesize)
 poll<-poll %>% mutate(hit=ifelse(lower<= d & upper >= d,1,0)) %>% select(pollster,d_hat,lower,upper,hit) %>%  mutate(pollnr=1:nrow(poll))
 poll <- mutate(poll, d_inside = ifelse(hit, "Yes", "No") )
-ggplot(poll, aes(pollnr, d_hat, ymin=lower, ymax=upper, col = d_inside)) + 
-  #geom_point()+
-  geom_errorbar() + 
-  coord_flip() + 
-  geom_hline(yintercept = d)
-ggplot(poll, aes(pollster, d_hat, ymin=lower, ymax=upper, col = d_inside)) + 
+poll$d_error<-poll$d_hat-0.02
+ggplot(poll, aes(pollster, d_error, ymin=lower, ymax=upper, col = d_inside)) + 
   geom_point()+
   #geom_errorbar() + 
   coord_flip() + 
-  geom_hline(yintercept = d)
+  geom_hline(yintercept = 0)
 ```
 
 ## Exercises: Assosiation Tests
