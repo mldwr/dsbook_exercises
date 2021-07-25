@@ -926,7 +926,8 @@ ggplot(poll, aes(pollster, d_error, ymin=lower, ymax=upper, col = d_inside)) +
 </blockquote>
 <p>The Null-Hypothesis says then that the high loss rate is just due to chance.<br />
 In order to perform the Chi-square (<span class="math inline">\(\chi^2\)</span>) test, first a 2x2 table has to be constructed from the given information in the question. In regular tournaments there were 350 wins and 150 losses and in important tournaments there were 8 wins an 9 losses.<br />
-With this data the function <code>chisq.test()</code> is fed. As a result three parameters are returned: the actual <span class="math inline">\(\chi^2=3.0573\)</span>, df=1 and the p-value =0.08038.</p>
+With this data the function <code>chisq.test()</code> is fed. As a result three parameters are returned: the actual <span class="math inline">\(\chi^2=3.0573\)</span>, degrees of freedom df=1 and the p-value =0.08038.<br />
+The degrees of freedom are computed as a product of the dimensions of the table minus one. In this case the table has two rows and two columns, hence the dimension of a 2x2 matrix, therefore the degrees of freedom are df=(2-1)(2-2)=1.</p>
 <pre class="r"><code>reg_event_win&lt;-500*0.7
 reg_event_lose&lt;-500*0.3
 imp_event_win&lt;-8
@@ -950,13 +951,8 @@ chisq_test$p.value</code></pre>
 <pre class="r"><code>library(tidyverse)
 library(dslabs)
 data(&quot;research_funding_rates&quot;)
-research_funding_rates %&gt;% select(discipline, applications_total, success_rates_total) </code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["discipline"],"name":[1],"type":["chr"],"align":["left"]},{"label":["applications_total"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["success_rates_total"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Chemical sciences","2":"122","3":"26.2"},{"1":"Physical sciences","2":"174","3":"20.1"},{"1":"Physics","2":"76","3":"26.3"},{"1":"Humanities","2":"396","3":"16.4"},{"1":"Technical sciences","2":"251","3":"17.1"},{"1":"Interdisciplinary","2":"183","3":"15.8"},{"1":"Earth/life sciences","2":"282","3":"19.9"},{"1":"Social sciences","2":"834","3":"13.4"},{"1":"Medical sciences","2":"505","3":"14.9"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<pre class="r"><code>totals &lt;- research_funding_rates %&gt;% 
+research_funding_rates %&gt;% select(discipline, applications_total, success_rates_total) 
+totals &lt;- research_funding_rates %&gt;% 
   select(-discipline) %&gt;% 
   summarize_all(sum) %&gt;%
   summarize(yes_men = awards_men, 
@@ -964,13 +960,8 @@ research_funding_rates %&gt;% select(discipline, applications_total, success_rat
             yes_women = awards_women, 
             no_women = applications_women - awards_women) 
 totals %&gt;% summarize(percent_men = yes_men/(yes_men+no_men),
-                     percent_women = yes_women/(yes_women+no_women))</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["percent_men"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["percent_women"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.17737","2":"0.1489899"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<pre class="r"><code>rate &lt;- totals %&gt;%
+                     percent_women = yes_women/(yes_women+no_women))
+rate &lt;- totals %&gt;%
   summarize(percent_total = 
               (yes_men + yes_women)/
               (yes_men + no_men +yes_women + no_women)) %&gt;%
@@ -978,29 +969,13 @@ totals %&gt;% summarize(percent_men = yes_men/(yes_men+no_men),
 two_by_two &lt;- data.frame(awarded = c(&quot;no&quot;, &quot;yes&quot;), 
                      men = c(totals$no_men, totals$yes_men),
                      women = c(totals$no_women, totals$yes_women))
-two_by_two</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["awarded"],"name":[1],"type":["chr"],"align":["left"]},{"label":["men"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["women"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"no","2":"1345","3":"1011"},{"1":"yes","2":"290","3":"177"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<pre class="r"><code>data.frame(awarded = c(&quot;no&quot;, &quot;yes&quot;), 
+two_by_two
+data.frame(awarded = c(&quot;no&quot;, &quot;yes&quot;), 
        men = (totals$no_men + totals$yes_men) * c(1 - rate, rate),
-       women = (totals$no_women + totals$yes_women) * c(1 - rate, rate))</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["awarded"],"name":[1],"type":["chr"],"align":["left"]},{"label":["men"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["women"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"no","2":"1364.5271","3":"991.4729"},{"1":"yes","2":"270.4729","3":"196.5271"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<pre class="r"><code>chisq_test &lt;- two_by_two %&gt;% select(-awarded) %&gt;% chisq.test()
-chisq_test$p.value</code></pre>
-<pre><code>## [1] 0.05091372</code></pre>
-<pre class="r"><code>chisq_test</code></pre>
-<pre><code>## 
-##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
-## 
-## data:  .
-## X-squared = 3.8111, df = 1, p-value = 0.05091</code></pre>
+       women = (totals$no_women + totals$yes_women) * c(1 - rate, rate))
+chisq_test &lt;- two_by_two %&gt;% select(-awarded) %&gt;% chisq.test()
+chisq_test$p.value
+chisq_test</code></pre>
 </div>
 <div id="qn-34" class="section level3" number="0.4.2">
 <h3 number="15.4.2"><span class="header-section-number">15.4.2</span> Qn</h3>
