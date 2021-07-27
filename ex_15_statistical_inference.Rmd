@@ -708,6 +708,8 @@ chisq_test$p.value
 chisq_test
 ````
 
+Another example from the book, regarding the Chi-square test. 
+
 ```{r, message=FALSE, eval=FALSE}
 library(tidyverse)
 library(dslabs)
@@ -772,6 +774,9 @@ data.frame(awarded =c("yes","no","total"),two_by_two)
 ### Qn
 >3\. Compute the odds ratio of "losing under pressure" along with a confidence interval.
 
+The result shows, that it is very unlikely that the athlete loses just by chance. The effect "losing under pressure" is present that the probability for the athlete to lose an important match is higher than a regular match \
+The odds for the regular matches is 2.3 and that of an important match 0.8. Therefore, the odds ratio of these values is 2.6. The confidence interval, according to the protocol in chapter 15.10.5 *Confidence intervals for the odds ratio*, is between 0.994 and 6.93 (MOE=5.94) with a p-value of 0.051. Here, 1 is included in the confidence interval, therefore the p-value is larger than 0.05. 
+
 ```{r}
 reg_event_win<-500*0.7
 reg_event_lose<-500*0.3
@@ -779,18 +784,23 @@ imp_event_win<-8
 imp_event_lose<-9
 two_by_two<-data.frame(result=c("win","lose"),reg=c(reg_event_win,reg_event_lose),imp=c(imp_event_win,imp_event_lose))
 two_by_two
+
 odds_reg <- with(two_by_two, (reg[1]/sum(reg)) / (reg[2]/sum(reg)))
 odds_reg
 odds_imp <- with(two_by_two, (imp[1]/sum(imp)) / (imp[2]/sum(imp)))
 odds_imp
+
+# odds ratio
 odds_reg/odds_imp
 
+# compute the confidence interval
 log_or <- log(odds_reg / odds_imp)
 se <- two_by_two %>% select(-result) %>%
   summarize(se = sqrt(sum(1/reg) + sum(1/imp))) %>%
   pull(se)
 ci <- log_or + c(-1,1) * qnorm(0.975) * se
 exp(ci)
+# compute the p-value
 2*(1 - pnorm(log_or, 0, se))
 ````
 
@@ -803,11 +813,22 @@ exp(ci)
 >c. Different approximations are used for the p-value and the confidence interval calculation. If we had a larger sample size the match would be better.
 >d. We should use the Fisher exact test to get confidence intervals.
 
-Answer c, because here the estimated p-value is 0.052 with a confidence interval of 0.9937118 to 6.9342286. As stated in the question, the confidence interval does not include the "null value" 1, therefore the value, which is formulated by the "Null Hypothesis" the odds ratio. \
-*"Keep in mind that there is a close connection between p-values and confidence intervals. If a 95% confidence interval of the spread does not include 0, we know that the p-value must be smaller than 0.05."*
+Answer c, because here the estimated p-value is 0.052 with a confidence interval of 0.9937118 to 6.9342286. \
+As stated in the question, the confidence interval does not include the "null value" 1, therefore the value, which is formulated by the "null hypothesis" of the odds ratio. The term "null value" means also that no effect can be observed. An odds ratio of 1 means that neither of the two odds is dominant. In other words, there is no causal relationship between the observed variables and differences can be accounted due to chances. If the confident interval does not contain the null value, here it is 1, then the test is statistically significant, such that the observed effect can not be accounted to chance. But if the confidence interval does contain the null value then the observed result can be attributed to chance, because it is possible that no effect is observed. \
+
+The p-value ranges between 0 and 1 and can be expressed in percentage values. If the p-value is below 5% it is said that it is statistically significant such that the null hypothesis will be rejected. \
+
+In addition, in chapter 15.9 *p-values* it is stated:
+"*Keep in mind that there is a close connection between p-values and confidence intervals. If a 95% confidence interval of the spread does not include 0, we know that the p-value must be smaller than 0.05.*". \
+Therefore, here the no-effect-value/null value is the number 0, if it is not included in the confidence interval then an effect can indeed be observed. For the p-value it means that if the p-value is below 5% then the chances of no-effect is very low. Since both measures the confidence interval and the p-value are closely related, there is a correlation between these two measures. Meaning, if the p-value is below 5% then the confidence interval cannot contain the null value and vice versa. If the confidence interval does not contain the null value, then the p-value will be below 5%. 
 
 ### Qn
 >5\. Multiply the two-by-two table by 2 and see if the p-value and confidence retrieval are a better match.
+
+The purpose by multiplying the table by 2 the sample size is to increase the sample size and improve the result according to the CLT prediction. \
+The confidence interval has changed significantly to the range of 1.32 to 5.2 with a narrower mean of error with a value of 3.9. Now, the value 1 is not included in the confidence interval which is why the p-value below 0.05. The computed p-value is 0.0059, which confirms the "lose under pressure" hypothesis. \
+
+15.10.7 "Large samples, small p-values": *Note that the relationship between odds ratio and p-value is not one-to-one. It depends on the sample size. So a very small p-value does not necessarily mean a very large odds ratio.*
 
 ```{r}
 reg_event_win<-500*0.7
