@@ -524,7 +524,9 @@ data.frame(names=c("ci2-ci1","ci1","ci2","EY2Y1","SE"), values=c(ci2-ci1,ci1,ci2
 First recall how many ways were presented in the book to compute a p-value. \
 By using the spread $d=2p-1$, then there is the odds ratio and the t-statistics. 
 
-```{r}
+```{r, message=FALSE}
+library(dslabs)
+library(tidyverse)
 data(polls_us_election_2016)
 polls <- polls_us_election_2016 %>% 
   filter(pollster %in% c("Rasmussen Reports/Pulse Opinion Research",
@@ -564,6 +566,12 @@ ci2-ci1 #0.02756322
 
 48.2/100-46.1/100 # reference spread of 0.021
 0.021-0.027563217
+
+N <- 100
+z <- sqrt(N)*0.02/0.5
+1 - (pnorm(z) - pnorm(-z))
+z
+pnorm(z)-pnorm(-z)
 ```
 ### Qn
 >20\. The statistic formed by dividing our estimate of $b_2-b_1$ by its estimated standard error:

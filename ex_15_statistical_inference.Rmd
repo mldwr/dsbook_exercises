@@ -694,7 +694,7 @@ ggplot(poll, aes(pollster, d_error, ymin=lower, ymax=upper, col = d_inside)) +
 The Null-Hypothesis says then that the high loss rate is just due to chance. \
 In order to perform the Chi-square ($\chi^2$) test, first a 2x2 table has to be constructed from the given information in the question. In regular tournaments there were 350 wins and 150 losses and in important tournaments there were 8 wins an 9 losses. \
 With this data the function `chisq.test()` is fed. As a result three parameters are returned: the actual $\chi^2=3.0573$, degrees of freedom df=1 and the p-value =0.08038. \
-The degrees of freedom are computed as a product of the dimensions of the table minus one. In this case the table has two rows and two columns, hence the dimension of a 2x2 matrix, therefore the degrees of freedom are df=(2-1)(2-2)=1.
+The degrees of freedom are computed as a product of the dimensions of the table minus one. In this case the table has two rows and two columns, hence the dimension of a 2x2 matrix df=(n-1)(m-1), therefore the degrees of freedom are df=(2-1)(2-2)=1.
 
 ```{r}
 reg_event_win<-500*0.7
@@ -707,7 +707,11 @@ chisq_test <- two_by_two  %>% chisq.test()
 chisq_test$p.value
 chisq_test
 ````
-
+```{r}
+ind<-seq(0,8,0.5)
+ind
+plot(pchisq(ind, df =  1, lower.tail = FALSE))
+```
 Another example from the book, regarding the Chi-square test. 
 
 ```{r, message=FALSE, eval=FALSE}
@@ -814,21 +818,24 @@ exp(ci)
 >d. We should use the Fisher exact test to get confidence intervals.
 
 Answer c, because here the estimated p-value is 0.052 with a confidence interval of 0.9937118 to 6.9342286. \
+
 As stated in the question, the confidence interval does not include the "null value" 1, therefore the value, which is formulated by the "null hypothesis" of the odds ratio. The term "null value" means also that no effect can be observed. An odds ratio of 1 means that neither of the two odds is dominant. In other words, there is no causal relationship between the observed variables and differences can be accounted due to chances. If the confident interval does not contain the null value, here it is 1, then the test is statistically significant, such that the observed effect can not be accounted to chance. But if the confidence interval does contain the null value then the observed result can be attributed to chance, because it is possible that no effect is observed. \
 
 The p-value ranges between 0 and 1 and can be expressed in percentage values. If the p-value is below 5% it is said that it is statistically significant such that the null hypothesis will be rejected. \
 
 In addition, in chapter 15.9 *p-values* it is stated:
 "*Keep in mind that there is a close connection between p-values and confidence intervals. If a 95% confidence interval of the spread does not include 0, we know that the p-value must be smaller than 0.05.*". \
-Therefore, here the no-effect-value/null value is the number 0, if it is not included in the confidence interval then an effect can indeed be observed. For the p-value it means that if the p-value is below 5% then the chances of no-effect is very low. Since both measures the confidence interval and the p-value are closely related, there is a correlation between these two measures. Meaning, if the p-value is below 5% then the confidence interval cannot contain the null value and vice versa. If the confidence interval does not contain the null value, then the p-value will be below 5%. 
+Therefore, here the no-effect value/null value is the number 0, if it is not included in the confidence interval then an effect can indeed be observed. For the p-value it means that if the p-value is below 5% then the chances of no-effect is very low. Since both measures the confidence interval and the p-value are closely related, there is a correlation between these two measures. Meaning, if the p-value is below 5% then the confidence interval cannot contain the null value and vice versa. If the confidence interval does not contain the null value, then the p-value will be below 5%. 
 
 ### Qn
 >5\. Multiply the two-by-two table by 2 and see if the p-value and confidence retrieval are a better match.
 
 The purpose by multiplying the table by 2 the sample size is to increase the sample size and improve the result according to the CLT prediction. \
-The confidence interval has changed significantly to the range of 1.32 to 5.2 with a narrower mean of error with a value of 3.9. Now, the value 1 is not included in the confidence interval which is why the p-value below 0.05. The computed p-value is 0.0059, which confirms the "lose under pressure" hypothesis. \
 
-15.10.7 "Large samples, small p-values": *Note that the relationship between odds ratio and p-value is not one-to-one. It depends on the sample size. So a very small p-value does not necessarily mean a very large odds ratio.*
+The confidence interval has changed significantly to the range of 1.32 to 5.2 with a narrower mean of error with a value of 3.9. Now, the value 1 is not included in the confidence interval which is why the p-value below 0.05. The computed p-value is 0.0059, which confirms the "lose under pressure" hypothesis. \
+The hypothesis states, that at important events the athlete tends to lose. \
+
+15.10.7 "Large samples, small p-values": *Note that the relationship between odds ratio and p-value is not one-to-one. It depends on the sample size. So a very small p-value does not necessarily mean a very large odds ratio.*. This statement in the book is proved by this exercise.
 
 ```{r}
 reg_event_win<-500*0.7
