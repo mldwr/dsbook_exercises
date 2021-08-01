@@ -708,9 +708,15 @@ chisq_test$p.value
 chisq_test
 ````
 ```{r}
-ind<-seq(0,8,0.5)
-ind
-plot(pchisq(ind, df =  1, lower.tail = FALSE))
+chisquare<-seq(0,4,0.05)
+pval<-pchisq(chisquare, df =  1, lower.tail = FALSE)
+df<-data.frame(chisquare,pval)
+df
+ggplot(df,aes(x=chisquare,y=pval))+
+  geom_point() +
+  geom_line(color="blue") +
+  ylab("p-value")+
+  xlab(expression(chi^{2}))
 ```
 Another example from the book, regarding the Chi-square test. 
 
