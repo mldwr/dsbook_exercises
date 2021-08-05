@@ -491,9 +491,11 @@ Y_{i,j} = d + b_i + \varepsilon_{i,j}
 </ol>
 </blockquote>
 <p>Answer c, because <span class="math inline">\(b_i\)</span> defines the bias for pollster <span class="math inline">\(i\)</span> towards a candidate of a poll compared to the real expectation value.<br />
-If the bias were zero, it means that the poll predicted the outcome of an election spot on. In other words it predicted the real expectation value of the population.<br />
+If the bias were zero, it means that the poll predicted the outcome of an election spot on. In other words, it predicted the real expectation value of the population.<br />
 The variable <span class="math inline">\(\varepsilon_{i,j}\)</span> defines how large the difference in the pollster bias is. This is referred to “house effect”.<br />
-The confusing part of this question is that the chapter in the book explains only one effect, the bias of two pollsters (<span class="math inline">\(\varepsilon_{i,j}\)</span>) but not the bias of a single pollster towards a sertain result (<span class="math inline">\(b_i\)</span>).</p>
+The confusing part of this question is that the chapter in the book explains only one effect, the bias of two pollsters (<span class="math inline">\(\varepsilon_{i,j}\)</span>) but not the bias of a single pollster towards a certain result (<span class="math inline">\(b_i\)</span>).<br />
+</p>
+<p>In the first sentence of the question the null hypothesis is stated as <span class="math inline">\(H_0\)</span>: “<em>The observed difference of the polls, the pollster bias, is due to chance.</em>”.</p>
 </div>
 <div id="qn-7" class="section level3" number="0.1.9">
 <h3 number="16.1.9"><span class="header-section-number">16.1.9</span> Qn</h3>
@@ -522,7 +524,10 @@ E[Y_{1,j}] =  d + b_1.
 <p><span class="math display">\[
 E[Y_{1,j}] \rightarrow E[\bar{Y}_1] =  d + b_1
 \]</span></p>
-<pre class="r"><code>data(polls_us_election_2016)
+<pre class="r"><code>library(dslabs)
+options(scipen = 50)
+
+data(polls_us_election_2016)
 polls &lt;- polls_us_election_2016 %&gt;% 
   filter(pollster %in% c(&quot;Rasmussen Reports/Pulse Opinion Research&quot;,
                          &quot;The Times-Picayune/Lucid&quot;) &amp;
@@ -538,7 +543,7 @@ mean&lt;-polls %&gt;%
 data.frame(names=c(&quot;n&quot;,&quot;mean&quot;),values=c(n,mean))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["names"],"name":[1],"type":["chr"],"align":["left"]},{"label":["values"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"n","2":"1.60e+01"},{"1":"mean","2":"6.25e-04"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["names"],"name":[1],"type":["chr"],"align":["left"]},{"label":["values"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"n","2":"16.000000"},{"1":"mean","2":"0.000625"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -746,7 +751,7 @@ Furthermore, the equation for confidence interval is <span class="math inline">\
 “<em>The theory we learned says nothing about different pollsters producing polls with different expected values. All the polls should have the same expected value.</em>”<br />
 Therefore, the value from the difference of the expected values <span class="math inline">\(E[\bar{Y_2}-\bar{Y_1}] = b_2-b_1=0.05 = 5\)</span>% is the amount of the pollster effect considering the two pollsters in this example.<br />
 </p>
-<p>The confidence interval has a narrow mean of error of 2.8% (<span class="math inline">\(=\mbox{ci}_2-\mbox{ci}_1\)</span>) and with a range of 4% to 6% certainty. This means that with a certainty of 95% the p-value for the probability that the pollster bias is just by chance about 4%-6%, therefore, very low chances that this effect is caused just randomly.</p>
+<p>The confidence interval of 0.0385 to 0.0660 has a narrow mean of error of 0.02756 (<span class="math inline">\(=\mbox{ci}_2-\mbox{ci}_1\)</span>). The confidence interval does not contain the null value of 0, therefore the null hypothesis can be rejected. It follows, that the pollster bias cannot be explained just due to randomness.</p>
 <pre class="r"><code>data(polls_us_election_2016)
 polls &lt;- polls_us_election_2016 %&gt;% 
   filter(pollster %in% c(&quot;Rasmussen Reports/Pulse Opinion Research&quot;,
@@ -789,9 +794,11 @@ data.frame(names=c(&quot;ci2-ci1&quot;,&quot;ci1&quot;,&quot;ci2&quot;,&quot;EY2
 <blockquote>
 <p>19. The confidence interval tells us there is relatively strong pollster effect resulting in a difference of about 5%. Random variability does not seem to explain it. We can compute a p-value to relay the fact that chance does not explain it. What is the p-value?</p>
 </blockquote>
-<p>First recall how many ways were presented in the book to compute a p-value.<br />
-By using the spread <span class="math inline">\(d=2p-1\)</span>, then there is the odds ratio and the t-statistics.</p>
-<pre class="r"><code>data(polls_us_election_2016)
+<p>The p-value can be computed by dividing the expected value <span class="math inline">\(\bar{Y_2}-\bar{Y}_1\)</span> of by its standard error: <span class="math inline">\(\frac{E[\bar{Y}_{2} - \bar{Y}_1]}{SE[\bar{Y}_{2} - \bar{Y}_1]}=\frac{b_2-b_1}{\sqrt{\sigma_2^2/N_2+\sigma_1^2/N_1}}\)</span>.<br />
+</p>
+<pre class="r"><code>library(dslabs)
+library(tidyverse)
+data(polls_us_election_2016)
 polls &lt;- polls_us_election_2016 %&gt;% 
   filter(pollster %in% c(&quot;Rasmussen Reports/Pulse Opinion Research&quot;,
                          &quot;The Times-Picayune/Lucid&quot;) &amp;
@@ -830,14 +837,6 @@ data.frame(names=c(&quot;p_val&quot;,&quot;ratio&quot;,&quot;ci1&quot;,&quot;ci2
 {"columns":[{"label":["names"],"name":[1],"type":["chr"],"align":["left"]},{"label":["values"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"p_val","2":"0.000000000"},{"1":"ratio","2":"7.436843656"},{"1":"ci1","2":"0.038510058"},{"1":"ci2","2":"0.066073275"},{"1":"EY1","2":"0.000625000"},{"1":"EY2","2":"0.052916667"},{"1":"EY2Y1","2":"0.052291667"},{"1":"SE","2":"0.007031433"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<pre class="r"><code>ci2-ci1 #0.02756322</code></pre>
-<pre><code>## [1] 0.02756322</code></pre>
-<pre class="r"><code>0.006563217/5*100</code></pre>
-<pre><code>## [1] 0.1312643</code></pre>
-<pre class="r"><code>48.2/100-46.1/100 # reference spread of 0.021</code></pre>
-<pre><code>## [1] 0.021</code></pre>
-<pre class="r"><code>0.021-0.027563217</code></pre>
-<pre><code>## [1] -0.006563217</code></pre>
 </div>
 <div id="qn-18" class="section level3" number="0.1.20">
 <h3 number="16.1.20"><span class="header-section-number">16.1.20</span> Qn</h3>
