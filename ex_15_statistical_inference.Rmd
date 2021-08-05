@@ -716,7 +716,9 @@ ggplot(df,aes(x=chisquare,y=pval))+
   geom_point() +
   geom_line(color="blue") +
   ylab("p-value")+
-  xlab(expression(chi^{2}))
+  xlab(expression(chi^{2})) +
+  geom_segment(aes(x = 0, y = 0.08038, xend = 3.0573+0.5, yend = 0.08038), color="red",size=0.3) +
+  geom_segment(aes(x = 3.0573, y = 0, xend = 3.0573, yend = 0.08038+0.1), color="red",size=0.3)
 ```
 Another example from the book, regarding the Chi-square test. 
 
