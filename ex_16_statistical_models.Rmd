@@ -172,7 +172,15 @@ mean(df$hit)
 >
 >We want to answer the question: is there a poll bias? Make a plot showing the spreads for each poll.
 
-```{r, message=FALSE}
+The term "poll/pollster bias" is introduced in the chapter 16.1.2 "Pollster bias": "*However, there appears to be differences across the polls. Note, for example, how the USC Dornsife/LA Times pollster is predicting a 4% win for Trump, while Ipsos is predicting a win larger than 5% for Clinton. The theory we learned says nothing about different pollsters producing polls with different expected values. All the polls should have the same expected value.*" \
+Therefore, by comparing the expectation values of polls from different pollsters across all their polls an unexpected deviation is found. \
+The term itself was introduced by FiveThirtyEight in its blog post: "*Put another way: house effects are what we look at before the election; bias is what we look at after the election.*".\
+
+
+The computation shows an expectation value for the pollster "[1] Rasmussen Reports/Pulse Opinion Research" of $E[1]=$0.000625, where the expectation value for "[2] The Times-Picayune/Lucid" is significantly larger with a value of $E[2]=$0.052916. 
+
+
+```{r, message=FALSE, rows.print=25}
 data(polls_us_election_2016)
 polls <- polls_us_election_2016 %>% 
   filter(pollster %in% c("Rasmussen Reports/Pulse Opinion Research","The Times-Picayune/Lucid") &
@@ -188,10 +196,42 @@ d_hat <- polls %>%
   summarize(d_hat = sum(spread * samplesize) / sum(samplesize)) %>% 
   pull(d_hat)
 p_hat <- (d_hat+1)/2
-polls_sum<-polls %>% group_by(pollster) %>% summarize(p_hat, ev=mean(spread), se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize)))
+polls_sum<-polls %>% group_by(pollster) %>% summarize(ev=mean(spread), se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize)))
 polls_sum<- polls_sum %>% mutate(diff_se=se[1]-se[2], diff_ev=ev[2]-ev[1])
 polls_sum
+#polls %>% mutate(d_hat = sum(spread * samplesize) / sum(samplesize)) %>% select(pollster,samplesize,spread,d_hat) %>% arrange(pollster)
+polls %>%
+  ggplot(aes(spread)) +
+  geom_histogram(color="black", binwidth = .02)
 ```
+
+
+```{r}
+data(polls_us_election_2016)
+polls <- polls_us_election_2016 %>% 
+  filter(state == "U.S." & enddate >= "2016-10-31" &
+           (grade %in% c("A+","A","A-","B+") | is.na(grade)))
+polls <- polls %>% 
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100)
+d_hat <- polls %>% 
+  summarize(d_hat = sum(spread * samplesize) / sum(samplesize)) %>% 
+  pull(d_hat)
+p_hat <- (d_hat+1)/2 
+d_hat
+p_hat
+moe <- 1.96 * 2 * sqrt(p_hat * (1 - p_hat) / sum(polls$samplesize))
+polls %>% select(pollster,samplesize,spread) %>% arrange(pollster)
+polls %>%
+  ggplot(aes(spread)) +
+  geom_histogram(color="black", binwidth = .01)
+polls %>% ggplot(aes(pollster, spread)) + 
+  geom_point() +
+  coord_flip() +
+  #geom_boxplot() +
+  scale_y_continuous(breaks = c(-0.02,0,0.02,0.04,0.06,0.08,0.10,0.12))
+```
+
+
 Is the found bias large or not?
 
 ```{r}
@@ -205,6 +245,10 @@ polls %>% ggplot(aes(pollster, spread)) +
   coord_flip() +
   #geom_boxplot() +
   scale_y_continuous(breaks = c(-0.02,0,0.02,0.04,0.06,0.08,0.10,0.12))
+d_hat <- polls %>% 
+  summarize(d_hat = sum(spread * samplesize) / sum(samplesize)) %>% 
+  pull(d_hat)
+p_hat <- (d_hat+1)/2
 polls_sum<-polls %>% group_by(pollster) %>% 
   filter(n() >= 6) %>%
   summarize(ev=mean(spread), se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize))) %>% arrange(se)
