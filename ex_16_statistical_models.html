@@ -421,8 +421,8 @@ polls &lt;- polls_us_election_2016 %&gt;%
 </blockquote>
 <p>The term “poll/pollster bias” is introduced in the chapter 16.1.2 “Pollster bias”: “<em>However, there appears to be differences across the polls. Note, for example, how the USC Dornsife/LA Times pollster is predicting a 4% win for Trump, while Ipsos is predicting a win larger than 5% for Clinton. The theory we learned says nothing about different pollsters producing polls with different expected values. All the polls should have the same expected value.</em>”<br />
 Therefore, by comparing the expectation values of polls from different pollsters across all their polls an unexpected deviation is found.<br />
-The term itself was introduced by FiveThirtyEight in its blog post: “<em>Put another way: house effects are what we look at before the election; bias is what we look at after the election.</em>”.<br />
-</p>
+The term itself was introduced by FiveThirtyEight. In a blog post they distinguish their usage of the two terms by stating: “<em>Put another way: house effects are what we look at before the election; bias is what we look at after the election.</em>” (Source: “<a href="https://fivethirtyeight.com/features/when-house-effects-become-bias/" class="uri">https://fivethirtyeight.com/features/when-house-effects-become-bias/</a>” 07.08.2921).<br />
+However, in this book it the term “pollster bias” is defined as the effect that the polls of two pollsters have different expected values.</p>
 <p>The computation shows an expectation value for the pollster “[1] Rasmussen Reports/Pulse Opinion Research” of <span class="math inline">\(E[1]=0.000625\)</span>, where the expectation value for “[2] The Times-Picayune/Lucid” is significantly larger with a value of <span class="math inline">\(E[2]=0.052916\)</span>.</p>
 <pre class="r"><code>data(polls_us_election_2016)
 polls &lt;- polls_us_election_2016 %&gt;% 
@@ -574,7 +574,7 @@ E[Y_{1,j}] =  d + b_1.
 E[Y_{1,j}] \rightarrow E[\bar{Y}_1] =  d + b_1
 \]</span></p>
 <pre class="r"><code>library(dslabs)
-options(scipen = 50)
+options(scipen = 20)
 
 data(polls_us_election_2016)
 polls &lt;- polls_us_election_2016 %&gt;% 
@@ -801,7 +801,7 @@ Furthermore, the equation for confidence interval is <span class="math inline">\
 “<em>The theory we learned says nothing about different pollsters producing polls with different expected values. All the polls should have the same expected value.</em>”<br />
 Therefore, the value from the difference of the expected values <span class="math inline">\(E[\bar{Y_2}-\bar{Y_1}] = b_2-b_1=0.05 = 5\)</span>% is the amount of the pollster effect considering the two pollsters in this example.<br />
 </p>
-<p>The confidence interval of 0.0385 to 0.0660 has a narrow mean of error of 0.02756 (<span class="math inline">\(=\mbox{ci}_2-\mbox{ci}_1\)</span>). The confidence interval does not contain the null value of 0, therefore the null hypothesis can be rejected. It follows, that the pollster bias cannot be explained just due to randomness.</p>
+<p>The confidence interval (CI) of 0.0385 to 0.0660 has a narrow mean of error of 0.02756 (<span class="math inline">\(=\mbox{CI}_2-\mbox{CI}_1\)</span>). The confidence interval does not contain the null value of 0, therefore the null hypothesis can be rejected. It follows, that the pollster bias cannot be explained just due to randomness.</p>
 <pre class="r"><code>data(polls_us_election_2016)
 polls &lt;- polls_us_election_2016 %&gt;% 
   filter(pollster %in% c(&quot;Rasmussen Reports/Pulse Opinion Research&quot;,
@@ -832,10 +832,10 @@ EY2Y1&lt;-meanY2-meanY1
 ci1&lt;-EY2Y1-1.96*SE
 ci2&lt;-EY2Y1+1.96*SE
 
-data.frame(names=c(&quot;ci2-ci1&quot;,&quot;ci1&quot;,&quot;ci2&quot;,&quot;EY2Y1&quot;,&quot;SE&quot;), values=c(ci2-ci1,ci1,ci2,EY2Y1,SE))</code></pre>
+data.frame(names=c(&quot;CI2-CI1&quot;,&quot;CI1&quot;,&quot;CI2&quot;,&quot;EY2Y1&quot;,&quot;SE&quot;), values=c(ci2-ci1,ci1,ci2,EY2Y1,SE))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["names"],"name":[1],"type":["chr"],"align":["left"]},{"label":["values"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"ci2-ci1","2":"0.027563217"},{"1":"ci1","2":"0.038510058"},{"1":"ci2","2":"0.066073275"},{"1":"EY2Y1","2":"0.052291667"},{"1":"SE","2":"0.007031433"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["names"],"name":[1],"type":["chr"],"align":["left"]},{"label":["values"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"CI2-CI1","2":"0.027563217"},{"1":"CI1","2":"0.038510058"},{"1":"CI2","2":"0.066073275"},{"1":"EY2Y1","2":"0.052291667"},{"1":"SE","2":"0.007031433"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -844,8 +844,9 @@ data.frame(names=c(&quot;ci2-ci1&quot;,&quot;ci1&quot;,&quot;ci2&quot;,&quot;EY2
 <blockquote>
 <p>19. The confidence interval tells us there is relatively strong pollster effect resulting in a difference of about 5%. Random variability does not seem to explain it. We can compute a p-value to relay the fact that chance does not explain it. What is the p-value?</p>
 </blockquote>
-<p>The p-value can be computed first by calculating the ratio by dividing the expected value <span class="math inline">\(\bar{Y_2}-\bar{Y}_1\)</span> of by its standard error: <span class="math inline">\(Z=\frac{E[\bar{Y}_{2} - \bar{Y}_1]}{SE[\bar{Y}_{2} - \bar{Y}_1]}=\frac{b_2-b_1}{\sqrt{\sigma_2^2/N_2+\sigma_1^2/N_1}}\)</span>.<br />
-Then the ratio can be used with the <code>pnorm()</code>function to compute the probability of the p-value.<br />
+<p>The p-value can be computed first by calculating the ratio by dividing the expected value <span class="math inline">\(E[\bar{Y}_{2} - \bar{Y}_1\)</span> of by its standard error <span class="math inline">\(SE[\bar{Y}_{2} - \bar{Y}_1\)</span> to yield the ratio: <span class="math display">\[
+z=\frac{E[\bar{Y}_{2} - \bar{Y}_1]}{SE[\bar{Y}_{2} - \bar{Y}_1]}=\frac{b_2-b_1}{\sqrt{s_2^2/N_2+s_1^2/N_1}}
+\]</span> Since the actual <span class="math inline">\(\sigma\)</span> is not known it was approximated by the sample standard deviation <span class="math inline">\(s\)</span> Then the ratio can be used with the <code>pnorm()</code>function to compute the probability of the p-value.<br />
 </p>
 <p>In <strong>chapter 15.9</strong> “<em>p-values</em>” the concept was introduced by computing the ratio of <span class="math inline">\(z=\frac{\mid \bar{X} - p\mid}{\sqrt{p(1-p)/N}}\)</span>. Then the ratio <span class="math inline">\(z\)</span> was plugged into the standard normal distribution function <code>1 - (pnorm(z) - pnorm(-z))</code> in order to gain the actual p-value<br />
 </p>
@@ -889,7 +890,7 @@ d
 </tr>
 </tbody>
 </table>
-<p>Also, in chapter</p>
+<p>Also, in the exercise <strong>chapter 15.11</strong> in the first question the p-value from the chi-square statistics is computed utilizing the ratio of a 2x2 matrix. The matrix is the parameter for the chi-square function <span class="math inline">\(\chi^2 = \sum_i^N \frac{n_i-E_i}{E_i}\)</span>, where <span class="math inline">\(E\)</span> is the expectation value. The result of the chi-square function is the actual chi-square value <span class="math inline">\(z=\chi^2\)</span>. Then <span class="math inline">\(z\)</span> can be used to compute the p-value from the chi-square probability distribution function <code>pchisq()</code>.</p>
 <pre class="r"><code>library(dslabs)
 library(tidyverse)
 data(polls_us_election_2016)
@@ -925,12 +926,13 @@ ci2&lt;-EY2Y1+1.96*SE
 
 z&lt;- EY2Y1/SE
 p_val&lt;-1-(pnorm(z)-pnorm(-z))
-data.frame(names=c(&quot;p_val&quot;,&quot;ratio&quot;,&quot;ci1&quot;,&quot;ci2&quot;,&quot;EY1&quot;,&quot;EY2&quot;,&quot;EY2Y1&quot;,&quot;SE&quot;), values=c(p_val,z,ci1,ci2,meanY1,meanY2,EY2Y1,SE))</code></pre>
+data.frame(names=c(&quot;p_val&quot;,&quot;z&quot;,&quot;CI1&quot;,&quot;CI2&quot;,&quot;MOE&quot;,&quot;EY1&quot;,&quot;EY2&quot;,&quot;EY2Y1&quot;,&quot;SE&quot;), values=c(p_val,z,ci1,ci2,ci2-ci1,meanY1,meanY2,meanY2-meanY1,SE))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["names"],"name":[1],"type":["chr"],"align":["left"]},{"label":["values"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"p_val","2":"0.0000000000001030287"},{"1":"ratio","2":"7.4368436558908852518"},{"1":"ci1","2":"0.0385100583111540606"},{"1":"ci2","2":"0.0660732750221792453"},{"1":"EY1","2":"0.0006250000000000040"},{"1":"EY2","2":"0.0529166666666666605"},{"1":"EY2Y1","2":"0.0522916666666666530"},{"1":"SE","2":"0.0070314328344452002"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["names"],"name":[1],"type":["chr"],"align":["left"]},{"label":["values"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"p_val","2":"0.0000000000001030287"},{"1":"z","2":"7.4368436558908852518"},{"1":"CI1","2":"0.0385100583111540606"},{"1":"CI2","2":"0.0660732750221792453"},{"1":"MOE","2":"0.0275632167110251847"},{"1":"EY1","2":"0.0006250000000000040"},{"1":"EY2","2":"0.0529166666666666605"},{"1":"EY2Y1","2":"0.0522916666666666530"},{"1":"SE","2":"0.0070314328344452002"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
+<p>The computation yields a ratio of <span class="math inline">\(z=7.44\)</span> and results in a rather small p-value of <span class="math inline">\(1.03\ 10^{-13}\)</span>, which is smaller than the threshold of 0.05 so that the null hypothesis is rejected. It follows, that the pollster effect cannot be explained by chance only. The pollster effect has the magnitude of <span class="math inline">\(E[Y_2]-E[Y_1] = 0.0523\)</span> that is <span class="math inline">\(\approx\)</span> 5%.</p>
 </div>
 <div id="qn-18" class="section level3" number="0.1.20">
 <h3 number="16.1.20"><span class="header-section-number">16.1.20</span> Qn</h3>

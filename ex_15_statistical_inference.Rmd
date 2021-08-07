@@ -712,6 +712,7 @@ chisquare<-seq(0,4,0.05)
 pval<-pchisq(chisquare, df =  1, lower.tail = FALSE)
 df<-data.frame(chisquare,pval)
 df
+pchisq(3.0573, df =  1, lower.tail = FALSE)
 ggplot(df,aes(x=chisquare,y=pval))+
   geom_point() +
   geom_line(color="blue") +
@@ -719,38 +720,6 @@ ggplot(df,aes(x=chisquare,y=pval))+
   xlab(expression(chi^{2})) +
   geom_segment(aes(x = 0, y = 0.08038, xend = 3.0573+0.5, yend = 0.08038), color="red",size=0.3) +
   geom_segment(aes(x = 3.0573, y = 0, xend = 3.0573, yend = 0.08038+0.1), color="red",size=0.3)
-```
-Another example from the book, regarding the Chi-square test. 
-
-```{r, message=FALSE, eval=FALSE}
-library(tidyverse)
-library(dslabs)
-data("research_funding_rates")
-research_funding_rates %>% select(discipline, applications_total, success_rates_total) 
-totals <- research_funding_rates %>% 
-  select(-discipline) %>% 
-  summarize_all(sum) %>%
-  summarize(yes_men = awards_men, 
-            no_men = applications_men - awards_men, 
-            yes_women = awards_women, 
-            no_women = applications_women - awards_women) 
-totals %>% summarize(percent_men = yes_men/(yes_men+no_men),
-                     percent_women = yes_women/(yes_women+no_women))
-rate <- totals %>%
-  summarize(percent_total = 
-              (yes_men + yes_women)/
-              (yes_men + no_men +yes_women + no_women)) %>%
-  pull(percent_total)
-two_by_two <- data.frame(awarded = c("no", "yes"), 
-                     men = c(totals$no_men, totals$yes_men),
-                     women = c(totals$no_women, totals$yes_women))
-two_by_two
-data.frame(awarded = c("no", "yes"), 
-       men = (totals$no_men + totals$yes_men) * c(1 - rate, rate),
-       women = (totals$no_women + totals$yes_women) * c(1 - rate, rate))
-chisq_test <- two_by_two %>% select(-awarded) %>% chisq.test()
-chisq_test$p.value
-chisq_test
 ```
 
 ### Qn
