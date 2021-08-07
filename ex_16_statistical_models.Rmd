@@ -289,7 +289,8 @@ If the bias were zero, it means that the poll predicted the outcome of an electi
 The variable $\varepsilon_{i,j}$ defines how large the difference in the pollster bias is. This is referred to "house effect". \
 The confusing part of this question is that the chapter in the book explains only one effect, the bias of two pollsters ($\varepsilon_{i,j}$) but not the bias of a single pollster towards a certain result ($b_i$). \
 
-In the first sentence of the question the null hypothesis is stated as $H_0$: "*The observed difference of the polls, the pollster bias, is due to chance.*".
+In the first sentence of the question the null hypothesis is stated as $H_0$: "*The observed difference of the polls, the pollster bias, is due to chance.*". \
+Therefore, there are two different sets of samples $Y_1$ and $Y_2$ then the null hypothesis is that the different means $b_1$ and $b_2$ is due to chance. Or in other word how large is the probability that the difference is due to chance. 
 
 
 ### Qn
@@ -297,6 +298,7 @@ In the first sentence of the question the null hypothesis is stated as $H_0$: "*
 
 To solve this question two assumptions are used: \
 **First**: The elements $d$ and $b_i$ are constants and therefore do not depend on the expectation value. \
+
 **Second**: *We assume the $\varepsilon$ are independent from each other, have expected value $0$ and standard deviation $\sigma_i$ regardless of $j$.*".
 
 $$
@@ -494,6 +496,8 @@ data.frame(values=c("nY1","sigmaY1","nY2","sigmaY2","SE"), values=c(nY1,sigmaY1,
 ### Qn
 >16\. The answer to the question above depends on $\sigma_1$ and $\sigma_2$, which we don't know. We learned that we can estimate these with the sample standard deviation. Write code that computes these two estimates.
 
+In chapter 16.2 "*Data-driven models*" it is explained that: "A problem is that we don't know $\sigma$. But theory tells us that we can estimate the urn model $\sigma$ with the _sample standard deviation_ defined as $s = \sqrt{ \sum_{i=1}^N (X_i - \bar{X})^2 / (N-1)}$.". Here, the sample standard deviation value $s$ can be computed with the function `sd()`. 
+
 ```{r, message=FALSE, rows.print = 25}
 data(polls_us_election_2016)
 polls <- polls_us_election_2016 %>% 
@@ -570,7 +574,10 @@ data.frame(names=c("ci2-ci1","ci1","ci2","EY2Y1","SE"), values=c(ci2-ci1,ci1,ci2
 ### Qn
 >19\. The confidence interval tells us there is relatively strong pollster effect resulting in a difference of about 5%. Random variability does not seem to explain it. We can compute a p-value to relay the fact that chance does not explain it. What is the p-value?
 
-The p-value can be computed by dividing the expected value $\bar{Y_2}-\bar{Y}_1$ of by its standard error: $\frac{E[\bar{Y}_{2} - \bar{Y}_1]}{SE[\bar{Y}_{2} - \bar{Y}_1]}=\frac{b_2-b_1}{\sqrt{\sigma_2^2/N_2+\sigma_1^2/N_1}}$. \
+The p-value can be computed first by calculating the ratio by dividing the expected value $\bar{Y_2}-\bar{Y}_1$ of by its standard error: $Z=\frac{E[\bar{Y}_{2} - \bar{Y}_1]}{SE[\bar{Y}_{2} - \bar{Y}_1]}=\frac{b_2-b_1}{\sqrt{\sigma_2^2/N_2+\sigma_1^2/N_1}}$. \
+Then the ratio can be used with the `pnorm()`function to compute the probability of the p-value. \
+
+This method of computing the p-value has been applied also in chapter 15.10.5 "*Confidence intervals for the odds ratio*", in which the confidence interval was computed along with the p-value. 
 
 
 ```{r, message=FALSE}
@@ -607,9 +614,9 @@ ci1<-EY2Y1-1.96*SE
 ci2<-EY2Y1+1.96*SE
 
 
-ratio<- EY2Y1/SE
-p_val<-round(2*(1-pnorm(ratio)),8)
-data.frame(names=c("p_val","ratio","ci1","ci2","EY1","EY2","EY2Y1","SE"), values=c(p_val,ratio,ci1,ci2,meanY1,meanY2,EY2Y1,SE))
+z<- EY2Y1/SE
+p_val<-1-(pnorm(z)-pnorm(-z))
+data.frame(names=c("p_val","ratio","ci1","ci2","EY1","EY2","EY2Y1","SE"), values=c(p_val,z,ci1,ci2,meanY1,meanY2,EY2Y1,SE))
 ```
 ### Qn
 >20\. The statistic formed by dividing our estimate of $b_2-b_1$ by its estimated standard error:
