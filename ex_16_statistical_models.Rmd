@@ -177,7 +177,7 @@ Therefore, by comparing the expectation values of polls from different pollsters
 The term itself was introduced by FiveThirtyEight in its blog post: "*Put another way: house effects are what we look at before the election; bias is what we look at after the election.*".\
 
 
-The computation shows an expectation value for the pollster "[1] Rasmussen Reports/Pulse Opinion Research" of $E[1]=$0.000625, where the expectation value for "[2] The Times-Picayune/Lucid" is significantly larger with a value of $E[2]=$0.052916. 
+The computation shows an expectation value for the pollster "[1] Rasmussen Reports/Pulse Opinion Research" of $E[1]=0.000625$, where the expectation value for "[2] The Times-Picayune/Lucid" is significantly larger with a value of $E[2]=0.052916$. 
 
 
 ```{r, message=FALSE, rows.print=25}
@@ -496,7 +496,8 @@ data.frame(values=c("nY1","sigmaY1","nY2","sigmaY2","SE"), values=c(nY1,sigmaY1,
 ### Qn
 >16\. The answer to the question above depends on $\sigma_1$ and $\sigma_2$, which we don't know. We learned that we can estimate these with the sample standard deviation. Write code that computes these two estimates.
 
-In chapter 16.2 "*Data-driven models*" it is explained that: "A problem is that we don't know $\sigma$. But theory tells us that we can estimate the urn model $\sigma$ with the _sample standard deviation_ defined as $s = \sqrt{ \sum_{i=1}^N (X_i - \bar{X})^2 / (N-1)}$.". Here, the sample standard deviation value $s$ can be computed with the function `sd()`. 
+In chapter 16.2 "*Data-driven models*" it is explained that: "A problem is that we don't know $\sigma$. But theory tells us that we can estimate the urn model $\sigma$ with the _sample standard deviation_ defined as $s = \sqrt{ \sum_{i=1}^N (X_i - \bar{X})^2 / (N-1)}$.". \ 
+Here, the sample standard deviation value $s$ can be computed with the function `sd()`. 
 
 ```{r, message=FALSE, rows.print = 25}
 data(polls_us_election_2016)
@@ -577,7 +578,24 @@ data.frame(names=c("ci2-ci1","ci1","ci2","EY2Y1","SE"), values=c(ci2-ci1,ci1,ci2
 The p-value can be computed first by calculating the ratio by dividing the expected value $\bar{Y_2}-\bar{Y}_1$ of by its standard error: $Z=\frac{E[\bar{Y}_{2} - \bar{Y}_1]}{SE[\bar{Y}_{2} - \bar{Y}_1]}=\frac{b_2-b_1}{\sqrt{\sigma_2^2/N_2+\sigma_1^2/N_1}}$. \
 Then the ratio can be used with the `pnorm()`function to compute the probability of the p-value. \
 
-This method of computing the p-value has been applied also in chapter 15.10.5 "*Confidence intervals for the odds ratio*", in which the confidence interval was computed along with the p-value. 
+In **chapter 15.9** "_p-values_" the concept was introduced by computing the ratio of $z=\frac{\mid \bar{X} - p\mid}{\sqrt{p(1-p)/N}}$. Then the ratio $z$ was plugged into the standard normal distribution function `1 - (pnorm(z) - pnorm(-z))` in order to gain the actual p-value \
+
+This method of computing the p-value has been also applied also in **chapter 15.10.5** "*Confidence intervals for the odds ratio*", in which the confidence interval was computed along with the p-value using the log ratio of a 2x2 table $z=\frac{a/c}{b/d}$ and the function `2*(1 - pnorm(z))`. \
+```{r, echo=FALSE, message=FALSE}
+library(kableExtra)
+mat <- cbind(c(" a "," c "), c(" b "," d "))
+colnames(mat) <- c("Men","Women")
+rownames(mat) <- c("Awarded", "Not Awarded")
+if(knitr::is_html_output()){
+  knitr::kable(mat, "html", align = "c") %>%
+    kableExtra::kable_styling(bootstrap_options = "striped", full_width = FALSE)
+} else{
+  knitr::kable(mat, "latex", booktabs = TRUE, align = "c") %>%
+    kableExtra::kable_styling(font_size = 8)
+}
+```
+
+Also, in chapter 
 
 
 ```{r, message=FALSE}
