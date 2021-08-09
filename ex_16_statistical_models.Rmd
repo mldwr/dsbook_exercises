@@ -599,7 +599,7 @@ $$
 Since the actual $\sigma$ is not known it was approximated by the sample standard deviation $s$
 Then the ratio can be used with the `pnorm()`function to compute the probability of the p-value. \
 
-In **chapter 15.9** "_p-values_" the concept was introduced by computing the ratio of $z=\frac{\mid\bar{X}-E[\bar{X}]\mid}{SE[p]}=\frac{\mid \bar{X} - p\mid}{\sqrt{p(1-p)/N}}$. Then the ratio $z$ was plugged into the standard normal distribution function `1 - (pnorm(z) - pnorm(-z))` in order to gain the actual p-value \
+In **chapter 15.9** "_p-values_" the concept was introduced by computing the ratio of $z=\frac{\mid\bar{X}-E[\bar{X}]\mid}{SE[\bar{X}]}=\frac{\mid \bar{X} - p\mid}{\sqrt{p(1-p)/N}}$. Then the ratio $z$ was plugged into the standard normal distribution function `1 - (pnorm(z) - pnorm(-z))` in order to gain the actual p-value \
 
 This method of computing the p-value has been also applied also in **chapter 15.10.5** "*Confidence intervals for the odds ratio*", in which the confidence interval was computed along with the p-value using the log ratio of a 2x2 contingency table $z=\frac{a/c}{b/d}$ and the function `2*(1 - pnorm(z))`. \
 
