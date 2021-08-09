@@ -201,9 +201,9 @@ polls_sum<-polls %>% group_by(pollster) %>% summarize(ev=mean(spread), se = 2 * 
 polls_sum<- polls_sum %>% mutate(diff_se=se[1]-se[2], diff_ev=ev[2]-ev[1])
 polls_sum
 #polls %>% mutate(d_hat = sum(spread * samplesize) / sum(samplesize)) %>% select(pollster,samplesize,spread,d_hat) %>% arrange(pollster)
-polls %>%
-  ggplot(aes(spread)) +
-  geom_histogram(color="black", binwidth = .02)
+#polls %>%
+#  ggplot(aes(spread)) +
+#  geom_histogram(color="black", binwidth = .02)
 ```
 
 
@@ -235,7 +235,17 @@ polls %>% ggplot(aes(pollster, spread)) +
 
 Is the found bias large or not?
 
-```{r}
+```{r,rows.print=25}
+data(polls_us_election_2016)
+polls <- polls_us_election_2016 %>% 
+  filter(state == "U.S." & enddate >= "2016-10-31" ) %>%   mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) 
+#polls %>% filter(pollster == "USC Dornsife/LA Times") %>% select(pollster,samplesize,spread)
+polls_max<-polls %>% group_by(pollster) %>% summarise(startdate=max(startdate),enddate=max(enddate),spread=max(spread),samplesize=max(samplesize))
+polls_max
+```
+
+
+```{r,rows.print=25}
 data(polls_us_election_2016)
 polls<-polls_us_election_2016 %>% 
   filter(enddate >= "2016-10-15" &
@@ -253,6 +263,7 @@ p_hat <- (d_hat+1)/2
 polls_sum<-polls %>% group_by(pollster) %>% 
   filter(n() >= 6) %>%
   summarize(ev=mean(spread), se = 2 * sqrt(p_hat * (1-p_hat) / median(samplesize))) %>% arrange(se)
+polls_sum
 polls_mx<-union(polls_sum %>% head(1),polls_sum %>% tail(1))
 polls_mx<- polls_mx %>% mutate(diff_se=se[2]-se[1], diff_ev=ev[2]-ev[1])
 polls_mx
@@ -292,6 +303,11 @@ The confusing part of this question is that the chapter in the book explains onl
 
 In the first sentence of the question the null hypothesis is stated as $H_0$: "*The observed difference of the polls, the pollster bias, is due to chance.*". \
 Therefore, there are two different sets of samples $Y_1$ and $Y_2$ then the null hypothesis is that the different means $b_1$ and $b_2$ is due to chance. Or in other word how large is the probability that the difference is due to chance. 
+
+The objective of the null hypothesis is to assume that the observed effect is random. This would mean that if the experiment is repeated the observed effect would disappear. Therefore, the question is, how reliable is the shown effect, will it persist, if the experiment will be repeated. \
+Instead, the alternative hypothesis states that the observed effect is driven by a force from within the sampled system. For this reason, the intrinsic motivation of the researcher is to prove that the null hypothesis can be rejected in order to demonstrated that the observed effect is persistent and caused by a force within the investigated system. \
+
+This is the difference between descriptive statistics and inferential statistics. The former describes the actual sample where the latter one deduces information of future samples and about the total population size, from which the sample was taken. 
 
 
 ### Qn
@@ -576,21 +592,22 @@ data.frame(names=c("CI2-CI1","CI1","CI2","EY2Y1","SE"), values=c(ci2-ci1,ci1,ci2
 ### Qn
 >19\. The confidence interval tells us there is relatively strong pollster effect resulting in a difference of about 5%. Random variability does not seem to explain it. We can compute a p-value to relay the fact that chance does not explain it. What is the p-value?
 
-The p-value can be computed first by calculating the ratio by dividing the expected value $E[\bar{Y}_{2} - \bar{Y}_1$ of by its standard error $SE[\bar{Y}_{2} - \bar{Y}_1$ to yield the ratio: 
+The p-value can be computed first by calculating the ratio by dividing the expected value $E[\bar{Y}_{2} - \bar{Y}_1]$ of by its standard error $SE[\bar{Y}_{2} - \bar{Y}_1]$ to yield the ratio: 
 $$
 z=\frac{E[\bar{Y}_{2} - \bar{Y}_1]}{SE[\bar{Y}_{2} - \bar{Y}_1]}=\frac{b_2-b_1}{\sqrt{s_2^2/N_2+s_1^2/N_1}}
 $$
 Since the actual $\sigma$ is not known it was approximated by the sample standard deviation $s$
 Then the ratio can be used with the `pnorm()`function to compute the probability of the p-value. \
 
-In **chapter 15.9** "_p-values_" the concept was introduced by computing the ratio of $z=\frac{\mid \bar{X} - p\mid}{\sqrt{p(1-p)/N}}$. Then the ratio $z$ was plugged into the standard normal distribution function `1 - (pnorm(z) - pnorm(-z))` in order to gain the actual p-value \
+In **chapter 15.9** "_p-values_" the concept was introduced by computing the ratio of $z=\frac{\mid\bar{X}-E[\bar{X}]\mid}{SE[p]}=\frac{\mid \bar{X} - p\mid}{\sqrt{p(1-p)/N}}$. Then the ratio $z$ was plugged into the standard normal distribution function `1 - (pnorm(z) - pnorm(-z))` in order to gain the actual p-value \
 
-This method of computing the p-value has been also applied also in **chapter 15.10.5** "*Confidence intervals for the odds ratio*", in which the confidence interval was computed along with the p-value using the log ratio of a 2x2 table $z=\frac{a/c}{b/d}$ and the function `2*(1 - pnorm(z))`. \
+This method of computing the p-value has been also applied also in **chapter 15.10.5** "*Confidence intervals for the odds ratio*", in which the confidence interval was computed along with the p-value using the log ratio of a 2x2 contingency table $z=\frac{a/c}{b/d}$ and the function `2*(1 - pnorm(z))`. \
+
 ```{r, echo=FALSE, message=FALSE}
 library(kableExtra)
 mat <- cbind(c(" a "," c "), c(" b "," d "))
-colnames(mat) <- c("Men","Women")
-rownames(mat) <- c("Awarded", "Not Awarded")
+colnames(mat) <- c("Parameter 1","Parameter 2")
+rownames(mat) <- c("Obervation 1", "Observation 2")
 if(knitr::is_html_output()){
   knitr::kable(mat, "html", align = "c") %>%
     kableExtra::kable_styling(bootstrap_options = "striped", full_width = FALSE)
@@ -600,7 +617,10 @@ if(knitr::is_html_output()){
 }
 ```
 
-Also, in the exercise **chapter 15.11** in the first question the p-value from the chi-square statistics is computed utilizing the ratio of a 2x2 matrix. The matrix is the parameter for the chi-square function $\chi^2 = \sum_i^N \frac{n_i-E_i}{E_i}$, where $E$ is the expectation value. The result of the chi-square function is the actual chi-square value $z=\chi^2$. Then $z$ can be used to compute the p-value from the chi-square probability distribution function `pchisq()`.
+Also, in the exercise **chapter 15.11** in the first question the p-value from the chi-square statistics is computed utilizing the ratio of a 2x2 matrix. The matrix is the parameter for the chi-square function $\chi^2 = \sum_i^N \frac{(O_i-E_i)^2}{E_i}$, where $O_i$ is the observed and $E_i$ is the expected value. The result of the chi-square function is the actual chi-square value $z=\chi^2$. Then $z$ can be used to compute the p-value from the chi-square probability distribution function `pchisq(z)`. \
+
+The information one gets of looking at any distribution is to gain insight of the whole population. Therefore, it is crucial to be sure which distribution a population obeys in order to transfer the sample results to the whole population. \
+So the sample that is being investigated is only viable if it can be extrapolated on the total population. 
 
 
 ```{r, message=FALSE}
@@ -642,7 +662,9 @@ p_val<-1-(pnorm(z)-pnorm(-z))
 data.frame(names=c("p_val","z","CI1","CI2","MOE","EY1","EY2","EY2Y1","SE"), values=c(p_val,z,ci1,ci2,ci2-ci1,meanY1,meanY2,meanY2-meanY1,SE))
 ```
 
-The computation yields a ratio of $z=7.44$ and results in a rather small p-value of $1.03\ 10^{-13}$, which is smaller than the threshold of 0.05 so that the null hypothesis is rejected. It follows, that the pollster effect cannot be explained by chance only. The pollster effect has the magnitude of $E[Y_2]-E[Y_1] = 0.0523$ that is $\approx$ 5%.
+The computation yields a ratio of $z=7.44$ and results in a rather small p-value of $1.03\ 10^{-13}$, which is smaller than the threshold of 0.05 so that the null hypothesis is rejected. It follows, that the pollster effect cannot be explained by chance only. \ 
+Therefore, there is a systematic force, which drives this effect that is not caused by randomness. 
+
 
 ### Qn
 >20\. The statistic formed by dividing our estimate of $b_2-b_1$ by its estimated standard error:
@@ -666,6 +688,10 @@ The computation yields a ratio of $z=7.44$ and results in a rather small p-value
 >```
 >
 >Compute the average and standard deviation for each pollster and examine the variability across the averages and how it compares to the variability within the pollsters, summarized by the standard deviation.
+
+$t = \frac{\mbox{E}[\bar{X}-\bar{Y}]}{\mbox{SE}[\bar{X}-\bar{Y}]} =\frac{\mbox{average}}{\mbox{standard deviation}} = \frac{\mbox{variability across the pollsters}}{\mbox{variability within the pollsters}}$
+
+A large t-value would result from two different groups, where a small t-value from similar groups. The distinction between large and small t-values, i.e. the significance of the t-value, can be deduced from the p-value of the t-distribution. A p-value lower than 5% tells that the observed difference is just due to randomness. 
 
 ```{r}
 polls <- polls_us_election_2016 %>% 
