@@ -345,7 +345,7 @@ $$
 
 ```{r, message=FALSE}
 library(dslabs)
-options(scipen = 20)
+options(scipen = 10)
 
 data(polls_us_election_2016)
 polls <- polls_us_election_2016 %>% 
@@ -693,15 +693,21 @@ $t = \frac{\mbox{E}[\bar{X}-\bar{Y}]}{\mbox{SE}[\bar{X}-\bar{Y}]} =\frac{\mbox{a
 
 A large t-value would result from two different groups, where a small t-value from similar groups. The distinction between large and small t-values, i.e. the significance of the t-value, can be deduced from the p-value of the t-distribution. A p-value lower than 5% tells that the observed difference is just due to randomness. 
 
-```{r}
+```{r, rows.print=25}
+options(scipen = 50)
 polls <- polls_us_election_2016 %>% 
   filter(enddate >= "2016-10-15" &
            state == "U.S.") %>%
   group_by(pollster) %>%
   filter(n() >= 5) %>% 
-  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) %>%
-  ungroup()
-polls
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) 
+#%>%   ungroup()
+polls_grp <- polls %>% select(pollster,samplesize,spread) %>% group_by(pollster) %>% summarize(EY=mean(spread),sigmaY=sd(spread),nY = n(),sigsqN=sigmaY^2/nY) %>% arrange(sigsqN)
+polls_t<-polls_grp %>% select(pollster,sigsqN,EY)
+x<-data.frame(a=polls_t)
+y<-data.frame(b=polls_t)
+merge(x,y,all=TRUE) %>% mutate(se=sqrt(a.sigsqN+b.sigsqN),EXEY=b.EY-a.EY,z=EXEY/se,tstat=2*(1-pnorm(z))) %>% select(a.pollster,b.pollster, se,EXEY,z,tstat) %>% arrange(a.pollster,b.pollster) 
+#%>% filter(str_detect(a.pollster,"Pulse"))
 ```
 
 ## Exercises: Bayes
