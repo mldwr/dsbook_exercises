@@ -708,7 +708,7 @@ x<-data.frame(a=polls_t)
 y<-data.frame(b=polls_t)
 polls_merge <-merge(x,y,all=TRUE) %>% mutate(se=sqrt(a.sigsqN+b.sigsqN),EXEY=b.EY-a.EY,z=EXEY/se,tstat=2*(1-pnorm(z))) %>% select(a.pollster,b.pollster, se,EXEY,z,tstat) %>% arrange(abs(z)) #%>% filter(tstat<1 & tstat>0)
 polls_merge<-polls_merge %>% filter(a.pollster!=b.pollster) %>% filter(z>0) #%>% filter(tstat<0.05)
-polls_merge<-polls_merge %>% mutate(c.pollster=paste(a.pollster,"_",b.pollster))
+polls_merge<-polls_merge %>% mutate(c.pollster=paste(a.pollster,"_",b.pollster)) %>% mutate(relevant=as.factor(ifelse(tstat<0.05,1,0)))
 polls_merge
 plot(polls_merge)
 ggplot(polls_merge,aes(a.pollster, tstat, color=b.pollster))+
@@ -717,10 +717,10 @@ ggplot(polls_merge,aes(a.pollster, tstat, color=b.pollster))+
 ggplot(polls_merge,aes(b.pollster, tstat, color=a.pollster))+
   geom_point() +
   coord_flip()
-ggplot(polls_merge,aes(c.pollster, tstat))+
+ggplot(polls_merge,aes(c.pollster, tstat, color=relevant))+
   geom_point() +
   coord_flip()
-ggplot(polls_merge,aes(a.pollster, tstat))+
+ggplot(polls_merge,aes(a.pollster, tstat, color=relevant))+
   geom_point() +
   coord_flip() + 
   facet_wrap(~b.pollster, ncol=2) +
