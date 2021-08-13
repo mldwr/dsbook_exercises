@@ -709,7 +709,7 @@ x<-data.frame(a=polls_t)
 y<-data.frame(b=polls_t)
 polls_merge <-merge(x,y,all=TRUE) %>% mutate(SE=sqrt(a.sigsqN+b.sigsqN),EXEY=b.EY-a.EY,CI1=EXEY-1.96*SE,CI2=EXEY+1.96*SE, z=EXEY/SE,tstat=2*(1-pnorm(z))) %>% select(a.pollster,b.pollster, SE,EXEY,CI1,CI2,z,tstat) %>% arrange(abs(z))
 polls_merge<-polls_merge %>% filter(a.pollster!=b.pollster) %>% filter(z>0) #%>% filter(tstat<0.05)
-polls_merge<-polls_merge %>% mutate(c.pollster=paste(a.pollster,"_",b.pollster)) %>% mutate(significant=as.factor(ifelse(tstat<0.05,"yes","no"))) %>% mutate(null_value=as.factor(ifelse(CI1<=0 & CI2>=0,"yes","no")))
+polls_merge<-polls_merge %>% mutate(c.pollster=paste(a.pollster,"_",b.pollster)) %>% mutate(significant=as.factor(ifelse(tstat<0.05,"yes","no"))) %>% mutate(no_null_value=as.factor(ifelse(CI1>0,"yes","no")))
 polls_merge
 plot(polls_merge)
 ggplot(polls_merge,aes(a.pollster, tstat, color=b.pollster))+
@@ -726,7 +726,7 @@ ggplot(polls_merge,aes(a.pollster, tstat, color=significant))+
   coord_flip() + 
   facet_wrap(~b.pollster, ncol=2) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-ggplot(polls_merge,aes(a.pollster, EXEY, color=null_value))+
+ggplot(polls_merge,aes(a.pollster, EXEY, color=no_null_value))+
   geom_point() +
   coord_flip() + 
   geom_errorbar(aes(ymin=CI1, ymax=CI2)) +
