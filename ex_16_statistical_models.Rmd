@@ -192,7 +192,7 @@ polls <- polls_us_election_2016 %>%
 polls %>% ggplot(aes(pollster, spread)) + 
   geom_point() +
   coord_flip() +
-  #geom_boxplot() +
+  geom_boxplot() +
   scale_y_continuous(breaks = c(-0.02,0,0.02,0.04,0.06,0.08,0.10,0.12))
 d_hat <- polls %>% 
   summarize(d_hat = sum(spread * samplesize) / sum(samplesize)) %>% 
@@ -694,7 +694,11 @@ $t = \frac{\mbox{E}[\bar{X}-\bar{Y}]}{\mbox{SE}[\bar{X}-\bar{Y}]} =\frac{\mbox{a
 
 A large t-value would result from two different groups, where a small t-value from similar groups. The distinction between large and small t-values, i.e. the significance of the t-value, can be deduced from the p-value of the t-distribution. A p-value lower than 5% tells that the observed difference is just due to randomness. 
 
-```{r fig.height=10, fig.width=10, rows.print=25}
+Discussion:\
+
+```{r message=FALSE, rows.print=25, fig.height=10, fig.width=10}
+library(dslabs)
+library(tidyverse)
 options(scipen = 50)
 polls <- polls_us_election_2016 %>% 
   filter(enddate >= "2016-10-15" &
@@ -704,6 +708,12 @@ polls <- polls_us_election_2016 %>%
   mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) 
 #%>%   ungroup()
 polls_grp <- polls %>% select(pollster,samplesize,spread) %>% group_by(pollster) %>% summarize(EY=mean(spread),sigmaY=sd(spread),nY = n(),sigsqN=sigmaY^2/nY) %>% arrange(sigsqN)
+polls_grp
+```
+
+Crosstable data 
+
+```{r}
 polls_t<-polls_grp %>% select(pollster,sigsqN,EY)
 x<-data.frame(a=polls_t)
 y<-data.frame(b=polls_t)
@@ -711,21 +721,45 @@ polls_merge <-merge(x,y,all=TRUE) %>% mutate(SE=sqrt(a.sigsqN+b.sigsqN),EXEY=b.E
 polls_merge<-polls_merge %>% filter(a.pollster!=b.pollster) %>% filter(z>0) #%>% filter(tstat<0.05)
 polls_merge<-polls_merge %>% mutate(c.pollster=paste(a.pollster,"_",b.pollster)) %>% mutate(significant=as.factor(ifelse(tstat<0.05,"yes","no"))) %>% mutate(no_null_value=as.factor(ifelse(CI1>0,"yes","no")))
 polls_merge
-plot(polls_merge)
+```
+Compare result of confidence interval with p-value
+
+```{r}
+polls_merge %>% select(c.pollster,significant,no_null_value) %>% mutate(diff=ifelse(significant!=no_null_value,1,0)) %>% summarise(d=sum(diff))
+```
+
+p-value for each pollster combination :\
+
+```{r fig.width=10}
 ggplot(polls_merge,aes(a.pollster, tstat, color=b.pollster))+
   geom_point() +
   coord_flip()
 ggplot(polls_merge,aes(b.pollster, tstat, color=a.pollster))+
   geom_point() +
   coord_flip()
+```
+
+another plot for the p-value of a pollster-pollster combinaton :\
+
+```{r fig.height=10, fig.width=10}
 ggplot(polls_merge,aes(c.pollster, tstat, color=significant))+
   geom_point() +
   coord_flip()
+```
+
+Third plot of p-value on a grid:\
+
+```{r fig.height=10, fig.width=10}
 ggplot(polls_merge,aes(a.pollster, tstat, color=significant))+
   geom_point() +
   coord_flip() + 
   facet_wrap(~b.pollster, ncol=2) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+confidence interval:\
+
+```{r fig.height=10, fig.width=10}
 ggplot(polls_merge,aes(a.pollster, EXEY, color=no_null_value))+
   geom_point() +
   coord_flip() + 
@@ -733,6 +767,12 @@ ggplot(polls_merge,aes(a.pollster, EXEY, color=no_null_value))+
   facet_wrap(~b.pollster, ncol=2) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
+
+scatter plots of available numerical variables, to discover unforeseen relationships. 
+
+```{r fig.height=10, fig.width=10}
+polls_merge %>% select(-a.pollster, -b.pollster, -c.pollster, -significant, -no_null_value) %>% plot()
+````
 
 ## Exercises: Bayes
 
@@ -766,14 +806,14 @@ Ignoring possible correlation between two possibly dependent events might lead t
 
 
 ### Qn
->5/. After Sally Clark was found guilty, the Royal Statistical Society issued a statement saying that there was "no statistical basis" for the expert's claim. They expressed concern at the "misuse of statistics in the courts". Eventually, Sally Clark was acquitted in June 2003. What did the expert miss?
+>5. After Sally Clark was found guilty, the Royal Statistical Society issued a statement saying that there was "no statistical basis" for the expert's claim. They expressed concern at the "misuse of statistics in the courts". Eventually, Sally Clark was acquitted in June 2003. What did the expert miss?
 >    
 >a. He made an arithmetic error.
 >b. He made two mistakes. First, he misused the multiplication rule and did not take into account how rare it is for a mother to murder her children. After using Bayes' rule, we found a probability closer to 0.5 than 1 in 73 million.
 >c. He mixed up the numerator and denominator of Bayes' rule.
 >d. He did not use R.
     
-### Qn
+### Qn (pollster)
 >6\. Florida is one of the most closely watched states in the U.S. election because it has many electoral votes, and the election is generally close, and Florida tends to be a swing state that can vote either way. Create the following table with the polls taken during the last two weeks:
 >
 >```{r, eval=FALSE}
