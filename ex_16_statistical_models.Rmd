@@ -796,7 +796,7 @@ $$
 \mbox{Pr}(\mbox{second case of SIDS}) = \mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS}) * \mbox{Pr}(\mbox{first case of SIDS}) = 1/100 \cdot 1/8500 = 1/850000
 $$
 
-In the followng the numerical calculation is shown. 
+In the following the numerical calculation is shown. 
 ```{r}
 options(scipen = 1)
 PrA <- 1/8500 
@@ -811,12 +811,12 @@ PrB
 >According to Bayes' rule, what is this?
 
 First, a few abbreviations are introduced in order to safe some space in the equations:
-_a mother is a son-murdering psychopath_ = _mother psychopath_ and
-_two of her children are found dead with no evidence of physical harm_ = _no physical harm_.
+_a mother is a son-murdering psychopath_ = _mother murderer_ and
+_two of her children are found dead with no evidence of physical harm_ = _dead with no harm_.
 
 
 $$
-\mbox{Pr}(\mbox{mother psychopath} \mid \mbox{no physical harm}) = \frac{\mbox{Pr}(\mbox{mother psychopath})\ \mbox{Pr}(\mbox{no physical harm} \mid \mbox{mother psychopath})}{\mbox{Pr}(\mbox{no physical harm})}
+\mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead with no harm}) = \frac{\mbox{Pr}(\mbox{mother murderer})\ \mbox{Pr}(\mbox{dead with no harm} \mid \mbox{mother murderer})}{\mbox{Pr}(\mbox{dead with no harm})}
 $$
 The correlation of the two events is modeled by the elaborated version of Bayes Theorem, where the expression $A^c$ denotes the complement of $A$.
 $$
@@ -834,17 +834,15 @@ $$
 >with A = two of her children are found dead with no evidence of physical harm and B = a mother is a son-murdering psychopath = 0.50. Assume that the rate of son-murdering psychopaths mothers is 1 in 1,000,000.     According to Bayes' theorem, what is the probability of $\mbox{Pr}(B \mid A)$ ?
 
 First, define the necessary terms for the equation: \
-$\mbox{Pr}(\mbox{mother psychopath}) = 1/1000000$ \
-$\mbox{Pr}(\mbox{no physical harm} \mid \mbox{mother psychopath}) = 1/2$ \
-$\mbox{Pr}(\mbox{no physical harm})=1/850000$. \
+$\mbox{Pr}(\mbox{mother murderer}) = 1/1000000$ \
+$\mbox{Pr}(\mbox{dead with no harm \mid \mbox{mother murderer}) = 1/2$ \
+$\mbox{Pr}(\mbox{dead with no harm})=1/850000$. \
 
 $$
-\mbox{Pr}(\mbox{mother psychopath} \mid \mbox{no physical harm}) = \frac{1/1000000 \cdot 1/2}{1/850000} = \frac{17}{40} = 0.425
+\mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead with no harm}) = \frac{1/1000000 \cdot 1/2}{1/850000} = \frac{17}{40} = 0.425
 $$
 The results tells us that the probability of _two of her children are found dead with no evidence of physical harm_ given that the mother being _a mother is a son-murdering psychopath_ results in 0.425.
 This finding is in strong contradiction to the probability of 1 to 73 million. 
-
-Define Pr_AB as the probability that a mother is a murderer, given that her two children died with no evidence of physical harm. Print this value to the console.
 
 ### Qn
 >5. After Sally Clark was found guilty, the Royal Statistical Society issued a statement saying that there was "no statistical basis" for the expert's claim. They expressed concern at the "misuse of statistics in the courts". Eventually, Sally Clark was acquitted in June 2003. What did the expert miss?
@@ -855,7 +853,7 @@ Define Pr_AB as the probability that a mother is a murderer, given that her two 
 >d. He did not use R.
 
 Answer b. \
-This question is the result of questions 1 and 4. 
+The answer to this question is the combination of the results of questions 1 and 4. 
     
 ### Qn (polls election 2016)
 >6\. Florida is one of the most closely watched states in the U.S. election because it has many electoral votes, and the election is generally close, and Florida tends to be a swing state that can vote either way. Create the following table with the polls taken during the last two weeks:
