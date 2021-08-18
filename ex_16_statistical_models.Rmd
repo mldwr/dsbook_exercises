@@ -772,28 +772,68 @@ scatter plots of available numerical variables, to discover unforeseen relations
 
 ```{r fig.height=10, fig.width=10}
 polls_merge %>% select(-a.pollster, -b.pollster, -c.pollster, -significant, -no_null_value) %>% plot()
-````
+```
 
 ## Exercises: Bayes
 
 ### Qn
 >1\. In 1999, in England, Sally Clark^[https://en.wikipedia.org/wiki/Sally_Clark] was found guilty of the murder of two of her sons. Both infants were found dead in the morning, one in 1996 and another in 1998. In both cases, she claimed the cause of death was sudden infant death syndrome (SIDS). No evidence of physical harm was found on the two infants so the main piece of evidence against her was the testimony of Professor Sir Roy Meadow, who testified that the chances of two infants dying of SIDS was 1 in 73 million. He arrived at this figure by finding that the rate of SIDS was 1 in 8,500 and then calculating that the chance of two SIDS cases was 8,500 $\times$ 8,500 $\approx$ 73 million. Which of the following do you agree with?
 >    
->a. Sir Meadow assumed that the probability of the second son being affected by SIDS was independent of the first son being affected, thereby ignoring possible genetic causes. If genetics plays a role then: $\mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS}) < \mbox{P}r(\mbox{first case of SIDS})$.
+>a. Sir Meadow assumed that the probability of the second son being affected by SIDS was independent of the first son being affected, thereby ignoring possible genetic causes. If genetics plays a role then: $\mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS}) < \mbox{Pr}(\mbox{first case of SIDS})$.
 >b. Nothing. The multiplication rule always applies in this way: $\mbox{Pr}(A \mbox{ and } B) =\mbox{Pr}(A)\mbox{Pr}(B)$
 >c. Sir Meadow is an expert and we should trust his calculations.
 >d. Numbers don't lie.
 
 Answer a. \
-Ignoring possible correlation between two possibly dependent events might lead to false conclusions. 
+Ignoring possible correlation between two possibly dependent events might lead to false conclusions. \
+
 
 ### Qn
 >2\. Let's assume that there is in fact a genetic component to SIDS and the probability of $\mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS}) = 1/100$, is much higher than 1 in 8,500. What is the probability of both of her sons dying of SIDS?
+
+$$
+\mbox{Pr}(\mbox{second case of SIDS}) = \mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS}) * \mbox{Pr}(\mbox{first case of SIDS}) = 1/100 \cdot 1/8500 = 1/850000
+$$
+
+The correlation of the two events is modeled by the elaborated version of Bayes Theorem, where the expression $A^c$ denotes the complement of $A$.
+$$
+\mbox{Pr}(A \mid B)  =  \frac{\mbox{Pr}(B \mid A)\mbox{Pr}(A)}{\mbox{Pr}(B)} = \frac{\mbox{Pr}(B \mid A)\mbox{Pr}(A)}{\mbox{Pr}(B \mid A)\mbox{Pr}(A) + \mbox{Pr}(B \mid A^c)\mbox{Pr}(A^c)}
+$$
+Applying Bayes Theorem to the problem at hand leads to the following expression.
+$$
+\mbox{Pr}(\mbox{first case of SIDS} \mid \mbox{second case of SIDS}) = \frac{\mbox{Pr}(\mbox{first case of SIDS})\ \mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS})}{\mbox{Pr}(\mbox{second case of SIDS})}
+$$
+The values for the probabilities are $\mbox{Pr}(\mbox{first case of SIDS}) = 1/8500$ and for $\mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS}) = 1/100$.
+
+For the probability of the denominator further terms have to be computed $\mbox{Pr}(\mbox{second case of SIDS}) = \mbox{Pr}(\mbox{first})\ \mbox{Pr}(\mbox{second} \mid \mbox{first}) + (1- \mbox{Pr}(\mbox{first})) \cdot (1-\mbox{Pr}(\mbox{second} \mid \mbox{first}))$. 
+
+For the complement terms following values will be used $(1- \mbox{Pr}(\mbox{first case of SIDS})) = 1-1/8500=8499/8500$ and $(1-\mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS}))=1-1/100=99/100$.
+
+Putting all numbers together one gets the following result: 
+$$
+\mbox{Pr}(\mbox{first} \mid \mbox{second}) = \frac{1/8500  \cdot 1/100}{1/8500  \cdot 1/100 + 8499/8500  \cdot 99/100} = \frac{1/850000}{841402/850000} = \frac{1}{841402}
+$$
+
+```{r}
+options(scipen = 1)
+PrAPrBA <- 1/8500 * 1/100
+PrAPrBAc <- 99/100 * 8499/8500
+PrB <- PrAPrBA + PrAPrBAc
+PrAPrBA/PrB
+```
 
 ### Qn
 >3\. Many press reports stated that the expert claimed the probability of Sally Clark being innocent as 1 in 73 million. Perhaps the jury and judge also interpreted the testimony this way. This probability can be written as the probability of _a mother is a son-murdering psychopath_ given that 
 >_two of her children are found dead with no evidence of physical harm_. 
 >According to Bayes' rule, what is this?
+
+First, a few abbreviations are introduced in order to safe some space in the equations:
+_a mother is a son-murdering psychopath_ = _mother psychopath_ and
+_two of her children are found dead with no evidence of physical harm_ = _no physical harm_.
+
+$$
+\mbox{Pr}(\mbox{mother psychopath} \mid \mbox{no physical harm}) = \frac{\mbox{Pr}(\mbox{mother psychopath})\ \mbox{Pr}(\mbox{no physical harm} \mid \mbox{mother psychopath})}{\mbox{Pr}(\mbox{no physical harm})}
+$$
 
 ### Qn
 >4\. Assume that the chance of a son-murdering psychopath finding a way to kill her children, without leaving evidence of physical harm, is:
@@ -804,6 +844,16 @@ Ignoring possible correlation between two possibly dependent events might lead t
 >
 >with A = two of her children are found dead with no evidence of physical harm and B = a mother is a son-murdering psychopath = 0.50. Assume that the rate of son-murdering psychopaths mothers is 1 in 1,000,000.     According to Bayes' theorem, what is the probability of $\mbox{Pr}(B \mid A)$ ?
 
+First, define the necessary terms for the equation: \
+$\mbox{Pr}(\mbox{mother psychopath}) = 1/1000000$ \
+$\mbox{Pr}(\mbox{no physical harm} \mid \mbox{mother psychopath}) = 1/2$ \
+$\mbox{Pr}(\mbox{no physical harm})=1/850000$. \
+
+$$
+\mbox{Pr}(\mbox{mother psychopath} \mid \mbox{no physical harm}) = \frac{1/1000000 \cdot 1/2}{1/850000} = \frac{17}{40} = 0.425
+$$
+The results tells us that the probability of _two of her children are found dead with no evidence of physical harm_ and the mother being _a mother is a son-murdering psychopath_ results in 0.425.
+This finding is in strong contradiction to the probability of 1 to 73 million. 
 
 ### Qn
 >5. After Sally Clark was found guilty, the Royal Statistical Society issued a statement saying that there was "no statistical basis" for the expert's claim. They expressed concern at the "misuse of statistics in the courts". Eventually, Sally Clark was acquitted in June 2003. What did the expert miss?
@@ -812,8 +862,11 @@ Ignoring possible correlation between two possibly dependent events might lead t
 >b. He made two mistakes. First, he misused the multiplication rule and did not take into account how rare it is for a mother to murder her children. After using Bayes' rule, we found a probability closer to 0.5 than 1 in 73 million.
 >c. He mixed up the numerator and denominator of Bayes' rule.
 >d. He did not use R.
+
+Answer b. \
+This question is the result of questions 1 and 4. 
     
-### Qn (pollster)
+### Qn (polls election 2016)
 >6\. Florida is one of the most closely watched states in the U.S. election because it has many electoral votes, and the election is generally close, and Florida tends to be a swing state that can vote either way. Create the following table with the polls taken during the last two weeks:
 >
 >```{r, eval=FALSE}
@@ -826,6 +879,16 @@ Ignoring possible correlation between two possibly dependent events might lead t
 >```
 >
 >Take the average spread of these polls. The CLT tells us this average is approximately normal. Calculate an average and provide an estimate of the standard error. Save your results in an object called `results`.
+
+```{r, message=FALSE, rows.print=25}
+library(tidyverse)
+library(dslabs)
+data(polls_us_election_2016)
+polls <- polls_us_election_2016 %>% 
+  filter(state == "Florida" & enddate >= "2016-11-04" ) %>% 
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100)
+polls
+```
 
 ### Qn
 >7\. Now assume a Bayesian model that sets the prior distribution for Florida's election night spread $d$ to be Normal with expected value $\mu$ and standard deviation $\tau$. What are the interpretations of $\mu$ and $\tau$?
