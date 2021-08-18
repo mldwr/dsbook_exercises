@@ -791,35 +791,18 @@ Ignoring possible correlation between two possibly dependent events might lead t
 ### Qn
 >2\. Let's assume that there is in fact a genetic component to SIDS and the probability of $\mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS}) = 1/100$, is much higher than 1 in 8,500. What is the probability of both of her sons dying of SIDS?
 
+The probability of two children being siblings dying of SIDS is 1 in 850.000 or 1.18e-06.
 $$
 \mbox{Pr}(\mbox{second case of SIDS}) = \mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS}) * \mbox{Pr}(\mbox{first case of SIDS}) = 1/100 \cdot 1/8500 = 1/850000
 $$
 
-The correlation of the two events is modeled by the elaborated version of Bayes Theorem, where the expression $A^c$ denotes the complement of $A$.
-$$
-\mbox{Pr}(A \mid B)  =  \frac{\mbox{Pr}(B \mid A)\mbox{Pr}(A)}{\mbox{Pr}(B)} = \frac{\mbox{Pr}(B \mid A)\mbox{Pr}(A)}{\mbox{Pr}(B \mid A)\mbox{Pr}(A) + \mbox{Pr}(B \mid A^c)\mbox{Pr}(A^c)}
-$$
-Applying Bayes Theorem to the problem at hand leads to the following expression.
-$$
-\mbox{Pr}(\mbox{first case of SIDS} \mid \mbox{second case of SIDS}) = \frac{\mbox{Pr}(\mbox{first case of SIDS})\ \mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS})}{\mbox{Pr}(\mbox{second case of SIDS})}
-$$
-The values for the probabilities are $\mbox{Pr}(\mbox{first case of SIDS}) = 1/8500$ and for $\mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS}) = 1/100$.
-
-For the probability of the denominator further terms have to be computed $\mbox{Pr}(\mbox{second case of SIDS}) = \mbox{Pr}(\mbox{first})\ \mbox{Pr}(\mbox{second} \mid \mbox{first}) + (1- \mbox{Pr}(\mbox{first})) \cdot (1-\mbox{Pr}(\mbox{second} \mid \mbox{first}))$. 
-
-For the complement terms following values will be used $(1- \mbox{Pr}(\mbox{first case of SIDS})) = 1-1/8500=8499/8500$ and $(1-\mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS}))=1-1/100=99/100$.
-
-Putting all numbers together one gets the following result: 
-$$
-\mbox{Pr}(\mbox{first} \mid \mbox{second}) = \frac{1/8500  \cdot 1/100}{1/8500  \cdot 1/100 + 8499/8500  \cdot 99/100} = \frac{1/850000}{841402/850000} = \frac{1}{841402}
-$$
-
+In the followng the numerical calculation is shown. 
 ```{r}
 options(scipen = 1)
-PrAPrBA <- 1/8500 * 1/100
-PrAPrBAc <- 99/100 * 8499/8500
-PrB <- PrAPrBA + PrAPrBAc
-PrAPrBA/PrB
+PrA <- 1/8500 
+PrBA <- 1/100
+PrB <- PrA * PrBA
+PrB
 ```
 
 ### Qn
@@ -831,9 +814,15 @@ First, a few abbreviations are introduced in order to safe some space in the equ
 _a mother is a son-murdering psychopath_ = _mother psychopath_ and
 _two of her children are found dead with no evidence of physical harm_ = _no physical harm_.
 
+
 $$
 \mbox{Pr}(\mbox{mother psychopath} \mid \mbox{no physical harm}) = \frac{\mbox{Pr}(\mbox{mother psychopath})\ \mbox{Pr}(\mbox{no physical harm} \mid \mbox{mother psychopath})}{\mbox{Pr}(\mbox{no physical harm})}
 $$
+The correlation of the two events is modeled by the elaborated version of Bayes Theorem, where the expression $A^c$ denotes the complement of $A$.
+$$
+\mbox{Pr}(A \mid B)  =  \frac{\mbox{Pr}(B \mid A)\mbox{Pr}(A)}{\mbox{Pr}(B)} = \frac{\mbox{Pr}(B \mid A)\mbox{Pr}(A)}{\mbox{Pr}(B \mid A)\mbox{Pr}(A) + \mbox{Pr}(B \mid A^c)\mbox{Pr}(A^c)}
+$$
+
 
 ### Qn
 >4\. Assume that the chance of a son-murdering psychopath finding a way to kill her children, without leaving evidence of physical harm, is:
@@ -852,8 +841,10 @@ $\mbox{Pr}(\mbox{no physical harm})=1/850000$. \
 $$
 \mbox{Pr}(\mbox{mother psychopath} \mid \mbox{no physical harm}) = \frac{1/1000000 \cdot 1/2}{1/850000} = \frac{17}{40} = 0.425
 $$
-The results tells us that the probability of _two of her children are found dead with no evidence of physical harm_ and the mother being _a mother is a son-murdering psychopath_ results in 0.425.
+The results tells us that the probability of _two of her children are found dead with no evidence of physical harm_ given that the mother being _a mother is a son-murdering psychopath_ results in 0.425.
 This finding is in strong contradiction to the probability of 1 to 73 million. 
+
+Define Pr_AB as the probability that a mother is a murderer, given that her two children died with no evidence of physical harm. Print this value to the console.
 
 ### Qn
 >5. After Sally Clark was found guilty, the Royal Statistical Society issued a statement saying that there was "no statistical basis" for the expert's claim. They expressed concern at the "misuse of statistics in the courts". Eventually, Sally Clark was acquitted in June 2003. What did the expert miss?
