@@ -818,9 +818,13 @@ _two of her children are found dead with no evidence of physical harm_ = _dead w
 $$
 \mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead with no harm}) = \frac{\mbox{Pr}(\mbox{mother murderer})\ \mbox{Pr}(\mbox{dead with no harm} \mid \mbox{mother murderer})}{\mbox{Pr}(\mbox{dead with no harm})}
 $$
-The correlation of the two events is modeled by the elaborated version of Bayes Theorem, where the expression $A^c$ denotes the complement of $A$.
+The correlation of the two events is modeled by the elaborated version of Bayes Theorem, where the expression $not H$ denotes the complement of $H$, in other word $H$ is the true hypothesis and $\mbox{not } H$ is the false hypothesis.
+The expression $\mbox{Pr}(H \mid E)$ is read as what is the probability of a hypothesis $H$ being true, if $D$ has already occurred, where $E$ denotes the evidence, data or the facts. 
+
+The probabilities are called $\mbox{Pr}(E)$ = Evidence: 'the probability that the data being measured', then $\mbox{Pr}(H)$ = Prior: 'the probability of the hypothesis being true' (not considering the data), then  $\mbox{Pr}(H \mid E)$ = Posterior: 'the probability of the hypothesis being true, now given the data or based on the data', lastly $\mbox{Pr}(E \mid H)$ = Likelihood: 'the probability of the data or event occurring, based on the hypothesis being true'.\
+For example, the expression $\mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead with no harm})$ is read, what is the probability that a mother is the murderer of her children, given that two children found dead with no harm. 
 $$
-\mbox{Pr}(A \mid B)  =  \frac{\mbox{Pr}(B \mid A)\mbox{Pr}(A)}{\mbox{Pr}(B)} = \frac{\mbox{Pr}(B \mid A)\mbox{Pr}(A)}{\mbox{Pr}(B \mid A)\mbox{Pr}(A) + \mbox{Pr}(B \mid A^c)\mbox{Pr}(A^c)}
+\mbox{Pr}(H \mid D)  =  \frac{\mbox{Pr}(D \mid H) \mbox{Pr}(H)}{\mbox{Pr}(E)} = \frac{\mbox{Pr}(E \mid H)\mbox{Pr}(H)}{\mbox{Pr}(D \mid H)\mbox{Pr}(H) + \mbox{Pr}(E \mid \mbox{not }H)\mbox{Pr}(\mbox{not }H)}
 $$
 
 
@@ -834,9 +838,9 @@ $$
 >with A = two of her children are found dead with no evidence of physical harm and B = a mother is a son-murdering psychopath = 0.50. Assume that the rate of son-murdering psychopaths mothers is 1 in 1,000,000.     According to Bayes' theorem, what is the probability of $\mbox{Pr}(B \mid A)$ ?
 
 First, define the necessary terms for the equation: \
-$\mbox{Pr}(\mbox{mother murderer}) = 1/1000000$ \
-$\mbox{Pr}(\mbox{dead with no harm \mid \mbox{mother murderer}) = 1/2$ \
-$\mbox{Pr}(\mbox{dead with no harm})=1/850000$. \
+1. $\mbox{Pr}(\mbox{mother murderer}) = 1/1000000$, \
+2. $\mbox{Pr}(\mbox{dead with no harm} \mid \mbox{mother murderer}) = 1/2$ and\
+3. $\mbox{Pr}(\mbox{dead with no harm})=1/850000$. \
 
 $$
 \mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead with no harm}) = \frac{1/1000000 \cdot 1/2}{1/850000} = \frac{17}{40} = 0.425
