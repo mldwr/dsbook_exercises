@@ -810,21 +810,24 @@ PrB
 >_two of her children are found dead with no evidence of physical harm_. 
 >According to Bayes' rule, what is this?
 
-First, a few abbreviations are introduced in order to safe some space in the equations:
-_a mother is a son-murdering psychopath_ = _mother murderer_ and
-_two of her children are found dead with no evidence of physical harm_ = _dead with no harm_.
+So the question states the hypothesis, that the jury were interpreting the probability "1 in 73 million" as the chances of Sally Clark being innocent, not as the probability of two infants dying from SIDS.
+Therefore, the misconception was that the probability of Sally Clark being innocent is 1/73 million. \
+How can this hypothesis be modeled? 
+
+Let be the hypothesis $H$, that the mother is a the murderer: "mother murderer" =  "_a mother is a son-murdering psychopath_". Let the event $E$ be the two dead children "dead children" =
+"_two of her children are found dead with no evidence of physical harm_". Then one can write the the Bayes equation as follows.
 
 
 $$
-\mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead with no harm}) = \frac{\mbox{Pr}(\mbox{mother murderer})\ \mbox{Pr}(\mbox{dead with no harm} \mid \mbox{mother murderer})}{\mbox{Pr}(\mbox{dead with no harm})}
+\mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead children}) = \mbox{Pr}(\mbox{dead children} \mid \mbox{mother murderer}) \cdot \frac{\mbox{Pr}(\mbox{mother murderer})}{\mbox{Pr}(\mbox{dead children})}
 $$
 The correlation of the two events is modeled by the elaborated version of Bayes Theorem, where the expression $not H$ denotes the complement of $H$, in other word $H$ is the true hypothesis and $\mbox{not } H$ is the false hypothesis.
-The expression $\mbox{Pr}(H \mid E)$ is read as what is the probability of a hypothesis $H$ being true, if $D$ has already occurred, where $E$ denotes the evidence, data or the facts. 
+The expression $\mbox{Pr}(H \mid E)$ is read as what is the probability of a hypothesis $H$ being true, if $E$ has already occurred, where $E$ denotes the evidence, data or the facts. 
 
 The probabilities are called $\mbox{Pr}(E)$ = Evidence: 'the probability that the data being measured', then $\mbox{Pr}(H)$ = Prior: 'the probability of the hypothesis being true' (not considering the data), then  $\mbox{Pr}(H \mid E)$ = Posterior: 'the probability of the hypothesis being true, now given the data or based on the data', lastly $\mbox{Pr}(E \mid H)$ = Likelihood: 'the probability of the data or event occurring, based on the hypothesis being true'.\
 For example, the expression $\mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead with no harm})$ is read, what is the probability that a mother is the murderer of her children, given that two children found dead with no harm. 
 $$
-\mbox{Pr}(H \mid D)  =  \frac{\mbox{Pr}(D \mid H) \mbox{Pr}(H)}{\mbox{Pr}(E)} = \frac{\mbox{Pr}(E \mid H)\mbox{Pr}(H)}{\mbox{Pr}(D \mid H)\mbox{Pr}(H) + \mbox{Pr}(E \mid \mbox{not }H)\mbox{Pr}(\mbox{not }H)}
+\mbox{Pr}(H \mid E)  =  \mbox{Pr}(E \mid H) \cdot \frac{\mbox{Pr}(H)}{\mbox{Pr}(E)} = \mbox{Pr}(E \mid H) \cdot  \frac{\mbox{Pr}(H)}{\mbox{Pr}(E \mid H) \cdot\mbox{Pr}(H) + \mbox{Pr}(E \mid \mbox{not }H) \cdot \mbox{Pr}(\mbox{not }H)}
 $$
 
 
@@ -839,11 +842,11 @@ $$
 
 First, define the necessary terms for the equation: \
 1. $\mbox{Pr}(\mbox{mother murderer}) = 1/1000000$, \
-2. $\mbox{Pr}(\mbox{dead with no harm} \mid \mbox{mother murderer}) = 1/2$ and\
-3. $\mbox{Pr}(\mbox{dead with no harm})=1/850000$. \
+2. $\mbox{Pr}(\mbox{dead children} \mid \mbox{mother murderer}) = 1/2$ and\
+3. $\mbox{Pr}(\mbox{dead children})= 1/8500 \cdot 1/100= 1/850000$. \
 
 $$
-\mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead with no harm}) = \frac{1/1000000 \cdot 1/2}{1/850000} = \frac{17}{40} = 0.425
+\mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead children}) =  1/2 \cdot  \frac{1/1000000}{1/850000} = 1/2 \cdot \frac{85}{100} = 1/2 \cdot \frac{17}{20} = 0.5\cdot 0.85  = 0.425
 $$
 The results tells us that the probability of _two of her children are found dead with no evidence of physical harm_ given that the mother being _a mother is a son-murdering psychopath_ results in 0.425.
 This finding is in strong contradiction to the probability of 1 to 73 million. 
