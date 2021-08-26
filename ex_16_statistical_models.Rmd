@@ -825,7 +825,7 @@ The correlation of the two events is modeled by the elaborated version of Bayes 
 The expression $\mbox{Pr}(H \mid E)$ is read as what is the probability of a hypothesis $H$ being true, if $E$ has already occurred, where $E$ denotes the evidence, data or the facts. 
 
 The probabilities are called $\mbox{Pr}(E)$ = Evidence: 'the probability that the data being measured', then $\mbox{Pr}(H)$ = Prior: 'the probability of the hypothesis being true' (not considering the data), then  $\mbox{Pr}(H \mid E)$ = Posterior: 'the probability of the hypothesis being true, now given the data or based on the data', lastly $\mbox{Pr}(E \mid H)$ = Likelihood: 'the probability of the data or event occurring, based on the hypothesis being true'.\
-For example, the expression $\mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead with no harm})$ is read, what is the probability that a mother is the murderer of her children, given that two children found dead with no harm. 
+For example, the expression $\mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead children})$ is read, what is the probability that a mother is the murderer of her children, given that two children found dead with no harm. 
 $$
 \mbox{Pr}(H \mid E)  =  \mbox{Pr}(E \mid H) \cdot \frac{\mbox{Pr}(H)}{\mbox{Pr}(E)} = \mbox{Pr}(E \mid H) \cdot  \frac{\mbox{Pr}(H)}{\mbox{Pr}(E \mid H) \cdot\mbox{Pr}(H) + \mbox{Pr}(E \mid \mbox{not }H) \cdot \mbox{Pr}(\mbox{not }H)}
 $$
