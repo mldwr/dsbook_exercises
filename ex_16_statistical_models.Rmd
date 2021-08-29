@@ -796,7 +796,7 @@ $$
 \mbox{Pr}(\mbox{second case of SIDS}) = \mbox{Pr}(\mbox{second case of SIDS} \mid \mbox{first case of SIDS}) * \mbox{Pr}(\mbox{first case of SIDS}) = 1/100 \cdot 1/8500 = 1/850000
 $$
 
-In the following the numerical calculation is shown. 
+In the following snippet the numerical calculation is shown. 
 ```{r}
 options(scipen = 1)
 PrA <- 1/8500 
@@ -804,6 +804,10 @@ PrBA <- 1/100
 PrB <- PrA * PrBA
 PrB
 ```
+
+However, other authors assume different probabilities. For example, in the article^[https://doi.org/10.1111/j.1365-3016.2004.00560.x] the author concluded that the probability of two SIDS cases is $\mbox{Pr}(\mbox{second case of SIDS}) = 1/1300 \cdot 57/13000 = 3.37\mbox{E}-06$. Nevertheless, this probability is in the same order of magnitude. \
+In the same study the author deduced a probability for two murders to be $\mbox{Pr}(\mbox{second case of murder}) = 1/21700 \cdot 176/21700 = 0.374\mbox{E}-06$.
+
 
 ### Qn
 >3\. Many press reports stated that the expert claimed the probability of Sally Clark being innocent as 1 in 73 million. Perhaps the jury and judge also interpreted the testimony this way. This probability can be written as the probability of _a mother is a son-murdering psychopath_ given that 
