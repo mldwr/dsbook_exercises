@@ -805,8 +805,10 @@ PrB <- PrA * PrBA
 PrB
 ```
 
-However, other authors assume different probabilities. For example, in the article^[https://doi.org/10.1111/j.1365-3016.2004.00560.x] the author concluded that the probability of two SIDS cases is $\mbox{Pr}(\mbox{second case of SIDS}) = 1/1300 \cdot 57/13000 = 3.37\mbox{E}-06$. Nevertheless, this probability is in the same order of magnitude. \
-In the same study the author deduced a probability for two murders to be $\mbox{Pr}(\mbox{second case of murder}) = 1/21700 \cdot 176/21700 = 0.374\mbox{E}-06$.
+However, other authors assume different probabilities. For example, in the article^[https://doi.org/10.1111/j.1365-3016.2004.00560.x Hill, R. (2004) Multiple sudden infant deaths – coincidence or beyond coincidence?, Pediatric and
+Perinatal Epidemiology, 18, 320-326] the author concluded that the probability of two SIDS cases is $\mbox{Pr}(\mbox{second case of SIDS}) = 1/1300 \cdot 57/13000 = 3.37\cdot 10^{-06}$. Nevertheless, this probability is in the same order of magnitude. \
+In the same study the author deduced a probability for two murders to be $\mbox{Pr}(\mbox{second case of murder}) = 1/21700 \cdot 176/21700 = 3.74\cdot 10^{-07}$. \
+Therefore, the probability of a double SIDS ($3.37\cdot 10^{-06}$) is roughly ten times more likely than the probability of a double child murder ($3.74\cdot 10^{-07}$).
 
 
 ### Qn
@@ -814,8 +816,9 @@ In the same study the author deduced a probability for two murders to be $\mbox{
 >_two of her children are found dead with no evidence of physical harm_. 
 >According to Bayes' rule, what is this?
 
-So the question states the hypothesis, that the jury were interpreting the probability "1 in 73 million" as the chances of Sally Clark being innocent, not as the probability of two infants dying from SIDS.
-Therefore, the misconception was that the probability of Sally Clark being innocent is 1/73 million. \
+So the question states the hypothesis, that the jury were interpreting the probability "1 in 73 million" (1 in $73\cdot 10^{6}$) as the chances of Sally Clark being innocent, not as the probability of two infants dying from SIDS.
+Therefore, the misconception was that the probability of Sally Clark being innocent is $\frac{1}{73\cdot 10^{6}}$. \
+From this it follows, that the jury assumed the probability Sally Clark being guilty is $1-\frac{1}{73\cdot 10^{6}}$. \
 How can this hypothesis be modeled? 
 
 Let be the hypothesis $H$, that the mother is a the murderer: "mother murderer" =  "_a mother is a son-murdering psychopath_". Let the event $E$ be the two dead children "dead children" =
@@ -833,6 +836,7 @@ For example, the expression $\mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead ch
 $$
 \mbox{Pr}(H \mid E)  =  \mbox{Pr}(E \mid H) \cdot \frac{\mbox{Pr}(H)}{\mbox{Pr}(E)} = \mbox{Pr}(E \mid H) \cdot  \frac{\mbox{Pr}(H)}{\mbox{Pr}(E \mid H) \cdot\mbox{Pr}(H) + \mbox{Pr}(E \mid \mbox{not }H) \cdot \mbox{Pr}(\mbox{not }H)}
 $$
+In other words, one can write as an interpretation for Bayes Theorem: $\mbox{Probability} = \frac{\mbox{desired event}}{\mbox{all possibilities}}$^[https://betterexplained.com/articles/an-intuitive-and-short-explanation-of-bayes-theorem/].
 
 
 ### Qn
@@ -846,14 +850,39 @@ $$
 
 First, define the necessary terms for the equation: \
 1. $\mbox{Pr}(\mbox{mother murderer}) = 1/1000000$, \
-2. $\mbox{Pr}(\mbox{dead children} \mid \mbox{mother murderer}) = 1/2$ and\
-3. $\mbox{Pr}(\mbox{dead children})= 1/8500 \cdot 1/100= 1/850000$. \
+3. $\mbox{Pr}(\mbox{dead children})= 1/8500 \cdot 1/100= 1/850000$ and \
+2. $\mbox{Pr}(\mbox{dead children} \mid \mbox{mother murderer}) = 1/2$.\
 
 $$
 \mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead children}) =  1/2 \cdot  \frac{1/1000000}{1/850000} = 1/2 \cdot \frac{85}{100} = 1/2 \cdot \frac{17}{20} = 0.5\cdot 0.85  = 0.425
 $$
-The results tells us that the probability of _two of her children are found dead with no evidence of physical harm_ given that the mother being _a mother is a son-murdering psychopath_ results in 0.425.
-This finding is in strong contradiction to the probability of 1 to 73 million. 
+The results tells us that the probability of _two of her children are found dead with no evidence of physical harm_ given that _a mother is a son-murdering psychopath_ results in 0.425. \
+
+Therefore, the probability that the mother is not a murderer is: $\mbox{Pr}(\mbox{mother not murderer} \mid \mbox{dead children}) = 1-0.425 = 0.575$, that is rather small compared to the previous figure of 1 in $73\cdot 10^{6}$.
+
+Another variant for the calculation from exercises 2 would be the following: \
+1. $\mbox{Pr}(\mbox{mother murderer}) = 1/21700 \cdot 176/21700 = 3.74\cdot 10^{-07}$, \
+3. $\mbox{Pr}(\mbox{dead children})= 1/1300 \cdot 57/13000 = 3.37\cdot 10^{-06}$ and \
+2. $\mbox{Pr}(\mbox{dead children} \mid \mbox{mother murderer}) = 1/2$.\
+
+$$
+\mbox{Pr}(\mbox{mother murderer} \mid \mbox{dead children}) =  1/2 \cdot  \frac{1/21700 \cdot 176/21700}{1/1300 \cdot 57/13000} = 0.5\cdot 0.11  = 0.055
+$$
+Again, the probability that the mother is *not* a murderer is: $\mbox{Pr}(\mbox{mother not murderer} \mid \mbox{dead children}) = 1-0.055 = 0.945$, that is close to one, i.e. a high probability that Sally Clark might be innocent. 
+
+A flaw in this calculation, however,  is the assumption of the probabilities of two dead children and two cases of SIDS is set to equal: $\mbox{Pr}(\mbox{two dead children})= \mbox{Pr}(\mbox{two cases of SIDS})$ (see exercises 2).
+
+A more general view on this question would be to take the two competing hypothesis explicitly into account^[https://doi.org/10.1111/j.1365-3016.2004.00560.x Hill, R. (2004) Multiple sudden infant deaths – coincidence or beyond coincidence?, Pediatric and
+Perinatal Epidemiology, 18, 320-326]. \
+Since the actual values of the probabilities are hard to recover, it might make more sense to look at the ratios of the two hypothesis: \
+$H_1=M$: probability of double murder,\
+$H_2=S$: probability of double SIDS and \
+$D$: event of two dead children.\
+
+$$
+\frac{\mbox{Pr(S|D)}}{\mbox{Pr(M|D)}} = \frac{\mbox{Pr(D|S)}\cdot \mbox{Pr(S)}}{\mbox{Pr(D|M)}\cdot \mbox{Pr(M)}}
+$$
+Here, the probabilities of $\mbox{Pr(D)}$ cancel each other out. 
 
 ### Qn
 >5. After Sally Clark was found guilty, the Royal Statistical Society issued a statement saying that there was "no statistical basis" for the expert's claim. They expressed concern at the "misuse of statistics in the courts". Eventually, Sally Clark was acquitted in June 2003. What did the expert miss?
