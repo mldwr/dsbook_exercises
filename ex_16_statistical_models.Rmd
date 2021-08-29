@@ -805,8 +805,8 @@ PrB <- PrA * PrBA
 PrB
 ```
 
-However, other authors assume different probabilities. For example, in the article^[https://doi.org/10.1111/j.1365-3016.2004.00560.x Hill, R. (2004) Multiple sudden infant deaths – coincidence or beyond coincidence?, Pediatric and
-Perinatal Epidemiology, 18, 320-326] the author concluded that the probability of two SIDS cases is $\mbox{Pr}(\mbox{second case of SIDS}) = 1/1300 \cdot 57/13000 = 3.37\cdot 10^{-06}$. Nevertheless, this probability is in the same order of magnitude. \
+However, other authors assume different probabilities. For example, in the article^[https://doi.org/10.1111/j.1365-3016.2004.00560.x; Ray Hill, (2004) Multiple sudden infant deaths – coincidence or beyond coincidence?, Pediatric and
+Perinatal Epidemiology, 18, 320-326,  http://www2.geog.ucl.ac.uk/~mdisney/teaching/GEOGG121/mc_and_revision/mc_bayes_revision_2017.pdf] the author concluded that the probability of two SIDS cases is $\mbox{Pr}(\mbox{second case of SIDS}) = 1/1300 \cdot 57/13000 = 3.37\cdot 10^{-06}$. Nevertheless, this probability is in the same order of magnitude. \
 In the same study the author deduced a probability for two murders to be $\mbox{Pr}(\mbox{second case of murder}) = 1/21700 \cdot 176/21700 = 3.74\cdot 10^{-07}$. \
 Therefore, the probability of a double SIDS ($3.37\cdot 10^{-06}$) is roughly ten times more likely than the probability of a double child murder ($3.74\cdot 10^{-07}$).
 
@@ -818,7 +818,7 @@ Therefore, the probability of a double SIDS ($3.37\cdot 10^{-06}$) is roughly te
 
 So the question states the hypothesis, that the jury were interpreting the probability "1 in 73 million" (1 in $73\cdot 10^{6}$) as the chances of Sally Clark being innocent, not as the probability of two infants dying from SIDS.
 Therefore, the misconception was that the probability of Sally Clark being innocent is $\frac{1}{73\cdot 10^{6}}$. \
-From this it follows, that the jury assumed the probability Sally Clark being guilty is $1-\frac{1}{73\cdot 10^{6}}$. \
+From this it follows, that the jury assumed the probability Sally Clark being guilty is $1-\frac{1}{73\cdot 10^{6}}$ (assuming for the probability of hypothesis $H$ and evidence $E$: $\mbox{Pr}(H|D) = 1-\mbox{Pr}(\mbox{not} H|E)$). \
 How can this hypothesis be modeled? 
 
 Let be the hypothesis $H$, that the mother is a the murderer: "mother murderer" =  "_a mother is a son-murdering psychopath_". Let the event $E$ be the two dead children "dead children" =
@@ -872,17 +872,26 @@ Again, the probability that the mother is *not* a murderer is: $\mbox{Pr}(\mbox{
 
 A flaw in this calculation, however,  is the assumption of the probabilities of two dead children and two cases of SIDS is set to equal: $\mbox{Pr}(\mbox{two dead children})= \mbox{Pr}(\mbox{two cases of SIDS})$ (see exercises 2).
 
-A more general view on this question would be to take the two competing hypothesis explicitly into account^[https://doi.org/10.1111/j.1365-3016.2004.00560.x Hill, R. (2004) Multiple sudden infant deaths – coincidence or beyond coincidence?, Pediatric and
-Perinatal Epidemiology, 18, 320-326]. \
+A more general view on this question would be to take the two competing hypothesis explicitly into account^[https://www2.mpia-hd.mpg.de/homes/calj/statistical_methods_ss2013/homework/h02_sally_clark_cot_death.pdf, C.A.L. Bailer-Jones: Statistical Methods SS2013]. \
 Since the actual values of the probabilities are hard to recover, it might make more sense to look at the ratios of the two hypothesis: \
 $H_1=M$: probability of double murder,\
 $H_2=S$: probability of double SIDS and \
-$D$: event of two dead children.\
+$E$: event or evidence of two dead children.\
 
 $$
-\frac{\mbox{Pr(S|D)}}{\mbox{Pr(M|D)}} = \frac{\mbox{Pr(D|S)}\cdot \mbox{Pr(S)}}{\mbox{Pr(D|M)}\cdot \mbox{Pr(M)}}
+\frac{\mbox{Pr(S|E)}}{\mbox{Pr(M|E)}} = \frac{\mbox{Pr(E|S)}\cdot \mbox{Pr(S)}}{\mbox{Pr(E|M)}\cdot \mbox{Pr(M)}}
 $$
-Here, the probabilities of $\mbox{Pr(D)}$ cancel each other out. 
+Here, the probabilities of all dead children of $\mbox{Pr(D)}$ cancel each other out. The two terms $\mbox{Pr(D|S)}$ and $\mbox{Pr(D|M)}$ describe the likelihood that given two children were found dead due to SIDS "S" or murder "M" how likely it is that they are dead D. Under this assumption the probabilities trivially equal to 1. \
+
+Finally, the relevant terms are revealed as being the ratio of double SIDS to double murder.
+$$
+\frac{\mbox{Pr(S|E)}}{\mbox{Pr(M|E)}} = \frac{\mbox{Pr(S)}}{\mbox{Pr(M)}}
+$$
+As already concluded in exercise 2 and in the calculation above, the ratio of $\mbox{Pr(S)}$ to $\mbox{Pr(M)}$ is 1 to 9 
+
+$$
+\frac{\mbox{Pr(S|E)}}{\mbox{Pr(M|E)}} = \frac{\mbox{Pr(S)}}{\mbox{Pr(M)}} = \frac{1/1300 \cdot 57/13000}{1/21700 \cdot 176/21700} = \frac{57/1690}{176/47089} = \frac{57\cdot 47089}{1690\cdot 176} = \frac{2684073}{297440} = 9.02
+$$
 
 ### Qn
 >5. After Sally Clark was found guilty, the Royal Statistical Society issued a statement saying that there was "no statistical basis" for the expert's claim. They expressed concern at the "misuse of statistics in the courts". Eventually, Sally Clark was acquitted in June 2003. What did the expert miss?
