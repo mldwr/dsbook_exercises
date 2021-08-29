@@ -881,7 +881,7 @@ $E$: event or evidence of two dead children.\
 $$
 \frac{\mbox{Pr(S|E)}}{\mbox{Pr(M|E)}} = \frac{\mbox{Pr(E|S)}\cdot \mbox{Pr(S)}}{\mbox{Pr(E|M)}\cdot \mbox{Pr(M)}}
 $$
-Here, the probabilities of all dead children of $\mbox{Pr(D)}$ cancel each other out. The two terms $\mbox{Pr(D|S)}$ and $\mbox{Pr(D|M)}$ describe the likelihood that given two children were found dead due to SIDS "S" or murder "M" how likely it is that they are dead D. Under this assumption the probabilities trivially equal to 1. \
+Here, the probabilities of all dead children of $\mbox{Pr(D)}$ cancel each other out. The two terms $\mbox{Pr(D|S)}$ and $\mbox{Pr(D|M)}$ describe the likelihood that given two children were found dead due to SIDS $S$ or murder $M$ how likely it is that they are dead D. Under this assumption the probabilities trivially equal to 1. \
 
 Finally, the relevant terms are revealed as being the ratio of double SIDS to double murder.
 $$
@@ -892,6 +892,7 @@ As already concluded in exercise 2 and in the calculation above, the ratio of $\
 $$
 \frac{\mbox{Pr(S|E)}}{\mbox{Pr(M|E)}} = \frac{\mbox{Pr(S)}}{\mbox{Pr(M)}} = \frac{1/1300 \cdot 57/13000}{1/21700 \cdot 176/21700} = \frac{57/1690}{176/47089} = \frac{57\cdot 47089}{1690\cdot 176} = \frac{2684073}{297440} = 9.02
 $$
+Criticism on the data basis and model of the latter calculations were also raised^[N.Sesardic, Sudden Infant Death or Murder? A Royal Confusion About Probabilities, Brit. J. Phil. Sci. 58 (2007), 299–329, https://www.ln.edu.hk/philoso/staff/sesardic/SIDS.pdf], which state quite the contrary that actually the probability of murder is 125 times higher than for SIDS.
 
 ### Qn
 >5. After Sally Clark was found guilty, the Royal Statistical Society issued a statement saying that there was "no statistical basis" for the expert's claim. They expressed concern at the "misuse of statistics in the courts". Eventually, Sally Clark was acquitted in June 2003. What did the expert miss?
