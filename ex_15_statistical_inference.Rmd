@@ -291,9 +291,19 @@ Answer c: 2,500 \
 In the plot below there is a black horizontal line highlighting the 1% error border. The highest error at p=0.5 is only reached by the N values below a sample size of 2,500.
 
 Results so far from past exercises for different calculations of the standard error. \
-Q5 Monte Carlo simulation: 0.04949939 \
-Q6 theoretical prediction: 0.04974937 \
-Q7 estimate of theoretical prediction: 0.04983974 \
+
+```{r, echo=FALSE, message=FALSE}
+library(kableExtra)
+mat <- cbind(c(" Q5 "," Q6 ", " Q7 "), c(" Monte Carlo simulation "," theoretical prediction ", " estimate of theoretical prediction "), c(" 0.04949939 "," 0.04974937 ", " 0.04983974 "))
+colnames(mat) <- c("Question","Method", "Value")
+if(knitr::is_html_output()){
+  knitr::kable(mat, "html", align = "c") %>%
+    kableExtra::kable_styling(bootstrap_options = "striped", full_width = FALSE)
+} else{
+  knitr::kable(mat, "latex", booktabs = TRUE, align = "c") %>%
+    kableExtra::kable_styling(font_size = 8)
+}
+```
 
 ```{r,message=FALSE}
 library(tidyverse)
@@ -428,14 +438,14 @@ error<-pnorm(0.01/se) - pnorm(-0.01/se)
 
 >For these exercises, we will use actual polls from the 2016 election. You can load the data from the __dslabs__ package.
 >
->```{r}
+>```{r, eval=FALSE}
 >library(dslabs)
 >data("polls_us_election_2016")
 >```
 >
 >Specifically, we will use all the national polls that ended within one week before the election.
 >
->```{r, message=FALSE, message=FALSE}
+>```{r, message=FALSE, message=FALSE, eval=FALSE}
 >library(tidyverse)
 >polls <- polls_us_election_2016 %>% 
 >  filter(enddate >= "2016-10-31" & state == "U.S.") 

@@ -739,7 +739,7 @@ ggplot(polls_merge,aes(b.pollster, tstat, color=a.pollster))+
   coord_flip()
 ```
 
-another plot for the p-value of a pollster-pollster combinaton :\
+another plot for the p-value of a pollster-pollster combination :\
 
 ```{r fig.height=10, fig.width=10}
 ggplot(polls_merge,aes(c.pollster, tstat, color=significant))+
